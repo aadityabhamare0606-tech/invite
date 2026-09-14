@@ -166,15 +166,15 @@ export default function HeroSection({ activeFilter, onFilterChange }: Props) {
             color: "var(--text-primary)",
             transitionDelay: "0.08s",
           }}>
-          Indian wedding invites{" "}
+          Wedding invitation website India{" "}
           <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>made beautiful</em>
         </h1>
 
         {/* Sub */}
         <p className="reveal text-base sm:text-lg leading-relaxed mx-auto mb-8"
-          style={{ color: "var(--text-secondary)", maxWidth: 520, transitionDelay: "0.14s" }}>
-          Personalised wedding invitation websites from ₹1,499 and wedding invitation videos from ₹399 —
-          made for Indian weddings and shared instantly on WhatsApp.
+          style={{ color: "var(--text-secondary)", maxWidth: 560, transitionDelay: "0.14s" }}>
+          Custom digital wedding invitation websites, save the date pages, and invitation videos in India from ₹1,499 —
+          designed for Indian weddings and shared instantly on WhatsApp.
         </p>
 
         {/* Occasion chips — solid bg, NO backdrop-filter */}

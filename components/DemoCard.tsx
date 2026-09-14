@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 export type DemoCardData = {
   id: string;
   badge: string;
@@ -46,35 +48,40 @@ const tagStyle: Record<string, { bg: string; color: string }> = {
   "Unique Experience": { bg: "#F0FDF4", color: "#166534" },
 };
 
-/* Beautiful invite-style preview card */
+/* Show the same real demo homepage that opens from the card CTA. */
 function PreviewPlaceholder({ card }: { card: DemoCardData }) {
-  const bg = card.previewBg ?? "linear-gradient(145deg,#880E4F,#C2185B)";
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "120px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative h-full w-full overflow-hidden card-img-zoom" style={{ background: bg }}>
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.05]"
-        style={{ backgroundImage: "repeating-linear-gradient(0deg,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(255,255,255,0.5) 0,rgba(255,255,255,0.5) 1px,transparent 1px,transparent 28px)" }} />
-      {/* Top shimmer */}
-      <div className="absolute top-0 inset-x-0 h-14" style={{ background: "linear-gradient(to bottom,rgba(255,255,255,0.1),transparent)" }} />
-      {/* Rings */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-32 w-32 rounded-full border-2 opacity-[0.18]" style={{ borderColor: "rgba(255,255,255,0.7)" }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-20 w-20 rounded-full border opacity-[0.22]" style={{ borderColor: "rgba(255,255,255,0.8)" }} />
-      {/* Centre */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 px-5">
-        <div className="text-white/60 text-lg mb-0.5 animate-heart">♥</div>
-        <p className="text-white/55 text-[9px] font-bold uppercase tracking-[0.28em] text-center">{card.type}</p>
-        <p className="text-white font-light leading-tight text-center drop-shadow"
-          style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(1.25rem,3.2vw,1.65rem)" }}>
-          {card.title}
-        </p>
-        <div className="flex items-center gap-1.5 mt-0.5">
-          <div className="h-px w-8 bg-white/30" />
-          <div className="h-1 w-1 rounded-full bg-white/40" />
-          <div className="h-px w-8 bg-white/30" />
-        </div>
-      </div>
-      {/* Bottom vignette */}
-      <div className="absolute bottom-0 inset-x-0 h-16" style={{ background: "linear-gradient(to top,rgba(0,0,0,0.22),transparent)" }} />
+    <div ref={frameRef} className="relative h-full w-full overflow-hidden bg-[#120c20]">
+      {shouldLoad && <iframe
+          src={card.demoSrc}
+          title={`${card.title} website preview`}
+          loading="lazy"
+          scrolling="no"
+          tabIndex={-1}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full border-0"
+        />}
     </div>
   );
 }
@@ -88,7 +95,7 @@ export default function DemoCard({ card, onPreview }: DemoCardProps) {
       style={{ borderColor: "var(--border)", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}
     >
       {/* Preview */}
-      <div className="relative overflow-hidden" style={{ height: 210 }}>
+      <div className="relative h-[250px] overflow-hidden sm:h-[270px]">
         {card.previewImg
           ? <img src={card.previewImg} alt={card.title} loading="lazy" className="h-full w-full object-cover card-img-zoom" />
           : <PreviewPlaceholder card={card} />
@@ -110,21 +117,16 @@ export default function DemoCard({ card, onPreview }: DemoCardProps) {
 
       {/* Card body — clean, no description */}
       <div className="flex flex-1 flex-col px-5 py-4">
-        {/* Type label */}
-        <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1" style={{ color: "var(--primary)" }}>
-          {card.type}
-        </p>
-
         {/* Title */}
-        <h3 className="font-medium leading-snug mb-3"
+        <h3 className="font-medium leading-snug mb-4"
           style={{ fontFamily: "var(--font-cormorant)", color: "var(--text-primary)", fontSize: 20 }}>
           {card.title}
         </h3>
 
         {/* Tags — max 2 shown */}
-        {card.tags && card.tags.length > 0 && (
+        {card.tags && card.tags.filter((tag) => tag !== "Live Countdown" && tag !== "Animated").length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-4">
-            {card.tags.slice(0, 2).map((tag) => {
+            {card.tags.filter((tag) => tag !== "Live Countdown" && tag !== "Animated").slice(0, 2).map((tag) => {
               const ts = tagStyle[tag] ?? { bg: "#FFF1F2", color: "#9F1239" };
               return <span key={tag} className="tag-pill" style={{ background: ts.bg, color: ts.color }}>{tag}</span>;
             })}

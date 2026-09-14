@@ -1,0 +1,12 @@
+<svg width="220" height="72" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="72" rx="18" fill="url(#paint0_linear_1_2)"/>
+  <path d="M34 53C34 53 18 42.5 18 28.2C18 21.9 23.1 17 29.4 17C33.4 17 37 18.8 39.4 22.1C41.8 18.8 45.4 17 49.4 17C55.7 17 60.8 21.9 60.8 28.2C60.8 42.5 44.8 53 44.8 53H34Z" fill="white"/>
+  <text x="72" y="43" fill="white" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="600">OurMoment</text>
+  <defs>
+    <linearGradient id="paint0_linear_1_2" x1="10" y1="6" x2="198" y2="68" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5D103D"/>
+      <stop offset="0.5" stop-color="#B71C5C"/>
+      <stop offset="1" stop-color="#F06292"/>
+    </linearGradient>
+  </defs>
+</svg>

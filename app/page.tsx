@@ -14,7 +14,7 @@ const structuredData = [
     "@type": "Organization",
     name: "OurMoment",
     url: siteUrl,
-    logo: `${siteUrl}/assets/heart.svg`,
+    logo: `${siteUrl}/logo.svg`,
     description: "Personalised Indian wedding invitation websites and wedding invitation videos.",
     areaServed: { "@type": "Country", name: "India" },
     availableLanguage: ["English", "Hindi", "Marathi"],

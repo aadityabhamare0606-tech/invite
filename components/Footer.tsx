@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer id="footer" className="py-16"
@@ -59,11 +61,16 @@ export default function Footer() {
               Occasions
             </h4>
             <ul className="space-y-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-              {[["💍","Wedding Websites"],["🎬","Wedding Videos"],["📱","WhatsApp Invites"],["✨","Custom Wedding Design"]].map(([icon, t]) => (
+                    {[
+                      ["💍", "Wedding Websites", "/wedding-invitation-website-india"],
+                      ["🎬", "Wedding Videos", "/wedding-invitation-video-india"],
+                      ["📱", "Save the Date", "/save-the-date-website-india"],
+                      ["✨", "Wedding Invite Cost", "/wedding-invitation-cost-india"],
+                    ].map(([icon, t, href]) => (
                 <li key={t}>
-                  <a href="#collection" className="hover:text-[var(--primary)] transition-colors inline-flex items-center gap-2">
+                        <Link href={href} className="hover:text-[var(--primary)] transition-colors inline-flex items-center gap-2">
                     <span>{icon}</span>{t}
-                  </a>
+                        </Link>
                 </li>
               ))}
             </ul>

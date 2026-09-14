@@ -41,17 +41,26 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 shrink-0 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-105"
-            style={{ background: "var(--gradient-rose)", boxShadow: "0 3px 12px rgba(194,24,91,0.28)" }}>
-            <span className="text-white text-lg leading-none animate-heart">♥</span>
+        <Link href="/" className="flex items-center gap-3 shrink-0 group" aria-label="OurMoment home">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(194,24,91,0.12)] transition-transform duration-200 group-hover:scale-105"
+            style={{ background: "linear-gradient(135deg, #fff7f9 0%, #ffeaf1 100%)", boxShadow: "0 6px 18px rgba(194,24,91,0.12)" }}>
+            <svg width="17" height="17" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M16 28C16 28 3 19 3 10.5C3 7 5.7 4 9.5 4C12.1 4 14.3 5.6 16 7.8C17.7 5.6 19.9 4 22.5 4C26.3 4 29 7 29 10.5C29 19 16 28 16 28Z" fill="url(#logoGradient)"/>
+              <defs>
+                <linearGradient id="logoGradient" x1="3" y1="4" x2="29" y2="28" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#880E4F"/>
+                  <stop offset="0.6" stopColor="#C2185B"/>
+                  <stop offset="1" stopColor="#D81B60"/>
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
           <div className="flex flex-col leading-none">
-            <span style={{ fontFamily: "var(--font-cormorant)", fontSize: 21, color: "var(--text-primary)", fontWeight: 600, letterSpacing: "0.02em", lineHeight: 1.1 }}>
+            <span style={{ fontFamily: "var(--font-cormorant)", fontSize: 22, color: "var(--text-primary)", fontWeight: 600, letterSpacing: "0.02em", lineHeight: 1.1 }}>
               Our<span style={{ color: "var(--primary)" }}>Moment</span>
             </span>
             <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "var(--text-muted)", marginTop: 1 }}>
-              Digital Invites
+              Wedding Invites
             </span>
           </div>
         </Link>
