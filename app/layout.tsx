@@ -35,6 +35,9 @@ export const metadata: Metadata = {
     "wedding invite WhatsApp",
   ],
   alternates: { canonical: "/" },
+  verification: {
+    google: "ysQ8_WZGcWxBFZe0NO5nxj1pHp6yAdzrbySKnTljRiA",
+  },
   robots: {
     index: true,
     follow: true,
