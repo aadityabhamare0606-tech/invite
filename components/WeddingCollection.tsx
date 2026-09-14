@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import DemoCard, { type DemoCardData } from "./DemoCard";
 
 /* ── All 9 demos — intentionally varied order so no same style sits together ── */
@@ -11,7 +11,7 @@ const allCards: DemoCardData[] = [
     type: "Premium",
     title: "Veerendra & Meera — Udaipur",
     description: "The Leela Palace, Udaipur. Train arrival animation, sky lanterns, per-event flip cards, live countdown with seconds and a typewriter closing message.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-9/index.html",
     previewBg: "linear-gradient(145deg, #0d0a2e 0%, #1a0e4e 50%, #120830 100%)",
     previewAccent: "#2D1B69",
@@ -25,7 +25,7 @@ const allCards: DemoCardData[] = [
     type: "Illustrated",
     title: "Rajwada Royale",
     description: "Inspired by Marathi heritage — rich saffron, deep crimson, royal motifs and scroll-driven animations. For couples who want their invite to feel like a palace.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-3/index.html",
     previewBg: "linear-gradient(145deg, #1e0840 0%, #341860 50%, #4e2c80 100%)",
     previewAccent: "#341860",
@@ -39,7 +39,7 @@ const allCards: DemoCardData[] = [
     type: "Classic",
     title: "Rahul Weds Namita",
     description: "Cinematic floating lanterns, animated name reveal, live countdown and a clean scroll-driven story. Elegant enough for any celebration.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-1/index.html",
     previewBg: "linear-gradient(145deg, #072e32 0%, #0a4e52 50%, #0e6e72 100%)",
     previewAccent: "#0a4e52",
@@ -53,7 +53,7 @@ const allCards: DemoCardData[] = [
     type: "Premium",
     title: "Aarav & Meera",
     description: "Opens like a real letter — tap the wax seal to reveal. Cinematic mandap reveal, gold shimmer names, alternating timeline and a live vintage countdown.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-6/index.html",
     previewBg: "linear-gradient(145deg, #0a0520 0%, #160840 50%, #1e0a4e 100%)",
     previewAccent: "#160840",
@@ -67,7 +67,7 @@ const allCards: DemoCardData[] = [
     type: "Premium",
     title: "Rahul & Namita — Jaipur",
     description: "An opening envelope that unfolds into a royal invite. Rambhag Palace venue, animated hero, journey milestones, gallery slideshow and live countdown.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-5/index.html",
     previewBg: "linear-gradient(145deg, #160840 0%, #1e0a4e 50%, #2D1B69 100%)",
     previewAccent: "#1e0a4e",
@@ -81,7 +81,7 @@ const allCards: DemoCardData[] = [
     type: "Illustrated",
     title: "Rajwada Royale v2",
     description: "A bolder take on the royal aesthetic — deeper crimson, golden shimmer accents and cinematic scroll animations. Designed to impress from the first scroll.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-4/index.html",
     previewBg: "linear-gradient(145deg, #0F0720 0%, #1e0a4e 50%, #880E4F 100%)",
     previewAccent: "#1e0a4e",
@@ -95,7 +95,7 @@ const allCards: DemoCardData[] = [
     type: "Premium",
     title: "Abhishek & Kanika",
     description: "Three beautifully designed event cards — Mehendi, Haldi, Reception — with soft blush tones and rich typography. Share your entire wedding in one link.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-2/index.html",
     previewBg: "linear-gradient(145deg, #0F0720 0%, #1e0a4e 50%, #2D1B69 100%)",
     previewAccent: "#1e0a4e",
@@ -109,7 +109,7 @@ const allCards: DemoCardData[] = [
     type: "Classic",
     title: "Classic — Rahul Weds Namita",
     description: "The original classic design with floating lanterns, animated name reveal and scroll-driven storytelling. Timeless and loved by guests across all age groups.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-7/index.html",
     previewBg: "linear-gradient(145deg, #0F0720 0%, #1a0e4e 50%, #2D1B69 100%)",
     previewAccent: "#1a0e4e",
@@ -123,7 +123,7 @@ const allCards: DemoCardData[] = [
     type: "Illustrated",
     title: "Rajwada Royale — Extended",
     description: "The extended royal Marathi edition with additional illustrations, deeper colour palette and enhanced scroll transitions. A truly premium experience.",
-    price: "₹1,899",
+    price: "₹1,499",
     demoSrc: "/demos/demo-8/index.html",
     previewBg: "linear-gradient(145deg, #0F0720 0%, #1e0a4e 50%, #2D1B69 100%)",
     previewAccent: "#1e0a4e",
@@ -213,7 +213,7 @@ export default function WeddingCollection({ activeFilter, onPreview }: Props) {
   }, [activeFilter]); /* re-register when filter changes */
 
   const weddingVisible  = activeFilter === "All" || activeFilter === "Wedding";
-  const saveDateVisible = activeFilter === "All" || activeFilter === "Save the Date";
+  const saveDateVisible = false;
 
   return (
     <section id="collection" ref={ref} className="py-16 md:py-24" style={{ background: "var(--bg-base)" }}>

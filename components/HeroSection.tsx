@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /* Defined outside — no re-allocation on re-render */
-const filters = ["All", "Wedding", "Save the Date", "Engagement"] as const;
+const filters = ["All", "Wedding"] as const;
 
 const HEARTS = [
   { size: 20, color: "#D81B60", top: "8%",  left: "3%",  dur: "10s", delay: "0s"   },
@@ -15,11 +15,9 @@ const HEARTS = [
 ];
 
 const OCCASIONS = [
-  { icon: "💍", label: "Weddings"      },
-  { icon: "💌", label: "Proposals"     },
-  { icon: "💝", label: "Valentine's"   },
-  { icon: "🎂", label: "Anniversaries" },
-  { icon: "✨", label: "Engagements"   },
+  { icon: "💍", label: "Wedding Websites" },
+  { icon: "🎬", label: "Wedding Videos"   },
+  { icon: "📱", label: "WhatsApp Ready"   },
 ];
 
 const STATS = [
@@ -30,8 +28,8 @@ const STATS = [
 
 const MARQUEE_ITEMS = [
   "500+ happy couples", "24h delivery", "Weddings", "Proposals",
-  "Valentine's Day", "Anniversaries", "Live countdown", "Animated invites",
-  "Share via WhatsApp", "9 unique designs", "Personalised for you",
+  "Indian weddings", "Wedding websites", "Wedding videos from ₹399",
+  "Live countdown", "Animated invites", "Share via WhatsApp", "9 unique designs", "Personalised for you",
 ];
 
 /* ── Floating heart — pure CSS animation, no JS ── */
@@ -168,16 +166,15 @@ export default function HeroSection({ activeFilter, onFilterChange }: Props) {
             color: "var(--text-primary)",
             transitionDelay: "0.08s",
           }}>
-          Beautiful invites for{" "}
-          <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>every</em>
-          <br />love occasion
+          Indian wedding invites{" "}
+          <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>made beautiful</em>
         </h1>
 
         {/* Sub */}
         <p className="reveal text-base sm:text-lg leading-relaxed mx-auto mb-8"
           style={{ color: "var(--text-secondary)", maxWidth: 520, transitionDelay: "0.14s" }}>
-          Weddings &middot; Proposals &middot; Valentine&apos;s Day &middot; Anniversaries &middot; Engagements —
-          one beautiful animated link, shared instantly.
+          Personalised wedding invitation websites from ₹1,499 and wedding invitation videos from ₹399 —
+          made for Indian weddings and shared instantly on WhatsApp.
         </p>
 
         {/* Occasion chips — solid bg, NO backdrop-filter */}

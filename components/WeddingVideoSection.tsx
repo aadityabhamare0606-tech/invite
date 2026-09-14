@@ -105,9 +105,9 @@ export default function WeddingVideoSection() {
     <section id="wedding-films" ref={ref} className="wedding-films-section">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="reveal wedding-films-heading">
-          <p>Invitation films &middot; Every occasion</p>
-          <h2>See the invitation <em>in motion</em></h2>
-          <span>Every design is made to feel like a moment, not just a message.</span>
+          <p>Indian wedding invitation videos &middot; From ₹399</p>
+          <h2>Make your wedding invite <em>move</em></h2>
+          <span>Personalised wedding invitation videos made for WhatsApp sharing, from ₹399.</span>
         </div>
         <div className="wedding-films-grid">
           {videos.map((v) => <VideoCard key={v.id} {...v} />)}
