@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import WeddingCollection from "@/components/WeddingCollection";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ourmoment.in";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://our-moments.in";
 
 const structuredData = [
   {
