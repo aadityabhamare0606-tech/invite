@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0e6b6e" />
+
+    <!-- DNS prefetch for all external image CDNs -->
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://c.animaapp.com" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://c.animaapp.com" crossorigin />
+
+    <!-- Critical above-fold image — highest priority -->
+    <link rel="preload" href="./assets/wedding-background.avif" as="image" fetchpriority="high" />
+
+    <!-- Preload the two animaapp carousel images (first slides seen) -->
+    <link rel="preload" href="https://c.animaapp.com/BYBILMKlv2DDu82pkwBOJA/assets/46.jpg" as="image" fetchpriority="high" crossorigin />
+    <link rel="preload" href="https://c.animaapp.com/BYBILMKlv2DDu82pkwBOJA/assets/54.jpg" as="image" crossorigin />
+
+    <!-- Preload fonts — only the subsets actually used -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/cormorantupright/v19/VuJrdM3I2Y35poFONtLdafkUCHw1y1vShDU.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="https://fonts.gstatic.com/s/cormorantinfant/v22/HhyCU44g9vKiM1sORYSiWeAsLN99xfs9KOOc_agJPrgvYNWUjjg.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSg.woff2" as="font" type="font/woff2" crossorigin />
+
+    <title>Rahul Weds Namita — Wedding Invitation</title>
+    <script type="module" crossorigin src="./assets/index-BILSseFk.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/vendor-D3F3s8fL.js">
+    <link rel="stylesheet" crossorigin href="./assets/style-DFPQH8XX.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

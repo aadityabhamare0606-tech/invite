@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* OurMoment — Love Brand Palette */
+/* Deep Rose Crimson — the color of a red rose */
+/* Clean white base, rose accent used with intention */
+
+:root {
+  /* Clean white base — love feels light and warm */
+  --bg-base:       #ffffff;
+  --bg-surface:    #fafafa;
+  --bg-card:       #ffffff;
+  --bg-hero:       #fff8f9;
+  --bg-soft:       #fff0f2;
+
+  /* Primary: Deep Rose Crimson — passionate, warm, not garish */
+  --primary:       #C2185B;
+  --primary-light: #D81B60;
+  --primary-deep:  #880E4F;
+  --primary-soft:  #FCE4EC;
+  --primary-glow:  rgba(194,24,91,0.12);
+  --primary-border:rgba(194,24,91,0.15);
+
+  /* Keep old var names for compat */
+  --rose:          #C2185B;
+  --rose-light:    #D81B60;
+  --rose-deep:     #880E4F;
+  --rose-soft:     #FCE4EC;
+  --rose-glow:     rgba(194,24,91,0.12);
+  --rose-border:   rgba(194,24,91,0.15);
+  --violet:        #C2185B;
+  --violet-light:  #D81B60;
+  --violet-mid:    #E91E8C;
+  --violet-bright: #F06292;
+  --violet-soft:   #FCE4EC;
+  --violet-pale:   #FFF0F2;
+  --coral:         #D81B60;
+  --coral-light:   #E91E8C;
+  --coral-soft:    #FCE4EC;
+
+  /* Gold — warm, pairs beautifully with rose */
+  --gold:          #B45309;
+  --gold-light:    #D97706;
+  --gold-pale:     #FDE68A;
+  --gold-soft:     #FFFBEB;
+
+  /* Blush — barely-there pink, used for borders/bg */
+  --blush:         #FCE4EC;
+  --blush-mid:     #F8BBD9;
+  --blush-deep:    #F06292;
+
+  /* Borders — mostly neutral, barely warm */
+  --border:        #F0E8EB;
+  --border-strong: #E0CDD5;
+  --border-rose:   rgba(194,24,91,0.14);
+
+  /* Text — warm neutral, easy to read */
+  --text-primary:  #1A0A0E;
+  --text-mid:      #4A2030;
+  --text-secondary:#7A5060;
+  --text-muted:    #B09098;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(160deg, #ffffff 0%, #fff8f9 60%, #fff0f2 100%);
+  --gradient-rose: linear-gradient(135deg, #880E4F 0%, #C2185B 50%, #D81B60 100%);
+  --gradient-card: linear-gradient(145deg, #ffffff 0%, #fff8f9 100%);
+}
+
+@theme inline {
+  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "DM Sans", system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: "Plus Jakarta Sans", "DM Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #f9f9f9; }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+/* KEYFRAMES */
+@keyframes petal-float {
+  0%   { transform: translateY(0)     translateX(0)    rotate(0deg);  opacity: 0.45; }
+  25%  { transform: translateY(-18px) translateX(7px)  rotate(8deg);  opacity: 0.70; }
+  50%  { transform: translateY(-30px) translateX(-5px) rotate(-4deg); opacity: 0.55; }
+  75%  { transform: translateY(-14px) translateX(10px) rotate(12deg); opacity: 0.65; }
+  100% { transform: translateY(0)     translateX(0)    rotate(0deg);  opacity: 0.45; }
+}
+@keyframes heart-beat {
+  0%,100% { transform: scale(1); }
+  14%     { transform: scale(1.18); }
+  28%     { transform: scale(1); }
+  42%     { transform: scale(1.12); }
+  70%     { transform: scale(1); }
+}
+@keyframes glow-pulse {
+  0%,100% { opacity: 0.4;  transform: scale(1); }
+  50%     { opacity: 0.75; transform: scale(1.05); }
+}
+@keyframes pulse-dot {
+  0%,100% { transform: scale(1);    opacity: 0.5; }
+  50%     { transform: scale(1.55); opacity: 1; }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-7px); }
+}
+@keyframes shimmer-sweep {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes ornament-spin {
+  from { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.15); }
+  to   { transform: rotate(360deg) scale(1); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* SCROLL REVEALS */
+.reveal {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-left {
+  opacity: 0; transform: translateX(-24px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-right {
+  opacity: 0; transform: translateX(24px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-pop {
+  opacity: 0; transform: scale(0.88);
+  transition: opacity 0.55s cubic-bezier(0.34,1.56,0.64,1), transform 0.55s cubic-bezier(0.34,1.56,0.64,1);
+}
+.reveal-pop.visible { opacity: 1; transform: scale(1); }
+
+.reveal-scale {
+  opacity: 0; transform: scale(0.95) translateY(12px);
+  transition: opacity 0.68s cubic-bezier(0.22,1,0.36,1), transform 0.68s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1) translateY(0); }
+
+.stagger-1 { transition-delay: 0.07s !important; }
+.stagger-2 { transition-delay: 0.14s !important; }
+.stagger-3 { transition-delay: 0.21s !important; }
+.stagger-4 { transition-delay: 0.28s !important; }
+.stagger-5 { transition-delay: 0.35s !important; }
+.stagger-6 { transition-delay: 0.42s !important; }
+
+/* UTILITY */
+.animate-pulse-dot  { animation: pulse-dot   2.2s ease-in-out infinite; }
+.animate-float      { animation: float       4s ease-in-out infinite; }
+.animate-heart      { animation: heart-beat  2s ease-in-out infinite; }
+.animate-glow-pulse { animation: glow-pulse  4s ease-in-out infinite; }
+.animate-petal      { animation: petal-float linear infinite; }
+.ornament-pulse     { display: inline-block; animation: ornament-spin 10s linear infinite; }
+
+/* BUTTONS */
+.btn-primary, .btn-shimmer {
+  background: var(--gradient-rose);
+  background-size: 200%;
+  color: #fff;
+  border: none;
+  transition: background-position 0.5s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover, .btn-shimmer:hover {
+  background-position: right center;
+  transform: scale(1.03) translateY(-1px);
+  box-shadow: 0 8px 28px rgba(194,24,91,0.30);
+}
+.btn-primary:active, .btn-shimmer:active { transform: scale(0.97); }
+
+/* CARDS */
+.card-hover {
+  transition: transform 0.30s cubic-bezier(0.22,1,0.36,1), box-shadow 0.30s ease, border-color 0.30s ease;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 44px rgba(0,0,0,0.08), 0 3px 12px rgba(194,24,91,0.06);
+  border-color: var(--blush-mid) !important;
+}
+.card-img-zoom { transition: transform 0.62s cubic-bezier(0.22,1,0.36,1); }
+.card-hover:hover .card-img-zoom { transform: scale(1.05); }
+.play-overlay { opacity: 0; transition: opacity 0.25s ease; }
+.card-hover:hover .play-overlay { opacity: 1; }
+
+.card-shimmer-border {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, var(--blush-mid), var(--primary-soft), var(--blush-mid)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out; mask-composite: exclude;
+  opacity: 0; transition: opacity 0.28s ease;
+}
+.card-hover:hover .card-shimmer-border { opacity: 1; }
+
+/* STEP CARDS */
+.step-card {
+  position: relative; background: #fff; border: 1px solid var(--border);
+  border-radius: 20px; padding: 2.25rem 1.75rem; text-align: center; overflow: hidden;
+  transition: transform 0.30s cubic-bezier(0.22,1,0.36,1), box-shadow 0.30s ease, border-color 0.30s ease;
+}
+.step-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.07), 0 4px 14px rgba(194,24,91,0.07);
+  border-color: var(--blush-mid);
+}
+.step-icon-wrap {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 64px; height: 64px; border-radius: 50%; margin-bottom: 1.25rem;
+  font-size: 24px; border: 1.5px solid var(--border); background: var(--bg-soft);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, background 0.3s ease;
+}
+.step-card:hover .step-icon-wrap {
+  transform: scale(1.14) rotate(8deg);
+  background: var(--primary-soft);
+  box-shadow: 0 0 0 5px rgba(194,24,91,0.07);
+}
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid var(--primary); color: var(--primary);
+  font-size: 12px; font-weight: 700; margin-bottom: 1rem;
+  background: var(--primary-soft);
+}
+
+/* STAT CARD */
+.stat-card {
+  position: relative; padding: 1.4rem 1.8rem; border-radius: 16px;
+  border: 1px solid var(--border); background: #fff; text-align: center; overflow: hidden;
+  transition: transform 0.26s ease, box-shadow 0.26s ease;
+}
+.stat-card::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(194,24,91,0.04), transparent 60%);
+  pointer-events: none;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,0.06); }
+
+/* TEXT */
+.shimmer-text {
+  background: linear-gradient(90deg, var(--primary) 0%, #F06292 35%, #fce4ec 50%, #F06292 65%, var(--primary) 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: shimmer-sweep 4s linear infinite;
+}
+.rose-text { color: var(--primary); }
+.section-divider { height: 1px; background: linear-gradient(to right, transparent, var(--blush-mid), transparent); }
+
+/* MARQUEE */
+.marquee-track { display: flex; animation: marquee 32s linear infinite; will-change: transform; }
+.marquee-track:hover { animation-play-state: paused; }
+
+/* FAQ */
+.faq-item {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
+.faq-item:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+.faq-item.open { border-color: var(--blush-mid); box-shadow: 0 4px 20px rgba(194,24,91,0.07); }
+
+/* TAG PILL */
+.tag-pill {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
+  border-radius: 999px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+}
+
+.hero-petal { position: absolute; pointer-events: none; will-change: transform, opacity; }
+
+/* WEDDING FILMS */
+.wedding-films-section {
+  padding: 6rem 0 7rem;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+}
+.wedding-films-heading { max-width: 560px; margin-bottom: 2.5rem; }
+.wedding-films-heading p { margin: 0 0 0.5rem; color: var(--primary); font-size: 10px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; }
+.wedding-films-heading h2 { margin: 0; color: var(--text-primary); font-family: var(--font-cormorant), Georgia, serif; font-size: clamp(2rem,5vw,3.2rem); font-weight: 400; line-height: 1.05; }
+.wedding-films-heading h2 em { color: var(--primary); font-style: italic; }
+.wedding-films-heading span { display: block; margin-top: 0.75rem; color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+.wedding-films-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.25rem; }
+.wedding-film-card { overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.05); transition: transform 0.30s ease, box-shadow 0.30s ease; }
+.wedding-film-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.09); }
+.wedding-film-media { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+.wedding-film-wash { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.22), transparent 50%); }
+.wedding-film-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s ease; }
+.wedding-film-video.is-ready { opacity: 1; }
+.wedding-film-play { position: absolute; right: 12px; bottom: 12px; display: grid; width: 32px; height: 32px; place-items: center; border: 1.5px solid rgba(255,255,255,0.85); border-radius: 50%; color: #fff; background: rgba(194,24,91,0.72); backdrop-filter: blur(8px); transition: transform 0.22s ease; }
+.wedding-film-card:hover .wedding-film-play { transform: scale(1.1); }
+.wedding-film-index { position: absolute; top: 10px; left: 12px; color: rgba(255,255,255,0.75); font-size: 10px; letter-spacing: 0.15em; }
+.wedding-film-copy { padding: 0.9rem 1.1rem 1.1rem; }
+.wedding-film-copy p { margin: 0 0 0.2rem; color: var(--primary); font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.wedding-film-copy h3 { margin: 0; color: var(--text-primary); font-family: var(--font-cormorant), Georgia, serif; font-size: 22px; font-weight: 500; }
+
+@media (max-width: 900px) { .wedding-films-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 560px) { .wedding-films-section { padding: 4rem 0 5rem; } .wedding-films-grid { grid-template-columns: 1fr; gap: 1rem; } }
