@@ -21,7 +21,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://ourmoment.in"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://our-moments.in"),
   title: "Wedding Invitation Website India from ₹1,499 | OurMoment",
   description:
     "Create a beautiful Indian wedding invitation website from ₹1,499 or a wedding invitation video from ₹399. Personalised designs, WhatsApp sharing and fast delivery.",
