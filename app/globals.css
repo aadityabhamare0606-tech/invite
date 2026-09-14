@@ -79,6 +79,23 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* The main invite stays still and responsive; demo pages load in isolated iframes. */
+.motion-disabled,
+.motion-disabled * {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+.motion-disabled .reveal,
+.motion-disabled .reveal-left,
+.motion-disabled .reveal-right,
+.motion-disabled .reveal-pop,
+.motion-disabled .reveal-scale {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #f9f9f9; }
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }

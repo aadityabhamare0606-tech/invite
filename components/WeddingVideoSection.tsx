@@ -17,13 +17,13 @@ const VideoCard = memo(function VideoCard({ id, title, label, accent, bg }: (typ
   const [near,  setNear]  = useState(false);
   const [ready, setReady] = useState(false);
 
-  /* Step 1 — load video when 300px away from viewport */
+  /* Keep the lightweight glance until the card actually enters the viewport. */
   useEffect(() => {
     const el = frameRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setNear(true); obs.disconnect(); } },
-      { rootMargin: "300px 0px", threshold: 0 }
+      { rootMargin: "0px", threshold: 0.05 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -34,10 +34,15 @@ const VideoCard = memo(function VideoCard({ id, title, label, accent, bg }: (typ
     const v = videoRef.current;
     const el = frameRef.current;
     if (!v || !el || !near) return;
+
     const obs = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) v.play().catch(() => undefined);
-        else                  v.pause();
+        if (e.isIntersecting) {
+          v.preload = "metadata";
+          v.load();
+          v.play().catch(() => undefined);
+        }
+        else v.pause();
       },
       { threshold: 0.2 }
     );
@@ -51,7 +56,7 @@ const VideoCard = memo(function VideoCard({ id, title, label, accent, bg }: (typ
 
         {/* Placeholder — visible until video ready */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2"
-          style={{ opacity: ready ? 0 : 1, transition: "opacity 0.6s ease", pointerEvents: "none" }}>
+          style={{ opacity: ready ? 0 : 1, pointerEvents: "none" }}>
           <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.25em]">{label}</p>
           <p className="text-white/70 font-light text-center px-4"
             style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(1.1rem,2.5vw,1.5rem)" }}>{title}</p>
@@ -68,7 +73,7 @@ const VideoCard = memo(function VideoCard({ id, title, label, accent, bg }: (typ
             muted
             loop
             playsInline
-            preload="metadata"   /* was "auto" — loading 6 videos simultaneously was killing bandwidth */
+            preload="none"
             onCanPlay={() => {
               videoRef.current?.play().catch(() => undefined);
               setReady(true);

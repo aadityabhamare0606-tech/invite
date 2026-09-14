@@ -1,0 +1,23 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="100" y1="40" x2="1100" y2="580" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDF3F7"/>
+      <stop offset="0.48" stop-color="#F8E5ED"/>
+      <stop offset="1" stop-color="#F4DDE6"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="192" y1="124" x2="470" y2="390" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5D103D"/>
+      <stop offset="0.52" stop-color="#B71C5C"/>
+      <stop offset="1" stop-color="#F06292"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" rx="36" fill="url(#bg)"/>
+  <circle cx="1000" cy="96" r="120" fill="#F6D6E3" opacity="0.9"/>
+  <circle cx="1040" cy="520" r="150" fill="#F2C9D7" opacity="0.8"/>
+  <rect x="100" y="110" width="410" height="410" rx="32" fill="url(#brand)"/>
+  <path d="M245 380C245 380 184 334 184 271C184 240 209 214 241 214C268 214 292 232 304 256C315 232 339 214 367 214C399 214 424 240 424 271C424 334 364 380 364 380H245Z" fill="white"/>
+  <text x="568" y="280" fill="#3B1C2D" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="600">OurMoment</text>
+  <text x="568" y="350" fill="#5D103D" font-family="Arial, Helvetica, sans-serif" font-size="26" letter-spacing="7" font-weight="700">WEDDING INVITES</text>
+  <text x="568" y="430" fill="#4A2B36" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="600">Website India</text>
+  <text x="568" y="480" fill="#4A2B36" font-family="Arial, Helvetica, sans-serif" font-size="24">Custom digital invites from ₹1,499</text>
+</svg>
