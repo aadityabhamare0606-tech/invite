@@ -21,9 +21,47 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "OurMoment — Beautiful Digital Invites for Every Love Occasion",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://ourmoment.in"),
+  title: "Wedding Invitation Website India from ₹1,499 | OurMoment",
   description:
-    "Weddings, proposals, Valentine's Day, anniversaries — create a stunning digital invite in one beautiful link. Personalised, animated, shared instantly.",
+    "Create a beautiful Indian wedding invitation website from ₹1,499 or a wedding invitation video from ₹399. Personalised designs, WhatsApp sharing and fast delivery.",
+  keywords: [
+    "wedding invitation website India",
+    "digital wedding invitation India",
+    "Indian wedding website",
+    "wedding invitation video",
+    "shaadi invitation video",
+    "online wedding invitation",
+    "wedding invite WhatsApp",
+  ],
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "/",
+    siteName: "OurMoment",
+    title: "Wedding Invitation Website India from ₹1,499 | OurMoment",
+    description:
+      "Personalised Indian wedding invitation websites from ₹1,499 and wedding invitation videos from ₹399. Share your wedding beautifully on WhatsApp.",
+    images: [{ url: "/assets/wedding-background.avif", width: 1200, height: 630, alt: "Indian wedding invitation website by OurMoment" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wedding Invitation Website India from ₹1,499 | OurMoment",
+    description: "Indian wedding invitation websites from ₹1,499 and wedding invitation videos from ₹399.",
+    images: ["/assets/wedding-background.avif"],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

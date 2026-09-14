@@ -23,7 +23,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="mb-6 max-w-xs text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Beautiful digital invites for weddings, proposals, Valentine&apos;s Day, anniversaries and every moment of love — personalised, animated, shared in one link.
+              Personalised Indian wedding invitation websites from ₹1,499 and wedding invitation videos from ₹399 — made for sharing with family and guests on WhatsApp.
             </p>
             <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
@@ -59,7 +59,7 @@ export default function Footer() {
               Occasions
             </h4>
             <ul className="space-y-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-              {[["💍","Wedding Invites"],["💌","Save the Date"],["💍","Engagements"],["💝","Valentine's Day"],["🎂","Anniversaries"],["✨","Custom Design"]].map(([icon, t]) => (
+              {[["💍","Wedding Websites"],["🎬","Wedding Videos"],["📱","WhatsApp Invites"],["✨","Custom Wedding Design"]].map(([icon, t]) => (
                 <li key={t}>
                   <a href="#collection" className="hover:text-[var(--primary)] transition-colors inline-flex items-center gap-2">
                     <span>{icon}</span>{t}

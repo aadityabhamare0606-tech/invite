@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 /* Stable outside — no re-allocation on every render */
 const NAV_LINKS = [
@@ -28,8 +29,7 @@ export default function Navbar() {
         WebkitBackdropFilter: "blur(16px)",
         borderBottom: `1px solid ${scrolled ? "var(--border)" : "transparent"}`,
         boxShadow: scrolled ? "0 2px 16px rgba(194,24,91,0.06)" : "none",
-      }}
-    >
+      }}>
       {/* Accent line */}
       <div className="h-[2.5px] w-full transition-opacity duration-500"
         style={{
@@ -41,7 +41,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
 
         {/* Logo */}
-        <a href="/" className="flex items-center gap-3 shrink-0 group">
+        <Link href="/" className="flex items-center gap-3 shrink-0 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-105"
             style={{ background: "var(--gradient-rose)", boxShadow: "0 3px 12px rgba(194,24,91,0.28)" }}>
             <span className="text-white text-lg leading-none animate-heart">♥</span>
@@ -54,7 +54,7 @@ export default function Navbar() {
               Digital Invites
             </span>
           </div>
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">

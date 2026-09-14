@@ -5,23 +5,23 @@ import { Plus, Minus } from "lucide-react";
 const faqs = [
   {
     q: "What is a digital invitation website?",
-    a: "A personalised animated web page for any love occasion — weddings, proposals, Valentine's Day, anniversaries. Your guests just tap the link on their phone — no app needed.",
+    a: "A personalised, mobile-friendly wedding website with your names, dates, venues, events and photos. Guests just tap the link on their phone — no app needed.",
   },
   {
-    q: "Which occasions do you support?",
-    a: "Weddings, engagements, proposals, Valentine's Day, anniversaries, save-the-dates — any moment you want to express love beautifully.",
+    q: "How much does a wedding invitation website cost in India?",
+    a: "OurMoment wedding invitation websites start at ₹1,499. Personalised wedding invitation videos start at ₹399.",
   },
   {
     q: "Can it work for an Indian multi-day wedding?",
     a: "Absolutely. Your website can include multiple events, dates and venues — Mehendi, Haldi, Sangeet, Reception — all in one beautiful site.",
   },
   {
-    q: "How much does it cost?",
-    a: "Wedding invite websites start from ₹1,899 and save-the-dates from ₹789. All prices include full personalisation with your names, dates, photos and venue.",
+    q: "Can I share the invite on WhatsApp?",
+    a: "Yes. Your wedding website is delivered as one shareable link, and the invitation video can be sent directly to family and guests on WhatsApp.",
   },
   {
-    q: "Can I get a fully custom design?",
-    a: "Yes! Share your vision with us on WhatsApp — we can create something completely unique for your occasion with custom illustrations, colours and animations.",
+    q: "Can you include Mehendi, Haldi, Sangeet and Reception?",
+    a: "Yes. Your wedding invitation website can include multiple Indian wedding events, dates and venues in one beautiful link.",
   },
   {
     q: "How long does delivery take?",
