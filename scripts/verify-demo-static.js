@@ -130,7 +130,8 @@ const classes = new Set([...raw.matchAll(/\sclass="([^"]+)"/g)]
   .forEach(m => m[1].split(/\s+/).forEach(c => classes.add(c)));
 [...stripJsComments(scripts.join('\n')).matchAll(/class="([^"]+)"/g)]
   .forEach(m => m[1].split(/\s+/).forEach(c => classes.add(c)));
-const wanted = ['invite-cover','invite-open','ic-dust','ic-drift','ic-crown','hero-hearts',
+const wanted = ['invite-cover','invite-open','ic-dust','ic-drift','hero-hearts',
+                'ic-bloom','ic-stream','ic-edge',
                 'coins','coin-hint','gallery-track','gal-prev','gal-next','countdown',
                 'audio-toggle','bgm','hero-eyebrow','hero-flourish','hero-weds-wrap',
                 'hero-amp','hero-scroll-cue','coin','coin__face','event-card'];
@@ -144,6 +145,22 @@ names ? ok('data-name present x' + names) : bad('no [data-name] elements');
   raw.includes('data-cd="' + k + '"') ? ok('[data-cd="' + k + '"]') : bad('missing [data-cd="' + k + '"]');
 });
 raw.includes('data-label') ? ok('[data-label] present') : bad('no [data-label] element');
+
+/* --------------------------------------- 8b. the retired ring system stays
+   retired. The cover originally had four counter-spinning concentric rings
+   with an eight-heart crown riding one of them. It was removed on purpose
+   (it read as a bullseye); this guards against it creeping back. */
+head('8b. rotating rings stay removed');
+const retired = ['ic-ring', 'ic-crown'];
+retired.forEach(sel => {
+  const hits = (noComments.match(new RegExp(sel, 'g')) || []).length;
+  hits === 0 ? ok(sel + ' fully absent') : bad(sel + ' reappeared ' + hits + ' time(s)');
+});
+head('8c. the replacement layers are present');
+['ic-bloom', 'ic-stream', 'ic-edge', 'ic-drift'].forEach(sel => {
+  (classes.has(sel) && ids.has(sel)) ? ok('#' + sel + '.' + sel)
+    : (ids.has(sel) ? ok('#' + sel) : (classes.has(sel) ? ok('.' + sel) : bad('missing ' + sel)));
+});
 
 /* --------------------------------------------- 9. no leftover sentinels */
 head('9. build sentinels');

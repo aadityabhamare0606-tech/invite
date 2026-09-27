@@ -234,23 +234,65 @@ section{position:relative;padding:clamp(4.2rem,11vh,7.5rem) 0}
 }
 @keyframes ic-rays{to{transform:translate(-50%,-50%) rotate(360deg)}}
 
-/* The rings carry the heart crown. They exist only to make the crown travel,
-   so they carry no fill of their own. */
-.ic-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid var(--gold-a30)}
-.ic-ring--one{width:238px;height:238px;margin:-119px 0 0 -119px;animation:ic-spin 68s linear infinite}
-.ic-ring--two{width:308px;height:308px;margin:-154px 0 0 -154px;border-style:dashed;animation:ic-spin 88s linear infinite reverse}
-.ic-ring--three{width:392px;height:392px;margin:-196px 0 0 -196px;border-color:var(--gold-a12);animation:ic-spin 112s linear infinite}
-.ic-ring--four{width:520px;height:520px;margin:-260px 0 0 -260px;border-color:var(--gold-a12);animation:ic-spin 148s linear infinite reverse}
-@keyframes ic-spin{to{transform:rotate(360deg)}}
+/* A soft bloom sitting behind the Ganesha. This is what replaced the old
+   rotating rings: the rings drew a bullseye around the emblem and said
+   "wedding template", this says "there is light here". It breathes on a 9s
+   cycle, long enough that you stop noticing it and short enough that the
+   cover never feels frozen. */
+.ic-bloom{
+  position:absolute;top:50%;left:50%;
+  width:min(118%,760px);aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 50% 42%,
+    rgba(226,178,106,.20) 0%, rgba(198,161,91,.10) 26%, rgba(196,118,138,.05) 46%, transparent 68%);
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 0%,#000 34%,transparent 72%);
+  mask-image:radial-gradient(circle at 50% 50%,#000 0%,#000 34%,transparent 72%);
+  animation:ic-bloom 9s var(--ease) infinite;
+  will-change:transform,opacity;
+}
+@keyframes ic-bloom{
+  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9}
+  50%    {transform:translate(-50%,-50%) scale(1.09);opacity:1}
+}
 
-/* Eight hearts riding the second ring. Each sits on the ring's radius and
-   counter-rotates so it stays upright. */
-.ic-crown{position:absolute;top:50%;left:50%;width:0;height:0;animation:ic-spin 68s linear infinite}
-.ic-crown__h{position:absolute;left:0;top:0;width:var(--heart);height:var(--heart);margin:calc(var(--heart) / -2);transform:rotate(var(--a)) translateY(-154px) rotate(calc(-1 * var(--a)));animation:ic-heart-breathe 3.4s var(--ease) infinite;animation-delay:var(--d)}
-.ic-crown__h svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 10px rgba(0,0,0,.4))}
-@keyframes ic-heart-breathe{0%,100%{transform:rotate(var(--a)) translateY(-154px) rotate(calc(-1 * var(--a))) scale(1)}50%{transform:rotate(var(--a)) translateY(-154px) rotate(calc(-1 * var(--a))) scale(1.14)}}
+/* Two curtains of light, one down each side. They are the "sides" of the
+   composition and they move in opposite directions so the eye is never
+   pulled to one corner. Masked to a narrow vertical band with a soft
+   horizontal falloff, so they read as light rather than as panels. */
+.ic-stream{
+  position:absolute;top:-30%;bottom:-30%;width:38%;
+  pointer-events:none;
+  background:linear-gradient(90deg,
+    transparent 0%, var(--gold-a12) 42%, rgba(226,178,106,.16) 50%,
+    var(--gold-a12) 58%, transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);
+  filter:blur(14px);
+  animation:ic-stream 26s var(--ease) infinite alternate;
+}
+.ic-stream--l{left:-6%;transform-origin:50% 50%}
+.ic-stream--r{right:-6%;transform-origin:50% 50%;animation-direction:alternate-reverse;animation-duration:31s}
+@keyframes ic-stream{
+  0%  {transform:translateY(-4%) scaleY(.94);opacity:.45}
+  100%{transform:translateY(4%) scaleY(1.06);opacity:.8}
+}
 
-/* Drifting hearts, injected by JS so the count can follow the viewport. */
+/* Two thin gold rules that frame the stack, drawn from the top down as the
+   cover settles. The vertical counterpart to the rays: they give the type
+   something to be held by without enclosing it. */
+.ic-edge{
+  position:absolute;top:50%;width:1px;height:min(52vh,430px);
+  background:linear-gradient(180deg,transparent,var(--gold-a30) 26%,var(--gold-a30) 74%,transparent);
+  transform:translateY(-50%) scaleY(0);transform-origin:50% 100%;
+}
+.ic-edge--l{left:clamp(20px,7vw,86px)}
+.ic-edge--r{right:clamp(20px,7vw,86px);transform-origin:50% 0}
+body.loaded .ic-edge{animation:ic-edge 1.6s var(--ease) .55s forwards}
+@keyframes ic-edge{to{transform:translateY(-50%) scaleY(1)}}
+
+/* Drifting hearts, injected by JS so the count can follow the viewport.
+   They now rise up the left and right thirds and sway, rather than crossing
+   the middle where the type is. */
 .ic-drift{position:absolute;inset:0}
 /* Every decorative heart is the token size times one multiplier, so the
    whole page still has exactly two heart sizes no matter how many hearts. */
@@ -281,16 +323,20 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
 .ic-eyebrow span{transform:translateY(1px)}
 
 /* Ganesha.
-   assets/ganesh.webp is NOT the original artwork. That was demos/demo-15/11.svg,
-   a 17.4 MB file that turned out to be a single base64-encoded 1672x941 WebP
-   with no vector paths inside it and no alpha channel — 17 MB to show one
-   emblem, and a hard rectangle on the cover. It was rebuilt instead: 440x248
-   RGBA, 28 KB, the border feathered to transparent so no box shows, the ink
-   graded so the edges fade. Do not "simplify" this back to the original. */
-.ic-ganesh{margin:0 0 1.15rem;animation-delay:.18s!important}
+   assets/ganesh.webp is not the file the artwork arrived in. That was
+   D:/Firefox/New/21.svg — 25.3 MB that turns out to be a wrapper around a
+   single base64 PNG (1254x1254) with no vector paths in it at all, the same
+   trick demos/demo-15/11.svg played. The bitmap was pulled out, its alpha
+   edge blurred and re-curved so it does not look pasted on, trimmed to the
+   ink and re-centred on a square canvas, then written out as 640px WebP at
+   137 KB. The corners are fully transparent and compositing the result onto
+   the cover ground deviates from it by 0, so there is no visible box.
+   Do not "simplify" this back to the 25 MB <img>. */
+.ic-ganesh{position:relative;z-index:2;margin:0 0 1.15rem;animation-delay:.18s!important}
 .ic-ganesh img{
-  width:clamp(148px,34vmin,236px);height:auto;
+  width:clamp(142px,29vmin,196px);height:auto;
   animation:ic-ganesh-in 1.6s var(--ease) both;
+  filter:drop-shadow(0 8px 34px rgba(0,0,0,.5));
 }
 @keyframes ic-ganesh-in{from{opacity:0;transform:translateY(10px) scale(.965)}to{opacity:1;transform:none}}
 
@@ -411,22 +457,34 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
 @keyframes ic-rise{to{opacity:1;transform:none}}
 
 /* The cover has to survive a short phone. At 620px the whole stack — Ganesh,
-   blessing, monogram, date, seal, label — came to 621px, so the clamp is at
-   720px and the artwork shrinks rather than the page scrolling. */
+   blessing, monogram, date, seal, label — overflowed the viewport, so the
+   clamp is at 720px and the artwork shrinks rather than the page scrolling.
+   The Ganesh clamp is tighter here than anywhere else because the new
+   artwork is square: it is roughly twice the visual height of the old
+   landscape one for the same box width. */
 @media (max-height:720px){
-  .ic-ganesh img{width:clamp(118px,24vmin,168px)}
-  .ic-eyebrow{margin-bottom:1.1rem}
-  .ic-bless{margin-bottom:1rem}
-  .ic-when{margin-bottom:1.1rem}
-  .ic-rule{margin-bottom:1.2rem}
-  .ic-seal{width:96px;height:96px}
-  .ic-seal__face{width:76px;height:76px}
-  .ic-ring--one{width:206px;height:206px;margin:-103px 0 0 -103px}
-  .ic-crown__h{transform:rotate(var(--a)) translateY(-133px) rotate(calc(-1 * var(--a)))}
+  .ic-ganesh img{width:clamp(96px,17vmin,132px)}
+  .ic-eyebrow{margin-bottom:.85rem}
+  .ic-bless{margin-bottom:.75rem}
+  .ic-bless b{font-size:var(--fs-body)}
+  .ic-when{margin-bottom:.85rem}
+  .ic-rule{margin-bottom:1rem}
+  .ic-monogram{margin-bottom:.5rem}
+  .ic-seal{width:92px;height:92px}
+  .ic-seal__face{width:72px;height:72px}
+  .ic-edge{height:min(40vh,300px)}
+  .ic-open__label{margin-top:.8rem}
+}
+@media (max-height:560px){
+  .ic-ganesh img{width:clamp(74px,13vmin,100px)}
+  .ic-bless span{display:none}
+  .ic-edge{display:none}
 }
 @media (prefers-reduced-motion:reduce){
-  .ic-rays,.ic-ring,.ic-crown,.ic-seal::before,.ic-seal__rim{animation:none}
+  .ic-rays,.ic-bloom,.ic-stream,.ic-seal::before,.ic-seal__rim{animation:none}
+  .ic-seal{animation:none}
   .ic-seal__sheen{animation:none;left:40%}
+  .ic-edge{transform:translateY(-50%) scaleY(1);animation:none}
   .ic-inner > *{opacity:1;transform:none}
   .ic-open__label i{opacity:1;transform:none;animation:none}
 }
@@ -831,20 +889,11 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
   <div class="ic-curtain" aria-hidden="true"></div>
   <div class="ic-field" aria-hidden="true">
     <div class="ic-rays"></div>
-    <i class="ic-ring ic-ring--one"></i>
-    <i class="ic-ring ic-ring--two"></i>
-    <i class="ic-ring ic-ring--three"></i>
-    <i class="ic-ring ic-ring--four"></i>
-    <div class="ic-crown" id="ic-crown">
-      <i class="ic-crown__h" style="--a:0deg;--d:0s"><svg><use href="#heart"/></svg></i>
-      <i class="ic-crown__h" style="--a:45deg;--d:.2s"><svg><use href="#heart"/></svg></i>
-      <i class="ic-crown__h" style="--a:90deg;--d:.4s"><svg><use href="#heart"/></svg></i>
-      <i class="ic-crown__h" style="--a:135deg;--d:.6s"><svg><use href="#heart"/></svg></i>
-      <i class="ic-crown__h" style="--a:180deg;--d:.8s"><svg><use href="#heart"/></svg></i>
-      <i class="ic-crown__h" style="--a:225deg;--d:1s"><svg><use href="#heart"/></svg></i>
-      <i class="ic-crown__h" style="--a:270deg;--d:1.2s"><svg><use href="#heart"/></svg></i>
-      <i class="ic-crown__h" style="--a:315deg;--d:1.4s"><svg><use href="#heart"/></svg></i>
-    </div>
+    <div class="ic-stream ic-stream--l"></div>
+    <div class="ic-stream ic-stream--r"></div>
+    <div class="ic-bloom"></div>
+    <i class="ic-edge ic-edge--l"></i>
+    <i class="ic-edge ic-edge--r"></i>
     <div class="ic-drift" id="ic-drift"></div>
   </div>
 
@@ -1221,39 +1270,41 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
     }
   });
 
-  /* Eight hearts already ride the ring in markup; the crown counter-rotates
-     with its parent so each heart only has to breathe. */
-  var crown = $('#ic-crown');
-  if (crown) {
-    $$('.ic-crown__h', crown).forEach(function(h, i){
-      h.style.setProperty('--a', (i * 45) + 'deg');
-      h.style.setProperty('--d', (i * 0.2) + 's');
-    });
-  }
+  /* Hearts and dots, rising up the left and right thirds and swaying.
+     Nothing crosses the middle — the type stack lives there and a heart
+     drifting behind a name is a heart you stop seeing.
 
-  /* --- drifting hearts on the cover ------------------------------------
-     Count scales with the viewport; a phone gets fewer. They are `<use>` of
-     the same heart symbol as everything else on the page.
-
-     The multiplier is quantised to three steps rather than randomised. A
-     continuous range gave 20 hearts 13 different widths, which is exactly the
-     inconsistency the type and colour ramps exist to prevent — variety should
-     come from position and motion, not from breaking the size system. */
+     Each particle gets its own set of keyframes rather than a shared one, so
+     the sway amplitude, phase, tilt and speed are all different. That is the
+     difference between a field of embers and a column of clones marching in
+     step. Durations are deliberately non-commensurate (11.5-23s) so the
+     composition never visibly loops. */
   var HEART_STEPS = [0.9, 1, 1.1];
   var drift = $('#ic-drift');
   if (drift) {
-    var n = Math.max(8, Math.min(16, Math.round(window.innerWidth / 70)));
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var lanes = [
+      { min: 0.02, max: 0.24 },   /* left margin  */
+      { min: 0.29, max: 0.42 },   /* left inner  */
+      { min: 0.58, max: 0.71 },   /* right inner */
+      { min: 0.76, max: 0.98 }    /* right margin*/
+    ];
+    var n = Math.max(10, Math.min(20, Math.round(vw / 46)));
     var frag = document.createDocumentFragment();
     for (var i = 0; i < n; i++) {
+      var lane = lanes[i % lanes.length];
       var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       var u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
       u.setAttribute('href', '#heart');
       s.appendChild(u);
       s.style.color = HEART_COLORS[i % HEART_COLORS.length];
-      /* numbers only — the unit is appended where the keyframe is built */
-      s.dataset.drift = Math.round((Math.random() - 0.5) * 70).toString();
-      s.dataset.dur = (13 + Math.random() * 11).toFixed(1);
-      s.dataset.delay = (-Math.random() * 20).toFixed(1);
+      /* numbers only — units are appended where the keyframes are built */
+      s.dataset.x = (lane.min + Math.random() * (lane.max - lane.min)) * vw;
+      s.dataset.sway = (6 + Math.random() * 16).toFixed(1);
+      s.dataset.tilt = (Math.random() - 0.5) * 46;
+      s.dataset.dur = (11.5 + Math.random() * 11.5).toFixed(2);
+      s.dataset.delay = (-Math.random() * 24).toFixed(2);
+      s.dataset.peak = (0.3 + Math.random() * 0.45).toFixed(2);
       s.style.setProperty('--hs', HEART_STEPS[i % 3]);
       frag.appendChild(s);
     }
@@ -1262,22 +1313,40 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
 
   function runDrift(){
     $$('#ic-drift svg').forEach(function(s){
-      var to = 'translate(' + s.dataset.drift + 'vmin,-108vmin)';
-      s.animate(
-        [
-          { transform: 'translate(0,0)', opacity: 0 },
-          { opacity: 0.55, offset: 0.18 },
-          { opacity: 0.5, offset: 0.8 },
-          { transform: to, opacity: 0 }
-        ],
-        { duration: parseFloat(s.dataset.dur) * 1000, delay: parseFloat(s.dataset.delay) * 1000, iterations: Infinity }
-      );
+      var x0 = parseFloat(s.dataset.x);
+      var sway = parseFloat(s.dataset.sway);
+      var tilt = parseFloat(s.dataset.tilt);
+      var peak = parseFloat(s.dataset.peak);
+      var yEnd = -(window.innerHeight + 90);
+      /* 7 stops: a full serpentine on the way up. A 2-stop linear rise reads
+         as falling debris; the extra stops are what make it read as floating. */
+      var kf = [
+        { transform: 'translate(' + x0 + 'px,0) rotate(0deg)', opacity: 0 },
+        { opacity: peak, offset: 0.14 },
+        { transform: 'translate(' + (x0 + sway) + 'px,' + (yEnd * 0.26) + 'px) rotate(' + (tilt * 0.5) + 'deg)', opacity: peak },
+        { transform: 'translate(' + (x0 - sway) + 'px,' + (yEnd * 0.52) + 'px) rotate(' + tilt + 'deg)', opacity: peak * 0.9 },
+        { transform: 'translate(' + (x0 + sway * 0.7) + 'px,' + (yEnd * 0.76) + 'px) rotate(' + (tilt * 0.3) + 'deg)', opacity: peak * 0.7 },
+        { transform: 'translate(' + (x0 - sway * 0.4) + 'px,' + (yEnd * 0.92) + 'px) rotate(' + (-tilt * 0.2) + 'deg)', opacity: peak * 0.45 },
+        { transform: 'translate(' + x0 + 'px,' + yEnd + 'px) rotate(0deg)', opacity: 0 }
+      ];
+      s.animate(kf, {
+        duration: parseFloat(s.dataset.dur) * 1000,
+        delay: parseFloat(s.dataset.delay) * 1000,
+        iterations: Infinity
+      });
     });
   }
 
-  /* --- dust ------------------------------------------------------------
-     Slow gold motes. Sized to the device pixel ratio and paused when the
-     cover is gone, so it never competes with the page for frames. */
+  /* --- dot flow --------------------------------------------------------
+     A field of small dots rising and swaying, drawn on canvas so hundreds of
+     them cost one composited layer instead of hundreds of DOM nodes. The dots
+     are deliberately kept out of the middle band where the type sits, for the
+     same reason the hearts are: movement behind text is movement you read as
+     a fault in the text.
+
+     The sine sway is integrated from a per-particle phase rather than
+     computed from a random value per frame, so a dropped frame changes nothing
+     about the trajectory — the field does not jitter when the tab is busy. */
   var dust = $('#ic-dust'), dctx = dust && dust.getContext ? dust.getContext('2d') : null;
   var motes = [], dustRAF = 0;
 
@@ -1292,14 +1361,23 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
     if (!dctx) return;
     var w = dust.clientWidth, h = dust.clientHeight;
     motes = [];
-    for (var i = 0; i < Math.max(18, Math.round(w / 34)); i++) {
+    var count = Math.max(26, Math.round(w * h / 11000));
+    for (var i = 0; i < count; i++) {
+      /* 76% of dots are pushed out of the centre 40% of the width */
+      var lane;
+      if (Math.random() < 0.76) lane = Math.random() < 0.5 ? Math.random() * 0.30 : 0.70 + Math.random() * 0.30;
+      else lane = 0.30 + Math.random() * 0.40;
       motes.push({
-        x: Math.random() * w, y: Math.random() * h,
-        r: Math.random() * 1.7 + 0.5,
-        vx: (Math.random() - 0.5) * 0.16,
-        vy: -(Math.random() * 0.28 + 0.06),
-        a: Math.random() * 0.5 + 0.12,
-        ph: Math.random() * Math.PI * 2
+        x: lane * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.5 + 0.4,
+        v: Math.random() * 0.34 + 0.10,        /* px per frame, upwards */
+        amp: Math.random() * 9 + 3,            /* sway amplitude, px      */
+        freq: Math.random() * 0.016 + 0.004,   /* sway rate, rad/frame    */
+        ph: Math.random() * Math.PI * 2,
+        a: Math.random() * 0.34 + 0.10,
+        /* every 7th dot is rose rather than gold, so the field is not monotone */
+        rose: (i % 7) === 3
       });
     }
   }
@@ -1309,13 +1387,24 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
     dctx.clearRect(0, 0, w, h);
     for (var i = 0; i < motes.length; i++) {
       var m = motes[i];
-      m.x += m.vx; m.y += m.vy; m.ph += 0.02;
-      if (m.y < -8) { m.y = h + 8; m.x = Math.random() * w; }
-      if (m.x < -8) m.x = w + 8;
-      if (m.x > w + 8) m.x = -8;
+      m.y -= m.v;
+      m.ph += m.freq;
+      if (m.y < -10) {
+        /* recycle to the bottom, re-rolled so the pattern never repeats */
+        m.y = h + 10;
+        m.x = (Math.random() < 0.76
+          ? (Math.random() < 0.5 ? Math.random() * 0.30 : 0.70 + Math.random() * 0.30)
+          : 0.30 + Math.random() * 0.40) * w;
+        m.amp = Math.random() * 9 + 3;
+        m.ph = Math.random() * Math.PI * 2;
+      }
+      var dx = Math.sin(m.ph) * m.amp;
+      /* fade in at the bottom, fade out at the top, so nothing pops */
+      var edge = Math.min(1, m.y / (h * 0.18)) * Math.min(1, (h + 10 - m.y) / (h * 0.14));
       dctx.beginPath();
-      dctx.arc(m.x, m.y, m.r, 0, 6.2832);
-      dctx.fillStyle = 'rgba(198,161,91,' + (m.a * (0.62 + 0.38 * Math.sin(m.ph))).toFixed(3) + ')';
+      dctx.arc(m.x + dx, m.y, m.r, 0, 6.2832);
+      dctx.fillStyle = (m.rose ? 'rgba(196,118,138,' : 'rgba(198,161,91,') +
+                        (m.a * edge * (0.7 + 0.3 * Math.sin(m.ph * 1.7))).toFixed(3) + ')';
       dctx.fill();
     }
     dustRAF = requestAnimationFrame(drawDust);

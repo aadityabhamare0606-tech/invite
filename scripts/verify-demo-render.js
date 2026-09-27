@@ -133,9 +133,12 @@ async function evaluate(ws, expression) {
       labelChars: label ? label.querySelectorAll('i').length : 0,
       labelText: label ? label.textContent.trim() : null,
       hintText: document.querySelector('.ic-hint') ? 'STILL PRESENT' : null,
-      ringCount: document.querySelectorAll('.ic-ring').length,
-      crownHearts: document.querySelectorAll('.ic-crown__h').length,
-      driftHearts: document.querySelectorAll('#ic-drift svg').length,
+      /* the old cover had four counter-spinning rings and an eight-heart
+         crown riding one of them. The user asked for them gone. */
+      ringsRemaining: document.querySelectorAll('.ic-ring, .ic-crown, .ic-crown__h').length,
+      bloomPresent: !!document.querySelector('.ic-bloom'),
+      streamsPresent: document.querySelectorAll('.ic-stream').length,
+      edgesPresent: document.querySelectorAll('.ic-edge').length,
       coverOverflow: c ? c.scrollHeight > c.clientHeight + 1 : null,
       coverScroll: c ? [c.scrollHeight, c.clientHeight] : null
     };
@@ -184,7 +187,35 @@ async function evaluate(ws, expression) {
       driftHeartsInDom: document.querySelectorAll('#ic-drift svg').length,
       driftAnimations: driftAnims.length,
       driftKeyframesValid: driftAnims.every(a => a.kf.every(t => !/vminvmin|pxpx|NaN|undefined/.test(t))),
-      sampleKeyframe: driftAnims.filter(a => a.kf.length).slice(0, 2).map(a => a.kf[a.kf.length - 1])
+      /* the middle band is reserved for type; count hearts sitting in it */
+      heartsBehindType: (() => {
+        const stack = document.querySelector('.ic-inner').getBoundingClientRect();
+        let n = 0;
+        document.querySelectorAll('#ic-drift svg').forEach(h => {
+          const r = h.getBoundingClientRect();
+          if (r.left + r.width > stack.left && r.left < stack.right &&
+              r.top + r.height > stack.top && r.top < stack.bottom) n++;
+        });
+        return n;
+      })(),
+      canvasDots: (() => {
+        /* sample the flow canvas: how many lit pixels, and are they in the sides */
+        const cv = document.getElementById('ic-dust');
+        if (!cv) return null;
+        const cx = cv.getContext('2d');
+        const d = cx.getImageData(0, 0, cv.width, cv.height).data;
+        let lit = 0, mid = 0;
+        const W = cv.width;
+        for (let i = 3; i < d.length; i += 4 * 7) {
+          if (d[i] > 6) {
+            lit++;
+            const x = (i / 4) % W;
+            if (x > W * 0.30 && x < W * 0.70) mid++;
+          }
+        }
+        return { litSamples: lit, inMiddleBand: mid };
+      })(),
+      sampleKeyframe: driftAnims.filter(a => a.kf.length).slice(0, 1).map(a => a.kf[3])[0] || null
     };
   })()`);
 
@@ -335,8 +366,13 @@ async function evaluate(ws, expression) {
     stackHeight: fit.stackHeight,
     coverScrolls: cover.coverOverflow,
     tinyText: typeCheck.tooSmall.length,
+    ringsRemaining: cover.ringsRemaining,
+    bloom: cover.bloomPresent,
+    streams: cover.streamsPresent,
     driftHearts: coverLive.driftHeartsInDom,
     driftAnimOk: coverLive.driftKeyframesValid,
+    /* a heart must never end up behind the type stack */
+    heartsBehindType: coverLive.heartsBehindType,
     devanagariOk: coverLive.fontProbe && coverLive.fontProbe.yaldevi !== coverLive.fontProbe.monospace,
     openedCleanly: !mid.bodyLocked && mid.coverOpacity === '0',
     lettersLanded: !hero.anyLetterZeroSize && !hero.anyLetterStillTransparent,
