@@ -55,7 +55,7 @@ async function evaluate(ws, expression) {
     '--remote-debugging-port=' + PORT,
     '--user-data-dir=' + PROFILE,
     '--window-size=' + W + ',' + H,
-    '--force-device-scale-factor=2',
+    '--force-device-scale-factor=1',
     ...(REDUCE ? ['--force-prefers-reduced-motion'] : []),
     '--no-first-run', '--no-default-browser-check',
     '--autoplay-policy=no-user-gesture-required',
@@ -80,6 +80,15 @@ async function evaluate(ws, expression) {
   await rpc(ws, 'Runtime.enable');
   await rpc(ws, 'Log.enable');
   await rpc(ws, 'Page.enable');
+  /* Honour VW/VH exactly. --window-size alone does not: headless subtracts its
+     own chrome, so asking for 844x390 measured 826x238 and every "landscape"
+     result was really a much shorter viewport than the label claimed. The
+     window-size flag is kept as a hint for first paint, but the override below
+     is what the numbers come from. Also drops the forced 2x device scale, which
+     was halving the CSS viewport. */
+  await rpc(ws, 'Emulation.setDeviceMetricsOverride', {
+    width: W, height: H, deviceScaleFactor: 1, mobile: W < 700
+  });
   await rpc(ws, 'Network.enable');
 
   const failedRequests = [];

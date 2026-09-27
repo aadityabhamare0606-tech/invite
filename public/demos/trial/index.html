@@ -323,16 +323,28 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
 .ic-eyebrow span{transform:translateY(1px)}
 
 /* Ganesha.
-   assets/ganesh.webp is not the file the artwork arrived in. That was
-   D:/Firefox/New/21.svg — 25.3 MB that turns out to be a wrapper around a
-   single base64 PNG (1254x1254) with no vector paths in it at all, the same
-   trick demos/demo-15/11.svg played. The bitmap was pulled out, its alpha
-   edge blurred and re-curved so it does not look pasted on, trimmed to the
-   ink and re-centred on a square canvas, then written out as 640px WebP at
-   137 KB. The corners are fully transparent and compositing the result onto
-   the cover ground deviates from it by 0, so there is no visible box.
-   Do not "simplify" this back to the 25 MB <img>. */
+   The artwork pointed at is assets/ganesh.svg. It is a byte-identical copy of
+   public/demos/wedding-invite-7/21.svg, which is in turn byte-identical to
+   D:/Firefox/New/21.svg — the same file, in three places.
+
+   That file is 25.3 MB, of which exactly one line is content: a wrapper around
+   a single base64 PNG (1254x1254) with no vector paths anywhere in it, the same
+   trick demos/demo-15/11.svg plays. It does have a genuine alpha channel (54%
+   fully transparent, so it is properly isolated artwork) in cream and gold that
+   already matches the palette.
+
+   It is therefore loaded through a <picture>: the WebP source is what every
+   current browser actually downloads, and the SVG is the fallback. Do not swap
+   that order — serving 25.3 MB to every visitor for one emblem is not "nice",
+   and the SVG is referenced so the demo carries the original, not so it is the
+   thing that downloads.
+
+   ganesh.webp was built from that PNG: alpha edge blurred and re-curved so it
+   stops looking pasted on, trimmed to the ink, re-centred on a square canvas,
+   written at 640px / 137 KB. Corners fully transparent; compositing onto the
+   cover ground deviates by 0, so no box edge shows. */
 .ic-ganesh{position:relative;z-index:2;margin:0 0 1.15rem;animation-delay:.18s!important}
+.ic-ganesh picture{display:block;line-height:0}
 .ic-ganesh img{
   width:clamp(142px,29vmin,196px);height:auto;
   animation:ic-ganesh-in 1.6s var(--ease) both;
@@ -456,14 +468,22 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
 @keyframes ic-label-in{to{opacity:1;transform:none}}
 @keyframes ic-rise{to{opacity:1;transform:none}}
 
-/* The cover has to survive a short phone. At 620px the whole stack — Ganesh,
-   blessing, monogram, date, seal, label — overflowed the viewport, so the
-   clamp is at 720px and the artwork shrinks rather than the page scrolling.
-   The Ganesh clamp is tighter here than anywhere else because the new
-   artwork is square: it is roughly twice the visual height of the old
-   landscape one for the same box width. */
+/* The cover has to survive a short viewport. The whole stack - Ganesh, blessing,
+   monogram, date, seal, label - has to fit without the page scrolling, so the
+   artwork shrinks as the viewport does. The Ganesh clamp is tighter here than
+   anywhere else because the new artwork is square: for the same box width it
+   is roughly twice the visual height of the old landscape one.
+
+   Which axis drives the clamp matters more than the numbers. Driving it from
+   vmin is correct while width is the constraint and wrong once height is: on a
+   landscape phone vmin collapses to the short axis, so 13vmin of a 390px-tall
+   screen is 50px and the emblem dropped to a 74px speck - it read as a missing
+   image. Below 560px of height, height is the binding constraint, so the clamp
+   switches to vh and the space is bought back by hiding the decorative rows
+   (eyebrow, flourish rule, transliteration, edge rules) instead of by shrinking
+   the thing the cover is actually about. */
 @media (max-height:720px){
-  .ic-ganesh img{width:clamp(96px,17vmin,132px)}
+  .ic-ganesh img{width:clamp(112px,17vmin,132px)}
   .ic-eyebrow{margin-bottom:.85rem}
   .ic-bless{margin-bottom:.75rem}
   .ic-bless b{font-size:var(--fs-body)}
@@ -476,9 +496,32 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
   .ic-open__label{margin-top:.8rem}
 }
 @media (max-height:560px){
-  .ic-ganesh img{width:clamp(74px,13vmin,100px)}
+  .ic-ganesh img{width:clamp(96px,22vh,118px)}
   .ic-bless span{display:none}
   .ic-edge{display:none}
+  .ic-eyebrow{margin-bottom:.6rem}
+  .ic-bless{margin-bottom:.5rem}
+  .ic-ganesh{margin-bottom:.7rem}
+}
+/* Landscape phone. 390px of height with 844px of width. The emblem can afford
+   to be large here because there is nothing beside it, so the room is taken out
+   of the chrome instead: the cover's own 26px padding drops to 11px (28px back,
+   the single biggest win), the decorative rows go, and the seal and label
+   tighten. Every value here was set by measuring the stack, not by guessing —
+   the first attempt at this rule grew the emblem without reclaiming enough and
+   overflowed by 4px at 390 and 22px at 360. */
+@media (max-height:520px) and (orientation:landscape){
+  #invite-cover{padding:11px 16px}
+  .ic-ganesh img{width:clamp(100px,27vh,124px)}
+  .ic-eyebrow,.ic-rule,.ic-bless span{display:none}
+  .ic-bless{margin-bottom:.3rem}
+  .ic-ganesh{margin-bottom:.4rem}
+  .ic-when{margin-bottom:.4rem}
+  .ic-monogram{margin-bottom:.25rem}
+  .ic-seal{width:68px;height:68px}
+  .ic-seal__face{width:54px;height:54px}
+  .ic-open__label{margin-top:.4rem}
+  .ic-bless b{font-size:var(--fs-small)}
 }
 @media (prefers-reduced-motion:reduce){
   .ic-rays,.ic-bloom,.ic-stream,.ic-seal::before,.ic-seal__rim{animation:none}
@@ -901,7 +944,10 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
     <p class="ic-eyebrow"><i aria-hidden="true"></i><span>Shubh Vivah</span><i aria-hidden="true"></i></p>
 
     <figure class="ic-ganesh">
-      <img src="assets/ganesh.webp" width="640" height="640" alt="Lord Ganesha" decoding="async" fetchpriority="high">
+      <picture>
+        <source srcset="assets/ganesh.webp" type="image/webp">
+        <img src="assets/ganesh.svg" width="640" height="640" alt="Lord Ganesha" decoding="async" fetchpriority="high">
+      </picture>
     </figure>
 
     <p class="ic-bless">
@@ -1256,6 +1302,46 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
   var cover = $('#invite-cover');
   var openBtn = $('#invite-open');
 
+  /* The emblem is served through a <picture>: ganesh.webp is what every current
+     browser downloads, ganesh.svg (a byte-identical copy of 21.svg) is the
+     fallback for one that cannot do WebP. That covers format support but not
+     transport — if the WebP 404s or the connection drops, <picture> has already
+     made its choice and the browser will not retry the <img>. Verified: with
+     the WebP blocked at the network layer, naturalWidth comes back 0x0 and
+     currentSrc stays on the WebP, i.e. a broken image.
+
+     Recovering from that took two attempts, and both failures are worth writing
+     down because neither is obvious:
+
+       - A bare addEventListener('error') misses the commonest case. The image
+         is preloaded, so it can fail during parse, before this script runs at
+         the bottom of the body. Hence the state check as well as the listener:
+         "complete but zero natural width" is the only reliable evidence of a
+         dead <img>.
+       - Setting img.src does nothing inside a <picture>. A matching <source>
+         keeps winning the source selection no matter what the <img>'s own src
+         says, so the swap has to remove the <source> first. Confirmed by
+         instrumenting the page: the flag was set, the error had fired, and
+         currentSrc still read ganesh.webp.
+
+     The fellBack flag then guards against a loop if the SVG is missing too,
+     which would otherwise bounce error -> swap -> error forever. */
+  (function(){
+    var img = document.querySelector('.ic-ganesh img');
+    if (!img) return;
+    function swap(){
+      if (img.dataset.fellBack) return;
+      img.dataset.fellBack = '1';
+      /* the <source> outranks the <img>'s src, so it has to go first */
+      if (img.parentElement && img.parentElement.tagName === 'PICTURE') {
+        $$('source', img.parentElement).forEach(function(s){ s.parentNode.removeChild(s); });
+      }
+      img.src = 'assets/ganesh.svg';
+    }
+    img.addEventListener('error', swap);
+    if (img.complete && img.naturalWidth === 0) swap();   /* failed before we got here */
+  })();
+
   /* The cover label cascades in per letter, 40ms apart, so it reads as
      written rather than switched on. Spaces get a wider advance. */
   $$('[data-label]').forEach(function(lab){
@@ -1283,23 +1369,45 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
   var drift = $('#ic-drift');
   if (drift) {
     var vw = window.innerWidth, vh = window.innerHeight;
-    var lanes = [
-      { min: 0.02, max: 0.24 },   /* left margin  */
-      { min: 0.29, max: 0.42 },   /* left inner  */
-      { min: 0.58, max: 0.71 },   /* right inner */
-      { min: 0.76, max: 0.98 }    /* right margin*/
-    ];
+
+    /* Lanes are derived from where the type actually is, not from fixed
+       fractions of the viewport. The earlier version hardcoded 0.29-0.42 and
+       0.58-0.71, which is only correct when the stack is a known proportion of
+       the width. On a wide-but-short screen (844x390 landscape phone) the stack
+       is narrow and centred, so 0.29-0.42 of 844px lands at 245-354px — right
+       on top of the names. The render audit caught it as one heart behind the
+       type. Measuring the stack makes the exclusion correct at any shape.
+
+       Four lanes per side, from the margin inward. Anything with no room on a
+       given side is simply dropped rather than allowed to cross the type. */
+    var stackEl = $('.ic-inner');
+    var sw = stackEl ? stackEl.getBoundingClientRect().width : 0;
+    if (!sw || sw > vw) sw = Math.min(vw * 0.68, 460);
+    var clear = 22;                                   /* px kept off the type */
+    var inner = (vw - sw) / 2;                        /* margin each side    */
+    var lanes = [];
+    /* NB the function is addLane and the loop variable is ln, not both "lane".
+       Naming them the same is a SyntaxError for the entire script — the block
+       function declaration and the var collide, nothing parses, and the page
+       loses its seal, its reveals and its hearts with no other symptom. */
+    function addLane(a, b){ if (b - a > 12) lanes.push({ min: a, max: b }); }
+    addLane(6, Math.max(0, inner - clear - 34));                       /* far left   */
+    addLane(Math.max(8, inner - clear - 30), Math.max(0, inner - clear));  /* left inner */
+    addLane(Math.min(vw, inner + sw + clear), Math.min(vw - 8, inner + sw + clear + 30)); /* right inner */
+    addLane(Math.min(vw, inner + sw + clear + 34), vw - 6);           /* far right  */
+    if (!lanes.length) addLane(6, vw - 6);                            /* very narrow */
+
     var n = Math.max(10, Math.min(20, Math.round(vw / 46)));
     var frag = document.createDocumentFragment();
     for (var i = 0; i < n; i++) {
-      var lane = lanes[i % lanes.length];
+      var ln = lanes[i % lanes.length];
       var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       var u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
       u.setAttribute('href', '#heart');
       s.appendChild(u);
       s.style.color = HEART_COLORS[i % HEART_COLORS.length];
       /* numbers only — units are appended where the keyframes are built */
-      s.dataset.x = (lane.min + Math.random() * (lane.max - lane.min)) * vw;
+      s.dataset.x = (ln.min + Math.random() * (ln.max - ln.min)).toFixed(1);
       s.dataset.sway = (6 + Math.random() * 16).toFixed(1);
       s.dataset.tilt = (Math.random() - 0.5) * 46;
       s.dataset.dur = (11.5 + Math.random() * 11.5).toFixed(2);

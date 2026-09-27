@@ -205,6 +205,64 @@ head('8c. the replacement layers are present');
     : (ids.has(sel) ? ok('#' + sel) : (classes.has(sel) ? ok('.' + sel) : bad('missing ' + sel)));
 });
 
+/* ------------------------------------ 8d. the emblem must survive a short
+   viewport. The bug this guards: the Ganesha clamp was driven by vmin, which
+   on a landscape phone collapses to the short axis. At 844x390 that produced
+   13vmin = 50px, floored to 74px — a speck on a 390px screen, which reads as
+   a missing image rather than a small one. Below 560px of height the clamp
+   must be driven by vh, and there must be a dedicated landscape rule that
+   hides the decorative rows instead of shrinking the emblem. */
+head('8d. emblem sizing survives a landscape phone');
+const shortBlock = (raw.match(/@media\s*\(max-height:560px\)\s*\{[\s\S]*?\n\}/) || [''])[0];
+shortBlock
+  ? (/clamp\(\s*9[0-9]px|clamp\(\s*1\d\dpx/.test(shortBlock) && /vh/.test(shortBlock)
+      ? ok('max-height:560px drives the clamp from vh, floor >= 96px')
+      : bad('max-height:560px must size the emblem in vh with a floor of at least 96px'))
+  : bad('no @media (max-height:560px) block');
+const landBlock = (raw.match(/@media\s*\(max-height:520px\)\s*and\s*\(orientation:landscape\)\s*\{[\s\S]*?\n\}/) || [''])[0];
+landBlock
+  ? (/\.ic-ganesh img\{width:clamp\(1\d\dpx|overflow/.test(landBlock) && /vh/.test(landBlock)
+      ? ok('landscape rule present and sized in vh')
+      : bad('landscape rule must size the emblem in vh'))
+  : bad('no landscape rule: a 390px-tall phone has no emblem sizing of its own');
+(landBlock && /display:none/.test(landBlock))
+  ? ok('landscape rule drops the decorative rows to make room')
+  : bad('landscape rule should hide the eyebrow/rule rather than shrink the emblem');
+
+/* ------------------------------------ 8e. the emblem loads. The <picture>
+   needs a WebP source AND a real <img> pointing at the original SVG, in that
+   order, and it needs the onerror swap — because <picture> source selection
+   happens once and a transport failure is not retried. Both halves of the
+   recovery were bugs before they worked: a bare error listener misses a
+   preloaded image that failed during parse, and setting img.src inside a
+   <picture> does nothing while a matching <source> still wins. */
+head('8e. the emblem is actually loadable');
+const pic = (raw.match(/<picture>([\s\S]*?)<\/picture>/) || [])[1] || '';
+if (!pic) bad('no <picture> around the emblem');
+else {
+  ok('<picture> present');
+  const srcTag = (pic.match(/<source[^>]*>/) || [''])[0];
+  /type="image\/webp"/.test(srcTag)
+    ? ok('WebP source declared, so non-WebP browsers skip it')
+    : bad('the <source> needs type="image/webp" or old browsers download it anyway');
+  /<img[^>]*src="assets\/ganesh\.svg"/.test(pic)
+    ? ok('<img> falls back to ganesh.svg (the 21.svg original)')
+    : bad('the <img> src must be the SVG so it works without WebP');
+  pic.indexOf('<source') < pic.indexOf('<img')
+    ? ok('<source> precedes <img>, as the spec requires')
+    : bad('<source> must come before <img>');
+  /img\.complete\s*&&\s*img\.naturalWidth\s*===\s*0/.test(raw)
+    ? ok('recovery also covers an image that failed before the script ran')
+    : bad('missing the already-failed state check; a preloaded image can fail during parse');
+  /removeChild\(s\)|s\.remove\(\)/.test(raw) && /PICTURE/.test(raw)
+    ? ok('the swap removes the <source>, since a matching source outranks img.src')
+    : bad('setting img.src inside a <picture> is a no-op; the <source> must be removed');
+  ['assets/ganesh.webp', 'assets/ganesh.svg'].forEach(f =>
+    fs.existsSync(path.join(DIR, f))
+      ? ok(f + ' exists (' + fs.statSync(path.join(DIR, f)).size.toLocaleString() + ' b)')
+      : bad(f + ' referenced but missing'));
+}
+
 /* --------------------------------------------- 9. no leftover sentinels */
 head('9. build sentinels');
 /@@/.test(raw) ? bad('unreplaced @@ sentinel remains') : ok('no sentinels left');
@@ -217,6 +275,39 @@ const day = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturd
 day === 'Sunday' ? ok('21 Feb 2027 is a Sunday') : bad('21 Feb 2027 is a ' + day);
 raw.includes('Sunday, 21 February 2027') ? ok('markup agrees: Sunday, 21 February 2027')
   : bad('markup disagrees about the weekday');
+
+/* ------------------------------------ 8f. the inline script must parse.
+   This check exists because of a bug it would have caught. A block-scoped
+   function declaration and a var of the same name in the same block is a
+   SyntaxError for the *entire* script: the page loses its wax seal, its scroll
+   reveals and its cover hearts, and the only symptom in the DOM is elements
+   sitting at opacity 0 with nothing wired to them. Every structural check in
+   this file still passed, because the markup really was all there - it just
+   had no behaviour attached. new Function() parses without executing, so this
+   costs nothing and needs no dependencies. */
+head('8f. inline script parses');
+const inlineScripts = [...raw.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)];
+if (!inlineScripts.length) bad('no inline <script> found');
+inlineScripts.forEach((m, i) => {
+  const code = m[1];
+  try {
+    new Function(code);
+    ok('script ' + (i + 1) + ' parses (' + code.split('\n').length + ' lines)');
+  } catch (e) {
+    bad('script ' + (i + 1) + ' does not parse: ' + e.message);
+  }
+});
+
+/* Every id the script queries has to exist. A null from a typo silently
+   disables whatever it was driving - a null cover variable takes the whole
+   cover with it and nothing throws. */
+head('8g. script does not query an id that is not in the markup');
+const markupIds = new Set([...raw.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]));
+const queried = new Set([...noComments.matchAll(/\$\(\s*'#([A-Za-z0-9_-]+)'\s*\)/g)].map(m => m[1]));
+if (!queried.size) warn('no $("#id") lookups found - check the pattern still matches');
+[...queried].sort().forEach(id => {
+  markupIds.has(id) ? ok('#' + id) : bad('script queries #' + id + ' but no such id exists');
+});
 
 /* ---------------------------------------------------------------- verdict */
 console.log('\n' + '='.repeat(62));

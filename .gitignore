@@ -5,3 +5,21 @@ out/
 *.tsbuildinfo
 .env*
 !.env.example
+
+# Source artwork that is a base64-encoded raster wrapped in an <svg> element.
+# These files are 13-37 MB each and contain no vector data — the entire weight
+# is an embedded PNG. Every one of them is a 1:1 source for a much smaller
+# optimised WebP next to it, and that WebP is what the page actually loads.
+# Keeping the .svg out of git stops ~175 MB of blobs being committed; the
+# originals still live in the working tree and in public/ for anyone who needs
+# to re-derive the optimised version.
+public/demos/wedding-invite-7/21.svg
+public/demos/wedding-invite-7/11.svg
+public/demos/wedding-invite-7/21.webp
+public/demos/save-the-date-1/11.svg
+public/demos/demo-15/11.svg
+public/demos/demo-8/assets/12.svg
+public/demos/demo-3/assets/wedding_hero_palace.svg
+public/demos/trial/assets/ganesh.svg
+public/assets/12.svg
+public/wedding_hero_palace.svg
