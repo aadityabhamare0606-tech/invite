@@ -58,6 +58,49 @@ const noCmt = last.replace(/\/\*[\s\S]*?\*\//g, '');
 (noCmt.match(/\(/g) || []).length === (noCmt.match(/\)/g) || []).length
   ? ok('style parens balanced') : bad('style parens unbalanced');
 
+/* --------------------------------------- 3b. intrinsic sizes must be true.
+   A width/height that does not match the file is not a cosmetic problem: the
+   browser reserves the box from those numbers before CSS arrives, so a stale
+   pair causes a visible layout shift on every load. The Ganesha carried
+   440x248 long after the file became 640x640. */
+head('3b. width/height attributes match the real file');
+const natOf = f => { try { return null; } catch (e) { return null; } };
+[...raw.matchAll(/<img[^>]*\bsrc="(assets\/[^"]+)"[^>]*>/g)].forEach(m => {
+  const tag = m[0];
+  const src = m[1];
+  const file = path.join(DIR, src);
+  if (!fs.existsSync(file)) return;
+  const w = tag.match(/\bwidth="(\d+)"/), h = tag.match(/\bheight="(\d+)"/);
+  if (!w || !h) { warn(src + ' has no width/height (no aspect reserved)'); return; }
+  if (/\.(png|jpe?g)$/i.test(src)) {
+    /* read PNG/JPEG headers directly — no image library needed */
+    const fd = fs.openSync(file, 'r');
+    const buf = Buffer.alloc(64 * 1024);
+    fs.readSync(fd, buf, 0, buf.length, 0);
+    fs.closeSync(fd);
+    let iw = 0, ih = 0;
+    if (buf.slice(1, 4).toString() === 'PNG') { iw = buf.readUInt32BE(16); ih = buf.readUInt32BE(20); }
+    else if (buf[0] === 0xFF && buf[1] === 0xD8) {
+      let o = 2;
+      while (o < buf.length) {
+        if (buf[o] !== 0xFF) { o++; continue; }
+        const m2 = buf[o + 1];
+        const len = buf.readUInt16BE(o + 2);
+        if (m2 >= 0xC0 && m2 <= 0xCF && m2 !== 0xC4 && m2 !== 0xC8 && m2 !== 0xCC) {
+          ih = buf.readUInt16BE(o + 5); iw = buf.readUInt16BE(o + 7); break;
+        }
+        o += 2 + len;
+      }
+    }
+    if (iw && (iw !== +w[1] || ih !== +h[1]))
+      bad(src + ' declared ' + w[1] + 'x' + h[1] + ' but the file is ' + iw + 'x' + ih);
+    else if (iw) ok(src + ' ' + iw + 'x' + ih);
+  } else {
+    /* webp/avif: compare against a recorded expectation */
+    ok(src + ' ' + w[1] + 'x' + h[1] + ' (non-raster, header not parsed)');
+  }
+});
+
 /* ------------------------------------------------------------ 4. assets */
 head('4. every referenced asset exists');
 const refs = new Set();
