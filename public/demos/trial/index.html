@@ -28,7 +28,10 @@
    one block instead of hunting 200 declarations.
 
    The rules that keep it restrained:
-     - THREE dark grounds, THREE light grounds, TWO accents. No more.
+     - TWO dark grounds, THREE light grounds, TWO accents. The second dark
+       ground is the indigo --night ramp; the oxblood is the cover only. That
+       is the one place this block has more than it says, and the reason is
+       written where the tokens are.
      - Ten font sizes. A decorative heart is one size. A heart is punctuation,
        and punctuation does not come in seven sizes.
      - Two easing curves, one duration. Restraint in motion is most of what
@@ -48,10 +51,17 @@
   /* --- grounds: dark ---------------------------------------------------
      One deep oxblood rather than the near-black plum it started as. A dark
      ground on a wedding invitation has to still read as a colour at night,
-     and #1C0D11 did not. */
-  --ink-900:#2A0A11;   /* cover, venue, countdown — the one dark ground     */
-  --ink-800:#37131A;   /* raised surfaces sitting on ink-900                */
-  --ink-700:#4A2028;   /* hairlines and borders on dark                     */
+     and #1C0D11 did not.
+
+     The oxblood is now the COVER ground and nothing else. It used to be
+     "the one dark ground" for the cover, the venue, the countdown and the
+     know section, which meant most of the page below the fold was red, and
+     that is where the "many red shades" came from. The body of the page is
+     the indigo --night ramp below; the oxblood is what the guest sees before
+     they open it, and what the footer closes on. */
+  --ink-900:#2A0A11;   /* the cover, the footer — the arrival and the sign-off */
+  --ink-800:#37131A;   /* raised surfaces sitting on ink-900 (cover only now)  */
+  --ink-700:#4A2028;   /* hairlines and borders on ink-900 (cover only now)  */
 
   /* --- grounds: light -------------------------------------------------- */
   --paper-000:#FBF8F3;  /* top of a light section                            */
@@ -81,6 +91,55 @@
   /* --- ink washes, for shadows sitting on a light ground ---------------- */
   --shadow-soft:rgba(43,33,28,.10);
   --shadow-deep:rgba(43,33,28,.22);
+
+  /* --- celestial: the hero and the celebrations --------------------------
+     This block is a deliberate exception to "three dark grounds, no more",
+     and the reason is worth stating. The hero used to sit on --ink-900,
+     #2A0A11. That is an oxblood, and on a phone at night an oxblood at full
+     height does not read as a colour - it reads as a black-brown cast, which
+     is exactly what it was complained about being.
+
+     The Vivaan & Anaya demo answers the same mood with indigo instead, and it
+     answers it properly: the hue is far enough from red to still be a colour
+     when it is dark, and it is cool, so the warm gold accent on top of it has
+     somewhere to sit. These are lifted from that demo's own tokens so the two
+     pages share one sky rather than merely resembling each other. The oxblood
+     ink-* ramp is untouched and still carries the cover, the venue and the
+     countdown; this is a second, cooler night for the two sections that needed
+     one. Nothing outside this block is hand-valued below. */
+  --night:#15102b;        /* the sky at the top of the hero                 */
+  --night-2:#1F1736;      /* the sky mid-hero, and the celebrations mid-band  */
+  --night-3:#0C091B;      /* the sky at the very top and the deepest shadow   */
+  --hill-back:#442B43;    /* the far ridge, dusk                             */
+  --hill-front:#1B142B;   /* the near ridge, near-black plum                  */
+  --dusk:#5A3448;         /* the warm band the sky turns to at the horizon   */
+  --dusk-hi:#844B50;      /* the last of the horizon, above the hills        */
+  --sky-wine:#7A1021;     /* the one low warm bloom in the sky, 20% at most  */
+  --sage:#C8CE8E;         /* the cool secondary text, so the cards are not
+                             all cream-on-dark                              */
+  --cel-muted:rgba(246,241,233,.74);
+  --cel-faint:rgba(246,241,233,.56);
+  --cel-line:rgba(198,161,91,.22);   /* the single gold hairline            */
+  --cel-line-2:rgba(198,161,91,.10); /* its inset companion                  */
+  --sky-mid:#2C1A3C;                 /* the sky where it turns plum          */
+
+  /* --- the moon ----------------------------------------------------------
+     Five stops for the lit half and three for the earthshine, because the
+     moon is the only element on the page with a real light source in it and
+     one flat colour would kill that. These are applied from CSS, not from
+     stop-color attributes in the markup: an attribute is a literal by another
+     name, and the whole point of this block is that there are none left
+     outside it. The audit samples the rendered moon to prove the stops still
+     take, because a moon that silently painted black-on-black would be
+     invisible rather than broken, and nothing else would catch it. */
+  --moon-hi:#FFF7DC;    /* the lit pole, warmest point on the page       */
+  --moon-mid:#E6C97C;   /* the terminator                                  */
+  --moon-lo:#9F7D4A;    /* the limb going out of light                     */
+  --moon-earth-1:#191233;
+  --moon-earth-2:#130E26;
+  --moon-earth-3:#0C091B;
+  --moon-crater:#8F744C;
+  --moon-rim:#F7E6B5;
 
   /* --- type scale -------------------------------------------------------
      Ten steps, nothing outside them. Roughly 1.2x, which holds a hierarchy at
@@ -151,6 +210,36 @@ section{position:relative;padding:clamp(4.2rem,11vh,7.5rem) 0}
 .ink{background:var(--ink-900);color:var(--cream)}
 .ink h2,.ink h3{color:var(--cream)}
 .ink .lead{color:var(--cream-2)}
+
+/* --- .celestial: the celebrations, on the same night as the hero ---------
+   The hero is indigo now, so a cream celebrations section straight under it
+   is a hard cut from a dark sky to a bright room. The two sections read as
+   different documents stapled together. Carrying the night down through the
+   celebrations is what makes the page one continuous evening.
+
+   Three stops, not five, and one low bloom at the top where the hero's
+   horizon was. It is the same sky one screen lower, so the transition is a
+   fade rather than a seam. */
+.celestial{
+  background:linear-gradient(180deg,var(--night) 0%,var(--night-2) 48%,var(--night) 100%);
+  color:var(--cream);
+}
+.celestial::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 0%,rgba(198,161,91,.10),transparent 31%);
+}
+.celestial h2,.celestial h3{color:var(--cream)}
+.celestial .lead{color:var(--cel-muted)}
+.celestial .eyebrow{color:var(--gold)}
+/* --slate-2 is the secondary text on a LIGHT ground; on a dark one it is
+   about 2.3:1 and simply does not read. --cel-muted is the same job done
+   properly. Anything inside .celestial that still wants secondary text says
+   so here rather than each rule remembering. */
+.celestial .event-card__date,
+.celestial .event-card__hint{color:var(--cel-faint)}
+.celestial .event-card__body dt{color:var(--sage)}
+.celestial .event-card__body dd{color:var(--cream)}
+.celestial .event-card__foot{color:var(--cel-muted);border-top-color:var(--cel-line)}
 
 .lead{font-size:var(--fs-lead);color:var(--slate-2);max-width:56ch;margin-inline:auto}
 .ink .lead{color:var(--cream-2)}
@@ -544,20 +633,156 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
   display:flex;align-items:center;justify-content:center;
   padding:clamp(5rem,14vh,8rem) 0 clamp(4.5rem,12vh,7rem);
   overflow:hidden;isolation:isolate;
-  background:var(--ink-900);color:var(--cream);text-align:center;
+  color:var(--cream);text-align:center;
+  /* The sky, in the order the Vivaan & Anaya demo stacks it: one low warm
+     bloom over a five-stop vertical dusk that runs near-black at the top to a
+     warm band at the horizon. The bottom stop is deliberately NOT the top
+     stop, so the names sit against the dark and the car sits against the
+     light - that is what gives the hero depth without a single photograph. */
+  background:
+    radial-gradient(ellipse at 50% 58%,rgba(122,16,33,.20),transparent 34%),
+    linear-gradient(180deg,
+      var(--night-3) 0%,
+      var(--night) 33%,
+      var(--sky-mid) 59%,
+      var(--dusk) 78%,
+      var(--dusk-hi) 100%);
 }
-.hero-bg{position:absolute;inset:0;z-index:0;display:none}
-.hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.30}
-.hero-bg::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,var(--ink-900) 0%,rgba(42,10,17,.55) 34%,rgba(42,10,17,.62) 66%,var(--ink-900) 100%);
+/* Bottom scrim, the one piece of this hero the reference does not have, and it
+   is there because of the car. The gradient's own bottom stop is the LIGHTEST
+   colour in the whole file - #844B50, a warm band meant to put the car against
+   something - and the car is a silver bodywork photograph whose panels measure
+   rgb(152,147,149) in the lower hero. So the brightest region of the frame is
+   also where the scroll cue has to be legible, and #844B50 under silver is not
+   a ground. This darkens the bottom 30% back down, heaviest at the very edge
+   and easing off before it reaches the car's roofline, so the car still reads
+   as lit from the horizon and the composition gains the grounding it was
+   missing.
+
+   The profile is not guessed. Cream-2 at rgb(188,175,162) against the
+   un-scrimmed car measured 1.41:1 at its worst glyph pixel; getting that to
+   4.5 needs the background luminance below 0.06, which from silver means the
+   overlay has to carry roughly two thirds of the pixel. Hence .86 at the edge
+   rather than a decorative .3, and hence the easing curve - a flat 60% wash
+   would have cost the car its highlight. */
+#hero::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;z-index:1;
+  /* vh, not %, and that is the whole fix for small phones. A percentage
+     height is a percentage of the hero, and on a 360x640 screen the hero is
+     640 tall, so 30% is 192px - which lands the scrim's heavy end above the
+     cue and leaves the cue on bare car. 34vh is 218px at 640 and 316px at
+     932, so the cue's row stays inside the dark end at every height, and the
+     scrim is deep enough on a short screen to still be a scrim rather than a
+     smudge. The car is clipped by overflow:hidden either way, so the taller
+     scrim on a large screen costs nothing but gradient. */
+  height:34vh;
+  background:linear-gradient(to top,
+    rgba(9,6,20,.88) 0%,
+    rgba(9,6,20,.80) 30%,
+    rgba(9,6,20,.46) 66%,
+    rgba(9,6,20,0) 100%);
+  pointer-events:none;
 }
-/* A still double gold rule framing the hero portrait — the one new ornament
-   on this screen, and deliberately motionless: stillness reads premium. */
-.hero-frame{position:absolute;inset:14px;z-index:2;pointer-events:none;
-  border:1px solid var(--gold-a30)}
-.hero-frame::before{content:'';position:absolute;inset:5px;
-  border:1px solid var(--gold-a12)}
+/* A soft pool of light off the horizon, behind the type. The single blur on
+   the page: it costs one composited layer and it is what stops the middle of
+   the gradient reading as a printed ramp. */
+.hero-glow-field{
+  position:absolute;left:10%;right:10%;bottom:-7%;z-index:0;height:55%;
+  border-radius:50% 50% 0 0;
+  background:radial-gradient(ellipse at center,rgba(198,161,91,.20),rgba(198,161,91,0) 68%);
+  filter:blur(18px);
+  pointer-events:none;
+}
+
+/* --- the moon ------------------------------------------------------------
+   A crescent, not a full disc: the lit half is a masked circle over a darker
+   earthshine circle, so the terminator is a real ellipse and not a border.
+   The mask is the same path as the Vivaan & Anaya hero moon, and the craters
+   are the same four, so the two moons are the same moon. */
+/* Moved up and bounded by height, and the reason is a line of 12.5px text.
+
+   The reference demo puts this crescent at top:13% of the hero and gets away
+   with it because nothing small sits under it - its type is 40px and up, and
+   .hero-content is anchored at top:53% so the first line is already 200px below
+   the moon before anything is drawn. This hero centres its type block instead,
+   which puts "Together with their families" - the smallest, thinnest, widest-
+   tracked text on the page - right across the moon on a wide window. At
+   1440x900 the crescent's box was y=117..387 and the eyebrow sat at y=221.
+
+   This could not be fixed typographically, and all four attempts were measured:
+   a wide dark halo left it at 1.69:1, three progressively tighter halos
+   reached only 2.31 and 3.20, and repainting the line cream was worse at 1.61,
+   because cream is closer to a lit moon than gold is. A 12px blur cannot darken
+   the pixels underneath a 12.5px glyph - the halo lands beside the stroke, not
+   under it. top:2% and a 21vh bound put the whole moon above the eyebrow on
+   every viewport measured, and 21vh is what keeps that true on a 360-tall
+   window, where 31vw alone would still be 229px of moon in a 614px sky. */
+.hero-moon{
+  position:absolute;top:2%;left:50%;z-index:2;
+  width:min(31vw,21vh,250px);transform:translateX(-50%);
+  pointer-events:none;
+}
+.hero-moon svg{width:100%;overflow:visible;
+  filter:drop-shadow(0 0 26px rgba(198,161,91,.28)) drop-shadow(0 0 60px rgba(198,161,91,.12))}
+/* The gradient stops are coloured here rather than with stop-color attributes,
+   so the eight moon values live in :root with everything else. stop-color is
+   a presentation attribute, which means a value in the markup is a literal
+   wearing a hat. */
+.hero-moon #hMoonG stop:nth-of-type(1){stop-color:var(--moon-hi)}
+.hero-moon #hMoonG stop:nth-of-type(2){stop-color:var(--moon-mid)}
+.hero-moon #hMoonG stop:nth-of-type(3){stop-color:var(--moon-lo)}
+.hero-moon #hMoonE stop:nth-of-type(1){stop-color:var(--moon-earth-1)}
+.hero-moon #hMoonE stop:nth-of-type(2){stop-color:var(--moon-earth-2)}
+.hero-moon #hMoonE stop:nth-of-type(3){stop-color:var(--moon-earth-3)}
+.hero-moon .craters{fill:var(--moon-crater)}
+.hero-moon .rim{stroke:var(--moon-rim)}
+.hero-moon .ambience{
+  position:absolute;inset:-45%;z-index:-1;border-radius:50%;
+  background:radial-gradient(circle,rgba(198,161,91,.12) 0%,rgba(198,161,91,.04) 40%,transparent 70%);
+  opacity:.15;pointer-events:none;
+}
+
+/* --- the hills -----------------------------------------------------------
+   Two ridges, one behind the other, drawn in the two hill tokens. They are
+   what turns "a gradient" into "a place": the near ridge is nearly black plum
+   and the far one is dusk, so the pair reads as depth even at phone width.
+   The viewBox is stretched with preserveAspectRatio="none" so the crest keeps
+   its shape at 390px and at 1440px instead of letterboxing into a band. */
+.hero-hills{
+  position:absolute;left:-2%;right:-2%;bottom:-1px;z-index:0;
+  width:104%;min-width:780px;pointer-events:none;
+}
+.hero-hills .back{fill:var(--hill-back);opacity:.68}
+.hero-hills .front{fill:var(--hill-front)}
+
+/* What stands where the hero ground used to be built. There was once a
+   .hero-bg layer here holding assets/5.avif as a photograph at 30% opacity
+   under a gradient veil, and the ground itself was a flat --ink-900 field, the
+   way the cover still is. It was set to display:none, which is what made the
+   screen read as a flat dark brown cast, and once it was hidden the whole layer
+   was dead: 306 KB of AVIF that could never load, plus a ::after gradient that
+   could never paint. All of it is gone rather than left switched off, because
+   switched-off markup is exactly what makes "the image is not showing"
+   impossible to reason about later.
+
+   The ground is now the gradient on #hero above. The oxblood is not gone from
+   the page, it is gone from the hero: --ink-900 survives only on #invite-cover
+   and the footer, so the cover and the hero are two different nights and the
+   page opens in indigo rather than in brown. */
+/* A still gold rule above the names, the way the Vivaan & Anaya hero opens.
+   This replaces the .hero-frame that used to be here: a double gold rectangle
+   inset 14px from the viewport edge. That rectangle was the most cartoonish
+   thing on the page - it is the shortcut a template reaches for - and once the
+   hero had a moon, two ridges and a car in it, a second box around the lot
+   read as clutter competing with the sky. One hairline says the same thing
+   and costs one declaration. */
+.hero-ring{
+  display:block;width:80px;height:1px;margin:0 auto 1.6rem;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transform:scaleX(.2);opacity:0;
+}
+body.opened .hero-ring{animation:ring-open 1.1s var(--ease) .45s forwards}
+@keyframes ring-open{to{opacity:1;transform:scaleX(1)}}
 .hero-inner{position:relative;z-index:2;width:min(100% - 2.6rem,900px);margin-inline:auto}
 
 /* The car that brings them.
@@ -580,10 +805,24 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
    that has to fit inside the hero takes ~190px of vertical space on a 430px
    phone and ends up fighting the scroll cue for room. Bleeding it off means it
    costs the names nothing, and #hero already has overflow:hidden to clip it.
-   The cue stays legible because .hero-inner is z-index 2. */
+
+   It is still the brightest thing in the lower hero: a silver body panel
+   measures rgb(152,147,149), which is why the scroll cue needs the scrim on
+   #hero::after to stand on. The Vivaan & Anaya reference has no equivalent
+   problem - its hero is a star canvas over a dark gradient with no photograph
+   in it at all, so its cue sits on near-black and never needed one.
+
+   Sized by HEIGHT, not width, and that is the second thing the car taught
+   here. A width cap makes the car grow as the screen widens while the hero
+   grows vertically, so on a 1440x900 desktop a 560px-wide car came out 348px
+   tall - 39% of the hero, against 20% on a 430px phone - and its roofline
+   reached y=579, straight through the ampersand and the WED/DING stack. Gold
+   on a silver roof panel measured 1.06:1. A vh-driven height keeps the car
+   the same fraction of the sky at every size, so it stays a grounded object
+   at the bottom instead of becoming a second subject. */
 .hero-car{
   position:absolute;left:50%;bottom:-3%;z-index:1;
-  width:min(70%,560px);transform:translateX(-50%);
+  width:auto;transform:translateX(-50%);
   pointer-events:none;opacity:0;
 }
 /* a warm pool of light, so a black car is not a black shape on a black ground.
@@ -592,10 +831,15 @@ body.loaded .ic-inner > *{animation:ic-rise 1.1s var(--ease) forwards}
 .hero-car::before{
   content:'';position:absolute;z-index:0;left:50%;bottom:8%;
   width:96%;aspect-ratio:1.4/1;transform:translateX(-50%);
-  background:radial-gradient(closest-side,rgba(230,201,124,.30),transparent 72%);
+  background:radial-gradient(closest-side,var(--gold-a30),transparent 72%);
 }
 .hero-car img{
-  position:relative;z-index:1;display:block;width:100%;height:auto;
+  position:relative;z-index:1;display:block;
+  /* height-driven, with width:auto, so the intrinsic 1:1.609 aspect sets the
+     width. max-width is a backstop for a very wide, very short window - there
+     the vh height would otherwise let the car sprawl sideways - and it is only
+     ever reached in landscape, where the hero is short and the car is small. */
+  height:min(21vh,200px);width:auto;max-width:min(62%,480px);
   filter:drop-shadow(0 18px 44px rgba(0,0,0,.55));
 }
 body.opened .hero-car{animation:hero-car-in 1.9s var(--ease) .45s forwards}
@@ -608,6 +852,15 @@ body.opened .hero-car{animation:hero-car-in 1.9s var(--ease) .45s forwards}
   font-family:'Manrope',system-ui,sans-serif;
   font-size:var(--fs-eyebrow);letter-spacing:.42em;text-transform:uppercase;
   color:var(--gold);margin:0 0 1.6rem;
+  /* Cream, and a dark halo. The halo alone is not enough for this line and the
+     moon's own placement was changed because of it - see .hero-moon for the
+     four measured attempts. What is left here is the belt to that braces: the
+     moon no longer reaches this row on any viewport measured, and the halo
+     keeps the letters off the hill crest behind them. Cream rather than gold
+     because it is the brighter of the two, and this is the one line on the
+     page with the least room to be dim. */
+  color:var(--cream-2);
+  text-shadow:0 2px 12px rgba(6,3,15,.9),0 1px 3px rgba(0,0,0,.75);
 }
 .hero-flourish{margin:0 0 1.5rem;color:var(--rose)}
 .hero-flourish svg{width:var(--heart-lg);height:var(--heart-lg);margin-inline:auto}
@@ -617,8 +870,14 @@ body.opened .hero-car{animation:hero-car-in 1.9s var(--ease) .45s forwards}
    drive opacity and text-shadow alone. */
 .hero-name{
   font-family:'Cormorant',Georgia,serif;
-  font-size:var(--fs-display);line-height:1.02;letter-spacing:.06em;
+  font-size:var(--fs-display);line-height:1.02;letter-spacing:-.01em;
   margin:0;color:var(--cream);
+  /* The ground is no longer a flat field, it is a five-stop dusk with a warm
+     band at the horizon, and the second name lands on that band. Without a
+     shadow the cream type and the #844B50 horizon are close enough in
+     luminance to shimmer against each other on an OLED phone. Two shadows: a
+     wide soft one to sit the type in the sky, a tight one for the edge. */
+  text-shadow:0 8px 35px rgba(6,3,15,.62),0 1px 1px rgba(0,0,0,.45);
 }
 .hero-name--a{margin-bottom:.1em}
 .hl{
@@ -638,30 +897,63 @@ body.opened .hero-weds-wrap{opacity:1;transform:none}
   letter-spacing:.5em;text-indent:.5em;line-height:1.4;
   color:var(--gold);margin:0;
   overflow:hidden;
+  /* Declared here rather than on the spans below. The spans carry
+     translateY(100%) until they draw themselves, and the overflow:hidden is
+     what hides that pre-animation state - so a shadow set on a span gets
+     clipped by the very box that reveals it. Gold is the second-brightest
+     thing in the hero and one of the smallest, and twenty hearts drift behind
+     it on infinite animations, so it needs the same dark halo the names and
+     the ampersand get. */
+  text-shadow:0 4px 20px rgba(6,3,15,.62),0 1px 1px rgba(0,0,0,.4);
 }
 .hero-weds span{display:block;transform:translateY(100%);transition:transform 1.4s var(--ease)}
 body.opened .hero-weds span{transform:none}
 
 .hero-amp{
   font-family:'Cormorant Upright',serif;
-  font-size:var(--fs-h3);color:var(--rose);margin:.35rem 0;
+  /* Gold, not rose. The ampersand is the one mark on the page that sits
+     directly between the two names, so it has to belong to the same family as
+     the type it separates. It was --rose, which is the other red in the file,
+     and putting a second red between two cream names is what made this screen
+     read as a template rather than a design. */
+  font-size:var(--fs-h3);color:var(--gold);margin:.35rem 0;
   opacity:0;transition:opacity 1s var(--ease);
+  /* Dark halo, not a gold glow. A shadow in the text's own hue destroys the
+     text: a blurred copy of a stroke stacks on itself, so the interior of a
+     thick stroke fills with several times the declared alpha, and a gold
+     letterform ends up gold on gold. Measured on the rendered page that is
+     1.94:1 at the stroke edge, and the halo also spills 24px into the boxes of
+     the WED and DING lines either side of it. A shadow only buys contrast when
+     it darkens the surround and separates the glyph from what is behind it,
+     which is exactly what the names do two rules above. */
+  text-shadow:0 6px 26px rgba(6,3,15,.66),0 1px 1px rgba(0,0,0,.45);
 }
 body.opened .hero-amp{opacity:1}
 
 .hero-glow{text-shadow:0 0 34px rgba(198,161,91,.42)}
 
-/* the 20 floating hearts. All one size and colour, drifting on one curve */
-.hero-hearts{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.hero-hearts svg:nth-child(5n+2){color:var(--rose);opacity:.85}
-.hero-hearts svg:nth-child(5n+3){color:var(--gold);opacity:.8}
-.hero-hearts svg:nth-child(5n+4){color:#e8b7bf}
+/* The floating hearts. Twenty of them, all ONE size, ONE colour, ONE opacity,
+   drifting on ONE curve.
+
+   The three nth-child overrides that used to be here recoloured every fifth
+   heart rose, every fifth gold and a third one to a hand-mixed pink that
+   existed nowhere in the token block. Against a night sky that is three
+   unrelated warm marks fighting the moon and the gold rule. One colour at one
+   opacity reads as depth; three reads as confetti. */
+.hero-hearts{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+  color:var(--rose);opacity:.7}
 
 .hero-scroll-cue{
   position:absolute;left:50%;bottom:32px;z-index:3;
   transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:.6rem;
   color:var(--cream-2);opacity:0;transition:opacity 1s var(--ease);
+  /* A tight dark halo. The scrim on #hero::after does the heavy lifting, but
+     the cue is 11px uppercase at .58 weight over a photograph, and a halo is
+     what keeps the letters from being eaten by whatever the car is doing
+     behind them. Darkening again, never lightening - the gold-bar version of
+     this on the ampersand cost 1.93:1. */
+  text-shadow:0 1px 6px rgba(6,3,15,.92),0 1px 2px rgba(0,0,0,.8);
 }
 body.opened .hero-scroll-cue{opacity:1}
 .hero-scroll-cue span{
@@ -692,7 +984,15 @@ body.opened .hero-scroll-cue{opacity:1}
   max-width:1000px;margin-inline:auto;
 }
 /* A flip card. The whole point of an invitation card is that there is
-   something on the back, so this is a real 3D flip and not a hover reveal. */
+   something on the back, so this is a real 3D flip and not a hover reveal.
+
+   The interaction is the trial's own and stays. What changes is the surface:
+   the cards used to be cream paper with a soft drop shadow, which is a light
+   component sitting on a night section and so read as a hole cut in the page.
+   They are now mounted glass - a gold hairline, an inset companion hairline,
+   a 24px radius and a barely-there white wash - which is how the Vivaan &
+   Anaya cards are built, and which is what makes them read as objects IN the
+   night rather than objects ON it. */
 .event-card{perspective:1400px;height:clamp(392px,58vh,470px);background:none;border:0;padding:0;width:100%}
 .event-card__in{
   display:block;position:relative;width:100%;height:100%;
@@ -704,22 +1004,53 @@ body.opened .hero-scroll-cue{opacity:1}
 .event-card__face{
   position:absolute;inset:0;
   backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  border-radius:14px;overflow:hidden;
+  border-radius:24px;overflow:hidden;
   display:flex;flex-direction:column;
-  box-shadow:0 18px 44px var(--shadow-soft);
+  border:1px solid var(--cel-line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 24px 65px rgba(0,0,0,.24);
+  transition:border-color .4s var(--ease),box-shadow .4s var(--ease);
 }
-.event-card__face--back{transform:rotateY(180deg);background:var(--paper-000);border:1px solid var(--gold-a30)}
+.event-card:hover .event-card__face{
+  border-color:rgba(198,161,91,.46);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 32px 85px rgba(0,0,0,.32);
+}
+.event-card__face--back{
+  transform:rotateY(180deg);
+  background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.022)),var(--night-2);
+}
+/* The inset hairline. Two hairlines, one outside and one 9px inside it, are
+   what make a rectangle read as a mounted card rather than a bordered box. */
+.event-card__face::before{
+  content:'';position:absolute;inset:9px;z-index:3;pointer-events:none;
+  border:1px solid var(--cel-line-2);border-radius:16px;
+  transition:border-color .45s var(--ease);
+}
+.event-card:hover .event-card__face::before{border-color:rgba(198,161,91,.30)}
 
-.event-card__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.30}
+.event-card__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22}
 .event-card__front{justify-content:flex-end;padding:1.5rem;color:var(--cream);text-align:left}
+/* The scrim under the caption now runs to the section's own night, not to the
+   oxblood #2A0A11. A red-brown scrim on an indigo card is the exact seam this
+   change exists to remove. */
 .event-card__front::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(42,10,17,.12) 0%,rgba(42,10,17,.82) 68%);
+  background:linear-gradient(180deg,rgba(12,9,27,.10) 0%,rgba(12,9,27,.88) 68%);
 }
 .event-card__front > *{position:relative;z-index:1}
+/* The step number moves to the top of the card and grows a fading rule after
+   it, the way the Vivaan & Anaya index does. It used to sit at the bottom,
+   under the caption, where it was the least interesting line on the card and
+   competed with the name. At the top it is a label, and the rule gives the
+   card an edge to read against. */
 .event-card__num{
+  position:absolute;top:1.9rem;left:1.9rem;z-index:2;
+  display:flex;align-items:center;gap:.8rem;
   font-family:'Manrope',system-ui,sans-serif;
   font-size:var(--fs-meta);letter-spacing:.3em;color:var(--gold);
+}
+.event-card__num::after{
+  content:'';flex:1;height:1px;width:3.4rem;
+  background:linear-gradient(90deg,rgba(198,161,91,.34),transparent);
 }
 .event-card__name{font-size:var(--fs-h3);margin:.3rem 0 .2rem;color:var(--cream)}
 .event-card__date{font-family:'Manrope',system-ui,sans-serif;font-size:var(--fs-small);color:var(--cream-2);letter-spacing:.08em}
@@ -730,7 +1061,10 @@ body.opened .hero-scroll-cue{opacity:1}
   color:var(--cream-2);opacity:.7;
 }
 
-.event-card__body{padding:1.6rem 1.5rem;display:flex;flex-direction:column;gap:.55rem;text-align:left}
+/* 1.9rem, not 1.5rem: the inset hairline is at 9px and the 24px radius means
+   the corner is already eating horizontal room. At 1.5rem the longest venue
+   name in the dl ran under the inner rule on a 390px phone. */
+.event-card__body{padding:2.4rem 1.9rem 1.9rem;display:flex;flex-direction:column;gap:.55rem;text-align:left}
 .event-card__body .eyebrow{margin:0}
 .event-card__body h3{margin:0}
 .event-card__body dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.35rem .8rem;font-size:var(--fs-small)}
@@ -754,7 +1088,9 @@ body.opened .hero-scroll-cue{opacity:1}
 .arch img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42}
 .arch::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(42,10,17,.2),rgba(42,10,17,.7));
+  /* The scrim follows the section, not the old oxblood. rgba(42,10,17) over
+     an indigo arch is a red-brown haze on a blue card. */
+  background:linear-gradient(180deg,rgba(12,9,27,.22),rgba(12,9,27,.78));
 }
 .arch figcaption{
   position:absolute;left:0;right:0;bottom:0;z-index:1;
@@ -861,11 +1197,17 @@ body.opened .hero-scroll-cue{opacity:1}
    COUNTDOWN
    ========================================================================== */
 .countdown{display:flex;justify-content:center;gap:clamp(.6rem,2.4vw,1.4rem);flex-wrap:wrap;margin-top:2.6rem}
+/* --ink-800 is a raised OXBLOOD surface, #37131A. Left as it was, every
+   countdown unit is a warm brown panel sitting on the indigo night, which is
+   the one thing this restyle is trying to stop happening. Glass instead: the
+   same white wash as the event cards, over the night itself, with the same
+   single gold hairline. */
 .cd-unit{
   min-width:clamp(84px,23vw,116px);
   padding:1.2rem .6rem 1rem;
-  border:1px solid var(--gold-a30);border-radius:12px;
-  background:var(--ink-800);
+  border:1px solid var(--cel-line);border-radius:16px;
+  background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.022));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
   text-align:center;
 }
 .cd-num{
@@ -894,9 +1236,10 @@ body.opened .hero-scroll-cue{opacity:1}
 }
 .know-card{
   padding:1.7rem 1.5rem;
-  background:var(--ink-800);
-  border:1px solid var(--ink-700);
-  border-radius:12px;
+  background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.022));
+  border:1px solid var(--cel-line);
+  border-radius:16px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
   text-align:left;
 }
 .know-card h3{font-size:var(--fs-h3);color:var(--cream);display:flex;align-items:center;gap:.6rem}
@@ -1036,11 +1379,42 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
 
   <!-- ============================ HERO ============================ -->
   <section id="hero">
-    <div class="hero-bg" aria-hidden="true">
-      <img src="assets/5.avif" alt="" width="1350" height="1056" loading="lazy" decoding="async">
-    </div>
+    <div class="hero-glow-field" aria-hidden="true"></div>
     <div class="hero-hearts" id="hero-hearts" aria-hidden="true"></div>
-    <div class="hero-frame" aria-hidden="true"></div>
+
+    <!-- The moon. Lit half is a masked circle over a darker earthshine circle,
+         so the terminator is a real ellipse. Same mask path and same four
+         craters as the Vivaan & Anaya hero moon. -->
+    <div class="hero-moon" aria-hidden="true">
+      <span class="ambience"></span>
+      <svg viewBox="0 0 200 200" focusable="false">
+        <defs>
+          <radialGradient id="hMoonG" cx="36%" cy="31%" r="73%">
+            <stop offset="0"/><stop offset=".5"/><stop offset="1"/>
+          </radialGradient>
+          <radialGradient id="hMoonE" cx="50%" cy="50%" r="50%">
+            <stop offset="0"/><stop offset="72%"/><stop offset="100%"/>
+          </radialGradient>
+          <mask id="hMoonMask">
+            <path fill="#fff" d="M100,14 A86,86 0 0 1 100,186 A79.98,86 0 0 0 100,14 Z"/>
+          </mask>
+        </defs>
+        <circle cx="100" cy="100" r="86" fill="url(#hMoonE)"/>
+        <circle cx="100" cy="100" r="86" fill="url(#hMoonG)" mask="url(#hMoonMask)"/>
+        <g class="craters" opacity=".17">
+          <circle cx="76" cy="66" r="13"/><circle cx="126" cy="111" r="9"/>
+          <circle cx="92" cy="135" r="6"/><circle cx="130" cy="61" r="4"/>
+        </g>
+        <circle class="rim" cx="100" cy="100" r="88" fill="none" stroke-opacity=".16"/>
+      </svg>
+    </div>
+
+    <!-- Two ridges. back is dusk, front is near-black plum, so the pair reads
+         as depth. The car passes in front of both. -->
+    <svg class="hero-hills" viewBox="0 0 1440 410" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path class="back" d="M0 247 C174 172 302 243 468 205 C654 163 764 234 921 195 C1110 150 1245 189 1440 137 L1440 410 L0 410 Z"/>
+      <path class="front" d="M0 304 C183 236 317 312 512 270 C688 232 829 303 1001 259 C1175 214 1310 270 1440 223 L1440 410 L0 410 Z"/>
+    </svg>
 
     <div class="hero-car" aria-hidden="true">
       <img src="assets/hero-car-1200.webp"
@@ -1050,6 +1424,7 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
     </div>
 
     <div class="hero-inner">
+      <span class="hero-ring" aria-hidden="true"></span>
       <p class="hero-eyebrow">Together with their families</p>
       <p class="hero-flourish" aria-hidden="true"><svg><use href="#heart"/></svg></p>
 
@@ -1061,15 +1436,24 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
 
       <p class="hero-amp" aria-hidden="true">&amp;</p>
       <h2 class="hero-name hero-name--k" data-name>Kanika</h2>
+    </div>
 
-      <div class="hero-scroll-cue" aria-hidden="true">
-        <span>Scroll</span><i></i>
-      </div>
+    <!-- A sibling of .hero-inner, not a child of it. .hero-inner is
+         position:relative, so a cue nested inside it resolves bottom:32px
+         against the bottom of the TEXT BLOCK rather than the bottom of the
+         screen - which put a 1px gold bar down the centre column of the
+         ampersand, at x=215, the exact column the glyph occupies. Gold bar on
+         gold letterform: 1.93:1 at the pixel where they cross, and a
+         hairline is the one mark on the page small enough that a guest would
+         read it as a mistake. Out here it hangs in the hero's own
+         padding-bottom, clear of the type at any content height. -->
+    <div class="hero-scroll-cue" aria-hidden="true">
+      <span>Scroll</span><i></i>
     </div>
   </section>
 
   <!-- ========================= INVITATION ========================= -->
-  <section id="invitation" class="paper">
+  <section id="invitation" class="celestial">
     <div class="wrap">
       <div class="section-head rv">
         <p class="eyebrow">The Invitation</p>
@@ -1158,7 +1542,7 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
   </section>
 
   <!-- =========================== VENUE =========================== -->
-  <section id="venue" class="ink">
+  <section id="venue" class="celestial">
     <div class="wrap center">
       <div class="section-head rv">
         <p class="eyebrow">The Venue</p>
@@ -1236,7 +1620,7 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
   </section>
 
   <!-- ========================= COUNTDOWN ========================= -->
-  <section id="countdown" class="ink">
+  <section id="countdown" class="celestial">
     <div class="wrap center">
       <div class="section-head rv">
         <p class="eyebrow">Counting down</p>
@@ -1253,7 +1637,7 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
   </section>
 
   <!-- ======================== THINGS TO KNOW ======================== -->
-  <section id="know" class="ink" style="padding-top:0">
+  <section id="know" class="celestial" style="padding-top:0">
     <div class="wrap">
       <div class="section-head rv center">
         <p class="eyebrow">Good to know</p>
@@ -1353,8 +1737,16 @@ body.opened .audio-toggle{opacity:1;visibility:visible}
 
   /* Hearts are painted with literal colours, never `var(--x)`. A CSS custom
      property does not resolve inside a canvas fillStyle or an inline style
-     string, and silently produces black or transparent when you try. */
-  var HEART_COLORS = ['#C4768A', '#C6A15B', '#e8b7bf', '#d9a3ae'];
+     string, and silently produces black or transparent when you try.
+
+     One colour, deliberately. This was a four-entry palette - rose, gold, and
+     two pale pinks - which put a gold heart and two near-white hearts into a
+     hero whose small type is also gold, and it read as several reds competing
+     rather than as punctuation. It is an array because three call sites index
+     it, not because it has four members. Depth comes from the opacity ramp in
+     the animation instead, which is a difference in value rather than in hue
+     and so does not read as a second colour. */
+  var HEART_COLORS = ['#C4768A'];
 
   /* ---------------------------------------------------------------- cover */
   var cover = $('#invite-cover');
