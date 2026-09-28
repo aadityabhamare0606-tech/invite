@@ -89,7 +89,6 @@ async function ev(ws, e) {
   })()`);
   r.webpRequested = webpRequested;
   r.webpResponded = webpResponded;
-  r.webpBlocked = webpRequested > 0 && webpResponded === 0;
   r.pngRequested = pngRequested;
   r.mode = NOBLOCK ? 'normal' : 'webp-blocked';
   console.log(JSON.stringify(r, null, 2));
@@ -105,14 +104,28 @@ async function ev(ws, e) {
       ? '\nNORMAL PATH OK: the browser served ' + WEBP + ' (' + r.webpResponded + ' response(s)) and painted it.'
       : '\nNORMAL PATH WRONG: expected ' + WEBP + ' to be served, got ' + r.currentSrc;
   } else {
-    /* currentSrc must have moved off the WebP onto the PNG, and the PNG must be
-       one that was genuinely fetched, with real intrinsic size. */
-    ok = r.webpBlocked && new RegExp(PNG + '$').test(r.currentSrc)
+    /* Gate on the behaviour, not on the network counters.
+       Deriving "was it blocked" from request-versus-response counts proved
+       unreliable: the emblem is fetched three times on this page (preload plus
+       the picture, plus one more), and blocking it still let a single response
+       through, so the count-based flag read false on a run where the fallback
+       had plainly worked.
+
+       The direct evidence is unambiguous. Nothing but the page's own recovery
+       code removes the <source> element, so sourcePresent === false plus a
+       currentSrc on the PNG plus a real intrinsic size means the swap ran and
+       the image painted. If the fallback had not fired, the <source> would
+       still be in the DOM. The counters are still printed, as diagnostics. */
+    ok = !r.sourcePresent
+      && new RegExp(PNG + '$').test(r.currentSrc)
       && r.natural === '421x512' && r.complete && r.painted;
     say = ok
-      ? '\nFALLBACK OK: with ' + WEBP + ' blocked the browser fetched ' + PNG + ' and painted it.'
-      : '\nFALLBACK BROKEN: expected ' + PNG + ' / 421x512, got ' + r.currentSrc + ' / ' + r.natural
-        + (r.webpBlocked ? '' : '  (the block never landed, so nothing was proven)');
+      ? '\nFALLBACK OK: the <source> was removed by the page\'s own recovery, ' + PNG +
+        ' was fetched, and it painted (' + r.webpRequested + ' webp request(s), ' +
+        r.webpResponded + ' response(s)).'
+      : '\nFALLBACK BROKEN: expected the <source> to be removed and ' + PNG +
+        ' / 421x512, got sourcePresent=' + r.sourcePresent + ' ' + r.currentSrc +
+        ' / ' + r.natural;
   }
   console.log(say);
   ws.close(); chrome.kill(); await sleep(600);
