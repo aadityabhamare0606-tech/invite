@@ -293,6 +293,22 @@ async function evaluate(ws, expression) {
     });
     const rvTotal = document.querySelectorAll('.rv').length;
     const rvShown = document.querySelectorAll('.rv.in').length;
+    /* The visible box an image must be near for the browser to have asked it to
+       load: the window, intersected with every scrollable ancestor, since
+       Chrome decides lazy loading against the nearest scroll container. */
+    const lazyScope = (el => {
+      let box = { top: 0, left: 0, right: innerWidth, bottom: innerHeight };
+      for (let p = el.parentElement; p; p = p.parentElement) {
+        const cs = getComputedStyle(p);
+        if (!/(auto|scroll|overlay)/.test(cs.overflowX + cs.overflowY)) continue;
+        const pr = p.getBoundingClientRect();
+        box.top = Math.max(box.top, pr.top);
+        box.left = Math.max(box.left, pr.left);
+        box.right = Math.min(box.right, pr.right);
+        box.bottom = Math.min(box.bottom, pr.bottom);
+      }
+      return box;
+    });
     return {
       docWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
@@ -321,8 +337,71 @@ async function evaluate(ws, expression) {
         lazy: i.getAttribute('loading'),
         w: i.naturalWidth
       })),
-      brokenImages: [...document.querySelectorAll('img')].filter(i => !(i.complete && i.naturalWidth > 0))
-        .map(i => i.currentSrc.split('/').slice(-1)[0])
+      /* "broken" has to mean broken. The old filter was
+         !(complete && naturalWidth > 0), which also matches every lazy image
+         that simply has not started because it is outside the viewport —
+         correct behaviour, reported as a failure. On this page that is most of
+         the images, so the metric was mostly noise and would have hidden a real
+         broken image behind a pile of deferred ones.
+
+         The test for "has it been asked to load yet" cannot just be the window.
+         #gallery-track is a horizontal scroller, so couple-5 and couple-6 sit
+         at x=1216 and x=1505 on a 430px-wide phone: vertically nowhere near the
+         viewport, horizontally far outside it, and correctly deferred until you
+         swipe the track. Chrome decides lazy loading against the nearest scroll
+         container's scrollport, so this walks up the ancestors, intersects the
+         scrollable ones, and only then applies a margin. */
+      /* An image inside display:none is unreachable *right now* - which is not
+         the same as dead weight. Measured after the cover is dismissed, the
+         Ganesha reports this way too, because #invite-cover.gone is
+         display:none: the emblem rendered at 118x144 before the seal was
+         pressed and is supposed to be gone afterwards. A layer carrying .gone
+         has already had its turn, so it is excluded here.
+
+         What is left is genuinely unreachable at every point in the page's
+         life, which is the useful finding: .hero-bg is display:none while still
+         holding a 306 KB AVIF that can never load. */
+      unreachableImages: [...document.querySelectorAll('img')].filter(i => {
+        let hidden = false;
+        for (let p = i; p && p !== document.body; p = p.parentElement) {
+          if (p.classList && p.classList.contains('gone')) return false;
+          if (getComputedStyle(p).display === 'none') hidden = true;
+        }
+        return hidden;
+      }).map(i => (i.getAttribute('src') || '').split('/').slice(-1)[0] +
+                  '  ' + (i.className || (i.parentElement && i.parentElement.className) || i.tagName) +
+                  '  (an ancestor is display:none, and no .gone layer is involved)'),
+      brokenImages: [...document.querySelectorAll('img')].filter(i => {
+        if (i.complete && i.naturalWidth > 0) return false;
+        if (getComputedStyle(i).display === 'none') return false;
+        if (i.getAttribute('loading') !== 'lazy') return true;
+        const r = i.getBoundingClientRect();
+        /* No area, nothing visible can be missing. This matters: a 0x0 rect is
+           trivially "near" every edge, so without this an image inside a
+           display:none parent was reported both broken and unreachable. */
+        if (r.width === 0 || r.height === 0) return false;
+        const b = lazyScope(i);
+        const m = 200;
+        return r.top < b.bottom + m && r.bottom > b.top - m
+            && r.left < b.right + m && r.right > b.left - m;
+      }).map(i => {
+        const r = i.getBoundingClientRect();
+        return (i.currentSrc.split('/').slice(-1)[0] || '(no resolved src)')
+          + '  ' + (i.className || i.parentElement.className || i.tagName)
+          + '  rect ' + [r.left, r.top, r.right, r.bottom].map(Math.round).join(',');
+      }),
+      /* Deferred means "not asked to load yet, and correctly so" - lazy, and
+         outside the scroll container it lives in. An image that can never load
+         at all is unreachable, not deferred, so it is kept out of this list. */
+      deferredImages: [...document.querySelectorAll('img')].filter(i => {
+        if (i.complete && i.naturalWidth > 0) return false;
+        if (i.getAttribute('loading') !== 'lazy') return false;
+        for (let p = i; p && p !== document.body; p = p.parentElement)
+          if (getComputedStyle(p).display === 'none') return false;
+        return true;
+      }).map(i => (i.currentSrc.split('/').slice(-1)[0]
+                  || (i.getAttribute('src') || '').split('/').slice(-1)[0])
+        + '  ' + (i.className || i.parentElement.className || i.tagName))
     };
   })()`);
 
@@ -387,6 +466,13 @@ async function evaluate(ws, expression) {
     lettersLanded: !hero.anyLetterZeroSize && !hero.anyLetterStillTransparent,
     distinctHeartSizes: hero.heartSizes.length,
     horizontalOverflow: page.horizontalOverflow,
+    /* The bug this whole page was rebuilt around was "the image is not showing",
+       so a broken image is now a first-class verdict line rather than something
+       buried in the detail JSON. Deferred carousel images are reported
+       separately and do not count against it. */
+    brokenImages: page.brokenImages,
+    unreachableImages: page.unreachableImages,
+    deferredImages: page.deferredImages,
     revealsStuck: page.revealStuck,
     revealInvisible: page.revealInvisibleCount,
     sectionsZeroHeight: page.zeroHeightSections.length,

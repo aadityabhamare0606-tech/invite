@@ -206,38 +206,60 @@ head('8c. the replacement layers are present');
 });
 
 /* ------------------------------------ 8d. the emblem must survive a short
-   viewport. The bug this guards: the Ganesha clamp was driven by vmin, which
-   on a landscape phone collapses to the short axis. At 844x390 that produced
-   13vmin = 50px, floored to 74px — a speck on a 390px screen, which reads as
-   a missing image rather than a small one. Below 560px of height the clamp
-   must be driven by vh, and there must be a dedicated landscape rule that
-   hides the decorative rows instead of shrinking the emblem. */
+   viewport. The bug this guards: the emblem clamp was driven by vmin, which on
+   a landscape phone collapses to the short axis. At 844x390 that produced
+   13vmin = 50px, floored to 74px — a speck on a 390px screen, which reads as a
+   missing image rather than a small one. Below 560px of height the clamp must be
+   driven by vh, and there must be a dedicated landscape rule that hides the
+   decorative rows instead of shrinking the emblem further.
+
+   Note the floor is lower than it used to be, and that is deliberate: the
+   artwork is 421x512, so height is 1.216x the width the clamp sets. The clamp
+   is a width. 8d's real job is the *rendered height*, which is what
+   verify-demo-render.js measures; here the guard is only that the landscape rule
+   is vh-driven rather than vmin-driven, so it can never collapse to a speck
+   again. */
 head('8d. emblem sizing survives a landscape phone');
 const shortBlock = (raw.match(/@media\s*\(max-height:560px\)\s*\{[\s\S]*?\n\}/) || [''])[0];
 shortBlock
-  ? (/clamp\(\s*9[0-9]px|clamp\(\s*1\d\dpx/.test(shortBlock) && /vh/.test(shortBlock)
-      ? ok('max-height:560px drives the clamp from vh, floor >= 96px')
-      : bad('max-height:560px must size the emblem in vh with a floor of at least 96px'))
+  ? (/clamp\(/.test(shortBlock) && /vh/.test(shortBlock) && !/vmin/.test(shortBlock)
+      ? ok('max-height:560px drives the emblem from vh, not vmin')
+      : bad('max-height:560px must size the emblem in vh; vmin collapses on a landscape phone'))
   : bad('no @media (max-height:560px) block');
 const landBlock = (raw.match(/@media\s*\(max-height:520px\)\s*and\s*\(orientation:landscape\)\s*\{[\s\S]*?\n\}/) || [''])[0];
 landBlock
-  ? (/\.ic-ganesh img\{width:clamp\(1\d\dpx|overflow/.test(landBlock) && /vh/.test(landBlock)
+  ? (/\.ic-ganesh img\{width:clamp\(/.test(landBlock) && /vh/.test(landBlock) && !/vmin/.test(landBlock)
       ? ok('landscape rule present and sized in vh')
-      : bad('landscape rule must size the emblem in vh'))
+      : bad('landscape rule must size the emblem in vh, never vmin'))
   : bad('no landscape rule: a 390px-tall phone has no emblem sizing of its own');
 (landBlock && /display:none/.test(landBlock))
   ? ok('landscape rule drops the decorative rows to make room')
   : bad('landscape rule should hide the eyebrow/rule rather than shrink the emblem');
 
 /* ------------------------------------ 8e. the emblem loads. The <picture>
-   needs a WebP source AND a real <img> pointing at the original SVG, in that
+   needs a WebP source AND a real <img> pointing at a bitmap fallback, in that
    order, and it needs the onerror swap — because <picture> source selection
    happens once and a transport failure is not retried. Both halves of the
    recovery were bugs before they worked: a bare error listener misses a
    preloaded image that failed during parse, and setting img.src inside a
-   <picture> does nothing while a matching <source> still wins. */
+   <picture> does nothing while a matching <source> still wins.
+
+   The pair is 21.webp / 21.png, copied out of public/demos/wedding-invite-7/
+   (the Vivaan & Anaya demo) rather than rebuilt here. An earlier attempt
+   re-derived its own 640x640 square from the 25 MB 21.svg and it read as a
+   different picture. So the check is not just "the files exist" — it is that
+   they are still byte-identical to the source demo's, and that wedding-invite-7
+   is untouched. If that demo is deleted, the guard goes quiet rather than
+   passing a lie. */
 head('8e. the emblem is actually loadable');
-const pic = (raw.match(/<picture>([\s\S]*?)<\/picture>/) || [])[1] || '';
+const SRC_DIR = path.join(DIR, '..', 'wedding-invite-7');
+/* NB the opening tag must be followed directly by markup. A plain
+   /<picture>[\s\S]*?<\/picture>/ matches a CSS comment that merely *mentions*
+   the tag — which it did, and the captured "block" then ran from prose in a
+   comment to the real </picture>, so indexOf('<img') found the comment's word
+   and the ordering check failed for a reason that had nothing to do with the
+   page. Requiring \s*<source or \s*<img after the open tag skips that. */
+const pic = (raw.match(/<picture>\s*(?:<source[\s\S]*?<\/picture>)/) || [])[0] || '';
 if (!pic) bad('no <picture> around the emblem');
 else {
   ok('<picture> present');
@@ -245,9 +267,9 @@ else {
   /type="image\/webp"/.test(srcTag)
     ? ok('WebP source declared, so non-WebP browsers skip it')
     : bad('the <source> needs type="image/webp" or old browsers download it anyway');
-  /<img[^>]*src="assets\/ganesh\.svg"/.test(pic)
-    ? ok('<img> falls back to ganesh.svg (the 21.svg original)')
-    : bad('the <img> src must be the SVG so it works without WebP');
+  /<img[^>]*src="assets\/21\.png"/.test(pic)
+    ? ok('<img> falls back to 21.png, so it works without WebP')
+    : bad('the <img> src must be assets/21.png so it works without WebP');
   pic.indexOf('<source') < pic.indexOf('<img')
     ? ok('<source> precedes <img>, as the spec requires')
     : bad('<source> must come before <img>');
@@ -257,10 +279,27 @@ else {
   /removeChild\(s\)|s\.remove\(\)/.test(raw) && /PICTURE/.test(raw)
     ? ok('the swap removes the <source>, since a matching source outranks img.src')
     : bad('setting img.src inside a <picture> is a no-op; the <source> must be removed');
-  ['assets/ganesh.webp', 'assets/ganesh.svg'].forEach(f =>
-    fs.existsSync(path.join(DIR, f))
-      ? ok(f + ' exists (' + fs.statSync(path.join(DIR, f)).size.toLocaleString() + ' b)')
-      : bad(f + ' referenced but missing'));
+  // one emblem, one source of truth
+  /21\.webp|21\.png|ganesh/.test(raw)
+    ? null : bad('the emblem is referenced by no recognisable filename');
+  const stray = ['assets/ganesh.webp', 'assets/ganesh.svg', 'assets/ganesh.png']
+    .filter(f => raw.includes(f));
+  stray.length === 0
+    ? ok('no second, locally re-derived emblem left behind')
+    : bad('a re-derived emblem is still referenced: ' + stray.join(', '));
+  ['21.webp', '21.png'].forEach(f => {
+    const mine = path.join(DIR, 'assets', f);
+    if (!fs.existsSync(mine)) return bad('assets/' + f + ' referenced but missing');
+    const theirs = path.join(SRC_DIR, f);
+    if (!fs.existsSync(theirs))
+      return ok('assets/' + f + ' exists (' + fs.statSync(mine).size.toLocaleString() + ' b)' +
+                ' — source demo gone, cannot compare');
+    const same = fs.readFileSync(mine).equals(fs.readFileSync(theirs));
+    same
+      ? ok('assets/' + f + ' is byte-identical to wedding-invite-7/' + f)
+      : bad('assets/' + f + ' has drifted from wedding-invite-7/' + f +
+            ' — copy it, do not rebuild it');
+  });
 }
 
 /* --------------------------------------------- 9. no leftover sentinels */
