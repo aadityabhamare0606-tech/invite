@@ -56,7 +56,7 @@ const allCards: DemoCardData[] = [
     badgeStyle: "new",
     type: "Premium",
     title: "Trial — Abhishek & Kanika",
-    description: "Our most advanced wedding demo yet — a monogram crest intro, a live countdown with per-digit flips, floating hearts, a photo carousel, the couple's story on a drawn timeline, and 3D-tilting event cards that reveal on scroll. Fully self-contained, no internet needed.",
+    description: "Our most advanced wedding demo yet — a tall cinematic hero for Abhishek & Kanika, three event cards each in their own light blue that flip in 3D to reveal the details, a date-reveal section before the venue, a live countdown with per-digit flips, floating hearts, a photo carousel, and the couple's story on a drawn timeline. Fully self-contained, no internet needed.",
     price: "₹1,499",
     demoSrc: "/demos/trial/index.html",
     previewImg: "/assets/demos/trial.webp",
