@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0e0702"/>
+      <stop offset="100%" stop-color="#1a0e06"/>
+    </linearGradient>
+    <radialGradient id="candleGlow" cx="50%" cy="0%" r="60%">
+      <stop offset="0%" stop-color="#FF9800" stop-opacity="0.22"/>
+      <stop offset="40%" stop-color="#C87820" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <linearGradient id="envBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff8f0"/>
+      <stop offset="100%" stop-color="#FEF6E8"/>
+    </linearGradient>
+    <linearGradient id="envFlap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5e8d8"/>
+      <stop offset="100%" stop-color="#ecdcc8"/>
+    </linearGradient>
+    <radialGradient id="waxSeal" cx="38%" cy="33%" r="55%">
+      <stop offset="0%" stop-color="#FF6B9D"/>
+      <stop offset="35%" stop-color="#C2185B"/>
+      <stop offset="100%" stop-color="#880E4F"/>
+    </radialGradient>
+    <radialGradient id="flamOuter" cx="50%" cy="65%" r="55%">
+      <stop offset="0%" stop-color="#FFF176"/>
+      <stop offset="55%" stop-color="#FF9800"/>
+      <stop offset="100%" stop-color="#E64A19" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Desk background -->
+  <rect width="600" height="400" fill="url(#desk)"/>
+  <!-- Wood grain lines -->
+  <line x1="0" y1="60" x2="600" y2="58" stroke="rgba(255,255,255,0.012)" stroke-width="1"/>
+  <line x1="0" y1="120" x2="600" y2="122" stroke="rgba(255,255,255,0.008)" stroke-width="1"/>
+  <line x1="0" y1="200" x2="600" y2="198" stroke="rgba(255,255,255,0.01)" stroke-width="1"/>
+  <line x1="0" y1="280" x2="600" y2="282" stroke="rgba(255,255,255,0.008)" stroke-width="1"/>
+  <!-- Candle glow radial -->
+  <rect width="600" height="400" fill="url(#candleGlow)"/>
+
+  <!-- Candle body -->
+  <rect x="280" y="32" width="40" height="90" rx="4" fill="#F8E8D8"/>
+  <rect x="278" y="32" width="44" height="8" rx="2" fill="#EDD8C4"/>
+  <rect x="274" y="120" width="52" height="14" rx="3" fill="#C4A882"/>
+  <!-- Wick -->
+  <line x1="300" y1="22" x2="300" y2="33" stroke="#5C3020" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Flame -->
+  <ellipse cx="300" cy="12" rx="9" ry="14" fill="url(#flamOuter)" opacity="0.9"/>
+  <ellipse cx="300" cy="14" rx="5" ry="8" fill="#FFECB3" opacity="0.85"/>
+  <ellipse cx="300" cy="16" rx="2.5" ry="4" fill="#fffde7" opacity="0.9"/>
+  <!-- Wax drip -->
+  <path d="M284 42 Q280 52 282 62" stroke="rgba(255,255,255,0.35)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Envelope body -->
+  <rect x="140" y="168" width="320" height="198" rx="4" fill="url(#envBody)" filter="drop-shadow(0 12px 32px rgba(0,0,0,0.65))"/>
+  <!-- Envelope flap -->
+  <polygon points="140,168 460,168 300,268" fill="url(#envFlap)" opacity="0.95"/>
+  <!-- Side triangles -->
+  <polygon points="140,168 140,366 300,268" fill="#ecddd0" opacity="0.9"/>
+  <polygon points="460,168 460,366 300,268" fill="#e8d4c4" opacity="0.9"/>
+  <!-- Crease -->
+  <polygon points="140,366 300,268 460,366" fill="#f2e4d4" opacity="0.95"/>
+  <!-- Envelope border -->
+  <rect x="140" y="168" width="320" height="198" rx="4" fill="none" stroke="rgba(194,24,91,0.12)" stroke-width="1"/>
+
+  <!-- Wax seal -->
+  <circle cx="300" cy="268" r="28" fill="url(#waxSeal)" filter="drop-shadow(0 3px 8px rgba(136,14,79,0.5))"/>
+  <circle cx="300" cy="268" r="28" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="300" y="276" font-size="18" text-anchor="middle" dominant-baseline="middle">💌</text>
+  <!-- Seal ring pulse indicator -->
+  <circle cx="300" cy="268" r="34" fill="none" stroke="rgba(194,24,91,0.25)" stroke-width="1" opacity="0.6"/>
+
+  <!-- Open hint text -->
+  <text x="300" y="388" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.25)" text-anchor="middle" letter-spacing="1.5">✦   Tap to open your letter   ✦</text>
+</svg>

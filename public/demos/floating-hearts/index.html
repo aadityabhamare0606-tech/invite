@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>You & Me — A Story Written in Hearts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" />
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet"/></noscript>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+    html, body { width: 100%; height: 100%; overflow: hidden }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(160deg, #fff8f9 0%, #fef2f7 40%, #fde8f3 100%);
+      background-size: 220% 220%;
+      animation: bgShift 22s ease-in-out infinite;
+      cursor: crosshair;
+      -webkit-font-smoothing: antialiased;
+    }
+    @keyframes bgShift { 0%, 100% { background-position: 0% 50% } 50% { background-position: 100% 50% } }
+
+    /* ── Heart Canvas (cursor trail + ambient) ── */
+    #heartCanvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none }
+
+    /* ── Stage ── */
+    .stage {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+
+    /* ── Chapter base ── */
+    .chapter {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.88) translateY(24px);
+      transition: all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none; text-align: center;
+      max-width: 770px; width: 92vw; margin: 0 auto;
+    }
+    .chapter.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: all }
+    .chapter.exit   { opacity: 0; transform: scale(0.88) translateY(-24px) }
+
+    /* ── Ambient Decor (floating SVG hearts & sparkles) ── */
+    .decor { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden }
+    .decor-heart { position: absolute; bottom: -70px; opacity: 0; animation: floatUp linear infinite }
+    .decor-heart svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 4px 10px rgba(255, 75, 110, 0.18)) }
+    .decor-heart .dh-inner { display: block; animation: sway ease-in-out infinite alternate }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(-8deg); opacity: 0 }
+      12%  { opacity: 0.75 }
+      55%  { opacity: 0.55 }
+      100% { transform: translateY(-112vh) rotate(14deg); opacity: 0 }
+    }
+    @keyframes sway {
+      from { transform: translateX(-16px) rotate(-6deg) }
+      to   { transform: translateX(16px) rotate(6deg) }
+    }
+    .decor-sparkle { position: absolute; opacity: 0; animation: twinkle ease-in-out infinite }
+    .decor-sparkle svg { display: block; width: 100%; height: auto }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.6) rotate(0deg) }
+      50%      { opacity: 1; transform: scale(1) rotate(20deg) }
+    }
+    .decor-cloud { position: absolute; opacity: 0; animation: drift linear infinite }
+    .decor-cloud svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 14px rgba(255, 170, 200, 0.25)) }
+    @keyframes drift {
+      0%   { transform: translateX(-22vw); opacity: 0 }
+      8%   { opacity: 0.55 }
+      90%  { opacity: 0.55 }
+      100% { transform: translateX(116vw); opacity: 0 }
+    }
+    .decor-star { position: absolute; opacity: 0; animation: shoot linear infinite }
+    .decor-star svg { display: block; width: 100%; height: auto }
+    @keyframes shoot {
+      0%   { transform: translate(0, 0) rotate(-32deg); opacity: 0 }
+      8%   { opacity: 1 }
+      26%  { opacity: 0 }
+      100% { transform: translate(-58vw, 30vh) rotate(-32deg); opacity: 0 }
+    }
+
+    /* ── Intro polish (cute badge, hint, staggered entrance) ── */
+    .intro-badge {
+      width: clamp(62px, 11vw, 90px); margin: 0 auto 0.8rem;
+      filter: drop-shadow(0 6px 16px rgba(255, 75, 110, 0.28));
+      animation: badgeFloat 3.2s ease-in-out infinite;
+    }
+    @keyframes badgeFloat { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-7px) } }
+    .intro-hint {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.2rem; color: #933a5e; font-weight: 600;
+      margin-bottom: 1rem; letter-spacing: 0.4px;
+      animation: hintPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes hintPulse { 0%, 100% { opacity: 0.65 } 50% { opacity: 1 } }
+    .intro-wrap > *, .forever-card > * { opacity: 0 }
+    body.ready .chapter.active .intro-wrap > * { animation: fadeSlideUp 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards }
+    body.ready .chapter.active .intro-wrap > *:nth-child(1) { animation-delay: 0.1s }
+    body.ready .chapter.active .intro-wrap > *:nth-child(2) { animation-delay: 0.3s }
+    body.ready .chapter.active .intro-wrap > *:nth-child(3) { animation-delay: 0.5s }
+    body.ready .chapter.active .intro-wrap > *:nth-child(4) { animation-delay: 0.7s }
+    body.ready .chapter.active .intro-wrap > *:nth-child(5) { animation-delay: 0.9s }
+    body.ready .chapter.active .intro-wrap > *:nth-child(6) { animation-delay: 1.1s }
+    .beauty-letter .float-heart { margin-top: 1.2rem }
+
+    /* ── Beating-heart ECG line (intro) ── */
+    .ecg-line { display: block; width: min(340px, 80vw); margin: -0.4rem auto 0.8rem; overflow: visible }
+    .ecg-line path {
+      fill: none; stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 340; stroke-dashoffset: 340;
+    }
+    body.ready .ecg-line path.main {
+      stroke: #ff4b6e; stroke-width: 3;
+      animation: ecgDraw 2.2s ease 0.5s forwards, ecgGlow 2.6s ease 2.7s infinite;
+    }
+    body.ready .ecg-line path.glow {
+      stroke: #ff8ba7; stroke-width: 9; opacity: 0.4;
+      animation: ecgDraw 2.2s ease 0.5s forwards;
+    }
+    @keyframes ecgDraw { to { stroke-dashoffset: 0 } }
+    @keyframes ecgGlow { 0%, 100% { opacity: 1 } 50% { opacity: 0.5 } }
+
+    /* ── Button halo (pulse rings) + sparkle line ── */
+    .btn-holder { display: flex; flex-direction: column; align-items: center; gap: 0.9rem }
+    .btn-halo { position: relative; display: inline-flex }
+    .btn-halo .float-heart { position: relative; z-index: 1 }
+    .btn-halo::before, .btn-halo::after {
+      content: ''; position: absolute; left: 50%; top: 50%;
+      width: 84px; height: 84px; margin: -42px 0 0 -42px;
+      border-radius: 50%; border: 2px solid rgba(255, 75, 110, 0.55);
+      transform: scale(1); opacity: 0.85; pointer-events: none;
+      animation: ripple 2.6s ease-out infinite;
+    }
+    .btn-halo::after { animation-delay: 1.3s }
+    @keyframes ripple {
+      0%   { transform: scale(1); opacity: 0.85 }
+      100% { transform: scale(2.15); opacity: 0 }
+    }
+    .sparkle-line {
+      font-size: 1.2rem; letter-spacing: 1.1rem; padding-left: 1.1rem;
+      color: #ffc46b; animation: sparkleLine 2.6s ease-in-out infinite;
+    }
+    @keyframes sparkleLine { 0%, 100% { opacity: 0.4; transform: scale(0.96) } 50% { opacity: 1; transform: scale(1) } }
+
+    /* ── Card corner hearts ── */
+    .corner-heart {
+      position: absolute; width: 36px; height: 36px; pointer-events: none;
+      filter: drop-shadow(0 3px 8px rgba(255, 75, 110, 0.3));
+      animation: cornerBob 4.5s ease-in-out infinite;
+    }
+    .corner-heart.br { animation-delay: 2.2s }
+    @keyframes cornerBob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+    .letter-frame { position: relative }
+    .letter-frame .corner-heart.tl { top: -12px; left: -10px; z-index: 6 }
+    .letter-frame .corner-heart.br { bottom: -12px; right: -10px; z-index: 6 }
+    .corner-hearts { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 2 }
+    .corner-hearts .corner-heart.tl { top: -12px; left: -12px }
+    .corner-hearts .corner-heart.br { bottom: -12px; right: -12px }
+
+    /* ── Typography ── */
+    .ch-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.6rem, 6.5vw, 3.6rem);
+      color: #ff4b6e;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 3px 12px rgba(255, 75, 110, 0.2);
+      line-height: 1.3;
+    }
+    .ch-title .emoji { display: inline-block; animation: gentleBounce 2s ease-in-out infinite }
+    @keyframes gentleBounce { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-4px) } }
+
+    .ch-text {
+      font-size: clamp(1.25rem, 2.8vw, 1.5rem);
+      line-height: 1.9; color: #6e2448;
+      margin-bottom: 1.8rem;
+      font-family: 'Quicksand', sans-serif;
+      letter-spacing: 0.2px; font-weight: 600;
+    }
+
+    .ch-question {
+      font-size: clamp(1.4rem, 3.1vw, 1.65rem);
+      color: #d92b5e; font-weight: 700;
+      margin-bottom: 2rem; font-family: 'Quicksand', sans-serif;
+      text-shadow: 0 2px 8px rgba(255, 75, 110, 0.12);
+      line-height: 1.6;
+    }
+
+    /* ── Buttons ── */
+    .btn-row {
+      display: flex; gap: 1rem;
+      justify-content: center; flex-wrap: wrap;
+      width: 100%; max-width: 380px; margin: 0 auto;
+    }
+    .btn {
+      flex: 1 1 140px; max-width: 190px;
+      padding: 1rem 1.7rem; border-radius: 50px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700; font-size: 1.12rem;
+      letter-spacing: 0.3px; cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative; overflow: hidden;
+      border: none; outline: none;
+    }
+    .btn::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+      transform: translateX(-100%); transition: transform 0.5s ease;
+    }
+    .btn:hover::after { transform: translateX(100%) }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ff4b6e 0%, #ff6b8a 100%);
+      color: #fff; box-shadow: 0 6px 20px rgba(255, 75, 110, 0.35);
+    }
+    .btn-yes:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 30px rgba(255, 75, 110, 0.45) }
+    .btn-yes:active { transform: translateY(-1px) scale(0.98) }
+
+    .btn-no {
+      background: transparent; color: #ff4b6e;
+      border: 2px solid rgba(255, 75, 110, 0.35);
+      cursor: default;
+    }
+    .btn-no:hover { border-color: #ff4b6e }
+
+    /* ── Floating Heart Button ── */
+    .float-heart {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 84px; height: 84px; border-radius: 50%;
+      background: linear-gradient(135deg, #ff4b6e, #ff6b8a);
+      box-shadow: 0 8px 30px rgba(255, 75, 110, 0.35);
+      cursor: pointer; border: none; outline: none;
+      animation: pulse 2s ease-in-out infinite;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-size: 2.2rem; color: #fff;
+    }
+    .float-heart:hover { transform: scale(1.12); box-shadow: 0 12px 40px rgba(255, 75, 110, 0.5) }
+    @keyframes pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.07) } }
+
+    /* ── Memory Gallery ── */
+    .memories-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2rem; width: 100%;
+    }
+    .memories-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+      color: #ff4b6e;
+      text-shadow: 0 3px 10px rgba(255, 75, 110, 0.18);
+    }
+    .memories-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; color: #8f3056; font-weight: 600;
+      margin-top: -0.8rem; font-style: italic;
+    }
+    .memories-grid {
+      display: grid; gap: 1.3rem;
+      grid-template-columns: repeat(2, 1fr);
+      width: 100%; max-width: 620px;
+    }
+    .memory-card {
+      aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden;
+      background: linear-gradient(135deg, #fff0f4 0%, #ffe0ea 100%);
+      box-shadow: 0 10px 30px rgba(255, 75, 110, 0.14);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.85) rotate(-2deg);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+    .memory-card.show { opacity: 1; transform: scale(1) rotate(0) }
+    .memory-card img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s ease;
+    }
+    .memory-card:hover img { transform: scale(1.07) }
+    .memory-card .emoji-icon {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      filter: drop-shadow(0 2px 6px rgba(255,75,110,0.2));
+    }
+    .memory-card .mem-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      text-align: center; font-size: 0.95rem; font-weight: 700;
+      color: #9c2448; letter-spacing: 0.5px; text-transform: uppercase;
+      padding: 22px 8px 10px;
+      background: linear-gradient(0deg, rgba(255, 247, 250, 0.95), rgba(255, 247, 250, 0.55) 55%, rgba(255, 247, 250, 0));
+      pointer-events: none;
+    }
+    .memory-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 62%, rgba(255, 240, 244, 0.45) 100%);
+      pointer-events: none;
+    }
+
+    /* Loading spinner for memories */
+    .mem-loader {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1rem;
+    }
+    .mem-loader .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(255, 75, 110, 0.15);
+      border-top-color: #ff4b6e; border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    .mem-loader p {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.2rem; color: #ff4b6e;
+    }
+    @keyframes spin { to { transform: rotate(360deg) } }
+
+    /* ── Heart Shape Builder ── */
+    .heart-shape-stage {
+      position: fixed; inset: 0; z-index: 15;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(160deg, rgba(255, 248, 249, 0.96), rgba(254, 242, 247, 0.96), rgba(253, 232, 243, 0.96));
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+    .heart-shape-stage.active { opacity: 1; pointer-events: all }
+    #heartShapeCanvas { width: 100%; height: 100% }
+    .heart-caption {
+      position: absolute; bottom: 12vh; left: 0; right: 0;
+      text-align: center;
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+      color: #c62c56;
+      letter-spacing: 0.3px;
+      opacity: 0; transform: translateY(10px);
+      transition: all 0.9s ease 0.4s;
+    }
+    .heart-shape-stage.formed .heart-caption { opacity: 1; transform: none }
+
+    /* ── Beauty Letter ── */
+    .beauty-letter {
+      background: linear-gradient(170deg, #fffcfd 0%, #fff8f5 50%, #fff5f8 100%);
+      border-radius: 28px;
+      padding: clamp(2rem, 5vw, 3.5rem) clamp(1.4rem, 5vw, 3rem);
+      width: min(92vw, 660px);
+      text-align: center;
+      box-shadow: 0 25px 70px rgba(255, 75, 110, 0.22), 0 0 0 1px rgba(255,75,110,0.08);
+      position: relative; z-index: 5;
+      overflow-x: hidden; overflow-y: auto;
+      max-height: min(88vh, 760px);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 75, 110, 0.3) transparent;
+      opacity: 0; transform: scale(0.85) translateY(20px);
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .beauty-letter.show { opacity: 1; transform: none }
+    .beauty-letter::-webkit-scrollbar { width: 4px }
+    .beauty-letter::-webkit-scrollbar-thumb { background: rgba(255,75,110,0.3); border-radius: 99px }
+
+    .letter-greeting {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.1rem, 5.5vw, 3rem);
+      color: #ff4b6e;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 3px 12px rgba(255, 75, 110, 0.18);
+      animation: softPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes softPop { from { transform: scale(0.8); opacity: 0 } to { transform: scale(1); opacity: 1 } }
+
+    .letter-to {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; color: #8f3056; font-weight: 600;
+      font-style: italic; margin-bottom: 1.6rem;
+    }
+
+    .letter-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.25rem, 2.7vw, 1.5rem);
+      line-height: 1.95; color: #30141f; font-weight: 600;
+      text-align: left; margin: 0 auto 1.2rem;
+      max-width: 540px; letter-spacing: 0.15px;
+    }
+    .letter-body p {
+      margin-bottom: 1.2rem;
+      opacity: 0; transform: translateY(8px);
+      animation: fadeSlideUp 0.5s ease-out forwards;
+    }
+    @keyframes fadeSlideUp { to { opacity: 1; transform: translateY(0) } }
+
+    .beauty-highlight {
+      display: inline; background: linear-gradient(transparent 60%, rgba(255,75,110,0.14) 60%);
+      font-weight: 700; color: #c2184f;
+    }
+
+    .letter-divider {
+      width: 60px; height: 2px; margin: 1.5rem auto;
+      background: linear-gradient(90deg, transparent, #ff4b6e, transparent);
+      border-radius: 99px; opacity: 0; animation: fadeSlideUp 0.5s ease-out 0.3s forwards;
+    }
+
+    .letter-closing {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+      line-height: 1.9; color: #381b29; font-weight: 600;
+      text-align: left; margin: 0 auto;
+      max-width: 540px; font-style: italic;
+    }
+    .letter-closing p {
+      margin-bottom: 1rem;
+      opacity: 0; animation: fadeSlideUp 0.5s ease-out forwards;
+    }
+
+    .letter-sign {
+      margin-top: 2rem; opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.8s ease 0.4s;
+    }
+    .letter-sign.show { opacity: 1; transform: none }
+    .letter-sign .sign-text {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      color: #ff4b6e;
+      display: block; margin-bottom: 0.3rem;
+    }
+    .letter-sign .sign-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; color: #93375e; font-weight: 600;
+      font-style: italic;
+    }
+
+    /* wax-seal stamp below the signature */
+    .letter-seal {
+      width: 60px; height: 60px; margin: 1.6rem auto 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ff7b95, #ff4b6e 72%);
+      box-shadow: 0 8px 20px rgba(255, 75, 110, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+      opacity: 0; transform: scale(0.5) rotate(-24deg);
+      transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s;
+    }
+    .letter-seal svg { width: 100%; height: 100%; display: block; border-radius: 50% }
+    .letter-sign.show ~ .letter-seal { opacity: 1; transform: scale(1) rotate(0deg) }
+
+    .letter-ps {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; color: #a02856; font-weight: 600;
+      font-style: italic; margin-top: 1.4rem;
+      text-align: center; letter-spacing: 0.2px;
+      opacity: 0; animation: fadeSlideUp 0.9s ease-out forwards;
+    }
+
+    .typing-caret {
+      display: inline-block; width: 2px; height: 1em;
+      background: #ff4b6e; margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 0.85s step-start infinite;
+      box-shadow: 0 0 6px rgba(255, 75, 110, 0.5);
+    }
+    @keyframes blink { 0%,100% { opacity: 1 } 50% { opacity: 0 } }
+
+    /* ── Progress Bar ── */
+    .progress {
+      position: fixed; bottom: 1.8rem; left: 50%;
+      transform: translateX(-50%); z-index: 100;
+    }
+    .progress-bar {
+      width: 140px; height: 4px; border-radius: 99px;
+      background: rgba(255, 75, 110, 0.12);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%; border-radius: 99px;
+      background: linear-gradient(90deg, #ff4b6e, #ff8ba7);
+      transition: width 0.5s ease;
+    }
+    .progress-label {
+      color: #ad4068; font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      text-align: center; margin-top: 6px;
+    }
+
+    /* ── Loading Screen ── */
+    .loading-screen {
+      position: fixed; inset: 0; z-index: 500;
+      background: linear-gradient(160deg, #fff8f9, #fef2f7, #fde8f3);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 2rem; transition: opacity 0.6s ease;
+    }
+    .loading-screen.hide { opacity: 0; pointer-events: none }
+    .loading-heart {
+      font-size: 3.8rem; animation: pulse 1.5s ease-in-out infinite;
+      filter: drop-shadow(0 4px 14px rgba(255, 75, 110, 0.3));
+    }
+    .loading-label {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.4rem; color: #ff4b6e;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Forever Card (final chapter) ── */
+    .forever-card {
+      background: linear-gradient(170deg, #fffcfd, #fff6f9 55%, #fff0f6);
+      border-radius: 30px;
+      padding: clamp(2.2rem, 5vw, 3.4rem) clamp(1.4rem, 5vw, 2.8rem);
+      width: min(90vw, 600px); text-align: center;
+      box-shadow: 0 30px 80px rgba(255, 75, 110, 0.24), 0 0 0 1px rgba(255, 75, 110, 0.08);
+      position: relative;
+    }
+    .forever-card::before {
+      content: ''; position: absolute; inset: -46px; z-index: -1; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 75, 110, 0.14), transparent 70%);
+      filter: blur(12px);
+    }
+    .forever-svg {
+      width: clamp(66px, 13vw, 100px); margin: 0 auto 1rem;
+      animation: badgeFloat 3.2s ease-in-out infinite;
+      filter: drop-shadow(0 6px 18px rgba(255, 75, 110, 0.3));
+    }
+    .forever-text { margin-bottom: 1.6rem }
+    body.ready .chapter.active .forever-card > * { animation: fadeSlideUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards }
+    body.ready .chapter.active .forever-card > *:nth-child(1) { animation-delay: 0.1s }
+    body.ready .chapter.active .forever-card > *:nth-child(2) { animation-delay: 0.35s }
+    body.ready .chapter.active .forever-card > *:nth-child(3) { animation-delay: 0.6s }
+    body.ready .chapter.active .forever-card > *:nth-child(4) { animation-delay: 0.85s }
+    body.ready .chapter.active .forever-card > *:nth-child(5) { animation-delay: 1.1s }
+    body.ready .chapter.active .forever-card > *:nth-child(6) { animation-delay: 1.35s }
+
+    /* ── Final Celebration Overlay ── */
+    .final-overlay {
+      position: fixed; inset: 0; z-index: 60;
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+      background: linear-gradient(160deg, #fff3f6, #ffe9f1 55%, #ffdfec);
+      opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+    }
+    .final-overlay.active { opacity: 1; pointer-events: all }
+    .final-overlay.active ~ .progress { opacity: 0; transition: opacity 0.4s }
+    .final-card {
+      background: #fffdfe; border-radius: 30px;
+      padding: clamp(2.2rem, 5vw, 3.4rem) clamp(1.4rem, 5vw, 2.8rem);
+      width: min(90vw, 560px); text-align: center;
+      box-shadow: 0 30px 90px rgba(255, 75, 110, 0.28);
+      transform: scale(0.85) translateY(16px); transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .final-overlay.active .final-card { transform: none }
+    .final-ring {
+      font-size: clamp(3.4rem, 10vw, 5rem); animation: pulse 1.6s ease-in-out infinite;
+      filter: drop-shadow(0 6px 18px rgba(255, 75, 110, 0.35));
+    }
+    .final-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.1rem, 5.8vw, 3rem); color: #ff4b6e;
+      margin: 1rem 0 0.6rem;
+    }
+    .final-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.25rem, 2.8vw, 1.5rem); line-height: 1.9; color: #381b29; font-weight: 600;
+    }
+    .final-sign {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      color: #93375e; font-size: 1.2rem; margin-top: 1rem; font-weight: 600;
+    }
+    .final-replay {
+      margin-top: 1.6rem; padding: 0.9rem 1.9rem; border-radius: 50px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, #ff4b6e, #ff6b8a); color: #fff;
+      font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.3px;
+      box-shadow: 0 8px 24px rgba(255, 75, 110, 0.35); transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .final-replay:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 34px rgba(255, 75, 110, 0.45) }
+
+    /* ── Sparkler Note (written in light) ── */
+    .spark-stage {
+      position: fixed; inset: 0; z-index: 40;
+      background: radial-gradient(120% 120% at 50% 38%, #2a1550 0%, #170b34 45%, #0d0620 100%);
+      opacity: 0; pointer-events: none; transition: opacity 0.7s ease;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .spark-stage.active { opacity: 1; pointer-events: all }
+    #sparklerCanvas { width: 100%; height: 100%; cursor: pointer }
+    .spark-caption {
+      position: absolute; bottom: 9vh; left: 0; right: 0; text-align: center;
+      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
+      font-size: 1.25rem; color: #ffd9a8; letter-spacing: 0.3px;
+      opacity: 0; transition: opacity 1.2s ease 1s;
+    }
+    .spark-stage.active .spark-caption { opacity: 1 }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .memories-grid { gap: 0.8rem }
+      .btn { flex: 1 1 120px; padding: 0.85rem 1.3rem; font-size: 1rem }
+      .letter-body, .letter-closing { font-size: 1.15rem; line-height: 1.9 }
+      .beauty-letter { padding: 1.8rem 1.2rem; border-radius: 22px }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="heartCanvas"></canvas>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-heart">💕</div>
+    <div class="loading-label">Preparing something special…</div>
+  </div>
+
+  <!-- Heart Shape Builder (full-screen canvas for heart formation) -->
+  <div class="heart-shape-stage" id="heartShapeStage">
+    <canvas id="heartShapeCanvas"></canvas>
+    <div class="heart-caption" id="heartCaption">my heart, building itself for you… 💗</div>
+  </div>
+
+  <!-- Main Stage -->
+  <div class="stage">
+
+    <!-- Chapter 0 — Intro -->
+    <div class="chapter active" data-ch="0">
+      <div class="intro-wrap">
+        <div class="badge-holder"><div class="intro-badge">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(2 4) scale(1.45)">
+              <path fill="#ffb3c1" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </g>
+            <g transform="translate(33 16) scale(1.3)">
+              <path fill="#ff4b6e" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </g>
+            <path fill="#ffd700" d="M54 6l1.1 3.4 3.4 1.1-3.4 1.1L54 15l-1.1-3.4-3.4-1.1 3.4-1.1z"/>
+            <path fill="#ffd6e0" d="M5 44l.9 2.9 2.9.9-2.9.9L5 51.6l-.9-2.9-2.9-.9 2.9-.9z"/>
+          </svg>
+        </div></div>
+        <div class="ecg-holder">
+          <svg class="ecg-line" viewBox="0 0 340 44" xmlns="http://www.w3.org/2000/svg">
+            <path class="glow" d="M4 22 H96 L110 22 L118 8 L132 38 L142 22 H220 H230 L238 12 L250 34 L258 22 H336"/>
+            <path class="main" d="M4 22 H96 L110 22 L118 8 L132 38 L142 22 H220 H230 L238 12 L250 34 L258 22 H336"/>
+          </svg>
+        </div>
+        <div class="ch-title">Our Little World <span class="emoji">✨</span></div>
+        <div class="ch-text">
+          Before I say what's been sitting on my heart for so long,<br>
+          I want to walk you through a few moments with me.<br>
+          Just say yes as we go along. Ready?
+        </div>
+        <div class="hint-holder"><div class="intro-hint">a little journey awaits — tap the heart when you're ready</div></div>
+        <div class="btn-holder">
+          <div class="btn-halo"><button class="float-heart" onclick="goNext()" aria-label="Start">💕</button></div>
+          <div class="sparkle-line">✦ ✦ ✦</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 1 -->
+    <div class="chapter" data-ch="1">
+      <div>
+        <div class="ch-title">That One Day <span class="emoji">🌸</span></div>
+        <div class="ch-text">
+          You know that first time we talked?<br>
+          I still think about how easy it felt — like we'd known each other forever.
+        </div>
+        <div class="ch-question">Do you remember it too?</div>
+        <div class="btn-row">
+          <button class="btn btn-yes" onclick="answerQ(1)">Of course I do 🥰</button>
+          <button class="btn btn-no" data-q="1" onmouseenter="escapeNo(this,1)">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="chapter" data-ch="2">
+      <div>
+        <div class="ch-title">The Little Things <span class="emoji">🫶</span></div>
+        <div class="ch-text">
+          The way you laugh when something catches you off guard —<br>
+          that's the sound I want to hear every single morning.
+        </div>
+        <div class="ch-question">Does my presence make your day a little brighter?</div>
+        <div class="btn-row">
+          <button class="btn btn-yes" onclick="answerQ(2)">Always, always 💛</button>
+          <button class="btn btn-no" data-q="2" onmouseenter="escapeNo(this,2)">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="chapter" data-ch="3">
+      <div>
+        <div class="ch-title">When I Miss You <span class="emoji">🌙</span></div>
+        <div class="ch-text">
+          Even when we're apart, you're the last thought before I sleep<br>
+          and the first one when I open my eyes.
+        </div>
+        <div class="ch-question">Do you think about me when I'm not around?</div>
+        <div class="btn-row">
+          <button class="btn btn-yes" onclick="answerQ(3)">More than you know 🥹</button>
+          <button class="btn btn-no" data-q="3" onmouseenter="escapeNo(this,3)">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div class="chapter" data-ch="4">
+      <div>
+        <div class="ch-title">Everything We Are <span class="emoji">💫</span></div>
+        <div class="ch-text">
+          We've had our ups and downs, our quiet nights and loud laughs.<br>
+          Every single one of those moments? I'd relive them all for you.
+        </div>
+        <div class="ch-question">Would you choose us again if you could?</div>
+        <div class="btn-row">
+          <button class="btn btn-yes" onclick="answerQ(4)">A thousand times yes 🌹</button>
+          <button class="btn btn-no" data-q="4" onmouseenter="escapeNo(this,4)">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 5 — The Big Question -->
+    <div class="chapter" data-ch="5">
+      <div>
+        <div class="ch-title">One Last Question <span class="emoji">💍</span></div>
+        <div class="ch-text">
+          This is the one I've been building up to.<br>
+          I don't need a perfect moment — I just need you.
+        </div>
+        <div class="ch-question">Will you be mine, today and always?</div>
+        <div class="btn-row">
+          <button class="btn btn-yes" onclick="answerQ(5)">Yes, forever 💕</button>
+          <button class="btn btn-no" data-q="5" onmouseenter="escapeNo(this,5)">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 6 — Memory Gallery -->
+    <div class="chapter" data-ch="6">
+      <div>
+        <div class="memories-wrap">
+          <div class="memories-title">Our Memories ✨</div>
+          <div class="memories-sub">A few moments I hold close to my heart…</div>
+          <div class="mem-loader" id="memLoader">
+            <div class="spinner"></div>
+            <p>Loading our memories…</p>
+          </div>
+          <div class="memories-grid" id="memGrid" style="display:none"></div>
+          <button class="float-heart" id="memNext" style="display:none" onclick="goNext()" aria-label="Next">💌</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 7 — Beauty Letter -->
+    <div class="chapter" data-ch="7">
+      <div class="letter-frame">
+        <div class="beauty-letter" id="beautyLetter">
+          <div class="letter-greeting">My Dearest 💕</div>
+          <div class="letter-to">for the girl who stole my heart</div>
+
+          <div class="letter-body" id="letterBody"></div>
+          <div class="letter-divider"></div>
+          <div class="letter-closing" id="letterClosing"></div>
+
+          <div class="letter-sign" id="letterSign">
+            <span class="sign-text">— with all my heart ❤️</span>
+            <span class="sign-sub">your biggest fan, always & forever</span>
+          </div>
+          <div class="letter-seal">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="23" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+              <circle cx="24" cy="24" r="17" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+              <path fill="#fff" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" transform="translate(12 13)"/>
+            </svg>
+          </div>
+        </div>
+        <span class="corner-heart tl">
+          <svg viewBox="0 0 24 24"><path fill="#ffb3c1" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+        <span class="corner-heart br">
+          <svg viewBox="0 0 24 24"><path fill="#ff8ba7" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter 8 — Sparkler Note -->
+  <div class="chapter" data-ch="8">
+    <div>
+      <div class="spark-badge"><div class="intro-badge">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#ffd700" d="M32 10l2.6 8.2 8.2 2.6-8.2 2.6L32 31.6l-2.6-8.2-8.2-2.6 8.2-2.6z"/>
+          <path fill="#ff8ba7" d="M10 40l1.5 4.7 4.7 1.5-4.7 1.5L10 52.4l-1.5-4.7-4.7-1.5 4.7-1.5z"/>
+          <path fill="#ffb3c1" d="M54 40l.9 2.9 2.9.9-2.9.9-.9 2.9-.9-2.9-2.9-.9 2.9-.9z"/>
+        </svg>
+      </div></div>
+      <div class="ch-title">A Note in Light <span class="emoji">🪄</span></div>
+      <div class="ch-text">
+        Some things are better said in light…<br>
+        Tap the star, and watch closely, my love.
+      </div>
+      <div class="hint-holder"><div class="intro-hint">this one is for your eyes only ✨</div></div>
+      <div class="btn-holder">
+        <div class="btn-halo"><button class="float-heart" onclick="startSparkler()" aria-label="Begin">🎆</button></div>
+        <div class="sparkle-line">✦ ✦ ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter 9 — Forever -->
+  <div class="chapter" data-ch="9">
+    <div>
+      <div class="forever-card">
+        <span class="corner-hearts">
+          <span class="corner-heart tl">
+            <svg viewBox="0 0 24 24"><path fill="#ffb3c1" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </span>
+          <span class="corner-heart br">
+            <svg viewBox="0 0 24 24"><path fill="#ff8ba7" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </span>
+        </span>
+        <div class="forever-svg-holder"><div class="forever-svg">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="22" cy="32" r="13" fill="none" stroke="#ff4b6e" stroke-width="4.5"/>
+            <circle cx="42" cy="32" r="13" fill="none" stroke="#ff8ba7" stroke-width="4.5"/>
+            <path fill="#ffd700" d="M32 12l1.4 4.3 4.3 1.4-4.3 1.4L32 23.4l-1.4-4.3-4.3-1.4 4.3-1.4z"/>
+            <path fill="#ffb3c1" d="M6 14l.9 2.8 2.8.9-2.8.9L6 21.6l-.9-2.8-2.8-.9 2.8-.9z"/>
+            <path fill="#ffd6e0" d="M58 46l.8 2.6 2.6.8-2.6.8-.8 2.6-.8-2.6-2.6-.8 2.6-.8z"/>
+          </svg>
+        </div></div>
+        <div class="ch-title">Forever, After All <span class="emoji">💗</span></div>
+        <div class="ch-text forever-text">
+          So here it is — my whole heart, in one letter, for you.<br>
+          I don't know exactly what forever looks like yet,<br>
+          but I know who I want beside me when we get there.<br><br>
+          Thank you for saying yes — to the quiet mornings, the midnight talks,<br>
+          the rain, and every memory we're still about to make.
+        </div>
+        <div class="hint-holder"><div class="intro-hint">one last tap, my love…</div></div>
+        <div class="btn-holder">
+          <div class="btn-halo"><button class="float-heart" onclick="celebrateEnd()" aria-label="Forever">💍</button></div>
+          <div class="sparkle-line">✦ ✦ ✦</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Celebration Overlay -->
+  <div class="final-overlay" id="finalOverlay">
+    <div class="final-card">
+      <div class="final-ring">💖</div>
+      <div class="final-title">Then it's settled.</div>
+      <div class="final-text">
+        Forever looks good on us, don't you think? 💍<br>
+        Thank you for being my everything —<br>
+        today, tomorrow, and every day after.
+      </div>
+      <div class="final-sign">— made with all my heart</div>
+      <div class="final-sign">your biggest fan, always &amp; forever</div>
+      <button class="final-replay" onclick="location.reload()">Relive it all again 🔁</button>
+    </div>
+  </div>
+
+  <!-- Sparkler fullscreen stage -->
+  <div class="spark-stage" id="sparkStage">
+    <canvas id="sparklerCanvas"></canvas>
+    <div class="spark-caption">written in light, just for you ✨</div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">Ready?</div>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════
+       STATE
+    ═══════════════════════════════════════════ */
+    let ch = 0, answered = 0, busy = false;
+    const totalQ = 5;
+    const noEscapes = {};
+
+    /* ═══════════════════════════════════════════
+       CANVAS — cursor hearts + ambient glow
+    ═══════════════════════════════════════════ */
+    const cvs = document.getElementById('heartCanvas');
+    const ctx = cvs.getContext('2d');
+    let parts = [];
+
+    function fitCvs() { cvs.width = innerWidth; cvs.height = innerHeight }
+    fitCvs(); addEventListener('resize', fitCvs);
+
+    class Heart {
+      constructor(x, y) {
+        this.x = x; this.y = y;
+        this.vx = (Math.random() - 0.5) * 1.6;
+        this.vy = (Math.random() - 0.5) * 1.6 - 1.2;
+        this.life = 1;
+        this.decay = Math.random() * 0.01 + 0.005;
+        this.size = Math.random() * 1.8 + 0.7;
+        this.rot = Math.random() * 6.28;
+        this.rv = (Math.random() - 0.5) * 0.06;
+      }
+      update() { this.x += this.vx; this.y += this.vy; this.vy -= 0.08; this.life -= this.decay; this.rot += this.rv }
+      draw(c) {
+        if (this.life <= 0) return;
+        c.save(); c.globalAlpha = this.life * 0.75;
+        c.translate(this.x, this.y); c.rotate(this.rot);
+        c.fillStyle = '#ff4b6e'; c.font = `${this.size * 8}px Arial`;
+        c.textAlign = 'center'; c.textBaseline = 'middle';
+        c.fillText('❤', 0, 0); c.restore();
+      }
+      dead() { return this.life <= 0 }
+    }
+
+    function spawn(x, y, n = 6) {
+      for (let i = 0; i < n; i++) parts.push(new Heart(x + (Math.random()-0.5)*40, y + (Math.random()-0.5)*40));
+    }
+
+    let mx = 0, my = 0;
+    document.addEventListener('mousemove', e => {
+      if (Math.hypot(e.clientX - mx, e.clientY - my) > 35) {
+        spawn(e.clientX, e.clientY, 2); mx = e.clientX; my = e.clientY;
+      }
+    });
+    document.addEventListener('touchmove', e => { const t = e.touches[0]; spawn(t.clientX, t.clientY, 2) });
+
+    function loop() {
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
+      for (let i = parts.length - 1; i >= 0; i--) {
+        parts[i].update(); parts[i].draw(ctx);
+        if (parts[i].dead()) parts.splice(i, 1);
+      }
+      /* ambient drifting hearts */
+      ctx.globalAlpha = 0.03;
+      for (let i = 0; i < 5; i++) {
+        const ax = Math.sin(Date.now() / 7000 + i * 1.2) * cvs.width / 2.8 + cvs.width / 2;
+        const ay = Math.cos(Date.now() / 8000 + i * 1.5) * cvs.height / 2.8 + cvs.height / 2;
+        ctx.fillStyle = '#ff4b6e'; ctx.font = '90px Arial';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('❤', ax, ay);
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    /* ═══════════════════════════════════════════
+       CHAPTER NAVIGATION
+    ═══════════════════════════════════════════ */
+    function goNext() {
+      if (busy) return; busy = true;
+      const el = document.querySelector(`.chapter[data-ch="${ch}"]`);
+      el.classList.remove('active'); el.classList.add('exit');
+      spawn(innerWidth / 2, innerHeight / 2, 14);
+      setTimeout(() => {
+        ch++;
+        if (ch <= 9) {
+          document.querySelector(`.chapter[data-ch="${ch}"]`).classList.add('active');
+          updateProgress();
+          if (ch === 6) loadMemories();
+          if (ch === 7) { showBeautyLetter(); }
+          if (ch === 8) { showSparkNote(); }
+          if (ch === 9) { showForever(); }
+          busy = false;
+        } else { busy = false; }
+      }, 550);
+    }
+
+    function answerQ(q) {
+      if (busy) return;
+      answered++;
+      spawn(innerWidth / 2, innerHeight / 2, 20);
+      if (answered >= totalQ) {
+        /* all done → show heart shape animation then memories */
+        busy = true;
+        setTimeout(() => showHeartShape(), 600);
+      } else {
+        goNext();
+      }
+    }
+
+    /* ═══════════════════════════════════════════
+       NO BUTTON ESCAPE
+    ═══════════════════════════════════════════ */
+    const noMsgs = {
+      1: ["Hmm… think again 🥺", "But you do remember…", "Don't tease me 💕", "Really? 🥹", "I know you do…", "One more thought 💗", "Come on… 🫶"],
+      2: ["I know you feel it 💕", "Your smile says yes 🥰", "Be honest… 🥺", "I can feel it 🫶", "Don't hide it 💗", "It's okay to admit 💛", "Yes you do 🌸"],
+      3: ["I bet you do 🥺", "I think about you too 💕", "Don't say no 🫶", "My heart knows 💗", "You always are 🌙", "Admit it 🥰", "Always 💛"],
+      4: ["A thousand times, right? 💕", "Of course we would 🥺", "We're perfect 🫶", "No doubt about it 💗", "Always us 🌹", "Right? 🥰", "We always choose each other 💛"],
+      5: ["Please say yes 🥺", "Don't break my heart 💔", "I'm waiting… 💕", "Forever, remember? 🫶", "You know the answer 💗", "Say yes! 🥰", "My heart is yours 💛"]
+    };
+
+    function escapeNo(btn, q) {
+      noEscapes[q] = (noEscapes[q] || 0) + 1;
+      const msgs = noMsgs[q];
+      if (noEscapes[q] <= msgs.length) btn.textContent = msgs[noEscapes[q] - 1];
+      const row = btn.parentElement;
+      const maxX = Math.max(20, row.offsetWidth - btn.offsetWidth - 20);
+      const maxY = Math.max(10, row.offsetHeight - btn.offsetHeight - 10);
+      btn.style.position = 'relative';
+      btn.style.left = (Math.random() * maxX - maxX / 2) + 'px';
+      btn.style.top = (Math.random() * maxY - maxY / 2) + 'px';
+      spawn(innerWidth / 2 + (Math.random() - 0.5) * 200, innerHeight / 2, 8);
+    }
+
+    /* ═══════════════════════════════════════════
+       PROGRESS
+    ═══════════════════════════════════════════ */
+    const labels = ['Ready?', '1 / 5', '2 / 5', '3 / 5', '4 / 5', '5 / 5 ✓', 'Memories ✨', 'A Letter for You 💌', 'A Note in Light ✨', 'Forever 💗'];
+    function updateProgress() {
+      const pct = Math.min((ch / 9) * 100, 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressLabel').textContent = labels[ch] || '';
+    }
+
+    /* ═══════════════════════════════════════════
+       HEART SHAPE ANIMATION
+    ═══════════════════════════════════════════ */
+    function showHeartShape() {
+      const stage = document.getElementById('heartShapeStage');
+      const hCvs = document.getElementById('heartShapeCanvas');
+      const hCtx = hCvs.getContext('2d');
+      hCvs.width = innerWidth; hCvs.height = innerHeight;
+      stage.classList.remove('formed');
+      stage.classList.add('active');
+
+      /* hide the question behind the animation */
+      const q5 = document.querySelector('.chapter[data-ch="5"]');
+      q5.classList.remove('active'); q5.classList.add('exit');
+
+      /* heart parametric points */
+      const heartPts = [];
+      const cx = hCvs.width / 2, cy = hCvs.height / 2 - 20;
+      /* parametric heart spans ~29 units tall, ~32 wide → /50 fits any viewport */
+      const scale = Math.min(hCvs.width, hCvs.height) / 50;
+      const heartX = t => 16 * Math.pow(Math.sin(t), 3);
+      const heartY = t => -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+      /* fill the WHOLE heart: perimeter + inner layers so it builds solid */
+      const fillLayers = [1, 0.88, 0.76, 0.64, 0.52, 0.4, 0.28, 0.16];
+      for (let i = 0; i < 150; i++) {
+        const t = (i / 150) * Math.PI * 2;
+        const hx = heartX(t), hy = heartY(t);
+        for (const k of fillLayers) {
+          heartPts.push({ tx: cx + hx * scale * k, ty: cy + hy * scale * k });
+        }
+      }
+
+      /* floating hearts that will converge */
+      const dots = heartPts.map(p => ({
+        x: Math.random() * hCvs.width,
+        y: Math.random() * hCvs.height,
+        tx: p.tx, ty: p.ty,
+        size: Math.random() * 3 + 2.5,
+        speed: 0.012 + Math.random() * 0.018,
+        progress: 0,
+        hue: Math.random() > 0.5 ? '#ff4b6e' : '#ff6b8a'
+      }));
+
+      /* two big decorative hearts on the sides — kept clear of the caption text */
+      const sideHearts = [
+        { x: hCvs.width * 0.10, y: hCvs.height * 0.42, s: 1.0, phase: 0 },
+        { x: hCvs.width * 0.90, y: hCvs.height * 0.42, s: 0.86, phase: 1.7 }
+      ];
+      function drawSideHearts(f) {
+        const base = Math.min(hCvs.width, hCvs.height) / 20;
+        for (const sh of sideHearts) {
+          const float = Math.sin(f / 42 + sh.phase) * 12;
+          const pulse = 1 + Math.sin(f / 30 + sh.phase) * 0.05;
+          const r = base * sh.s * pulse;
+          const x = sh.x, y = sh.y + float;
+          const grad = hCtx.createLinearGradient(x - r, y - r, x + r, y + r);
+          grad.addColorStop(0, 'rgba(255,155,178,0.55)');
+          grad.addColorStop(1, 'rgba(214,30,74,0.55)');
+          hCtx.save();
+          hCtx.globalAlpha = 0.5;
+          hCtx.fillStyle = grad;
+          hCtx.shadowColor = 'rgba(255,75,110,0.45)';
+          hCtx.shadowBlur = 35;
+          hCtx.beginPath();
+          for (let i = 0; i <= 120; i++) {
+            const t = (i / 120) * Math.PI * 2;
+            const px = x + heartX(t) * r / 16;
+            const py = y + heartY(t) * r / 16;
+            i === 0 ? hCtx.moveTo(px, py) : hCtx.lineTo(px, py);
+          }
+          hCtx.closePath();
+          hCtx.fill();
+          hCtx.restore();
+        }
+        hCtx.globalAlpha = 1;
+      }
+      let frame = 0;
+      function drawHeart() {
+        hCtx.clearRect(0, 0, hCvs.width, hCvs.height);
+        let allDone = true;
+        for (const d of dots) {
+          if (d.progress < 1) {
+            d.progress = Math.min(1, d.progress + d.speed);
+            allDone = false;
+          }
+          const ease = 1 - Math.pow(1 - d.progress, 3);
+          const px = d.x + (d.tx - d.x) * ease;
+          const py = d.y + (d.ty - d.y) * ease;
+          hCtx.globalAlpha = 0.3 + d.progress * 0.7;
+          hCtx.fillStyle = d.hue;
+          hCtx.beginPath();
+          hCtx.arc(px, py, d.size, 0, Math.PI * 2);
+          hCtx.fill();
+        }
+        /* solid filled heart once formed */
+        if (allDone) {
+          if (!stage.classList.contains('formed')) stage.classList.add('formed');
+          const pulse = 1 + Math.sin(frame / 26) * 0.022;
+          const grad = hCtx.createLinearGradient(cx - scale * 14, cy - scale * 14, cx + scale * 14, cy + scale * 14);
+          grad.addColorStop(0, '#ff9bb2');
+          grad.addColorStop(0.45, '#ff4b6e');
+          grad.addColorStop(1, '#c2153f');
+          hCtx.save();
+          hCtx.translate(cx, cy); hCtx.scale(pulse, pulse); hCtx.translate(-cx, -cy);
+          hCtx.shadowColor = 'rgba(255,75,110,0.85)';
+          hCtx.shadowBlur = 55;
+          hCtx.globalAlpha = 1;
+          hCtx.fillStyle = grad;
+          hCtx.beginPath();
+          for (let i = 0; i <= 160; i++) {
+            const t = (i / 160) * Math.PI * 2;
+            const px = cx + heartX(t) * scale, py = cy + heartY(t) * scale;
+            i === 0 ? hCtx.moveTo(px, py) : hCtx.lineTo(px, py);
+          }
+          hCtx.closePath();
+          hCtx.fill();
+          hCtx.shadowBlur = 0;
+          /* glossy highlight */
+          hCtx.globalAlpha = 0.18;
+          hCtx.fillStyle = '#ffffff';
+          hCtx.beginPath();
+          hCtx.ellipse(cx - scale * 5, cy - scale * 7, scale * 4.5, scale * 2.6, -0.6, 0, Math.PI * 2);
+          hCtx.fill();
+          hCtx.restore();
+          hCtx.globalAlpha = 1;
+        }
+        /* side hearts float throughout the formation */
+        drawSideHearts(frame);
+        hCtx.globalAlpha = 1;
+        frame++;
+        if (!allDone || frame < 150) {
+          requestAnimationFrame(drawHeart);
+        } else {
+          /* done — fade and move to memories */
+          safeBurst({ particleCount: 150, spread: 360, origin: { y: 0.5 }, decay: 0.92, scalar: 1.1 });
+          setTimeout(() => {
+            stage.classList.remove('active');
+            stage.classList.remove('formed');
+            busy = false;
+            goNext();
+          }, 1200);
+        }
+      }
+      drawHeart();
+    }
+
+    /* ═══════════════════════════════════════════
+       MEMORY GALLERY (Chapter 6)
+    ═══════════════════════════════════════════ */
+    const memories = [
+      /* Photos live locally in the assets/ folder next to this file — they load
+         fast and always work, even offline. One of the two is picked randomly
+         per visit. To use your own photos, just drop files into assets/ and
+         change the names below. */
+      { imgs: [
+          'assets/memory-coffee-1.jpg',
+          'assets/memory-coffee-2.jpg'
+        ], emoji: '☕', label: 'Our first coffee' },
+      { imgs: [
+          'assets/memory-sunset-1.jpg',
+          'assets/memory-sunset-2.jpg'
+        ], emoji: '🌅', label: 'Sunset walks' },
+      { imgs: [
+          'assets/memory-us-1.jpg',
+          'assets/memory-us-2.jpg'
+        ], emoji: '💑', label: 'Us, always' },
+      { imgs: [
+          'assets/memory-rain-1.jpg'
+        ], emoji: '🌧️', label: 'Caught in the rain' },
+      { imgs: [
+          'assets/memory-birthday-1.jpg',
+          'assets/memory-birthday-2.jpg'
+        ], emoji: '🎂', label: 'Your birthday' },
+      { imgs: [
+          'assets/memory-night-1.jpg',
+          'assets/memory-night-2.jpg'
+        ], emoji: '🌙', label: 'Late night talks' },
+    ];
+
+    function loadMemories() {
+      const loader = document.getElementById('memLoader');
+      const grid = document.getElementById('memGrid');
+      const nextBtn = document.getElementById('memNext');
+      grid.innerHTML = '';
+      loader.style.display = 'flex';
+      grid.style.display = 'none';
+      nextBtn.style.display = 'none';
+
+      /* preload a random image per occasion so they pop in instantly */
+      const loads = memories.map(m => new Promise(res => {
+        const img = new Image();
+        const url = m.imgs[Math.floor(Math.random() * m.imgs.length)];
+        img.onload  = () => res({ img: img.src });
+        img.onerror = () => res({ img: '' });
+        img.src = url;
+      }));
+
+      const minimum = new Promise(r => setTimeout(r, 1200));
+      Promise.all([Promise.all(loads), minimum]).then(([results]) => {
+        loader.style.display = 'none';
+        grid.style.display = 'grid';
+        results.forEach((r, i) => {
+          const m = memories[i];
+          const card = document.createElement('div');
+          card.className = 'memory-card';
+          if (r.img) {
+            const pic = document.createElement('img');
+            pic.src = r.img;
+            pic.alt = m.label;
+            pic.loading = 'lazy';
+            card.appendChild(pic);
+          } else {
+            const icon = document.createElement('span');
+            icon.className = 'emoji-icon';
+            icon.textContent = m.emoji;
+            card.appendChild(icon);
+          }
+          const cap = document.createElement('span');
+          cap.className = 'mem-label';
+          cap.textContent = m.label;
+          card.appendChild(cap);
+          grid.appendChild(card);
+          setTimeout(() => card.classList.add('show'), 150 + i * 150);
+        });
+        setTimeout(() => { nextBtn.style.display = 'inline-flex' }, 150 + memories.length * 150 + 300);
+      });
+    }
+
+    /* ═══════════════════════════════════════════
+       BEAUTY LETTER (Chapter 7)
+    ═══════════════════════════════════════════ */
+    const bodyParagraphs = [
+      "I've been trying to find the right words for this, and honestly — nothing ever feels like enough. But here goes.",
+      "Your hair… the way it catches the light when you turn your head, the way it falls softly around your face when you're lost in thought. I notice it every single time, even when you think I'm not looking.",
+      "And your eyes — God, your eyes. They have this quiet warmth, like they're telling a story that only I get to hear. When you look at me, even for a second, I feel like the whole world narrows down to just us.",
+      "But beyond all of that — beyond the hair, the eyes, the smile that stops me mid-sentence — it's who you are that I fell in love with. The way you care so deeply. The strength you carry that you don't even see. The kindness you give so freely to everyone around you.",
+      "You are beautiful in ways that no mirror could ever show. And I just — I need you to know that I see all of it. Every part. And I choose every part of you, every single day."
+    ];
+
+    const closingLines = [
+      "You are my favourite person, my safest place, and my greatest adventure.",
+      "And I will spend every day reminding you of that, if you let me."
+    ];
+
+    function showBeautyLetter() {
+      const card = document.getElementById('beautyLetter');
+      const body = document.getElementById('letterBody');
+      const closing = document.getElementById('letterClosing');
+      const sign = document.getElementById('letterSign');
+      body.innerHTML = ''; closing.innerHTML = '';
+      sign.classList.remove('show');
+
+      setTimeout(() => {
+        card.classList.add('show');
+
+        /* type paragraphs */
+        let pi = 0, ci = 0, el = null;
+        const caret = document.createElement('span');
+        caret.className = 'typing-caret';
+
+        function typeStep() {
+          if (pi >= bodyParagraphs.length) {
+            if (caret.parentNode) caret.parentNode.removeChild(caret);
+            /* closing */
+            let li = 0, lc = 0, le = null;
+            function closeStep() {
+              if (li >= closingLines.length) {
+                sign.classList.add('show');
+                spawn(innerWidth / 2, innerHeight / 2, 15);
+                safeBurst({ particleCount: 80, spread: 160, origin: { y: 0.9 }, decay: 0.95 });
+
+                /* a little afterthought — typed like a real letter */
+                setTimeout(() => {
+                  const ps = document.createElement('div');
+                  ps.className = 'letter-ps';
+                  ps.textContent = 'P.S. — You have my heart. Always have. Always will. ❤️';
+                  card.appendChild(ps);
+                  card.scrollTop = card.scrollHeight;
+                  safeBurst({ particleCount: 40, spread: 100, origin: { y: 0.85 }, decay: 0.95, scalar: 0.9 });
+                  /* reveal the path to the final chapter */
+                  setTimeout(() => {
+                    const endBtn = document.createElement('button');
+                    endBtn.className = 'float-heart';
+                    endBtn.setAttribute('aria-label', 'One more thing');
+                    endBtn.textContent = '💌';
+                    endBtn.onclick = goNext;
+                    endBtn.style.display = 'none';
+                    card.appendChild(endBtn);
+                    card.scrollTop = card.scrollHeight;
+                    setTimeout(() => {
+                      endBtn.style.display = 'inline-flex';
+                      safeBurst({ particleCount: 30, spread: 90, origin: { y: 0.8 }, scalar: 0.9 });
+                    }, 400);
+                  }, 1600);
+                }, 2000);
+                return;
+              }
+              if (!le) {
+                le = document.createElement('p');
+                closing.appendChild(le);
+              }
+              const txt = closingLines[li];
+              le.textContent = txt.slice(0, lc + 1);
+              lc++;
+              card.scrollTop = card.scrollHeight;
+              if (lc >= txt.length) { lc = 0; li++; le = null; setTimeout(closeStep, 300); }
+              else { setTimeout(closeStep, 12); }
+            }
+            closeStep();
+            return;
+          }
+          if (!el) {
+            el = document.createElement('p');
+            body.appendChild(el);
+            el.appendChild(caret);
+          }
+          const txt = bodyParagraphs[pi];
+          el.textContent = txt.slice(0, ci + 1);
+          el.appendChild(caret);
+          ci++;
+          card.scrollTop = card.scrollHeight;
+          if (ci >= txt.length) { ci = 0; pi++; el = null; setTimeout(typeStep, 320); }
+          else { setTimeout(typeStep, 11); }
+        }
+        typeStep();
+      }, 600);
+    }
+
+    /* ═══════════════════════════════════════════
+       AMBIENT DECOR (floating hearts & sparkles)
+    ═══════════════════════════════════════════ */
+    (function makeDecor() {
+      const decor = document.createElement('div');
+      decor.className = 'decor';
+      const heartPath = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
+      const starPath = 'M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z';
+      const cloudPath = 'M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z';
+      const colors = ['#ff4b6e', '#ff8ba7', '#ffb3c1', '#ffd6e0', '#f6c1d9', '#ffd700'];
+      for (let i = 0; i < 20; i++) {
+        const h = document.createElement('div');
+        h.className = 'decor-heart';
+        const size = 18 + Math.random() * 28;
+        const dur = 14 + Math.random() * 16;
+        h.style.left = (2 + Math.random() * 96) + '%';
+        h.style.width = size + 'px';
+        h.style.animationDuration = dur + 's';
+        h.style.animationDelay = -Math.random() * dur + 's';
+        h.innerHTML = '<span class="dh-inner" style="animation-duration:' + (2 + Math.random() * 2.5).toFixed(2) + 's"><svg viewBox="0 0 24 24"><path d="' + heartPath + '" fill="' + colors[Math.floor(Math.random() * colors.length)] + '"/></svg></span>';
+        decor.appendChild(h);
+      }
+      for (let i = 0; i < 12; i++) {
+        const s = document.createElement('div');
+        s.className = 'decor-sparkle';
+        s.style.left = (3 + Math.random() * 94) + '%';
+        s.style.top = (5 + Math.random() * 88) + '%';
+        s.style.width = (12 + Math.random() * 16) + 'px';
+        s.style.animationDuration = (2.4 + Math.random() * 2.6).toFixed(2) + 's';
+        s.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+        s.innerHTML = '<svg viewBox="0 0 24 24"><path d="' + starPath + '" fill="' + (Math.random() > 0.5 ? '#ffd700' : '#ff8ba7') + '"/></svg>';
+        decor.appendChild(s);
+      }
+      /* soft drifting clouds */
+      const cloudFills = ['#fff4f8', '#ffe9f2', '#ffe0ec'];
+      for (let i = 0; i < 4; i++) {
+        const cl = document.createElement('div');
+        cl.className = 'decor-cloud';
+        const size = 90 + Math.random() * 90;
+        const dur = 30 + Math.random() * 16;
+        cl.style.top = (8 + Math.random() * 78) + '%';
+        cl.style.width = size + 'px';
+        cl.style.animationDuration = dur + 's';
+        cl.style.animationDelay = -Math.random() * dur + 's';
+        cl.innerHTML = '<svg viewBox="0 0 24 24"><path d="' + cloudPath + '" fill="' + cloudFills[Math.floor(Math.random() * cloudFills.length)] + '"/></svg>';
+        decor.appendChild(cl);
+      }
+      /* shooting stars */
+      for (let i = 0; i < 3; i++) {
+        const st = document.createElement('div');
+        st.className = 'decor-star';
+        const size = 44 + Math.random() * 20;
+        st.style.top = (8 + Math.random() * 26) + '%';
+        st.style.left = (55 + Math.random() * 40) + '%';
+        st.style.width = size + 'px';
+        st.style.animationDuration = (9 + Math.random() * 5).toFixed(2) + 's';
+        st.style.animationDelay = (4 + Math.random() * 8).toFixed(2) + 's';
+        st.innerHTML = '<svg viewBox="0 0 60 12"><path d="M4 6 L54 3.5 L54 8.5 Z" fill="#ffd6e0"/><circle cx="54" cy="6" r="3.4" fill="#ffd700"/></svg>';
+        decor.appendChild(st);
+      }
+      document.body.appendChild(decor);
+    })();
+
+    /* guarded confetti with heart shapes (gracefully no-ops offline) */
+    let heartShape = null;
+    try {
+      if (typeof confetti === 'function' && confetti.shapeFromText) {
+        heartShape = confetti.shapeFromText({ text: '❤️', scalar: 2 });
+      }
+    } catch (e) { heartShape = null; }
+    function safeBurst(opts) {
+      try {
+        if (typeof confetti !== 'function') return;
+        const o = Object.assign({ colors: ['#ff4b6e', '#ff8ba7', '#ffb3c1', '#ffd700'] }, opts || {});
+        if (heartShape) o.shapes = [heartShape];
+        confetti(o);
+      } catch (e) {}
+    }
+    function heartRain(waves) {
+      for (let i = 0; i < (waves || 4); i++) {
+        setTimeout(() => safeBurst({
+          particleCount: 70,
+          spread: 100 + Math.random() * 90,
+          startVelocity: 28 + Math.random() * 16,
+          scalar: 1.4,
+          decay: 0.92,
+          origin: { x: 0.15 + Math.random() * 0.7, y: 0.25 + Math.random() * 0.45 }
+        }), i * 400);
+      }
+    }
+
+    /* ═══════════════════════════════════════════
+       THE FINAL "FOREVER" CHAPTER
+    ═══════════════════════════════════════════ */
+    function showForever() {
+      safeBurst({ particleCount: 90, spread: 220, origin: { y: 0.8 }, scalar: 1.1 });
+    }
+
+    function celebrateEnd() {
+      if (busy) return; busy = true;
+      const el = document.querySelector('.chapter[data-ch="9"]');
+      el.classList.remove('active'); el.classList.add('exit');
+      spawn(innerWidth / 2, innerHeight / 2, 30);
+      setTimeout(() => {
+        const ov = document.getElementById('finalOverlay');
+        ov.classList.add('active');
+        heartRain(6);
+        busy = false;
+      }, 650);
+    }
+
+    /* ═══════════════════════════════════════════
+       SPARKLER NOTE — written in light (Chapter 8)
+    ═══════════════════════════════════════════ */
+    let spark = null;
+
+    function showSparkNote() {
+      safeBurst({ particleCount: 40, spread: 120, origin: { y: 0.8 }, scalar: 0.9 });
+    }
+
+    function startSparkler() {
+      if (spark && spark.running) return;
+      const stage = document.getElementById('sparkStage');
+      stage.classList.add('active');
+      const cvs = document.getElementById('sparklerCanvas');
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const W = cvs.clientWidth || innerWidth, H = cvs.clientHeight || innerHeight;
+      cvs.width = W * dpr; cvs.height = H * dpr;
+      const ctx = cvs.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const glow = document.createElement('canvas');
+      glow.width = W * dpr; glow.height = H * dpr;
+      const gctx = glow.getContext('2d');
+      gctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      spark = { running: true, raf: 0, ctx, gctx, glow, W, H, i: 0, embers: [], done: false, finishAt: 0, pts: [] };
+      spark.stars = [];
+      for (let i = 0; i < 110; i++) {
+        spark.stars.push({ x: Math.random() * W, y: Math.random() * H * 0.9, r: Math.random() * 1.3 + 0.4, p: Math.random() * Math.PI * 2, s: 0.6 + Math.random() * 1.4 });
+      }
+      buildSparkPts(spark, () => sparkLoop());
+    }
+
+    function buildSparkPts(s, cb) {
+      const msg = 'my heart is yours';
+      const f = Math.floor((s.W * 0.88) / (msg.length * 0.58));
+      const th = Math.ceil(f * 1.4);
+      const tmp = document.createElement('canvas');
+      tmp.width = s.W; tmp.height = th;
+      const tc = tmp.getContext('2d');
+      tc.fillStyle = '#000'; tc.fillRect(0, 0, s.W, th);
+      tc.fillStyle = '#fff';
+      tc.font = '700 ' + f + 'px Quicksand, sans-serif';
+      tc.textAlign = 'center'; tc.textBaseline = 'middle';
+      tc.fillText(msg, s.W / 2, th / 2);
+      const data = tc.getImageData(0, 0, s.W, th).data;
+      const pts = [];
+      const yOff = (s.H - th) / 2;
+      for (let y = 0; y < th; y += 2) {
+        for (let x = 0; x < s.W; x += 2) {
+          if (data[(y * s.W + x) * 4 + 3] > 128) pts.push({ x, y: y + yOff });
+        }
+      }
+      pts.sort((a, b) => (a.x - b.x) || (a.y - b.y));
+      s.pts = pts;
+      cb();
+    }
+
+    function sparkLoop() {
+      const s = spark;
+      if (!s || !s.running) return;
+      const { ctx, gctx, W, H } = s;
+      const t = performance.now();
+
+      /* night sky */
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#0d0620';
+      ctx.fillRect(0, 0, W, H);
+      const grad = ctx.createRadialGradient(W / 2, H / 2, 40, W / 2, H / 2, Math.max(W, H) * 0.5);
+      grad.addColorStop(0, 'rgba(104,52,140,0.35)');
+      grad.addColorStop(1, 'rgba(104,52,140,0)');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+      for (const st of s.stars) {
+        const a = 0.3 + 0.4 * Math.abs(Math.sin(t / 1000 * st.s + st.p));
+        ctx.fillStyle = 'rgba(255,236,210,' + a.toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, 7); ctx.fill();
+      }
+
+      /* accumulated glowing writing */
+      ctx.drawImage(s.glow, 0, 0, W, H);
+
+      /* progress the sparkler head */
+      const pts = s.pts;
+      if (!s.done && pts.length) {
+        const ppf = Math.max(6, Math.ceil(pts.length / (9 * 60)));
+        const head = pts[Math.min(s.i, pts.length - 1)];
+        gctx.fillStyle = '#ffd88a';
+        gctx.beginPath();
+        for (let k = s.i; k < Math.min(s.i + ppf, pts.length); k++) {
+          const p = pts[k];
+          gctx.rect(p.x - 1.15, p.y - 1.15, 2.3, 2.3);
+        }
+        gctx.fill();
+        s.i = Math.min(s.i + ppf, pts.length);
+        if (s.i >= pts.length) {
+          s.done = true;
+          s.finishAt = t + 3200;
+          for (let k = 0; k < 70; k++) {
+            const a = Math.random() * Math.PI * 2, v = 1.5 + Math.random() * 4.2;
+            s.embers.push({ x: head.x, y: head.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 0.5, ttl: 36 + Math.random() * 30, life: 0, r: 1 + Math.random() * 1.6, color: Math.random() > 0.5 ? '#ffd88a' : '#ffb066' });
+          }
+        }
+      }
+
+      /* spark embers */
+      if (pts.length) {
+        if (!s.done) {
+          const head = pts[Math.min(s.i, pts.length - 1)];
+          for (let k = 0; k < 5; k++) {
+            const a = Math.random() * Math.PI * 2, v = 0.4 + Math.random() * 2.4;
+            s.embers.push({ x: head.x, y: head.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, ttl: 16 + Math.random() * 26, life: 0, r: 0.8 + Math.random() * 1.4, color: Math.random() > 0.4 ? '#ffdc96' : '#ff9e5e' });
+          }
+        } else if (Math.random() < 0.22) {
+          const p = pts[Math.floor(Math.random() * pts.length)];
+          const a = Math.random() * Math.PI * 2, v = 0.5 + Math.random() * 1.6;
+          s.embers.push({ x: p.x, y: p.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, ttl: 18 + Math.random() * 20, life: 0, r: 0.8 + Math.random() * 1.3, color: '#ffd88a' });
+        }
+      }
+
+      ctx.globalCompositeOperation = 'lighter';
+      const alive = [];
+      for (let i = 0; i < s.embers.length; i++) {
+        const e = s.embers[i];
+        e.life++;
+        e.x += e.vx; e.y += e.vy;
+        e.vx *= 0.985; e.vy = e.vy * 0.985 + 0.02;
+        if (e.life < e.ttl) {
+          alive.push(e);
+          ctx.globalAlpha = 1 - e.life / e.ttl;
+          ctx.fillStyle = e.color;
+          ctx.beginPath(); ctx.arc(e.x, e.y, e.r, 0, 7); ctx.fill();
+        }
+      }
+      s.embers = alive.slice(-340);
+      ctx.globalAlpha = 1;
+
+      /* glowing head */
+      if (!s.done && pts.length) {
+        const head = pts[Math.min(s.i, pts.length - 1)];
+        const hg = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, 16);
+        hg.addColorStop(0, 'rgba(255,255,255,0.95)');
+        hg.addColorStop(0.35, 'rgba(255,214,140,0.55)');
+        hg.addColorStop(1, 'rgba(255,214,140,0)');
+        ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(head.x, head.y, 16, 0, 7); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(head.x, head.y, 2.2, 0, 7); ctx.fill();
+      }
+      ctx.globalCompositeOperation = 'source-over';
+
+      if (s.done && t > s.finishAt) {
+        stopSparkler();
+        setTimeout(() => goNext(), 500);
+        return;
+      }
+      s.raf = requestAnimationFrame(sparkLoop);
+    }
+
+    function stopSparkler() {
+      if (!spark) return;
+      spark.running = false;
+      cancelAnimationFrame(spark.raf);
+      spark = null;
+      const stage = document.getElementById('sparkStage');
+      if (stage) stage.classList.remove('active');
+    }
+
+    document.getElementById('sparklerCanvas').addEventListener('click', () => {
+      if (spark && spark.running && spark.pts && spark.pts.length && !spark.done) {
+        spark.done = true;
+        spark.finishAt = performance.now() + 1200;
+      }
+    });
+
+    /* ═══════════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════════ */
+    updateProgress();
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hide');
+        document.body.classList.add('ready');
+        safeBurst({ particleCount: 70, spread: 150, startVelocity: 24, origin: { y: 0.55 }, scalar: 1.15 });
+      }, 1200);
+    });
+  </script>
+</body>
+</html>

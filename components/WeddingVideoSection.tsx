@@ -12,46 +12,13 @@ const videos = [
 
 /* Each card is its own memoized component — filter changes won't re-render these */
 const VideoCard = memo(function VideoCard({ id, title, label, accent, bg }: (typeof videos)[number]) {
-  const frameRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [near,  setNear]  = useState(false);
+  const [activated, setActivated] = useState(false);
   const [ready, setReady] = useState(false);
-
-  /* Keep the lightweight glance until the card actually enters the viewport. */
-  useEffect(() => {
-    const el = frameRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setNear(true); obs.disconnect(); } },
-      { rootMargin: "0px", threshold: 0.05 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  /* Step 2 — play/pause based on viewport visibility */
-  useEffect(() => {
-    const v = videoRef.current;
-    const el = frameRef.current;
-    if (!v || !el || !near) return;
-
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          v.preload = "metadata";
-          v.load();
-          v.play().catch(() => undefined);
-        }
-        else v.pause();
-      },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [near]);
+  const [playing, setPlaying] = useState(false);
 
   return (
-    <article ref={frameRef} className="wedding-film-card" style={{ "--film-accent": accent } as CSSProperties}>
+    <article className="wedding-film-card" style={{ "--film-accent": accent } as CSSProperties}>
       <div className="wedding-film-media" style={{ background: bg }}>
 
         {/* Placeholder — visible until video ready */}
@@ -64,8 +31,8 @@ const VideoCard = memo(function VideoCard({ id, title, label, accent, bg }: (typ
 
         <div className="wedding-film-wash" />
 
-        {/* Video — rendered only when near. Single onCanPlay handler, NO duplicate useEffect handler */}
-        {near && (
+        {/* Keep the large source out of the page until the visitor asks to play it. */}
+        {activated && (
           <video
             ref={videoRef}
             className={`wedding-film-video${ready ? " is-ready" : ""}`}
@@ -73,15 +40,37 @@ const VideoCard = memo(function VideoCard({ id, title, label, accent, bg }: (typ
             muted
             loop
             playsInline
-            preload="none"
+            preload="metadata"
             onCanPlay={() => {
-              videoRef.current?.play().catch(() => undefined);
               setReady(true);
+              videoRef.current?.play().catch(() => undefined);
             }}
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
           />
         )}
 
-        <div className="wedding-film-play" aria-hidden="true">▶</div>
+        <button
+          type="button"
+          className="wedding-film-play"
+          aria-label={playing ? `Pause ${title}` : `Play ${title}`}
+          onClick={() => {
+            if (!activated) {
+              setActivated(true);
+              return;
+            }
+
+            const video = videoRef.current;
+            if (!video) return;
+            if (video.paused) {
+              video.play().catch(() => undefined);
+            } else {
+              video.pause();
+            }
+          }}
+        >
+          <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
+        </button>
         <span className="wedding-film-index">{id} / {String(videos.length).padStart(2, "0")}</span>
       </div>
       <div className="wedding-film-copy">

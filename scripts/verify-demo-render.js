@@ -278,8 +278,29 @@ async function evaluate(ws, expression) {
   })()`);
 
   /* --------------------------------------------------- the rest of the page */
-  await evaluate(ws, `window.scrollTo(0, document.body.scrollHeight); true`);
-  await sleep(2500);
+  /* Walk down the page in viewport-sized steps before jumping to the bottom.
+     A single scrollTo(0, scrollHeight) skips the entire middle of the document
+     in one frame, and the IntersectionObserver that drives .rv only ever sees
+     what is in the viewport - so on a short landscape phone the reveal
+     elements in the middle stayed at opacity 0 and this audit reported
+     revealInvisibleCount 2 at 844x390 and 1 at 740x360, on a page where every
+     reveal fires correctly. Confirmed with probe-stuck-reveals.js, which
+     scrolls in 60% steps and finds nothing stuck.
+
+     That is the failure mode this metric exists to catch, reported on a page
+     that does not have it: the worst kind of false positive, because the fix
+     looks like "add .in somewhere" and the real fix was here. Stepping the
+     scroll is also simply what a guest does, so the page is now measured under
+     the conditions it is used under. */
+  await evaluate(ws, `(async () => {
+    const nap = ms => new Promise(r => setTimeout(r, ms));
+    const step = Math.max(120, Math.round(innerHeight * 0.6));
+    const end = document.body.scrollHeight;
+    for (let y = 0; y < end; y += step) { window.scrollTo(0, y); await nap(120); }
+    window.scrollTo(0, end); await nap(400);
+    return true;
+  })()`);
+  await sleep(1500);
 
   /* lazy images inside a horizontally scrolled track only load once the track
      is in view, so check them with the track actually on screen */

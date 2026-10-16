@@ -1,9 +1,8 @@
-"use client";
+﻿"use client";
 
-import { useState, useCallback, memo } from "react";
+import { memo } from "react";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
 import WeddingCollection from "@/components/WeddingCollection";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://our-moments.in";
@@ -79,7 +78,7 @@ const structuredData = [
       {
         "@type": "Question",
         name: "How much does a wedding invitation website cost in India?",
-        acceptedAnswer: { "@type": "Answer", text: "OurMoment wedding invitation websites start at ₹1,499. Wedding invitation videos start at ₹399." },
+        acceptedAnswer: { "@type": "Answer", text: "OurMoment wedding invitation websites start at Rs 1,499. Wedding invitation videos start at Rs 399." },
       },
       {
         "@type": "Question",
@@ -96,28 +95,24 @@ const structuredData = [
 ];
 
 /* Lazy-load everything below the fold — reduces initial JS parse cost */
-const WeddingVideoSection = dynamic(() => import("@/components/WeddingVideoSection"), { ssr: false });
-const HowItWorks         = dynamic(() => import("@/components/HowItWorks"),          { ssr: false });
-const FAQ                = dynamic(() => import("@/components/FAQ"),                  { ssr: false });
-const Footer             = dynamic(() => import("@/components/Footer"),               { ssr: false });
+const FeelSection           = dynamic(() => import("@/components/FeelSection"),           { ssr: false });
+const WeddingVideoSection  = dynamic(() => import("@/components/WeddingVideoSection"),  { ssr: false });
+const HowItWorks           = dynamic(() => import("@/components/HowItWorks"),           { ssr: false });
+const FAQ                  = dynamic(() => import("@/components/FAQ"),                   { ssr: false });
+const Footer               = dynamic(() => import("@/components/Footer"),                { ssr: false });
+const TrustNumbers         = dynamic(() => import("@/components/TrustNumbers"),          { ssr: false });
+const Testimonials         = dynamic(() => import("@/components/Testimonials"),          { ssr: false });
 
 /* Stable wrapped components so filter state doesn't re-render them */
-const StableVideoSection = memo(WeddingVideoSection);
-const StableHowItWorks   = memo(HowItWorks);
-const StableFAQ          = memo(FAQ);
-const StableFooter       = memo(Footer);
+const StableFeelSection    = memo(FeelSection);
+const StableVideoSection   = memo(WeddingVideoSection);
+const StableHowItWorks     = memo(HowItWorks);
+const StableFAQ            = memo(FAQ);
+const StableFooter         = memo(Footer);
+const StableTrust          = memo(TrustNumbers);
+const StableTestimonials   = memo(Testimonials);
 
 export default function Home() {
-  const [filter, setFilter] = useState("All");
-
-  /* Stable callback — doesn't recreate on every render */
-  const handleFilterChange = useCallback((f: string) => setFilter(f), []);
-
-  /* Open demo directly in a new tab — no modal, no iframe lag */
-  const handlePreview = useCallback((src: string) => {
-    window.open(src, "_blank", "noopener,noreferrer");
-  }, []);
-
   return (
     <main>
       {structuredData.map((schema, index) => (
@@ -125,17 +120,22 @@ export default function Home() {
       ))}
       <Navbar />
 
-      <HeroSection
-        activeFilter={filter}
-        onFilterChange={handleFilterChange}
-      />
+      {/* 0 — Website invite designs + Save the Date + Proposals */}
+      <WeddingCollection activeFilter="All" />
 
-      <WeddingCollection
-        activeFilter={filter}
-        onPreview={handlePreview}
-      />
+      {/* 1 — Feel the experience (mini invite preview + feature cards) */}
+      <StableFeelSection />
 
+      {/* 2 — Video demo */}
       <StableVideoSection />
+
+      {/* 3 — The stat cards (99% happy couples etc.) */}
+      <StableTrust />
+
+      {/* 4 — Testimonial marquee */}
+      <StableTestimonials />
+
+      {/* 5 — How It Works, FAQ, Footer */}
       <StableHowItWorks />
       <StableFAQ />
       <StableFooter />

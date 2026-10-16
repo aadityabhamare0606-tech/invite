@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Arjun & Ishaan are getting married. Tap the wax seal to open." />
+    <title>Rajwada Royale Extended — Arjun &amp; Ishaan</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://c.animaapp.com" crossorigin />
+    <link rel="preconnect" href="https://framerusercontent.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" /></noscript>
+    <script type="module" crossorigin src="./assets/index-CRCuhgh7.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-gHDURWKE.css">
+    <link rel="stylesheet" href="hero.css?v=c2e8b023" />
+    <link rel="stylesheet" href="royale.css?v=41f70f61" />
+  </head>
+  <body>
+  <!-- ══════════ AUDIO CONTROL ══════════ -->
+  <audio id="bg-audio" src="https://framerusercontent.com/assets/q8x7MYVF61gOLfkcxdG7dlXjxw.mp3" loop preload="none"></audio>
+  <button id="audio-btn" class="audio-btn" aria-label="Play music">
+    <svg id="ico-play" width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,228,202,.9)" style="display:none">
+      <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd"/>
+    </svg>
+    <svg id="ico-pause" width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,228,202,.9)">
+      <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75.75V18a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm10.5 0a.75.75 0 0 1 .75.75V18a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
+    </svg>
+  </button>
+<!-- ══════════ ENVELOPE INTRO ══════════ -->
+  <div id="env-outer" class="env-outer" role="button" tabindex="0" aria-label="Open your wedding invitation">
+    <!-- soft cream-gold sheen for the handoff into the site -->
+    <div id="env-bloom" class="env-bloom" aria-hidden="true"></div>
+
+    <!-- a very faint gold halo behind the envelope, breathing slowly -->
+    <div class="env-glow" aria-hidden="true"></div>
+
+    <!-- rose hearts on the breeze + tiny gold stars, seeded by the script -->
+    <div class="env-petals" id="env-petals" aria-hidden="true"></div>
+    <div class="env-motes" id="env-motes" aria-hidden="true"></div>
+
+    <!-- a few very subtle thin gold botanical sprigs, one on each side -->
+    <svg class="env-flourish left" viewBox="0 0 40 140" fill="none" aria-hidden="true">
+      <path d="M35 4 C 30 42, 26 98, 30 136" />
+      <path d="M29 54 C 21 46, 14 44, 10 50" />
+      <path d="M30 90 C 22 96, 16 100, 12 106" />
+      <path d="M31 120 C 24 126, 19 132, 17 140" />
+    </svg>
+    <svg class="env-flourish right" viewBox="0 0 40 140" fill="none" aria-hidden="true">
+      <path d="M5 4 C 10 42, 14 98, 10 136" />
+      <path d="M11 54 C 19 46, 26 44, 30 50" />
+      <path d="M10 90 C 18 96, 24 100, 28 106" />
+      <path d="M9 120 C 16 126, 21 132, 23 140" />
+    </svg>
+
+    <!-- a pair of swaying gold garlands flanking the envelope — thread,
+         diamonds, beads that echo the wax-red seal, and a tassel drop -->
+    <div class="env-side left" aria-hidden="true">
+      <div class="env-side-sway">
+        <svg viewBox="0 0 60 150" fill="none">
+          <path d="M30 2 V148" stroke="rgba(201,148,76,.55)" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M21 16 C 27 12, 33 12, 39 16 M21 16 C 22 24, 22 28, 21 34" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
+          <path d="M39 134 C 33 138, 27 138, 21 134 M39 134 C 38 142, 38 146, 39 151" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
+          <path d="M30 40 L 35.5 45 L 30 50 L 24.5 45 Z" fill="rgba(201,148,76,.55)"/>
+          <path d="M30 74 L 36.5 79 L 30 84 L 23.5 79 Z" fill="rgba(201,148,76,.55)"/>
+          <path d="M30 108 L 34.5 112 L 30 116 L 25.5 112 Z" fill="rgba(201,148,76,.55)"/>
+          <circle cx="30" cy="59" r="2" fill="rgba(216,67,60,.8)"/>
+          <circle cx="30" cy="93" r="2" fill="rgba(216,67,60,.8)"/>
+          <circle cx="30" cy="127" r="2.6" fill="rgba(184,145,58,.55)"/>
+        </svg>
+      </div>
+    </div>
+    <div class="env-side right" aria-hidden="true">
+      <div class="env-side-sway">
+        <svg viewBox="0 0 60 150" fill="none">
+          <path d="M30 2 V148" stroke="rgba(201,148,76,.55)" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M21 16 C 27 12, 33 12, 39 16 M21 16 C 22 24, 22 28, 21 34" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
+          <path d="M39 134 C 33 138, 27 138, 21 134 M39 134 C 38 142, 38 146, 39 151" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
+          <path d="M30 40 L 35.5 45 L 30 50 L 24.5 45 Z" fill="rgba(201,148,76,.55)"/>
+          <path d="M30 74 L 36.5 79 L 30 84 L 23.5 79 Z" fill="rgba(201,148,76,.55)"/>
+          <path d="M30 108 L 34.5 112 L 30 116 L 25.5 112 Z" fill="rgba(201,148,76,.55)"/>
+          <circle cx="30" cy="59" r="2" fill="rgba(216,67,60,.8)"/>
+          <circle cx="30" cy="93" r="2" fill="rgba(216,67,60,.8)"/>
+          <circle cx="30" cy="127" r="2.6" fill="rgba(184,145,58,.55)"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="env-content">
+      <header class="env-headline">
+        <p class="env-kicker">A wedding invitation</p>
+        <h1 class="env-couple">Arjun <em aria-hidden="true">&amp;</em> Ishaan</h1>
+      </header>
+
+      <div class="env-stage">
+        <div id="envelope" class="envelope">
+          <div class="env-body"></div>
+          <svg class="env-seams" viewBox="0 0 300 206" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M150 108 L2 204 M150 108 L298 204" />
+          </svg>
+
+          <!-- the letter — a cream slip showing over the rim until the seal breaks -->
+          <div class="env-card">
+            <p class="env-ganesh">ॐ श्री गणेशाय नमः</p>
+            <p class="env-families">Together with their families</p>
+            <svg class="env-crest" viewBox="0 0 44 30" width="44" height="30" fill="none" aria-hidden="true">
+              <path d="M3 25V10.5L12.5 17 22 3.5 31.5 17 41 10.5V25Z" stroke="rgba(59,7,24,.85)" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="M3 25h38" stroke="rgba(59,7,24,.5)" stroke-width="1" stroke-linecap="round"/>
+              <circle cx="22" cy="2.4" r="1.4" fill="rgba(59,7,24,.85)"/>
+              <circle cx="2.6" cy="9.4" r="1.1" fill="rgba(59,7,24,.5)"/>
+              <circle cx="41.4" cy="9.4" r="1.1" fill="rgba(59,7,24,.5)"/>
+            </svg>
+            <p class="env-cordially">You are cordially invited</p>
+            <p class="env-names">Arjun &amp; Ishaan</p>
+            <div class="env-divider" aria-hidden="true"></div>
+          </div>
+
+          <div class="env-top-flap"></div>
+
+          <div class="wax-seal" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <footer class="env-hint-wrap">
+        <p class="env-hint" id="env-hint">Break the seal to open</p>
+        <svg class="env-chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5"/></svg>
+      </footer>
+    </div>
+  </div>
+    <section id="hero" class="hero">
+      <div class="hero-bg">
+        <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?fm=jpg&fit=crop&w=1920&q=95&cs=srgb" alt="" />
+      </div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+
+      <div class="hero-rings" aria-hidden="true">
+        <span style="--s:220px;animation-delay:0s"></span>
+        <span style="--s:380px;animation-delay:1.5s"></span>
+        <span style="--s:560px;animation-delay:3s"></span>
+        <span style="--s:740px;animation-delay:4.5s"></span>
+      </div>
+
+      <div class="hero-ribbon" id="hero-ribbon" aria-hidden="true"></div>
+      <div class="hero-sparks" id="hero-sparks" aria-hidden="true"></div>
+      <div class="hero-petals" id="hero-petals" aria-hidden="true"></div>
+
+      <div class="hero-beams" aria-hidden="true"></div>
+      <div class="hero-shooting-star" aria-hidden="true"></div>
+      <div class="hero-shooting-star two" aria-hidden="true"></div>
+
+      <div id="hero-anims" class="hero-anims">
+        <svg class="hero-constellation" viewBox="0 0 200 170" aria-hidden="true">
+          <path pathLength="100" class="cons-heart gold" d="M100 150 C 28 102, 18 62, 42 43 C 62 27, 90 33, 100 55 C 110 33, 138 27, 158 43 C 182 62, 172 102, 100 150 Z"/>
+          <circle style="--dd:0s"    cx="42"  cy="43"  r="2.6"/>
+          <circle style="--dd:.14s"  cx="59"  cy="33"  r="2"/>
+          <circle style="--dd:.28s"  cx="78"  cy="29"  r="1.8"/>
+          <circle style="--dd:.42s"  cx="100" cy="42"  r="2.4"/>
+          <circle style="--dd:.56s"  cx="122" cy="29"  r="1.8"/>
+          <circle style="--dd:.7s"   cx="141" cy="33"  r="2"/>
+          <circle style="--dd:.84s"  cx="158" cy="43"  r="2.6"/>
+          <circle style="--dd:.98s"  cx="166" cy="63"  r="2"/>
+          <circle style="--dd:1.12s" cx="152" cy="90"  r="2.2"/>
+          <circle style="--dd:1.26s" cx="122" cy="124" r="2"/>
+          <circle style="--dd:1.4s"  cx="100" cy="149" r="2.8"/>
+          <circle style="--dd:1.54s" cx="78"  cy="124" r="2"/>
+          <circle style="--dd:1.68s" cx="48"  cy="90"  r="2.2"/>
+          <circle style="--dd:1.82s" cx="34"  cy="63"  r="2"/>
+          <g class="cons-mini" transform="translate(100 104)">
+            <path d="M0 5.3 L-4.4 0.8 A4.9 4.9 0 0 1 0 -3.2 A4.9 4.9 0 0 1 4.4 0.8 Z"/>
+          </g>
+        </svg>
+
+        <div class="hero-names">
+          <span class="f-upright hero-name" data-letters="Arjun" data-delay="1900">Arjun</span>
+          <span class="hero-amp text-gold-shimmer">&#38;</span>
+          <span class="f-upright hero-name" data-letters="Ishaan" data-delay="3300">Ishaan</span>
+          <span class="hero-heart-float" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+        </div>
+
+        <div class="hero-spacer" aria-hidden="true"></div>
+
+        <div class="hero-crest">
+          <span class="hero-heart-stage" aria-hidden="true">
+            <svg class="heart-fly heart-fly-l" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="heart-fly heart-fly-r" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span class="heart-rays" aria-hidden="true">
+              <i style="--ra:0deg"></i><i style="--ra:45deg"></i><i style="--ra:90deg"></i><i style="--ra:135deg"></i><i style="--ra:180deg"></i><i style="--ra:225deg"></i><i style="--ra:270deg"></i><i style="--ra:315deg"></i>
+            </span>
+            <span class="heart-flash"></span>
+            <svg class="heart-core" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </span>
+          <span class="f-manrope hero-est">Est. 2027 &middot; Pune</span>
+        </div>
+
+        <div class="hero-rule anim-in" aria-hidden="true"></div>
+
+        <p class="f-upright hero-tagline anim-in">Two souls, one beautiful forever.</p>
+
+        <div class="hero-scroll anim-in">
+          <span class="f-manrope hero-scroll-label">scroll</span>
+          <div class="scroll-line"></div>
+        </div>
+      </div>
+
+      <!-- Toran garland — the marigold welcome at the wedding entrance -->
+      <svg class="hero-toran" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMin meet" aria-hidden="true">
+        <path d="M-10 18 Q 300 64 600 26 Q 900 -12 1210 18" fill="none" stroke="rgba(232,199,106,.65)" stroke-width="2.5"/>
+        <path d="M-10 24 Q 320 72 600 34 Q 880 -6 1210 26" fill="none" stroke="rgba(232,199,106,.4)" stroke-width="1.5"/>
+        <g class="toran-flower" style="--sw:0s" transform="translate(96 40)">
+          <ellipse cx="-11" cy="-16" rx="6" ry="12" fill="#7fa34f" transform="rotate(-36 -11 -16)"/>
+          <ellipse cx="11" cy="-16" rx="6" ry="12" fill="#6e9045" transform="rotate(36 11 -16)"/>
+          <circle r="19" fill="#ffd94d"/>
+          <circle cx="6" cy="-10" r="15" fill="#ffb84d"/>
+          <circle cx="-7" cy="-4" r="14" fill="#ffe08a"/>
+          <circle cx="3" cy="4" r="13" fill="#ffc14d"/>
+          <circle cx="-4" cy="9" r="11" fill="#ffb64d"/>
+          <circle r="6.5" fill="#a1530f"/>
+        </g>
+        <g class="toran-flower" style="--sw:.9s" transform="translate(268 44)">
+          <ellipse cx="-11" cy="-16" rx="6" ry="12" fill="#7fa34f" transform="rotate(-36 -11 -16)"/>
+          <ellipse cx="11" cy="-16" rx="6" ry="12" fill="#6e9045" transform="rotate(36 11 -16)"/>
+          <circle r="19" fill="#ffb84d"/>
+          <circle cx="7" cy="-9" r="15" fill="#ffd94d"/>
+          <circle cx="-6" cy="-5" r="14" fill="#ffc14d"/>
+          <circle cx="2" cy="5" r="13" fill="#ffb64d"/>
+          <circle cx="-5" cy="8" r="11" fill="#ffd94d"/>
+          <circle r="6.5" fill="#a1530f"/>
+        </g>
+        <g class="toran-flower" style="--sw:1.8s" transform="translate(456 40)">
+          <ellipse cx="-11" cy="-16" rx="6" ry="12" fill="#7fa34f" transform="rotate(-36 -11 -16)"/>
+          <ellipse cx="11" cy="-16" rx="6" ry="12" fill="#6e9045" transform="rotate(36 11 -16)"/>
+          <circle r="19" fill="#ffe08a"/>
+          <circle cx="-6" cy="-10" r="15" fill="#ffc14d"/>
+          <circle cx="6" cy="-4" r="14" fill="#ffb84d"/>
+          <circle cx="-3" cy="5" r="13" fill="#ffd94d"/>
+          <circle cx="6" cy="8" r="11" fill="#ffc14d"/>
+          <circle r="6.5" fill="#a1530f"/>
+        </g>
+        <g class="toran-flower" style="--sw:.4s" transform="translate(632 30)">
+          <ellipse cx="-11" cy="-16" rx="6" ry="12" fill="#7fa34f" transform="rotate(-36 -11 -16)"/>
+          <ellipse cx="11" cy="-16" rx="6" ry="12" fill="#6e9045" transform="rotate(36 11 -16)"/>
+          <circle r="19" fill="#ffb84d"/>
+          <circle cx="6" cy="-9" r="15" fill="#ffd94d"/>
+          <circle cx="-6" cy="-4" r="14" fill="#ffc14d"/>
+          <circle cx="2" cy="5" r="13" fill="#ffb64d"/>
+          <circle cx="-5" cy="8" r="11" fill="#ffd94d"/>
+          <circle r="6.5" fill="#a1530f"/>
+        </g>
+        <g class="toran-flower" style="--sw:1.3s" transform="translate(812 42)">
+          <ellipse cx="-11" cy="-16" rx="6" ry="12" fill="#7fa34f" transform="rotate(-36 -11 -16)"/>
+          <ellipse cx="11" cy="-16" rx="6" ry="12" fill="#6e9045" transform="rotate(36 11 -16)"/>
+          <circle r="19" fill="#ffd94d"/>
+          <circle cx="7" cy="-10" r="15" fill="#ffe08a"/>
+          <circle cx="-7" cy="-4" r="14" fill="#ffb84d"/>
+          <circle cx="3" cy="4" r="13" fill="#ffc14d"/>
+          <circle cx="-4" cy="9" r="11" fill="#ffb64d"/>
+          <circle r="6.5" fill="#a1530f"/>
+        </g>
+        <g class="toran-flower" style="--sw:2.2s" transform="translate(992 48)">
+          <ellipse cx="-11" cy="-16" rx="6" ry="12" fill="#7fa34f" transform="rotate(-36 -11 -16)"/>
+          <ellipse cx="11" cy="-16" rx="6" ry="12" fill="#6e9045" transform="rotate(36 11 -16)"/>
+          <circle r="19" fill="#ffb64d"/>
+          <circle cx="5" cy="-9" r="15" fill="#ffd94d"/>
+          <circle cx="-6" cy="-5" r="14" fill="#ffc14d"/>
+          <circle cx="3" cy="5" r="13" fill="#ffb64d"/>
+          <circle cx="-4" cy="9" r="11" fill="#ffd94d"/>
+          <circle r="6.5" fill="#a1530f"/>
+        </g>
+        <circle cx="2" cy="20" r="3" fill="#e8c76a"/>
+        <circle cx="1198" cy="22" r="3" fill="#e8c76a"/>
+      </svg>
+    </section>
+    <div id="app"></div>
+    <script src="hero.js?v=b5aefd4e"></script>
+  </body>
+</html>

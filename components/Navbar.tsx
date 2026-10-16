@@ -4,9 +4,9 @@ import Link from "next/link";
 
 /* Stable outside — no re-allocation on every render */
 const NAV_LINKS = [
-  { label: "Collection",   href: "#collection"  },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "FAQ",          href: "#faq"          },
+  { label: "Wedding Invite", href: "/",              page: false },
+  { label: "Save the Date",  href: "/save-the-date", page: true  },
+  { label: "Proposals",      href: "/proposals",     page: true  },
 ] as const;
 
 export default function Navbar() {
@@ -68,21 +68,26 @@ export default function Navbar() {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map((n) => (
-            <a key={n.label} href={n.href}
-              className="px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
-              style={{ color: "var(--text-mid)" }}>
-              {n.label}
-            </a>
+            n.page
+              ? <Link key={n.label} href={n.href}
+                  className="relative px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)] inline-flex items-center gap-1.5"
+                  style={{ color: "var(--text-mid)" }}>
+                  {n.label}
+                  <span className="inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em]"
+                    style={{ background: "var(--primary)", color: "#fff", lineHeight: 1 }}>
+                    New
+                  </span>
+                </Link>
+              : <a key={n.label} href={n.href}
+                  className="px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+                  style={{ color: "var(--text-mid)" }}>
+                  {n.label}
+                </a>
           ))}
         </nav>
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <a href="#collection"
-            className="text-[13px] font-medium hover:text-[var(--primary)] transition-colors px-2"
-            style={{ color: "var(--text-muted)" }}>
-            View demos
-          </a>
           <a href="https://wa.me/919999999999?text=Hi%2C%20I%27m%20interested%20in%20OurMoment%20digital%20invite"
             target="_blank" rel="noopener noreferrer"
             className="btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13px] font-semibold text-white"
@@ -91,7 +96,7 @@ export default function Navbar() {
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
               <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.118 1.528 5.857L.057 23.428a.5.5 0 0 0 .623.602l5.694-1.488A11.942 11.942 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.858 9.858 0 0 1-5.031-1.376l-.36-.214-3.73.976.994-3.63-.234-.374A9.859 9.859 0 0 1 2.1 12C2.1 6.53 6.53 2.1 12 2.1c5.47 0 9.9 4.43 9.9 9.9 0 5.47-4.43 9.9-9.9 9.9z"/>
             </svg>
-            Get Started Free
+            Get Yours on WhatsApp
           </a>
         </div>
 
@@ -117,12 +122,23 @@ export default function Navbar() {
         <div className="px-5 pb-5 pt-2 space-y-1"
           style={{ background: "rgba(255,255,255,0.98)", borderTop: "1px solid var(--border)" }}>
           {NAV_LINKS.map((n) => (
-            <a key={n.href} href={n.href} onClick={() => setOpen(false)}
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
-              style={{ color: "var(--text-mid)" }}>
-              <span style={{ color: "var(--primary)", fontSize: 10 }}>♥</span>
-              {n.label}
-            </a>
+            n.page
+              ? <Link key={n.href} href={n.href} onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+                  style={{ color: "var(--text-mid)" }}>
+                  <span style={{ color: "var(--primary)", fontSize: 10 }}>♥</span>
+                  {n.label}
+                  <span className="ml-auto inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em]"
+                    style={{ background: "var(--primary)", color: "#fff" }}>
+                    New
+                  </span>
+                </Link>
+              : <a key={n.href} href={n.href} onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+                  style={{ color: "var(--text-mid)" }}>
+                  <span style={{ color: "var(--primary)", fontSize: 10 }}>♥</span>
+                  {n.label}
+                </a>
           ))}
           <div className="pt-2">
             <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"

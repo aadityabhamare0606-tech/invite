@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6b9d"/>
+      <stop offset="35%" stop-color="#ff8ba7"/>
+      <stop offset="65%" stop-color="#ffb4c8"/>
+      <stop offset="100%" stop-color="#ffd1dc"/>
+    </linearGradient>
+    <radialGradient id="shimmer5" cx="50%" cy="-10%" r="65%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.4)"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <radialGradient id="frame5" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.85)"/>
+      <stop offset="100%" stop-color="rgba(255,200,215,0.7)"/>
+    </radialGradient>
+  </defs>
+  <!-- Pink gradient BG -->
+  <rect width="600" height="400" fill="url(#bg5)"/>
+  <rect width="600" height="400" fill="url(#shimmer5)"/>
+  <!-- Bubble decorations -->
+  <circle cx="60"  cy="80"  r="28" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="530" cy="60"  r="18" fill="rgba(255,255,255,0.10)"/>
+  <circle cx="80"  cy="320" r="22" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="540" cy="330" r="30" fill="rgba(255,255,255,0.10)"/>
+  <circle cx="300" cy="20"  r="12" fill="rgba(255,255,255,0.15)"/>
+  <!-- GIF frame circle -->
+  <circle cx="300" cy="148" r="88" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.65)" stroke-width="4"
+    filter="drop-shadow(0 12px 28px rgba(255,75,110,0.35))"/>
+  <circle cx="300" cy="148" r="76" fill="url(#frame5)"/>
+  <!-- Cute heart in the GIF frame placeholder -->
+  <text x="300" y="162" font-size="52" text-anchor="middle" dominant-baseline="middle">💕</text>
+  <!-- Outer ring -->
+  <circle cx="300" cy="148" r="96" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <!-- Title -->
+  <text x="300" y="265" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#fff"
+    text-anchor="middle" filter="drop-shadow(0 2px 8px rgba(200,30,60,0.4))">Will you be my girlfriend?</text>
+  <!-- Subtitle -->
+  <text x="300" y="290" font-family="sans-serif" font-size="12" font-weight="600" fill="rgba(255,255,255,0.85)" text-anchor="middle">Every moment with you feels magical 💕</text>
+  <!-- YES button -->
+  <rect x="178" y="310" width="124" height="40" rx="20"
+    fill="rgba(255,255,255,0.95)" filter="drop-shadow(0 6px 16px rgba(255,75,110,0.35))"/>
+  <text x="240" y="336" font-family="sans-serif" font-size="14" font-weight="900" fill="#ff4b6e" text-anchor="middle">YES ❤️</text>
+  <!-- NO button (fleeing) -->
+  <rect x="348" y="320" width="70" height="30" rx="15"
+    fill="rgba(255,255,255,0.22)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+  <text x="383" y="339" font-family="sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.8)" text-anchor="middle">NO</text>
+  <!-- Hint -->
+  <text x="300" y="378" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.5)" text-anchor="middle" font-style="italic">Try hovering over "NO" 👀</text>
+</svg>

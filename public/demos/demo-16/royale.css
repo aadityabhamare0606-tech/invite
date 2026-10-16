@@ -1,0 +1,287 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   RAJWAADA ROYALE — EXTENDED  ·  designer overrides (loads after hero.css)
+   0) PALETTE     — the maroon grounds repainted to jewel emerald
+   1) INVITATION  — deep emerald royal card, white-and-gold type
+   2) GATE        — letter z-index so the note sits behind the face
+   3) SEAMS  ·  4) DATE REVEAL  ·  5) MOTION  ·  6) CHROME
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── 0 · PALETTE — brown out, jewel emerald in ────────────────────────────
+   demo-8 grounds every celebratory section in #481226: a warm, low-blue
+   maroon (r72 g18 b38) that drifts brown the moment the gold star-field sits
+   over it. We re-ground those panels in a cool-leaning emerald — green held
+   well above blue, so it reads malachite rather than olive or army green —
+   and let the existing gold, cream and rose accents carry the warmth.
+   `--em-950/900/800/700` are the four steps the rest of this file leans on.
+   Navy sections are re-asserted at (0,2,0) so our `.rl-sec` rule cannot
+   flatten them, and the two story paints hero.css sets with `!important`
+   (section ground + card glass) are re-ground here at matching specificity.  */
+:root {
+  --em-950: #061d18;   /* deepest — card edge, seam */
+  --em-900: #0a2f26;   /* the ground            (was #481226) */
+  --em-800: #0e3b2f;   /* lifted panel */
+  --em-700: #124a3a;   /* rich mid — card bodies, gradients */
+}
+
+.rl-sec             { background: var(--em-900); }
+.rl-sec.rl-sec-navy { background: #021a38; }        /* venue · message · closing */
+
+#app .story-section {
+  background:
+    radial-gradient(90% 46% at 50% 0%, rgba(246, 207, 124, .10) 0%, transparent 60%),
+    radial-gradient(120% 90% at 50% 110%, rgba(0, 0, 0, .42) 0%, transparent 55%),
+    linear-gradient(180deg, #0d3a2c 0%, var(--em-900) 30%, #07231c 100%) !important;
+}
+
+/* the story cards were lit maroon glass — same lighting, emerald body, so the
+   rows still read as raised surfaces rather than holes in the section        */
+#app .star-card.rl-glass,
+#app .star-card .rl-glass {
+  background:
+    linear-gradient(180deg, rgba(255, 248, 238, .09) 0%, rgba(255, 248, 238, 0) 26%),
+    linear-gradient(165deg, var(--em-700) 0%, #0d382a 52%, #08271e 100%) !important;
+}
+
+/* the date panel bleeds events' ground in along its top edge */
+.date-reveal-section .dr-band-top {
+  background: linear-gradient(180deg, var(--em-900), #0a2f268c 30%, #0a2f2600);
+}
+
+/* ── 2 · THE LETTER (gate lives outside #app, so selectors are bare) ──────
+   `.env-body` (the burgundy face) had `z-index:auto` while `.env-card` (the
+   cream note) sat at `z-index:0` LATER in the DOM — both paint in the same
+   layer, so the note won by DOM order and bled through the closed envelope.
+   Lifting the face to z-index:1 (still under the z:2 seams and z:3 flap)
+   tucks the note truly inside until the seal breaks and it rises out.        */
+.envelope .env-body { z-index: 1; }
+
+/* ── 1 · INVITATION ────────────────────────────────────────────────────────
+   The React section was authored for white/gold type over a dark ground — a
+   deep royal card suits it best. We lay a rich emerald panel with a pool of
+   warm gold light behind the Ganesh blessing, frame it in gold, and let the
+   names read crisp white and the kickers/INVITE glow liquid gold.           */
+
+#app .invitation-details {
+  position: relative;
+  background:
+    /* candlelight pool behind the Ganesh blessing */
+    radial-gradient(720px 600px at 50% 25%, rgba(246, 207, 124, .17), transparent 60%),
+    /* a faint warm echo low in the panel */
+    radial-gradient(1180px 520px at 50% 104%, rgba(246, 207, 124, .09), transparent 62%),
+    /* deep emerald — richest at the centre, near-black at the edges */
+    linear-gradient(180deg, var(--em-950) 0%, #0a3027 32%, #0e4234 56%, var(--em-950) 100%) !important;
+  color: #fff8ee;
+}
+
+/* demo-8's own dark scrim would double-darken the panel — replace it with a
+   soft vignette that gives the card depth (it is md-only, the base gradient
+   carries mobile)                                                            */
+#app .invitation-details .pointer-events-none > div {
+  background: radial-gradient(125% 82% at 50% 38%, transparent 46%, rgba(0, 0, 0, .38) 100%) !important;
+}
+
+/* a royal gold double-frame inset from the page edge — the invitation card */
+#app .invitation-details::before,
+#app .invitation-details::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid rgba(226, 183, 104, .55);
+  border-radius: 3px;
+  z-index: 2;
+}
+#app .invitation-details::before { inset: 20px; }
+#app .invitation-details::after  { inset: 27px; border-color: rgba(226, 183, 104, .28); }
+
+/* ── type: white-and-gold on the dark ground ── */
+#app .invitation-details .invitation-step p {
+  color: rgba(255, 245, 226, .90) !important;              /* warm ivory body copy */
+  filter: none !important;                                  /* drop-shadows read as mud */
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .45) !important;
+}
+#app .invitation-details .invitation-step p.text-white {
+  color: #fff8ee !important;                                /* the names — crisp white */
+  text-shadow: 0 2px 22px rgba(0, 0, 0, .55), 0 0 40px rgba(246, 207, 124, .22) !important;
+}
+#app .invitation-details .invitation-step p[class*="ffd46f"] {
+  color: #f0d79a !important;                                /* soft gold kickers */
+  text-shadow: 0 1px 14px rgba(0, 0, 0, .50), 0 0 26px rgba(246, 207, 124, .25) !important;
+}
+
+/* the shimmering INVITE lockup — bright liquid gold */
+#app .invitation-details .invite-shimmer {
+  background: linear-gradient(100deg, #a9762a 0%, #e2c179 18%, #fff6da 34%,
+             #f0cd84 48%, #fff6da 62%, #e2c179 80%, #a9762a 100%) 0 0 / 220% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: drop-shadow(0 0 26px rgba(246, 207, 124, .40)) !important;
+}
+
+/* the little gold rules between stanzas */
+#app .invitation-details .h-px {
+  background: linear-gradient(90deg, transparent, rgba(226, 183, 104, .85), transparent) !important;
+}
+
+/* the Ganesh — flattened to gold so it reads as a lit ornament on the dark
+   card (grayscale → sepia keeps it true gold instead of drifting red)         */
+#app .invitation-details img {
+  filter: saturate(0) sepia(1) saturate(1.75) brightness(1.06)
+          drop-shadow(0 0 26px rgba(246, 207, 124, .45)) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3 · SECTION SEAMS
+   demo-8 bleeds colour at only one join — the date panel's `.dr-band` tints
+   its top with the PREVIOUS ground and its bottom with the NEXT one, so that
+   single seam melts while the other six stack as hard edges.
+   We lift its exact technique onto every `.rl-band-top`: each top band carries
+   the previous section's ground, faded through its own hex-with-alpha (never
+   `transparent`, which interpolates to grey). The original gold hairline rides
+   on top as background layer two, so the seam keeps its line of light.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.rl-sec .rl-band-top {
+  height: 84px;                                    /* matches .dr-band */
+  background-image:
+    linear-gradient(180deg, var(--seam, transparent 0%, transparent 100%)),
+    linear-gradient(90deg, transparent, rgba(246, 207, 124, .55), transparent);
+  background-size: 100% 100%, 100% 1px;
+  background-position: 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat;
+}
+/* the neighbour standing ABOVE each band */
+.events-section        { --seam: #061d18 0%, #061d188c 30%, #061d1800 100%; } /* invite  */
+.story-section         { --seam: #021a38 0%, #021a388c 30%, #021a3800 100%; } /* venue   */
+.couple-msg-section    { --seam: #0a2f26 0%, #0a2f268c 30%, #0a2f2600 100%; } /* story   */
+.photo-carousel-section{ --seam: #021a38 0%, #021a388c 30%, #021a3800 100%; } /* message */
+.closing-section       { --seam: #0a2f26 0%, #0a2f268c 30%, #0a2f2600 100%; } /* photos  */
+/* venue needs none: the date panel's own .dr-band-bottom already lays navy */
+.venue-section         { --seam: transparent 0%, transparent 100%; }
+
+/* depth: the star layers are inset:0, so translating them for the scroll
+   parallax in hero.js would tear a gap at every seam. Oversize them by more
+   than the ±52px the script moves them (and the bands/edge vignettes that
+   already sit over the top of them still paint above).                    */
+.rl-sec .rl-stars { top: -70px; bottom: -70px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4 · DATE REVEAL — the last light panel, taken to night
+   Its whole palette was derived from blush (wine type, a white bloom, a white
+   glass card), so this is a full sweep rather than a background swap: ground,
+   both blooms, the card, and every wine-coloured rule inverted to gold/cream.
+   The ground now matches the emerald suite; the digits keep their gold→rose
+   gradient, and the rose bloom reads as a deliberate complementary accent.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.date-reveal-section {
+  background:
+    radial-gradient(900px 500px at 50% 14%, rgba(246, 207, 124, .14), transparent 62%),
+    radial-gradient(760px 520px at 86% 112%, rgba(239, 95, 136, .16), transparent 60%),
+    linear-gradient(168deg, var(--em-950) 0%, #0d3a2c 48%, #04130f 100%);
+  color: #fff8ee;
+}
+/* the white bloom was lit for blush. Over the old wine ground, gold read as
+   candlelight; over emerald the same gold turns khaki, so the big bloom is a
+   warm ivory now — light through jade — and only the small lower bloom keeps
+   the rose of the hearts.                                                    */
+.dr-glow-a { background: rgba(255, 243, 214, .18) !important; }
+.dr-glow-b { background: rgba(239, 95, 136, .18) !important; }
+
+/* white glass card → smoked glass, so the panel reads as lit, not lit-up */
+.dr-panel {
+  background: linear-gradient(180deg, rgba(255, 248, 238, .075), rgba(255, 248, 238, .028)) !important;
+  border-color: rgba(246, 207, 124, .32) !important;
+  box-shadow: inset 0 1px rgba(255, 248, 238, .10), 0 30px 70px rgba(0, 0, 0, .55) !important;
+}
+.dr-panel::before {
+  background: linear-gradient(90deg, transparent, rgba(246, 207, 124, .85), transparent) !important;
+}
+
+/* type: every wine tone → gold / cream (the old white text-shadow is now mud) */
+.dr-eyebrow, .dr-date-kicker, .dr-title-orn, .dr-spark, .dr-burst-piece {
+  color: #e8c07a !important;
+}
+.dr-title {
+  color: #fff8ee !important;
+  text-shadow: 0 2px 22px rgba(0, 0, 0, .55), 0 0 46px rgba(246, 207, 124, .18) !important;
+}
+.dr-sub   { color: rgba(255, 248, 238, .80) !important; }
+.dr-names  { color: #fff8ee !important; text-shadow: 0 2px 16px rgba(0, 0, 0, .50) !important; }
+.dr-names .dr-name-amp { color: #f6cf7c !important; }
+.dr-month { color: #fff8ee !important; }
+.dr-month span { color: #e8c07a !important; }
+.dr-hint  { color: rgba(246, 207, 124, .80) !important; }
+.dr-replay{ color: rgba(255, 248, 238, .55) !important; }
+.dr-path  { border-top-color: rgba(246, 207, 124, .50) !important; }
+.dr-heart-ring { border-color: rgba(246, 207, 124, .65) !important; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5 · MICRO-MOTION  (class hooks fired from hero.js)
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* Event cards: demo-8's `.sheen-x` sweeps once at page load — by which point
+   the cards are still below the fold — and again on hover. hero.js adds `.lit`
+   as each card first crosses the view, so the frames also catch the light for
+   touch users. It needs its OWN keyframe name (a matching name would resolve
+   to the same value and never restart), and it stands aside while hovered so
+   the original hover sweep still owns its `sheen-x` name and still fires.  */
+@keyframes sheen-entry { 0% { left: -90%; } 100% { left: 140%; } }
+.events-card.lit:not(:hover) .sheen-x::before {
+  animation: sheen-entry 1.4s cubic-bezier(.65, 0, .35, 1) both;
+}
+
+/* countdown digits roll as they tick (rather than snapping) */
+@keyframes rg-roll {
+  0%   { transform: translateY(-.46em); opacity: 0; filter: blur(4px); }
+  55%  { filter: blur(0); }
+  100% { transform: translateY(0); opacity: 1; filter: blur(0); }
+}
+.countdown-number.rg-tick { animation: rg-roll .52s cubic-bezier(.22, 1, .36, 1); }
+
+/* story milestones answer the eye once as each arrives, then settle back to
+   the idle pulse (the class is removed after 1.1s so the pulse is never lost) */
+@keyframes rg-arrive {
+  0%   { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(246, 207, 124, .55); }
+  60%  { box-shadow: 0 0 0 24px rgba(246, 207, 124, 0); }
+  100% { transform: translate(-50%, -50%) scale(1.14); box-shadow: 0 0 0 34px rgba(246, 207, 124, 0); }
+}
+.story-node.rg-arrive { animation: rg-arrive 1.1s cubic-bezier(.22, 1, .36, 1); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6 · PAGE CHROME  (both elements injected by hero.js)
+   Sits below #env-outer's 2147483000 so the gate always covers it, and is
+   only faded in by script once the seal has been broken.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.rg-progress {
+  position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 2147482990;
+  pointer-events: none; opacity: 0; transition: opacity .6s ease;
+}
+.rg-progress.on { opacity: 1; }
+.rg-progress i {
+  display: block; height: 100%; transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, #b8913a, #f6cf7c 45%, #ffe6b0 62%, #f6cf7c 78%, #b8913a);
+  box-shadow: 0 0 12px rgba(246, 207, 124, .55);
+}
+.rg-nav {
+  position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+  z-index: 2147482990; display: flex; flex-direction: column; gap: 13px;
+  opacity: 0; transition: opacity .6s ease;
+}
+.rg-nav.on { opacity: 1; }
+.rg-nav button {
+  width: 7px; height: 7px; padding: 0; border: 0; cursor: pointer; border-radius: 999px;
+  background: rgba(246, 207, 124, .34); transition: width .4s cubic-bezier(.22, 1, .36, 1),
+              background .4s ease, box-shadow .4s ease;
+}
+.rg-nav button:hover { background: rgba(246, 207, 124, .72); }
+.rg-nav button:focus-visible { outline: 2px solid #f6cf7c; outline-offset: 3px; }
+.rg-nav button.on {
+  width: 22px; background: linear-gradient(90deg, #f6cf7c, #ffe6b0);
+  box-shadow: 0 0 12px rgba(246, 207, 124, .6);
+}
+@media (max-width: 767px) { .rg-nav { display: none; } }
+
+/* keep the added motion honest under reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .countdown-number.rg-tick,
+  .story-node.rg-arrive { animation: none !important; }
+  .rg-nav button { transition: none; }
+}

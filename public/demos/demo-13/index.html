@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>A Jar of Memories 🫙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500;1,600&family=Dancing+Script:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500;1,600&family=Dancing+Script:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500;1,600&family=Dancing+Script:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;background:#FFF8F0}
+
+/* ── Background ── */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 18% 12%,rgba(255,200,120,.26) 0%,transparent 48%),
+    radial-gradient(ellipse at 82% 88%,rgba(255,150,150,.2) 0%,transparent 48%),
+    radial-gradient(ellipse at 50% 50%,rgba(255,240,210,.3) 0%,transparent 60%),
+    linear-gradient(160deg,#FFF8F0 0%,#FFF4E8 50%,#FFF0EC 100%)}
+
+/* Petals */
+.petal{position:fixed;pointer-events:none;z-index:0;border-radius:50% 0 50% 0;animation:pdrift linear infinite;opacity:0}
+@keyframes pdrift{0%{transform:translateY(105vh) rotate(0deg);opacity:0}5%{opacity:.45}90%{opacity:.28}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
+
+/* ── Page ── */
+.page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem}
+
+/* ══ SECTION 1: Intro ══ */
+#sec-intro{display:flex;flex-direction:column;align-items:center;text-align:center}
+#sec-intro.gone{display:none}
+
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:#C2185B;margin-bottom:1rem;animation:rise .7s .2s both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.intro-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,3rem);font-weight:300;color:#1A0A0E;line-height:1.1;margin-bottom:.55rem;animation:rise .8s .4s both}
+.intro-h em{color:#C2185B;font-style:italic}
+.intro-s{font-size:14px;color:#7A5060;max-width:360px;line-height:1.76;margin-bottom:2rem;animation:rise .7s .6s both}
+
+/* Jar */
+.jar-wrap{cursor:pointer;margin-bottom:1.4rem;animation:jar-float 4s ease-in-out infinite,rise .9s .8s both;filter:drop-shadow(0 8px 20px rgba(194,24,91,.15))}
+@keyframes jar-float{0%,100%{transform:translateY(0) rotate(-.4deg)}50%{transform:translateY(-10px) rotate(.5deg)}}
+.jar-wrap:hover{filter:drop-shadow(0 12px 28px rgba(194,24,91,.28))}
+.jar-hint{font-size:11px;color:rgba(194,24,91,.5);letter-spacing:.1em;animation:hint-p 2s ease-in-out infinite}
+@keyframes hint-p{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* ══ SECTION 2: Notes ══ */
+#sec-notes{display:none;flex-direction:column;align-items:center;width:100%;max-width:560px}
+#sec-notes.show{display:flex}
+
+.notes-hdr{text-align:center;margin-bottom:1.8rem;animation:rise .6s both}
+.n-counter{font-size:10px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#C2185B;margin-bottom:.4rem}
+.n-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:300;color:#1A0A0E}
+
+/* Progress */
+.prog-dots{display:flex;gap:8px;margin-bottom:1.6rem}
+.pdot{width:8px;height:8px;border-radius:50%;background:#FCE4EC;border:1.5px solid rgba(194,24,91,.2);transition:background .3s,transform .3s,border-color .3s}
+.pdot.done{background:#C2185B;border-color:#C2185B;transform:scale(1.22)}
+
+/* Stack */
+.note-stack{position:relative;width:min(440px,93vw);height:310px;margin-bottom:1.8rem}
+.note-card{
+  position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(160deg,#fffdf5 0%,#fff8ec 100%);
+  border:1px solid rgba(194,24,91,.1);
+  box-shadow:0 6px 24px rgba(0,0,0,.08),0 2px 8px rgba(194,24,91,.06);
+  display:flex;flex-direction:column;padding:2rem 2.4rem;
+  transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .5s ease,box-shadow .4s;
+}
+.note-card::before{content:'';position:absolute;inset:0;pointer-events:none;border-radius:14px;
+  background-image:repeating-linear-gradient(transparent,transparent 27px,rgba(194,24,91,.045) 27px,rgba(194,24,91,.045) 28px);
+  background-position:0 44px}
+.note-card::after{content:'';position:absolute;top:0;bottom:0;left:2.8rem;width:1px;background:rgba(194,24,91,.06)}
+.note-card.active{z-index:10;box-shadow:0 20px 50px rgba(0,0,0,.12),0 4px 16px rgba(194,24,91,.1)}
+.note-card.exit{transform:translateY(-115%) rotate(8deg)!important;opacity:0!important;z-index:11;
+  transition:transform .52s cubic-bezier(.22,1,.36,1),opacity .38s ease .08s!important}
+.note-num{font-size:9px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(194,24,91,.5);margin-bottom:.7rem}
+.note-icon{font-size:1.7rem;margin-bottom:.55rem;line-height:1}
+.note-text{font-family:'Cormorant Garamond',serif;font-size:clamp(1.05rem,2.7vw,1.22rem);color:#241008;line-height:1.88;font-style:italic;flex:1}
+.note-credit{margin-top:auto;padding-top:.9rem;font-family:'Dancing Script',cursive;font-size:.95rem;color:#C2185B;line-height:1}
+
+.btn-next{
+  background:linear-gradient(135deg,#880E4F,#C2185B);
+  border:none;border-radius:999px;padding:0 2.4rem;height:52px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.55rem;
+  box-shadow:0 6px 22px rgba(194,24,91,.3);transition:transform .2s,box-shadow .2s;
+}
+.btn-next:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 10px 30px rgba(194,24,91,.42)}
+
+/* ══ SECTION 3: Question ══ */
+#sec-ask{display:none;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:480px}
+#sec-ask.show{display:flex}
+
+.ask-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,7vw,3.4rem);font-weight:300;color:#1A0A0E;line-height:1.05;margin-bottom:.5rem;animation:rise .8s both}
+.ask-h em{color:#C2185B;font-style:italic}
+.ask-sub{font-size:13.5px;color:#7A5060;line-height:1.8;margin-bottom:2.4rem;max-width:340px;animation:rise .7s .2s both}
+.ask-btns{position:relative;width:100%;min-height:90px;display:flex;align-items:center;justify-content:center}
+
+.btn-yes-ask{
+  background:linear-gradient(135deg,#880E4F,#C2185B);
+  border:none;border-radius:999px;padding:0 2.4rem;height:54px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.5rem;
+  box-shadow:0 0 0 0 rgba(194,24,91,.4),0 8px 26px rgba(194,24,91,.35);
+  animation:yes-ring 2.5s 1.5s ease-out infinite;
+  transition:transform .2s,box-shadow .2s;z-index:3;position:relative;
+}
+@keyframes yes-ring{0%{box-shadow:0 0 0 0 rgba(194,24,91,.5),0 8px 26px rgba(194,24,91,.35)}65%{box-shadow:0 0 0 20px rgba(194,24,91,0),0 8px 26px rgba(194,24,91,.35)}}
+.btn-yes-ask:hover{transform:scale(1.07) translateY(-2px);box-shadow:0 12px 36px rgba(194,24,91,.5)}
+
+/* NO — runs away from cursor */
+.btn-no-ask{
+  position:fixed;z-index:20;
+  background:rgba(255,255,255,.8);border:1.5px solid rgba(194,24,91,.2);
+  border-radius:999px;padding:0 1.4rem;height:44px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;color:rgba(194,24,91,.55);
+  cursor:pointer;white-space:nowrap;backdrop-filter:blur(4px);
+  transition:left .38s cubic-bezier(.22,1,.36,1),top .38s cubic-bezier(.22,1,.36,1),transform .22s;
+  display:none;
+}
+
+.ask-hint{margin-top:1.4rem;font-size:11px;color:rgba(194,24,91,.4);min-height:18px;animation:rise .6s .8s both;transition:color .4s}
+
+/* ══ SECTION 4: Final ══ */
+#sec-final{display:none;flex-direction:column;align-items:center;text-align:center;animation:rise .7s both}
+#sec-final.show{display:flex}
+.final-icon{font-size:clamp(4rem,12vw,5.5rem);margin-bottom:1rem;filter:drop-shadow(0 0 18px rgba(194,24,91,.4));animation:icon-beat 2s ease-in-out infinite}
+@keyframes icon-beat{0%,100%{transform:scale(1)}20%{transform:scale(1.14)}40%{transform:scale(1.04)}}
+.final-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,7vw,3.6rem);font-weight:300;color:#1A0A0E;line-height:1;margin-bottom:.4rem}
+.final-h em{color:#C2185B;font-style:italic}
+.final-msg{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1rem,2.4vw,1.18rem);color:#5C3030;line-height:1.85;max-width:380px;margin:.6rem auto 2rem}
+.final-wa{display:inline-flex;align-items:center;gap:.55rem;background:#25d366;color:#fff;border-radius:999px;padding:.75rem 1.9rem;font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 4px 18px rgba(37,211,102,.3);transition:transform .2s;margin-bottom:1.2rem}
+.final-wa:hover{transform:scale(1.04)}
+.final-brand{font-size:9px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#B09098}
+.final-brand a{color:#C2185B;text-decoration:none}
+
+/* Floating hearts */
+.fheart{position:fixed;pointer-events:none;z-index:50;animation:fh-up ease-out forwards}
+@keyframes fh-up{0%{opacity:0;transform:translateY(0) scale(.5)}12%{opacity:.88}100%{opacity:0;transform:translateY(-105px) scale(.62) rotate(16deg)}}
+</style>
+</head>
+<body>
+<div id="bgPetals"></div>
+<div class="page">
+
+  <!-- ═══ INTRO ═══ -->
+  <div id="sec-intro">
+    <p class="eyebrow">Something I've been keeping for you</p>
+    <h1 class="intro-h">I kept these<br><em>just for you</em></h1>
+    <p class="intro-s">Five little notes I folded up and saved — honest things I never quite found the moment to say out loud. Open the jar.</p>
+    <div class="jar-wrap" onclick="openJar()" role="button" tabindex="0" aria-label="Open the memory jar">
+      <svg width="130" height="180" viewBox="0 0 130 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="12" width="70" height="11" rx="3" fill="#C8902A" opacity=".92"/>
+        <rect x="24" y="21" width="82" height="9" rx="2" fill="#B8801A" opacity=".82"/>
+        <rect x="26" y="28" width="78" height="5" rx="1" fill="#D4A030" opacity=".7"/>
+        <path d="M30 34 Q20 38 20 54 L20 152 Q20 168 65 168 Q110 168 110 152 L110 54 Q110 38 100 34 Z" fill="url(#jb)" opacity=".9"/>
+        <rect x="24" y="32" width="82" height="6" rx="2" fill="rgba(200,144,42,.32)"/>
+        <path d="M32 52 Q28 64 28 86 Q28 108 30 130" stroke="rgba(255,255,255,.32)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        <path d="M96 48 Q98 60 98 72" stroke="rgba(255,255,255,.22)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <text x="42" y="98" font-size="20" opacity=".58" transform="rotate(-8,42,98)">♥</text>
+        <text x="60" y="120" font-size="15" opacity=".48" transform="rotate(5,60,120)">♡</text>
+        <text x="76" y="88" font-size="18" opacity=".52" transform="rotate(-4,76,88)">♥</text>
+        <text x="50" y="142" font-size="13" opacity=".38">💕</text>
+        <text x="78" y="128" font-size="12" opacity=".38" transform="rotate(6,78,128)">♡</text>
+        <rect x="38" y="62" width="54" height="38" rx="4" fill="rgba(255,255,255,.22)" stroke="rgba(200,144,42,.28)" stroke-width="1"/>
+        <text x="65" y="79" font-family="serif" font-size="8.5" fill="rgba(194,24,91,.7)" text-anchor="middle" letter-spacing="1">MEMORIES</text>
+        <text x="65" y="92" font-family="serif" font-size="7.5" fill="rgba(194,24,91,.5)" text-anchor="middle" letter-spacing=".5">for you ♥</text>
+        <ellipse cx="65" cy="165" rx="32" ry="4.5" fill="rgba(200,144,42,.1)"/>
+        <defs>
+          <linearGradient id="jb" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#E8D8C0" stop-opacity=".85"/>
+            <stop offset="35%" stop-color="#FFF8EE" stop-opacity=".9"/>
+            <stop offset="70%" stop-color="#F5EAD8" stop-opacity=".88"/>
+            <stop offset="100%" stop-color="#DCC8A8" stop-opacity=".82"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <p class="jar-hint">✦ &nbsp; Tap the jar to open &nbsp; ✦</p>
+  </div>
+
+  <!-- ═══ NOTES ═══ -->
+  <div id="sec-notes">
+    <div class="notes-hdr">
+      <p class="n-counter" id="nCounter">Note 1 of 5</p>
+      <h2 class="n-title">Your memory jar</h2>
+    </div>
+    <div class="prog-dots" id="progDots">
+      <div class="pdot" id="dot0"></div><div class="pdot" id="dot1"></div>
+      <div class="pdot" id="dot2"></div><div class="pdot" id="dot3"></div><div class="pdot" id="dot4"></div>
+    </div>
+    <div class="note-stack" id="noteStack"></div>
+    <button class="btn-next" id="btnNext" onclick="nextNote()">Read next → <span>♥</span></button>
+  </div>
+
+  <!-- ═══ QUESTION ═══ -->
+  <div id="sec-ask">
+    <h2 class="ask-h">And now —<br><em>one question.</em></h2>
+    <p class="ask-sub">You read everything in the jar. You know now. And I still want to ask properly.</p>
+    <div class="ask-btns" id="askBtns">
+      <button class="btn-yes-ask" onclick="onYesAsk()"><span>💕</span> Yes, I will</button>
+    </div>
+    <p class="ask-hint" id="askHint">Move toward "No" to see what happens 👀</p>
+  </div>
+
+  <!-- ═══ FINAL ═══ -->
+  <div id="sec-final">
+    <span class="final-icon">🫙💕</span>
+    <h2 class="final-h">Now you know<br><em>every one.</em></h2>
+    <p class="final-msg">"These were only five. There are a thousand more I haven't written yet — and I'd love to keep making them, with you."</p>
+    <a class="final-wa" href="https://wa.me/919999999999?text=I+want+a+memory+jar+proposal+page+💌" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.118 1.528 5.857L.057 23.428a.5.5 0 0 0 .623.602l5.694-1.488A11.942 11.942 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.858 9.858 0 0 1-5.031-1.376l-.36-.214-3.73.976.994-3.63-.234-.374A9.859 9.859 0 0 1 2.1 12C2.1 6.53 6.53 2.1 12 2.1c5.47 0 9.9 4.43 9.9 9.9 0 5.47-4.43 9.9-9.9 9.9z"/></svg>
+      Create yours — from ₹499
+    </a>
+    <p class="final-brand">Powered by <a href="/">OurMoment</a></p>
+  </div>
+
+</div>
+
+<!-- NO button — runs away -->
+<button class="btn-no-ask" id="btnNoAsk"><span id="noEmojiA">😶</span> <span id="noTextA">No</span></button>
+
+<script>
+/* Petals */
+const bp=document.getElementById('bgPetals');
+const pcols=['#FCE4EC','#F8BBD9','#F06292','#E91E8C','#ffcce0'];
+for(let i=0;i<18;i++){const p=document.createElement('div');p.className='petal';const sz=7+Math.random()*13;p.style.cssText=`width:${sz}px;height:${sz}px;background:${pcols[Math.floor(Math.random()*pcols.length)]};left:${Math.random()*100}%;bottom:${-sz}px;animation-duration:${9+Math.random()*12}s;animation-delay:${-Math.random()*18}s`;bp.appendChild(p);}
+
+/* Notes */
+const NOTES=[
+  {num:'Note 1',icon:'☀️',text:'I remember the exact moment I realised I was going to have trouble thinking about anything else. You said something completely ordinary — and I thought: oh no. Here we go.'},
+  {num:'Note 2',icon:'🌙',text:'You laugh at your own jokes before you finish them. Every single time. And every single time, I fall for it completely. That laugh is one of my favourite sounds.'},
+  {num:'Note 3',icon:'🌸',text:'The way you hold your phone when you read something funny — screen tilted, almost to yourself. I\'ve memorised that without trying. I notice it every time.'},
+  {num:'Note 4',icon:'✨',text:'Some people make ordinary days feel smaller. You make them feel larger — like they matter more. Like I matter more, when you\'re in them.'},
+  {num:'Note 5',icon:'💌',text:'I\'ve been waiting to say this properly. Here it is, folded in a jar between four other honest things: I really, really like you. And I wanted you to know.'},
+];
+let current=0;
+const stack=document.getElementById('noteStack'),btnNext=document.getElementById('btnNext'),counter=document.getElementById('nCounter');
+
+function buildCards(){
+  stack.innerHTML='';
+  NOTES.forEach((n,i)=>{
+    const c=document.createElement('div');c.className='note-card';c.id='nc'+i;
+    c.innerHTML=`<p class="note-num">${n.num}</p><div class="note-icon">${n.icon}</div><p class="note-text">"${n.text}"</p><p class="note-credit">— saved in the jar</p>`;
+    stack.appendChild(c);
+  });
+  updateStack();
+}
+function updateStack(){
+  NOTES.forEach((_,i)=>{
+    const c=document.getElementById('nc'+i);if(!c)return;
+    c.classList.remove('active','exit');
+    const rel=i-current;
+    if(rel<0){c.style.opacity='0';c.style.pointerEvents='none';c.style.zIndex='0';return;}
+    c.style.opacity='1';c.style.pointerEvents='auto';
+    if(rel===0){c.classList.add('active');c.style.transform='rotate(0) translateY(0)';c.style.zIndex='10';}
+    else if(rel===1){c.style.transform='rotate(2.4deg) translateY(5px)';c.style.zIndex='4';}
+    else if(rel===2){c.style.transform='rotate(-2.8deg) translateY(10px)';c.style.zIndex='3';}
+    else{c.style.transform='rotate(3.5deg) translateY(14px)';c.style.zIndex='2';}
+  });
+  document.getElementById('dot'+Math.min(current,4)).classList.add('done');
+  counter.textContent=`Note ${current+1} of 5`;
+  btnNext.innerHTML=current>=NOTES.length-1?'Read the last note ♥':'Read next → ♥';
+}
+function nextNote(){
+  if(current>=NOTES.length)return;
+  const c=document.getElementById('nc'+current);if(c)c.classList.add('exit');
+  spawnHeart(null,null);
+  setTimeout(()=>{current++;if(current>=NOTES.length){showAsk();}else{updateStack();}},440);
+}
+
+/* Ask section + running No */
+let noCount=0,noVisible=false;
+const noBtn=document.getElementById('btnNoAsk'),noEmoji=document.getElementById('noEmojiA'),noText=document.getElementById('noTextA'),askHint=document.getElementById('askHint');
+const stages=[{e:'😟',t:'No…'},{e:'😰',t:'Still no…'},{e:'😱',t:'Please don\'t'},{e:'🫣',t:'Running!'},{e:'🙈',t:'Nope!'},{e:'🏃',t:'Catch me!'},{e:'💨',t:'...No'},{e:'🤪',t:'Never!'},{e:'👻',t:'Boo—No'}];
+const hints=['It ran away! 👀','Still running…','You can\'t catch it 😄','It\'s getting scared!','Just click Yes instead 💕','It really doesn\'t want to be clicked','Look at it go','This is art now','Respect the chaos'];
+
+function runAway(){
+  noCount++;
+  const s=stages[Math.min(noCount-1,stages.length-1)];
+  noEmoji.textContent=s.e;noText.textContent=s.t;
+  if(askHint)askHint.textContent=hints[Math.min(noCount-1,hints.length-1)];
+  const vw=window.innerWidth,vh=window.innerHeight,bw=noBtn.offsetWidth||100,bh=noBtn.offsetHeight||44;
+  let nx,ny,tries=0;
+  do{nx=40+Math.random()*(vw-bw-80);ny=40+Math.random()*(vh-bh-80);tries++;}
+  while(tries<30&&Math.hypot(nx-vw/2,ny-vh/2)<Math.min(vw,vh)*.2);
+  noBtn.style.left=nx+'px';noBtn.style.top=ny+'px';
+  noBtn.style.transform=`rotate(${(Math.random()-.5)*20}deg)`;
+}
+document.addEventListener('mousemove',e=>{if(!noVisible)return;const r=noBtn.getBoundingClientRect();if(Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))<88)runAway();});
+document.addEventListener('touchmove',e=>{if(!noVisible)return;const t=e.touches[0];const r=noBtn.getBoundingClientRect();if(Math.hypot(t.clientX-(r.left+r.width/2),t.clientY-(r.top+r.height/2))<70)runAway();},{passive:true});
+
+function showAsk(){
+  document.getElementById('sec-notes').style.display='none';
+  const sa=document.getElementById('sec-ask');sa.classList.add('show');
+  /* Place No button and show */
+  setTimeout(()=>{noBtn.style.display='inline-flex';noBtn.style.left=(window.innerWidth*.62)+'px';noBtn.style.top=(window.innerHeight*.68)+'px';noVisible=true;},1000);
+}
+
+/* Yes on ask */
+function onYesAsk(){
+  noVisible=false;noBtn.style.display='none';
+  document.getElementById('sec-ask').style.display='none';
+  for(let i=0;i<8;i++)setTimeout(()=>spawnHeart(),i*160);
+  document.getElementById('sec-final').classList.add('show');
+  const t=setInterval(()=>spawnHeart(),1600);setTimeout(()=>clearInterval(t),10000);
+}
+
+function showAskFromIntro(){
+  document.getElementById('sec-intro').classList.add('gone');
+  document.getElementById('sec-notes').classList.add('show');
+  buildCards();setTimeout(()=>spawnHeart(),600);
+}
+
+function openJar(){showAskFromIntro();}
+
+/* Floating hearts */
+function spawnHeart(lx,ly){
+  const h=document.createElement('div');h.className='fheart';
+  const glyphs=['♥','💕','💗','♡','❤'];const cols=['#F06292','#C2185B','#E91E8C','#F8BBD9','#880E4F'];
+  h.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+  h.style.color=cols[Math.floor(Math.random()*cols.length)];
+  h.style.fontSize=(1+Math.random()*.9)+'rem';
+  h.style.left=(lx!=null?lx:(10+Math.random()*80))+'%';
+  h.style.bottom=(ly!=null?ly:(5+Math.random()*20))+'%';
+  h.style.animationDuration=(2.2+Math.random()*1.8)+'s';
+  document.body.appendChild(h);setTimeout(()=>h.remove(),4400);
+}
+</script>
+</body>
+</html>

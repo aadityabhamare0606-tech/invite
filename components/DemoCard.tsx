@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
+﻿"use client";
 
 export type DemoCardData = {
   id: string;
@@ -8,7 +6,7 @@ export type DemoCardData = {
   badgeStyle: "bestseller" | "ookind" | "popular" | "premium" | "classic" | "new" | "latest";
   type: string;
   title: string;
-  description: string;  /* kept in data but NOT shown on card */
+  description: string;
   price: string;
   priceUnit?: string;
   demoSrc: string;
@@ -21,7 +19,7 @@ export type DemoCardData = {
 
 interface DemoCardProps {
   card: DemoCardData;
-  onPreview: (src: string, title: string) => void;
+  onPreview?: (src: string, title: string) => void;
 }
 
 const badgeMap: Record<string, { bg: string; text: string }> = {
@@ -34,7 +32,6 @@ const badgeMap: Record<string, { bg: string; text: string }> = {
   latest:     { bg: "#880E4F", text: "#fce4ec" },
 };
 
-/* Tag colour map - clean, minimal */
 const tagStyle: Record<string, { bg: string; color: string }> = {
   "Best for Mobile":   { bg: "#EEF4FF", color: "#1D4ED8" },
   "Best for Sharing":  { bg: "#EEF4FF", color: "#1D4ED8" },
@@ -48,82 +45,65 @@ const tagStyle: Record<string, { bg: string; color: string }> = {
   "Unique Experience": { bg: "#F0FDF4", color: "#166534" },
 };
 
-/* Show the same real demo homepage that opens from the card CTA. */
 function PreviewPlaceholder({ card }: { card: DemoCardData }) {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
-
-  useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoad(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "120px 0px", threshold: 0.01 }
-    );
-
-    observer.observe(frame);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div ref={frameRef} className="relative h-full w-full overflow-hidden bg-[#120c20]">
-      {shouldLoad && <iframe
-          src={card.demoSrc}
-          title={`${card.title} website preview`}
-          loading="lazy"
-          scrolling="no"
-          tabIndex={-1}
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full border-0"
-        />}
-    </div>
+    <div
+      className="h-full w-full"
+      style={{ background: card.previewBg ?? "#120c20" }}
+    />
   );
 }
 
-export default function DemoCard({ card, onPreview }: DemoCardProps) {
+export default function DemoCard({ card }: DemoCardProps) {
   const bc = badgeMap[card.badgeStyle] ?? badgeMap.bestseller;
+
+  const demoUrl = card.demoSrc;
 
   return (
     <article
       className="card-hover flex flex-col overflow-hidden rounded-2xl border bg-white"
       style={{ borderColor: "var(--border)", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}
     >
-      {/* Preview */}
-      <div className="relative h-[250px] overflow-hidden sm:h-[270px]">
+      <a
+        href={demoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Open ${card.title} demo`}
+        className="relative block h-[250px] overflow-hidden sm:h-[270px]"
+      >
         {card.previewImg
-          ? <img src={card.previewImg} alt={card.title} loading="lazy" className="h-full w-full object-cover card-img-zoom" />
+          ? <img
+              src={card.previewImg}
+              alt=""
+              width={600}
+              height={400}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover card-img-zoom"
+            />
           : <PreviewPlaceholder card={card} />
         }
-        {/* Click overlay */}
         <div className="play-overlay absolute inset-0 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.15)" }}>
-          <button onClick={() => onPreview(card.demoSrc, card.title)} aria-label={`Preview ${card.title}`}
-            className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/90 bg-white/20 backdrop-blur-sm transition-all duration-200 hover:scale-110">
+          <span
+            aria-hidden="true"
+            className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/90 bg-white/20 backdrop-blur-sm transition-all duration-200 group-hover:scale-110"
+          >
             <svg className="h-5 w-5 fill-white translate-x-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          </span>
         </div>
         <div className="card-shimmer-border" />
-        {/* Badge */}
         <span className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.1em]"
           style={{ background: bc.bg, color: bc.text }}>
           {card.badge}
         </span>
-      </div>
+      </a>
 
-      {/* Card body — clean, no description */}
       <div className="flex flex-1 flex-col px-5 py-4">
-        {/* Title */}
         <h3 className="font-medium leading-snug mb-4"
           style={{ fontFamily: "var(--font-cormorant)", color: "var(--text-primary)", fontSize: 20 }}>
           {card.title}
         </h3>
 
-        {/* Tags — max 2 shown */}
         {card.tags && card.tags.filter((tag) => tag !== "Live Countdown" && tag !== "Animated").length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-4">
             {card.tags.filter((tag) => tag !== "Live Countdown" && tag !== "Animated").slice(0, 2).map((tag) => {
@@ -135,7 +115,6 @@ export default function DemoCard({ card, onPreview }: DemoCardProps) {
 
         <div className="flex-1" />
 
-        {/* Price */}
         <div className="flex items-baseline gap-1 mb-3">
           <span className="font-semibold" style={{ fontFamily: "var(--font-cormorant)", color: "var(--primary)", fontSize: 24, lineHeight: 1 }}>
             {card.price}
@@ -143,15 +122,6 @@ export default function DemoCard({ card, onPreview }: DemoCardProps) {
           <span className="text-xs" style={{ color: "var(--text-muted)" }}>{card.priceUnit ?? "/ site"}</span>
         </div>
 
-        {/* Open Demo */}
-        <button onClick={() => onPreview(card.demoSrc, card.title)}
-          className="mb-2.5 flex w-full items-center justify-center gap-1.5 rounded-full border py-2.5 text-[13px] font-semibold transition-all duration-200 hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)]"
-          style={{ borderColor: "var(--border-strong)", color: "var(--text-mid)" }}>
-          Open Demo
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8h10M9 4l4 4-4 4"/></svg>
-        </button>
-
-        {/* WhatsApp */}
         <a href={`https://wa.me/919999999999?text=Hi%2C%20I%27m%20interested%20in%20%22${encodeURIComponent(card.title)}%22`}
           target="_blank" rel="noopener noreferrer"
           className="flex w-full items-center justify-center gap-2 rounded-full py-2.5 text-[13px] font-semibold text-white transition-all hover:opacity-90"

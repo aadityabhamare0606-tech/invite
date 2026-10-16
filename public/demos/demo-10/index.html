@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Do You Love Me? ❤️</title>
+<meta name="description" content="A playful proposal page — the No button slides away every time she tries to click it. Only Yes is allowed here. Made by OurMoment."/>
+<meta name="theme-color" content="#C62828"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin/>
+<link rel="preconnect" href="https://plus.unsplash.com" crossorigin/>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif}
+button{font-family:inherit}
+
+/* ══════════════ BACKGROUND — red & white ══════════════ */
+#bg{position:fixed;inset:0;z-index:0;
+  background:radial-gradient(130% 100% at 50% -12%,#fff4f1 0%,#ffe9e5 40%,#fbd8d2 70%,#f7c9c2 100%);
+  transition:background 1.2s ease}
+#bg.slide2{background:radial-gradient(130% 100% at 50% 115%,#fff7f5 0%,#ffe9e5 45%,#fbd6cf 100%)}
+#bg.slide3{background:radial-gradient(130% 100% at 30% 20%,#fff8f6 0%,#ffeae6 45%,#f9d3cc 100%)}
+#bg.slide4{background:radial-gradient(140% 110% at 50% 118%,#1d2558 0%,#131848 45%,#0a0e2f 80%,#05071d 100%)}
+
+/* Soft red blooms */
+.rose-blur{position:fixed;border-radius:50%;pointer-events:none;z-index:1;filter:blur(70px);animation:bloom-drift 16s ease-in-out infinite alternate;will-change:transform,opacity}
+@keyframes bloom-drift{0%{opacity:.5;transform:scale(1) translate(0,0)}100%{opacity:.75;transform:scale(1.1) translate(18px,-14px)}}
+
+/* Ambient drifting hearts */
+.amb{position:fixed;pointer-events:none;z-index:2;animation:amb-rise linear infinite;opacity:0;will-change:transform}
+@keyframes amb-rise{0%{transform:translateY(0) rotate(-8deg);opacity:0}10%{opacity:.5}90%{opacity:.5}100%{transform:translateY(-105vh) rotate(12deg);opacity:0}}
+
+/* ══════════════ SLIDES ══════════════ */
+.slide{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem 1.4rem calc(2rem + env(safe-area-inset-bottom,0px));pointer-events:none;opacity:0;transition:opacity .7s ease}
+.slide.active{pointer-events:auto;opacity:1}
+.slide.exit{opacity:0;pointer-events:none}
+.slide.scrollable{overflow-y:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;padding-top:4.5rem;padding-bottom:3.5rem}
+
+/* ══════════════ SLIDE 1 — Question ══════════════ */
+.card{
+  width:min(480px,94vw);
+  background:#fff;
+  border:1px solid rgba(197,64,64,.14);border-radius:28px;
+  padding:3rem 2.5rem 2.4rem;text-align:center;position:relative;
+  box-shadow:0 26px 64px rgba(166,46,46,.16),0 6px 18px rgba(166,46,46,.08);
+  animation:card-in .85s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes card-in{from{opacity:0;transform:translateY(44px) scale(.94)}to{opacity:1;transform:none}}
+.accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:28px 28px 0 0;
+  background:linear-gradient(90deg,transparent,#E53935,#B71C1C,#E53935,transparent)}
+/* warm breathing halo behind the question card */
+.card-halo{position:fixed;z-index:9;pointer-events:none;width:min(640px,90vw);aspect-ratio:1;left:50%;top:50%;
+  background:radial-gradient(50% 50% at 50% 42%,rgba(229,57,53,.20),rgba(229,57,53,.06) 55%,transparent 72%);
+  filter:blur(16px);animation:card-glow 5s ease-in-out infinite;will-change:opacity,transform}
+@keyframes card-glow{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.97)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.38em;text-transform:uppercase;color:#c0392b;margin-bottom:1.1rem;animation:fu .7s .3s both}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.q-big{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(3.2rem,10vw,5.4rem);color:#461111;line-height:1.05;
+  animation:bloom 1.3s .55s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes bloom{from{opacity:0;filter:blur(14px);transform:translateY(38px) scale(.93)}to{opacity:1;filter:blur(0);transform:none}}
+.q-em{color:#C62828;font-style:italic;display:block;animation:love-beat 2.6s ease-in-out .9s infinite}
+@keyframes love-beat{0%,100%{transform:scale(1);text-shadow:0 0 0 rgba(198,40,40,0)}
+  14%{transform:scale(1.07);text-shadow:0 0 26px rgba(198,40,40,.35)}
+  28%{transform:scale(1);text-shadow:0 0 0 rgba(198,40,40,0)}
+  42%{transform:scale(1.04);text-shadow:0 0 14px rgba(198,40,40,.22)}
+  56%{transform:scale(1)}}
+.sub{font-size:13.5px;color:#8a5750;line-height:1.82;max-width:330px;margin:1rem auto 2.2rem;animation:fu .7s 1.1s both}
+/* golden sparkles twinkling around the question */
+.sparkle{position:absolute;color:#ffb74d;pointer-events:none;line-height:1;z-index:2;
+  animation:sparkle-tw 2.4s ease-in-out infinite;text-shadow:0 0 9px rgba(255,183,77,.85)}
+@keyframes sparkle-tw{0%,100%{opacity:0;transform:scale(.45) rotate(0)}45%{opacity:1;transform:scale(1.15) rotate(30deg)}}
+/* the heart on the Yes button thumps with excitement */
+.yes-heart{display:inline-block;animation:yes-heart-beat 1.5s ease-in-out infinite}
+@keyframes yes-heart-beat{0%,100%{transform:scale(1)}10%{transform:scale(1.24)}22%{transform:scale(1)}34%{transform:scale(1.14)}}
+
+/* ── Button zone — YES and NO sit side by side ── */
+.btn-zone{position:relative;width:100%;min-height:60px;display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:nowrap}
+
+.btn-yes,.btn-no{
+  flex:1 1 0;justify-content:center;min-width:0;
+  background:linear-gradient(135deg,#E53935 0%,#C62828 55%,#B71C1C 100%);
+  border:none;border-radius:999px;padding:0 2.1rem;height:56px;
+  font-size:15px;font-weight:700;color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;text-align:center;
+  box-shadow:0 0 0 0 rgba(197,64,64,.45),0 8px 26px rgba(183,28,28,.32);
+  transition:left 1.3s cubic-bezier(.22,1,.36,1),top 1.3s cubic-bezier(.22,1,.36,1),transform .25s ease,box-shadow .25s ease,opacity .25s ease;
+}
+.btn-yes{position:relative;animation:yes-ring 2.5s 2.2s ease-out infinite}
+.btn-no{position:relative;z-index:5;animation:no-wobble .6s ease-in-out infinite}
+@keyframes no-wobble{0%,100%{transform:rotate(-1.5deg)}50%{transform:rotate(1.5deg)}}
+@keyframes yes-ring{0%{box-shadow:0 0 0 0 rgba(197,64,64,.5),0 8px 26px rgba(183,28,28,.32)}65%{box-shadow:0 0 0 20px rgba(197,64,64,0),0 8px 26px rgba(183,28,28,.32)}}
+.btn-yes:hover{transform:scale(1.06) translateY(-2px);box-shadow:0 14px 38px rgba(183,28,28,.42)}
+.btn-no:hover{transform:scale(1.06) rotate(-2deg);box-shadow:0 14px 38px rgba(183,28,28,.42)}
+.btn-no.fleeing{box-shadow:0 0 0 0 rgba(197,64,64,.18);animation:none}
+.btn-yes:focus-visible,.btn-no:focus-visible,.s2-btn:focus-visible,.seal-btn:focus-visible,
+.btn-yes-moon:focus-visible,.m-btn:focus-visible,.replay-moon:focus-visible,.dots:focus-visible{
+  outline:3px solid #B71C1C;outline-offset:3px}
+
+/* ══ Responsive — buttons & card on small screens ══ */
+@media(max-width:420px){
+  .slide{padding:1rem}
+  .card{width:calc(100vw - 2rem);min-height:calc(100vh - 2rem);display:flex;flex-direction:column;justify-content:center;padding:2rem 1.2rem}
+  .btn-zone{gap:.65rem}
+  .btn-yes,.btn-no{padding:0 1.05rem;height:52px;font-size:13.5px;gap:.4rem}
+}
+@media(max-width:340px){
+  .card{width:calc(100vw - 1.6rem);padding:1.8rem 1rem}
+  .btn-zone{gap:.5rem}
+  .btn-yes,.btn-no{padding:0 .8rem;font-size:13px}
+  .q-big{font-size:clamp(2.7rem,11vw,3.4rem)}
+}
+
+/* Thought bubble above NO */
+.no-bubble{position:fixed;z-index:40;pointer-events:none;opacity:0;
+  background:#fff;color:#C62828;font-size:12px;font-weight:600;
+  padding:.55rem 1rem;border-radius:999px;max-width:240px;text-align:center;
+  box-shadow:0 10px 28px rgba(183,28,28,.2),0 2px 8px rgba(183,28,28,.1);border:1px solid rgba(197,64,64,.18);
+  transform:translateX(-50%) translateY(6px) scale(.85);transition:opacity .3s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.no-bubble.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+.no-bubble::after{content:'';position:absolute;left:50%;bottom:-7px;transform:translateX(-50%) rotate(45deg);
+  width:13px;height:13px;background:#fff;border-right:1px solid rgba(197,64,64,.18);border-bottom:1px solid rgba(197,64,64,.18);border-radius:2px}
+
+/* Poof particles when NO escapes */
+.no-puff{position:fixed;z-index:30;pointer-events:none;animation:puff-fly 1.1s ease-out forwards;font-size:15px;opacity:0}
+@keyframes puff-fly{0%{opacity:0;transform:translate(0,0) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translate(var(--px,0),var(--py,-40px)) scale(1.15) rotate(20deg)}}
+
+/* ══════════════ SLIDE 2 — Moments we've spent ══════════════ */
+.mem-head{text-align:center;margin-bottom:1.6rem;animation:fu .7s .2s both}
+.mem-eyebrow{font-size:10px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:#c0392b}
+.mem-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,7vw,3.4rem);color:#461111;line-height:1.1;margin:.35rem 0 .4rem}
+.mem-title em{color:#C62828;font-style:italic}
+.mem-sub{font-size:12px;color:#9c6a61;letter-spacing:.04em}
+/* journey hearts — the diary fills as she walks through it */
+.journey{display:flex;align-items:center;justify-content:center;gap:5px;margin:.95rem 0 .25rem;min-height:14px}
+.jstep{position:relative;font-size:12.5px;color:#eec4bc;cursor:default;
+  transition:color .4s,text-shadow .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.jstep.on{color:#C62828;transform:scale(1.22);text-shadow:0 2px 12px rgba(198,40,40,.5);animation:jstep-pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes jstep-pop{0%{transform:scale(.35)}70%{transform:scale(1.4)}100%{transform:scale(1.22)}}
+.jstep-spark{position:absolute;pointer-events:none;font-size:9px;color:#E53935;animation:jstep-spark .85s ease-out forwards}
+@keyframes jstep-spark{to{opacity:0;transform:translateY(-18px) scale(.5)}}
+/* Our little story — tappable chapters, each opens like a diary page */
+.story{width:min(720px,94vw);display:flex;flex-direction:column;gap:.8rem;margin-top:.3rem}
+.story-ch{background:#fff;border:1px solid rgba(197,64,64,.13);border-radius:20px;
+  box-shadow:0 10px 26px rgba(166,46,46,.09);
+  opacity:0;transform:translateY(18px);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease}
+#story.ready .story-ch{opacity:1;transform:none;transition-delay:calc(var(--i,0)*95ms)}
+.story-ch.open{box-shadow:0 18px 40px rgba(166,46,46,.16)}
+.story-hd{width:100%;display:flex;align-items:center;gap:.85rem;padding:1.05rem 1.15rem;
+  background:none;border:none;cursor:pointer;text-align:left;color:#461111;border-radius:20px}
+.story-hd:focus-visible{outline:3px solid #B71C1C;outline-offset:2px}
+.ch-num{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:#C62828;
+  width:2.1rem;flex-shrink:0}
+.ch-t{flex:1;min-width:0}
+.ch-title{display:block;font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:clamp(1.1rem,3.2vw,1.3rem);line-height:1.2;transition:color .45s}
+.story-ch.open .ch-title{color:#B71C1C}
+.story-hd{position:relative}
+.ch-sub{display:block;font-size:11.5px;color:#a0706a;font-style:italic;margin-top:.2rem}
+.ch-count{font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#c99a90;flex-shrink:0}
+.ch-arrow{flex-shrink:0;width:27px;height:27px;border-radius:50%;background:#fff0ee;color:#C62828;
+  display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1;
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.story-ch.open .ch-arrow{transform:rotate(180deg)}
+/* smooth expand — grid-rows 0fr → 1fr keeps height animated */
+.ch-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .8s cubic-bezier(.22,.9,.3,1)}
+.story-ch.open .ch-body{grid-template-rows:1fr}
+.ch-body-in{overflow:hidden}
+.ch-photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;
+  padding:0 1.15rem 1.15rem}
+.ch-photo{position:relative;border-radius:13px;overflow:hidden;aspect-ratio:4/5;
+  background:linear-gradient(160deg,#fdecea 0%,#fad6d0 100%);border:1px solid rgba(197,64,64,.12);
+  opacity:0;transform:translateY(16px) scale(.92)}
+.story-ch.open .ch-photo{animation:ch-in .75s cubic-bezier(.34,1.56,.64,1) forwards;
+  animation-delay:calc(var(--i,0)*115ms)}
+@keyframes ch-in{0%{opacity:0;transform:translateY(18px) scale(.9) rotate(var(--r,0deg))}
+  100%{opacity:1;transform:translateY(0) scale(1) rotate(var(--r,0deg))}}
+.ch-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:13px;
+  transition:transform .6s cubic-bezier(.22,1,.36,1),filter .6s ease}
+.ch-photo:hover{box-shadow:0 18px 38px rgba(166,46,46,.25)}
+.ch-photo:hover img{transform:scale(1.09);filter:saturate(1.12)}
+.ch-photo:hover .ch-heart{transform:scale(1.3)}
+.ch-photo .ch-heart{position:absolute;right:8px;top:8px;font-size:13px;opacity:.95;
+  text-shadow:0 1px 4px rgba(0,0,0,.35);animation:heartbeat 1.6s ease-in-out infinite}
+@keyframes heartbeat{0%,100%{transform:scale(1)}25%{transform:scale(1.18)}40%{transform:scale(1)}60%{transform:scale(1.12)}}
+/* little heart-burst when a chapter flips open */
+.burst-heart{position:absolute;pointer-events:none;z-index:6;
+  font-size:calc(11px + var(--s,0)*1px);color:var(--hc,#e05252);line-height:1;
+  animation:burst-up .95s cubic-bezier(.22,.9,.3,1) forwards;
+  filter:drop-shadow(0 1px 3px rgba(166,46,46,.35))}
+@keyframes burst-up{0%{opacity:0;transform:translate(0,0) scale(.4) rotate(var(--r,0deg))}
+  15%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx,0px),-48px) scale(1.15) rotate(calc(var(--r,0deg) + 34deg))}}
+.ch-cap{position:absolute;left:0;right:0;bottom:0;padding:.4rem .6rem;font-size:11px;font-style:italic;
+  color:#fff;background:linear-gradient(180deg,transparent,rgba(70,17,17,.78));text-align:left;
+  opacity:0;transition:opacity .35s}
+.ch-photo:hover .ch-cap{opacity:1}
+@media(hover:none){.ch-cap{opacity:.95;padding-bottom:.45rem}}
+/* the final chapter is a wide hero moment */
+.story-ch.last .ch-photos{grid-template-columns:1fr}
+.story-ch.last .ch-photo{aspect-ratio:16/9}
+.story-ch.last .ch-cap{font-size:12.5px;padding:.6rem .8rem}
+@media(max-width:480px){
+  .ch-photos{grid-template-columns:repeat(2,1fr);gap:.55rem;padding:0 .85rem .95rem}
+  .story-ch.last .ch-photos{grid-template-columns:1fr}
+  .ch-count{display:none}.story-hd{padding:.9rem .85rem}.ch-num{width:1.7rem}}
+.s2-btn{
+  margin-top:2rem;background:#fff;border:1.5px solid #C62828;color:#C62828;
+  border-radius:999px;padding:0 2rem;height:48px;
+  font-size:14px;font-weight:600;
+  cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 6px 18px rgba(183,28,28,.12);
+  transition:background .2s,color .2s,transform .2s;animation:fu .6s 1.3s both
+}
+.s2-btn:hover{background:#C62828;color:#fff;transform:translateY(-2px)}
+
+/* ══════════════ SLIDE 3 — The real message ══════════════ */
+.msg-wrap{width:min(560px,94vw);background:#fff;border:1px solid rgba(197,64,64,.14);border-radius:24px;padding:2.4rem 2.6rem;text-align:center;box-shadow:0 26px 64px rgba(166,46,46,.14);
+  animation:letter-in .95s .15s cubic-bezier(.22,1,.36,1) both}
+@keyframes letter-in{from{opacity:0;transform:translateY(30px) scale(.955);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+@media(max-width:420px){.msg-wrap{padding:1.8rem 1.4rem}}
+.msg-quote{font-size:3rem;color:rgba(198,40,40,.35);font-family:'Cormorant Garamond',serif;line-height:.6;animation:fu .5s .2s both}
+.msg-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.18rem,3vw,1.42rem);color:#5a2a26;
+  line-height:1.9;margin:.8rem 0 1.4rem;text-align:left}
+/* Blinking caret while the letter (or a soft line) is typing */
+.typing::after{content:'|';margin-left:2px;color:#C62828;font-weight:600;animation:caret 1.05s steps(1) infinite}
+@keyframes caret{0%,49%{opacity:1}50%,100%{opacity:0}}
+/* These lines stay hidden (space reserved) until their typing turn comes */
+.msg-name,.msg-ps,.s3-close,.sig{visibility:hidden}
+.msg-name{font-size:clamp(1.8rem,5vw,2.6rem);font-family:'Cormorant Garamond',serif;font-weight:300;color:#461111;line-height:1}
+.msg-name em{color:#C62828;font-style:italic}
+.msg-ps{font-size:12px;color:#a0706a;font-style:italic;margin-top:.6rem}
+.s3-close{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.05rem,2.6vw,1.3rem);color:#C62828;margin-top:.5rem}
+.s3-brand{margin-top:1.8rem;font-size:9px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#c99a90;animation:fu .5s 2s both}
+.s3-brand a{color:#C62828;text-decoration:none}
+
+/* Signature — types out after the closing line */
+.sig{font-family:'Cormorant Garamond',serif;font-style:italic;color:#461111;
+  font-size:clamp(1.35rem,3.6vw,1.7rem);margin-top:1rem;line-height:1.55}
+.sig em{color:#C62828;font-style:normal;font-weight:600}
+/* a little heart draws itself under the signature */
+.sig-heart{display:block;margin:.55rem auto 0;width:30px;height:30px;overflow:visible;filter:drop-shadow(0 2px 6px rgba(198,40,40,.4))}
+.sig-heart path{fill:none;stroke:#C62828;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:72;stroke-dashoffset:72;animation:heart-draw 1.1s .2s cubic-bezier(.6,.05,.25,1) forwards}
+@keyframes heart-draw{to{stroke-dashoffset:0}}
+
+/* Final "one more thing" — the last ask */
+.final-zone{margin-top:1.5rem;min-height:70px;display:flex;flex-direction:column;align-items:center}
+.seal-btn{
+  background:#fff;color:#C62828;border:1.5px solid rgba(198,40,40,.35);border-radius:999px;
+  padding:.7rem 1.5rem;font-size:13px;font-weight:600;cursor:pointer;
+  box-shadow:0 10px 26px rgba(166,46,46,.12);transition:transform .25s ease,box-shadow .25s ease;
+  opacity:0;transform:translateY(10px);pointer-events:none}
+.seal-btn.show{opacity:1;transform:none;pointer-events:auto;animation:seal-pulse 2.2s ease-in-out infinite}
+.seal-btn:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 14px 34px rgba(166,46,46,.2)}
+.seal-btn.press{animation:press-pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes press-pop{0%{transform:scale(1)}35%{transform:scale(.82) rotate(-3deg)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+/* expanding gold ring (box-shadow keeps its centre perfectly still) */
+.ring-pop{position:fixed;left:var(--rx);top:var(--ry);width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;
+  pointer-events:none;z-index:46;box-shadow:0 0 0 2px rgba(255,217,154,.95);
+  animation:ring-out .85s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes ring-out{0%{box-shadow:0 0 0 2px rgba(255,217,154,.95)}
+  100%{box-shadow:0 0 0 min(62vw,330px) rgba(255,217,154,0)}}
+@keyframes seal-pulse{0%,100%{box-shadow:0 0 0 0 rgba(198,40,40,.28),0 10px 26px rgba(166,46,46,.12)}70%{box-shadow:0 0 0 14px rgba(198,40,40,0),0 10px 26px rgba(166,46,46,.12)}}
+/* ══════════════ SLIDE 4 — Under tonight's moon ══════════════ */
+.moon-stage{position:relative;margin:auto;width:min(640px,94vw);text-align:center;color:#fff;
+  display:flex;flex-direction:column;align-items:center;padding:2.5rem 0 4rem}
+.star-field{position:absolute;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.12;transform:scale(.7)}50%{opacity:.95;transform:scale(1.3)}}
+/* shooting stars — rare, fast, unforgettable */
+.shooting{position:absolute;top:0;left:0;width:95px;height:2px;border-radius:999px;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,0));
+  transform:rotate(28deg);opacity:0;will-change:transform;
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.9));animation:shoot linear forwards}
+@keyframes shoot{0%{transform:rotate(28deg) translate3d(0,0,0);opacity:0}10%{opacity:1}
+  100%{transform:rotate(28deg) translate3d(58vw,0,0);opacity:0}}
+/* drifting clouds between you and the stars */
+.clouds{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.cloud{position:absolute;height:24px;border-radius:999px;background:rgba(255,255,255,.07);
+  filter:blur(16px);animation:cloud-drift linear infinite alternate;will-change:transform}
+@keyframes cloud-drift{from{transform:translateX(-7vw)}to{transform:translateX(7vw)}}
+/* fireflies hovering low over the hills */
+.firefly{position:absolute;width:4px;height:4px;border-radius:50%;background:#ffe9a8;z-index:1;pointer-events:none;
+  box-shadow:0 0 9px 2px rgba(255,233,168,.85);
+  animation:firefly-drift ease-in-out infinite alternate,firefly-blink ease-in-out infinite}
+@keyframes firefly-drift{0%{transform:translate(0,0)}25%{transform:translate(28px,-16px)}
+  50%{transform:translate(-16px,-34px)}75%{transform:translate(16px,-10px)}100%{transform:translate(-26px,-42px)}}
+@keyframes firefly-blink{0%,100%{opacity:.15}50%{opacity:.95}}
+.moon{position:relative;z-index:1;width:min(40vw,300px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#fffef6 0%,#fdf3cf 38%,#f0dc9f 62%,#d8b86a 100%);
+  box-shadow:0 0 26px rgba(255,244,208,.55),0 0 70px rgba(255,233,170,.32),0 0 150px rgba(255,220,140,.22);
+  margin:.6rem auto 1.2rem;animation:moon-float 7s ease-in-out infinite,moon-glow 4.2s ease-in-out infinite}
+.moon::before,.moon::after{content:'';position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,rgba(210,172,118,.55),rgba(210,172,118,0) 66%)}
+.moon::before{width:36%;height:36%;left:11%;top:23%;filter:blur(1px)}
+.moon::after{width:23%;height:23%;left:57%;top:58%;filter:blur(1px)}
+@keyframes moon-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+/* the moon breathes; after her yes it burns brighter */
+.moon{transition:filter .9s ease}
+.moon.lit{animation:moon-float 7s ease-in-out infinite;
+  filter:drop-shadow(0 0 46px rgba(255,240,190,1)) brightness(1.16)}
+@keyframes moon-glow{0%,100%{filter:drop-shadow(0 0 16px rgba(255,244,208,.45))}
+  50%{filter:drop-shadow(0 0 36px rgba(255,240,190,.8))}}
+.hills{position:absolute;left:0;right:0;bottom:0;height:24vh;z-index:0;pointer-events:none;overflow:hidden}
+.hill{position:absolute;bottom:0;border-radius:60% 60% 0 0}
+.hill.h1{left:-12%;width:75%;height:105%;background:linear-gradient(180deg,rgba(16,21,56,0),#0a0e2f 72%)}
+.hill.h2{right:-14%;width:85%;height:82%;background:linear-gradient(180deg,rgba(16,21,56,0),#0b1034 72%)}
+.moon-eyebrow{position:relative;z-index:1;font-size:10px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;
+  color:#f6dc9a;margin-bottom:.9rem}
+.moon-text{position:relative;z-index:1;font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.4rem,4.8vw,1.95rem);font-weight:300;line-height:1.8;color:#fff7ea;
+  text-align:center;min-height:5.6em;visibility:hidden;max-width:34em}
+.moon-text em{color:#ffd98a;font-style:italic;font-weight:500}
+.btn-yes-moon{
+  position:relative;z-index:1;margin-top:1.7rem;background:linear-gradient(135deg,#ff7163,#e5395c);
+  border:none;border-radius:999px;padding:0 2.4rem;height:60px;
+  font-size:1.08rem;font-weight:700;color:#fff;cursor:pointer;letter-spacing:.02em;
+  display:inline-flex;align-items:center;gap:.55rem;
+  opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;
+  box-shadow:0 12px 34px rgba(255,94,120,.45);
+  transition:opacity .7s ease,transform .7s ease,box-shadow .3s ease;
+  animation:yes-glow 2.4s ease-in-out infinite}
+.btn-yes-moon.show{opacity:1;transform:none;pointer-events:auto}
+.btn-yes-moon:hover{transform:translateY(-2px) scale(1.05)}
+@keyframes yes-glow{
+  0%,100%{box-shadow:0 12px 34px rgba(255,94,120,.45),0 0 0 0 rgba(255,120,140,.35)}
+  50%{box-shadow:0 16px 44px rgba(255,94,120,.62),0 0 0 16px rgba(255,120,140,0)}}
+.moon-done{position:relative;z-index:1;display:none;margin-top:2.1rem;text-align:center}
+.moon-done.show{display:block}
+.moon-done .big{font-family:'Cormorant Garamond',serif;font-size:clamp(2.3rem,10vw,4.2rem);color:#ffdf9e;
+  font-style:italic;line-height:1.15;text-shadow:0 0 38px rgba(255,214,140,.55);
+  animation:done-pop .9s cubic-bezier(.34,1.56,.64,1) both}
+.moon-done .big em{font-style:normal;font-weight:700;color:#ff8fa3}
+.moon-done .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1rem,3.2vw,1.3rem);
+  color:#cfd4ff;margin-top:.7rem}
+@keyframes done-pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+.replay-moon{
+  position:relative;z-index:1;margin-top:2rem;background:transparent;color:#ffdf9e;
+  border:1.5px solid rgba(255,223,158,.55);border-radius:999px;padding:.7rem 1.5rem;
+  font-size:.95rem;font-weight:600;cursor:pointer;
+  opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease,background .25s;
+  pointer-events:none}
+.replay-moon.show{opacity:1;transform:none;pointer-events:auto}
+.replay-moon:hover{background:rgba(255,223,158,.14)}
+/* golden confetti for the big yes */
+.confetti{position:fixed;top:-10%;z-index:12;pointer-events:none;opacity:0;animation:confetti-fall linear forwards}
+@keyframes confetti-fall{0%{transform:translateY(0) rotate(0deg);opacity:1}15%{opacity:1}100%{transform:translateY(118vh) rotate(340deg);opacity:.15}}
+@media(max-width:480px){.moon{width:min(52vw,200px)}.moon-text{min-height:7em}.btn-yes-moon{height:56px;padding:0 1.9rem;font-size:1rem}}
+
+/* full-screen flash when she says yes */
+.moon-flash{position:fixed;inset:0;z-index:47;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.85),rgba(255,214,140,.4) 42%,transparent 70%);
+  opacity:0;animation:moon-flash .9s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes moon-flash{0%{opacity:0;transform:scale(.6)}20%{opacity:.9}100%{opacity:0;transform:scale(1.15)}}
+/* fireworks particles — moved frame by frame by JS */
+.fw-p{position:fixed;z-index:48;pointer-events:none;border-radius:50%;will-change:transform,opacity}
+/* once her question is fully typed, it glows softly */
+.moon-text.done{animation:word-glow 3.2s ease-in-out infinite}
+@keyframes word-glow{0%,100%{text-shadow:0 0 14px rgba(255,230,170,.35)}
+  50%{text-shadow:0 0 30px rgba(255,230,170,.7)}}
+/* the whole night warms up after she says yes */
+#bg.lit{background:radial-gradient(140% 110% at 50% 118%,#4a3f8f 0%,#262061 45%,#10143e 78%,#241039 100%)}
+
+/* ══════════════ PETAL CANVAS ══════════════ */
+#petalCanvas{position:fixed;inset:0;pointer-events:none;z-index:8;overflow:hidden}
+.petal{position:absolute;border-radius:50% 0 50% 0;animation:petal-out cubic-bezier(.22,1,.36,1) forwards}
+@keyframes petal-out{0%{opacity:1}100%{opacity:0}}
+
+/* ══════════════ FLOATING HEARTS ══════════════ */
+.fheart{position:fixed;pointer-events:none;z-index:9;animation:fh-rise ease-out forwards}
+@keyframes fh-rise{0%{opacity:0;transform:translateY(0) scale(.5)}12%{opacity:.88}100%{opacity:0;transform:translateY(-110px) scale(.6) rotate(15deg)}}
+
+/* ══════════════ STEP DOTS — 1 · 2 · 3 ══════════════ */
+.dots{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:45;
+  display:flex;align-items:center;gap:8px;pointer-events:none;opacity:.55;transition:opacity .4s}
+.dots:hover{opacity:.9}
+.dots .dot{width:6px;height:6px;border-radius:999px;background:rgba(183,28,28,.4);transition:all .45s cubic-bezier(.34,1.56,.64,1)}
+.dots .dot.on{width:22px;background:#C62828}
+@media(max-width:420px){.dots{bottom:10px}}
+
+/* ══════════════ MUSIC PLAYER (our song) ══════════════ */
+.music{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.92);border:1px solid rgba(197,64,64,.18);border-radius:999px;padding:7px 14px 7px 7px;
+  box-shadow:0 10px 28px rgba(166,46,46,.16);backdrop-filter:blur(8px);
+  opacity:0;transform:translateY(12px) scale(.92);pointer-events:none;
+  transition:opacity .5s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.music.seen{opacity:1;transform:none;pointer-events:auto}
+.m-btn{
+  width:36px;height:36px;flex-shrink:0;border:none;border-radius:50%;cursor:pointer;
+  background:linear-gradient(135deg,#E53935 0%,#C62828 60%,#B71C1C 100%);color:#fff;
+  font-size:15px;display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(183,28,28,.35);transition:transform .2s ease,box-shadow .2s ease}
+.m-btn:hover{transform:scale(1.08);box-shadow:0 6px 18px rgba(183,28,28,.45)}
+.m-labels{display:flex;flex-direction:column;line-height:1.15}
+.m-title{font-size:11px;font-weight:700;color:#461111;letter-spacing:.02em}
+.m-sub{font-size:9px;color:#a0706a;letter-spacing:.08em;text-transform:uppercase}
+/* rotating disc hint */
+.music.playing .m-btn{animation:disc-spin 3.2s linear infinite}
+@keyframes disc-spin{to{transform:rotate(360deg)}}
+/* tiny equalizer beside the label */
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:10px;margin-left:6px;vertical-align:middle}
+.eq span{width:2.5px;background:#C62828;border-radius:2px;animation:eq 1s ease-in-out infinite}
+.eq span:nth-child(2){animation-delay:.2s}.eq span:nth-child(3){animation-delay:.4s}
+.music:not(.playing) .eq span{animation-play-state:paused;opacity:.35}
+@keyframes eq{0%,100%{height:3px}50%{height:10px}}
+@media(max-width:420px){.music{left:10px;bottom:10px}.m-labels{max-width:110px}.m-sub{display:none}}
+
+/* ══════════════ LYRICS — a true subtitle ══════════════
+   One slim caption at the bottom, like a film subtitle: quiet, click-through,
+   invisible until she taps the 𝄞 button. Toggle: SHOW_LYRICS in the script. */
+.lyr-btn{background:#fff;color:#C62828;font-size:14px}
+.lyr-panel{position:fixed;bottom:calc(110px + env(safe-area-inset-bottom,0px));left:50%;
+  transform:translateX(-50%) translateY(10px);width:max-content;max-width:min(620px,92vw);
+  z-index:49;pointer-events:none;opacity:0;text-align:center;
+  background:rgba(255,255,255,.55);border:1px solid rgba(197,64,64,.10);border-radius:16px;
+  padding:8px 22px 9px;box-shadow:0 8px 26px rgba(166,46,46,.10);backdrop-filter:blur(6px);
+  transition:opacity .5s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.lyr-panel.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.lyr-close{position:absolute;top:-9px;right:-7px;pointer-events:auto;background:#fff;
+  border:1px solid rgba(197,64,64,.22);color:#C62828;cursor:pointer;
+  font-size:11px;line-height:1;width:22px;height:22px;border-radius:50%;
+  box-shadow:0 4px 10px rgba(166,46,46,.18)}
+.lyr-close:hover{background:#fff0ee}
+.lyr-line{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+  font-size:clamp(1rem,4.2vw,1.3rem);color:#5a2a26;line-height:1.35;white-space:nowrap;
+  transition:opacity .4s ease}
+.lyr-line.swap{opacity:0}
+.lyr-roman{font-size:10px;color:#a0706a;letter-spacing:.03em;font-style:italic}
+@media(max-width:480px){.lyr-panel{bottom:calc(100px + env(safe-area-inset-bottom,0px));padding:7px 16px 8px}.lyr-line{white-space:normal}}
+/* over tonight's sky the subtitle becomes starlit glass */
+#bg.slide4 ~ .lyr-panel{background:rgba(13,17,52,.55);border-color:rgba(255,223,158,.16);box-shadow:0 8px 26px rgba(0,0,0,.4)}
+#bg.slide4 ~ .lyr-panel .lyr-line{color:#fff4dd}
+#bg.slide4 ~ .lyr-panel .lyr-roman{color:#b9c0ff}
+#bg.slide4 ~ .lyr-panel .lyr-close{color:#ffd98a;background:rgba(13,17,52,.9);border-color:rgba(255,223,158,.3)}
+
+/* ══════════════ BRAND WATERMARK — © OurMoments ══════════════ */
+/* The same stamp the "Rahul Weds Namita" invite uses — 6 bands of faint ink
+   from top to bottom, so every part of the page carries the brand.
+   Never clickable. Toggle it in the script (SHOW_OM_BRAND). */
+.om-watermark{position:fixed;inset:0;z-index:44;pointer-events:none;overflow:hidden;
+  opacity:0;transition:opacity 1.2s ease .6s}
+.om-watermark.show{opacity:1}
+.om-band{position:absolute;left:0;right:0;transform:translateY(-50%);
+  display:flex;align-items:center;justify-content:center}
+.om-stamp{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:.06em;
+  font-size:clamp(1.5rem,7vw,3.6rem);white-space:nowrap;user-select:none;
+  color:rgba(70,17,17,.15);transform:rotate(-8deg)}
+/* over tonight's sky the ink turns into soft starlight */
+#bg.slide4 ~ .om-watermark .om-stamp{color:rgba(255,255,255,.16)}
+
+/* ══════════════ ACCESSIBILITY — reduced motion ══════════════ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .dots,.music{transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div id="bg"></div>
+<div id="petalCanvas"></div>
+
+<!-- ══ BRAND STAMP — "© OurMoments" ×6, same as the Rahul Weds Namita invite.
+     The script stamps 6 bands down the page so every screenshot carries the brand.
+     Shown when SHOW_OM_BRAND is true, removed when false — toggle in the script. ══ -->
+<div class="om-watermark" id="omWatermark" aria-hidden="true">
+  <div class="om-band"><span class="om-stamp">© OurMoments</span></div>
+</div>
+
+<!-- Soft red blooms -->
+<div class="rose-blur" style="width:520px;height:520px;top:-14%;left:-10%;background:radial-gradient(circle,rgba(214,69,49,.30),transparent 70%)"></div>
+<div class="rose-blur" style="width:460px;height:460px;bottom:-12%;right:-8%;background:radial-gradient(circle,rgba(183,28,28,.22),transparent 70%);animation-delay:-8s"></div>
+<div class="rose-blur" style="width:300px;height:300px;top:42%;left:68%;background:radial-gradient(circle,rgba(255,255,255,.7),transparent 70%);animation-delay:-4s"></div>
+
+<!-- ══ SLIDE 1: Question ══ -->
+<div class="slide active" id="s1">
+  <div class="card-halo" aria-hidden="true"></div>
+  <div class="card">
+    <div class="accent"></div>
+    <p class="eyebrow">A very important question</p>
+    <h1 class="q-big">Do you<em class="q-em">love</em>me?</h1>
+    <p class="sub">I kept rehearsing this for weeks.<br>I still don't know how to say it.<br>So — honest and nervous — here it is.</p>
+    <div class="btn-zone">
+      <button class="btn-yes" id="btnYes" onclick="onYes()" aria-label="Yes, I do">
+        <span style="font-size:1.1em" class="yes-heart">❤️</span> Yes, I do
+      </button>
+      <button class="btn-no" id="btnNo" aria-label="No">
+        <span id="noEmoji">🥺</span><span id="noText">NO</span>
+      </button>
+    </div>
+    <div class="no-bubble" id="noBubble" role="status" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 2: Our little story ══ -->
+<div class="slide scrollable" id="s2">
+  <div class="mem-head">
+    <p class="mem-eyebrow">our little love story</p>
+    <h2 class="mem-title">Moments we've <em>spent</em> together</h2>
+    <p class="mem-sub">tap each chapter — they open like a diary</p>
+    <div class="journey" id="journey" aria-hidden="true"></div>
+  </div>
+  <div class="story" id="story"></div>
+  <button class="s2-btn" id="s2Btn" onclick="goSlide3()">
+    <span>❤</span> There's something I wanted to say
+  </button>
+</div>
+
+<!-- ══ SLIDE 3: Real message ══ -->
+<div class="slide scrollable" id="s3">
+  <div class="msg-wrap">
+    <p class="msg-quote">"</p>
+    <p class="msg-text" id="msgText"></p>
+    <p class="msg-name" id="msgName">You make me <em>braver.</em></p>
+    <p class="msg-ps" id="msgPS">P.S. — I've wanted to say that for a long time.</p>
+    <p class="s3-close" id="msgClose">And I'd say it again, every single day. ❤️</p>
+    <p class="sig" id="sig">&mdash; forever yours,<br><em>your biggest fan</em></p>
+    <div class="final-zone" id="finalZone">
+      <button class="seal-btn" id="sealBtn" onclick="pressSeal(this)">there's one more thing… &nbsp;🌙</button>
+    </div>
+    <p class="s3-brand">Powered by <a href="/" target="_blank" rel="noopener noreferrer">OurMoment</a></p>
+  </div>
+</div>
+
+<!-- ══ SLIDE 4: Under tonight's moon ══ -->
+<div class="slide scrollable" id="s4">
+  <div class="star-field" id="starField" aria-hidden="true"></div>
+  <div class="hills" aria-hidden="true"><span class="hill h1"></span><span class="hill h2"></span></div>
+  <div class="clouds" aria-hidden="true">
+    <span class="cloud" style="width:46vw;top:16%;animation-duration:38s;animation-delay:-12s"></span>
+    <span class="cloud" style="width:70vw;top:30%;animation-duration:56s;animation-delay:-31s"></span>
+  </div>
+  <div class="moon-stage">
+    <div class="moon" aria-hidden="true"></div>
+    <p class="moon-eyebrow">under tonight's sky</p>
+    <p class="moon-text" id="moonText" role="status" aria-live="polite"></p>
+    <button class="btn-yes-moon" id="moonYes" onclick="moonYes()" aria-label="Yes, I will be yours">
+      <span style="font-size:1.15em">❤️</span> Yes — I'm yours
+    </button>
+    <div class="moon-done" id="moonDone">
+      <p class="big">she said <em>YES</em> ❤️</p>
+      <p class="sub">— and I'll never stop smiling</p>
+    </div>
+    <button class="replay-moon" id="moonReplay" onclick="location.reload()">↺ play it again</button>
+  </div>
+</div>
+
+<!-- ── Step dots ── -->
+<div class="dots" id="dots" aria-hidden="true"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+
+<!-- ── Music player ── -->
+<!--
+  OUR SONG — Main Agar Kahoon · Om Shanti Om ♪
+  Swap the <source> below for her favourite song.
+  Keep it royalty-free / licensed if this goes live for a customer.
+-->
+<audio id="bgm" loop preload="none">
+  <source src="https://archive.org/download/MAK-128k/Main-Agar-Kahoon128k.mp3" type="audio/mpeg"/>
+</audio>
+<div class="music" id="music">
+  <button class="m-btn" id="mBtn" onclick="toggleMusic(this)" aria-label="play or pause our song">♪</button>
+  <button class="m-btn lyr-btn" id="lyrBtn" onclick="toggleLyrics()" aria-label="show or hide the song lyrics" aria-pressed="false">𝄞</button>
+  <div class="m-labels">
+    <span class="m-title">our song <span class="eq" aria-hidden="true"><span></span><span></span><span></span></span></span>
+    <span class="m-sub" id="mSong">main agar kahoon · om shanti om</span>
+  </div>
+</div>
+
+<!-- LYRICS — a true subtitle: one caption line, fully transparent to taps,
+     invisible unless she opens it (𝄞 button). Toggle: SHOW_LYRICS in the script. -->
+<div class="lyr-panel" id="lyrPanel" role="region" aria-label="song lyrics">
+  <button class="lyr-close" id="lyrClose" onclick="closeLyrics()" aria-label="close lyrics">✕</button>
+  <div class="lyr-line" id="lyrLine"></div>
+  <div class="lyr-roman" id="lyrRoman"></div>
+</div>
+
+<script>
+/* ── BRAND WATERMARK — © OurMoments ──
+   The same stamp the "Rahul Weds Namita" invite shows.
+   SHOW_OM_BRAND = true  → the "© OurMoments" stamp fades in on every screen
+   SHOW_OM_BRAND = false → the stamp is removed everywhere (page stays clean) */
+const SHOW_OM_BRAND = true;
+/* The stamp lives on the REAL site. When this page sits inside a preview
+   iframe (like the /proposals glance), the stamp stays away automatically. */
+const OM_IN_IFRAME=(()=>{try{return window.self!==window.top;}catch(e){return true;}})();
+(function(){
+  const wm=document.getElementById('omWatermark');
+  if(!wm)return;
+  if(!SHOW_OM_BRAND||OM_IN_IFRAME){wm.remove();return;}
+  /* stamp the brand 6 times down the page — like the "Rahul Weds Namita" invite,
+     so no part of the demo can be copied without carrying the logo */
+  const tops=[8.333,25,41.667,58.333,75,91.667];
+  wm.innerHTML='';
+  tops.forEach(t=>{
+    const band=document.createElement('div');band.className='om-band';
+    band.style.top=t+'%';
+    const s=document.createElement('span');s.className='om-stamp';s.textContent='© OurMoments';
+    band.appendChild(s);wm.appendChild(band);
+  });
+  setTimeout(()=>wm.classList.add('show'),600);
+})();
+
+/* ── LYRICS SUBTITLES ──
+   SHOW_LYRICS = true  → the 𝄞 button lets her read the real song's words
+                        as a quiet subtitle at the bottom (never auto-pops
+                        except at the big YES moment with Tum Hi Ho)
+   SHOW_LYRICS = false → no lyrics anywhere — just the real song, clean page */
+const SHOW_LYRICS = true;
+(function(){
+  if(SHOW_LYRICS)return;
+  const b=document.getElementById('lyrBtn');if(b)b.remove();
+  const p=document.getElementById('lyrPanel');if(p)p.remove();
+})();
+
+/* ── Ambient drifting hearts ── */
+const ambGlyphs=['❤','♥','❥','♡'];
+const ambCols=['#E53935','#C62828','#B71C1C','#FFCDD2','#ffffff'];
+const ambCount=window.innerWidth<480?10:16;
+for(let i=0;i<ambCount;i++){
+  const a=document.createElement('div');a.className='amb';
+  const dur=11+Math.random()*12;
+  a.textContent=ambGlyphs[Math.floor(Math.random()*ambGlyphs.length)];
+  a.style.cssText=`font-size:${12+Math.random()*20}px;color:${ambCols[Math.floor(Math.random()*ambCols.length)]};left:${Math.random()*100}%;bottom:-30px;animation-duration:${dur}s;animation-delay:${-Math.random()*dur}s`;
+  document.body.appendChild(a);
+}
+
+/* golden sparkles twinkling around the question card */
+(function(){
+  const card=document.querySelector('.card');if(!card)return;
+  for(let i=0;i<7;i++){
+    const s=document.createElement('span');s.className='sparkle';s.textContent='✦';
+    s.style.left=(6+Math.random()*88).toFixed(1)+'%';
+    s.style.top=(6+Math.random()*38).toFixed(1)+'%';
+    s.style.fontSize=(8+Math.random()*8).toFixed(1)+'px';
+    s.style.animationDelay=(-Math.random()*2.4).toFixed(2)+'s';
+    card.appendChild(s);
+  }
+})();
+
+/* ── Our little story — tappable chapters, open like a diary ── */
+/* Real Indian couples enjoying life — first dates, trips, street food,
+   saree evenings. No wedding, no poses — just the moments to remember. */
+const STORY=[
+  {n:'01',title:'the first time we went out',sub:'…where it all quietly began',
+   imgs:[
+     {u:'https://images.unsplash.com/photo-1644446770253-5c6b45c38ba8?auto=format&fit=crop&w=700&q=70',c:'table for two'},
+     {u:'https://plus.unsplash.com/premium_photo-1661964395296-f12beabaff73?auto=format&fit=crop&w=700&q=70',c:'street food, our way'},
+     {u:'https://plus.unsplash.com/premium_photo-1664303720128-09e2c438478a?auto=format&fit=crop&w=700&q=70',c:'market mornings'},
+   ]},
+  {n:'02',title:'how I started falling for you',sub:"…it wasn't one moment — it was all of them",
+   imgs:[
+     {u:'https://images.unsplash.com/photo-1604881991405-b273c7a4386a?auto=format&fit=crop&w=700&q=70',c:'coffee and you'},
+     {u:'https://images.unsplash.com/photo-1720278726501-8576150684aa?auto=format&fit=crop&w=700&q=70',c:'rail tracks, two pairs of feet'},
+     {u:'https://images.unsplash.com/photo-1774814326187-bf3e1afb688c?auto=format&fit=crop&w=700&q=70',c:'beach walks, bare feet'},
+     {u:'https://images.unsplash.com/photo-1774814318501-b978efc6fb98?auto=format&fit=crop&w=700&q=70',c:'boat rides, just us'},
+   ]},
+  {n:'03',title:'how you make me mad',sub:'…in the very best way',
+   imgs:[
+     {u:'https://images.unsplash.com/photo-1604881990409-b9f246db39da?auto=format&fit=crop&w=700&q=70',c:'your tiny hand holds'},
+     {u:'https://images.unsplash.com/photo-1774814328122-e6006f0632e6?auto=format&fit=crop&w=700&q=70',c:'dancing anyway'},
+     {u:'https://plus.unsplash.com/premium_photo-1682090792229-4e488ab5c43a?auto=format&fit=crop&w=700&q=70',c:'sweets off your plate'},
+   ]},
+  {n:'04',title:'your saree',sub:'…and the way I lose my words',
+   imgs:[
+     {u:'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=700&q=70',c:'gold and evening light'},
+     {u:'https://images.unsplash.com/photo-1646979200020-941e1deb2670?auto=format&fit=crop&w=700&q=70',c:'red — my favourite you'},
+   ]},
+  {n:'05',title:'and then… forever',sub:'…every road from here leads to you',
+   imgs:[
+     {u:'https://images.unsplash.com/photo-1776436989630-b01e7ae11b03?auto=format&fit=crop&w=900&q=70',c:'and the story never ends'},
+   ]},
+];
+const storyEl=document.getElementById('story');
+STORY.forEach((ch,i)=>{
+  const div=document.createElement('div');div.className='story-ch';
+  div.style.setProperty('--i',i);div.dataset.idx=i;
+  if(i===STORY.length-1)div.classList.add('last');
+  const hd=document.createElement('button');hd.className='story-hd';hd.setAttribute('aria-expanded','false');
+  hd.innerHTML=`<span class="ch-num">${ch.n}</span><span class="ch-t">
+    <span class="ch-title">${ch.title}</span><span class="ch-sub">${ch.sub}</span></span>
+    <span class="ch-count">${ch.imgs.length} photo${ch.imgs.length>1?'s':''}</span>
+    <span class="ch-arrow">⌄</span>`;
+  hd.addEventListener('click',()=>toggleCh(hd));
+  const body=document.createElement('div');body.className='ch-body';
+  const inner=document.createElement('div');inner.className='ch-body-in';
+  const ph=document.createElement('div');ph.className='ch-photos';
+  ch.imgs.forEach((im,j)=>{
+    const f=document.createElement('div');f.className='ch-photo';
+    f.style.setProperty('--i',j);
+    f.style.setProperty('--r',((Math.random()-.5)*4).toFixed(1)+'deg');
+    f.innerHTML=`<img loading="lazy" decoding="async" fetchpriority="low" src="${im.u}" alt="${im.c}" onerror="this.remove()" onload="this.classList.add('ok')"/><span class="ch-heart">❤</span><span class="ch-cap">${im.c}</span>`;
+    ph.appendChild(f);
+  });
+  inner.appendChild(ph);body.appendChild(inner);div.appendChild(hd);div.appendChild(body);
+  storyEl.appendChild(div);
+});
+/* One chapter open at a time — the diary flips, never piles up */
+function toggleCh(hd){
+  const ch=hd.closest('.story-ch');
+  const willOpen=!ch.classList.contains('open');
+  document.querySelectorAll('#story .story-ch.open').forEach(c=>{
+    c.classList.remove('open');
+    c.querySelector('.story-hd').setAttribute('aria-expanded','false');
+  });
+  if(willOpen){
+    ch.classList.add('open');hd.setAttribute('aria-expanded','true');heartBurst(hd);
+    markJourney(+ch.dataset.idx||0);
+    if(ch.classList.contains('last'))journeyFinale();
+  }
+}
+/* tiny hearts explode off the header when its diary page opens */
+function heartBurst(hd){
+  const cols=['#C62828','#E05252','#F06292','#AD1457'];
+  for(let i=0;i<7;i++){
+    const h=document.createElement('span');
+    h.className='burst-heart';h.textContent='❤';
+    h.style.left=(10+Math.random()*80).toFixed(1)+'%';
+    h.style.top=(30+Math.random()*35).toFixed(1)+'%';
+    h.style.setProperty('--dx',((Math.random()-.5)*80).toFixed(1)+'px');
+    h.style.setProperty('--r',((Math.random()-.5)*70).toFixed(1)+'deg');
+    h.style.setProperty('--s',Math.round(-4+Math.random()*13));
+    h.style.setProperty('--hc',cols[i%cols.length]);
+    hd.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+  }
+}
+/* Slide 2 lands → chapters float in one by one; the first opens on its own */
+function storyReveal(){
+  document.getElementById('story').classList.add('ready');
+  setTimeout(()=>{
+    const f=document.querySelector('#story .story-ch');
+    if(f&&!f.classList.contains('open'))toggleCh(f.querySelector('.story-hd'));
+  },1000);
+}
+
+/* journey hearts — the diary fills as she walks through it */
+const journeyEl=document.getElementById('journey');
+let journeyMax=-1;
+if(journeyEl){
+  for(let i=0;i<STORY.length;i++){
+    const j=document.createElement('span');j.className='jstep';j.textContent='❤';
+    journeyEl.appendChild(j);
+  }
+}
+function markJourney(n){
+  if(!journeyEl||n<=journeyMax)return;journeyMax=n;
+  journeyEl.querySelectorAll('.jstep').forEach((s,i)=>{
+    if(i<=n&&!s.classList.contains('on')){
+      s.classList.add('on');
+      for(let k=0;k<2;k++){
+        const h=document.createElement('span');h.className='jstep-spark';h.textContent='❤';
+        h.style.left=((Math.random()*46)-14).toFixed(0)+'px';
+        h.style.top=(-8-Math.random()*12).toFixed(0)+'px';
+        s.appendChild(h);setTimeout(()=>h.remove(),900);
+      }
+    }
+  });
+}
+/* the last diary page — a soft golden burst before the letter */
+function journeyFinale(){
+  const bits=['💛','✨','💖','🌟','💕','❤'];
+  for(let i=0;i<16;i++){
+    setTimeout(()=>{
+      const c=document.createElement('span');c.className='confetti';
+      c.textContent=bits[i%bits.length];
+      c.style.left=(Math.random()*94)+'%';
+      c.style.fontSize=(0.9+Math.random()*1.1)+'rem';
+      c.style.animationDuration=(2.2+Math.random()*1.6)+'s';
+      document.body.appendChild(c);setTimeout(()=>c.remove(),4300);
+    },i*70);
+  }
+  setTimeout(()=>spawnHeart(),500);
+}
+
+/* ── Floating hearts during celebration ── */
+function spawnHeart(x,y){
+  const h=document.createElement('div');h.className='fheart';
+  const glyphs=['♥','❤','💕','♡','❥'];const cols=['#E53935','#C62828','#B71C1C','#FFCDD2','#fff'];
+  h.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+  h.style.color=cols[Math.floor(Math.random()*cols.length)];
+  h.style.fontSize=(1+Math.random()*.9)+'rem';
+  h.style.left=(x!=null?x:(10+Math.random()*80))+'%';
+  h.style.bottom=(y!=null?y:(5+Math.random()*20))+'%';
+  h.style.animationDuration=(2.2+Math.random()*1.8)+'s';
+  document.body.appendChild(h);setTimeout(()=>h.remove(),4200);
+}
+
+/* ── Music — starts softly on her very first touch, easy to pause ── */
+const bgm=document.getElementById('bgm'),mBtn=document.getElementById('mBtn'),musicEl=document.getElementById('music');
+let musicShown=false;
+function showMusic(){
+  musicEl.classList.add('seen');
+  musicShown=true;
+  if(bgm.paused){
+    bgm.volume=.35;
+    bgm.play()
+      .then(()=>{mBtn.textContent='❚❚';musicEl.classList.add('playing');})
+      .catch(()=>{}); /* browsers may still block — she can hit ♪ herself */
+  }
+}
+function toggleMusic(btn){
+  if(bgm.paused){
+    bgm.volume=.35;
+    bgm.play().then(()=>{btn.textContent='❚❚';musicEl.classList.add('playing');}).catch(()=>{});
+  }else{
+    bgm.pause();btn.textContent='♪';musicEl.classList.remove('playing');
+  }
+}
+/* First gesture anywhere → reveal the player and try to play (muted by default, gentle volume) */
+function onFirstGesture(){if(!musicShown)showMusic();}
+['pointerdown','keydown'].forEach(ev=>window.addEventListener(ev,onFirstGesture,{once:true,passive:true}));
+window.addEventListener('mousemove',onFirstGesture,{once:true,passive:true});
+/* Pause music when tab is hidden/closed — never leave it playing in a background tab */
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&!bgm.paused)bgm.pause();});
+/* If the song can't load, say so gently instead of a silent dead button */
+bgm.addEventListener('error',()=>{
+  document.getElementById('mSong').textContent='song stream hiccup — tap ♪ to retry';
+});
+
+/* ── LYRICS — the words of the song, synced while it plays ── */
+const LYRICS_DATA={
+  soft:{title:'main agar kahoon · om shanti om',lines:[
+    {hi:'तुमको पाया है तो जैसे खोया हूँ',ro:'Tumko paaya hai toh jaise khoya hoon',dur:13},
+    {hi:'कहना चाहूँ भी तो तुमसे क्या कहूँ',ro:'Kehna chaahoon bhi toh tumse kya kahoon',dur:11},
+    {hi:'किसी ज़बान में भी वो लफ़्ज़ ही नहीं',ro:'Kisi zabaan mein bhi woh lafz hi nahin',dur:12},
+    {hi:'के जिनमें तुम हो, क्या तुम्हें बता सकूँ',ro:'Ke jin mein tum ho, kya tumhein bata sakoon',dur:11},
+    {hi:'मैं अगर कहूँ, तुम सा हसीं',ro:'Main agar kahoon, tum sa haseen',dur:10},
+    {hi:'कायनात में नहीं है कहीं',ro:'Kaynaat mein nahin hai kahin',dur:9},
+    {hi:'तारीफ़ ये भी तो, सच है कुछ भी नहीं',ro:'Taarif yeh bhi toh, sach hai kuch bhi nahin',dur:10},
+    {hi:'तुमको पाया है तो जैसे खोया हूँ',ro:'Tumko paaya hai toh jaise khoya hoon',dur:10},
+    {hi:'शोखियों में डूबी ये अदाएँ',ro:'Shokhiyon mein doobi yeh adayen',dur:10},
+    {hi:'चेहरे से झलकी हुई हैं',ro:'Chehre se jhalaki hui hain',dur:9},
+    {hi:'ज़ुल्फ़ की घनी-घनी घटाएँ',ro:'Zulf ki ghani-ghani ghatayen',dur:10},
+    {hi:'शान से ढलकी हुई हैं',ro:'Shaan se dhalaki hui hain',dur:9},
+    {hi:'लहराता आँचल है जैसे बादल',ro:'Lehrata aanchal hai jaise baadal',dur:10},
+    {hi:'बाहों में भरी है जैसे चाँदनी',ro:'Baahon mein bhari hai jaise chaandni',dur:10},
+    {hi:'रूप की चाँदनी…',ro:'Roop ki chaandni…',dur:7},
+    {hi:'मैं अगर कहूँ ये दिलकशी',ro:'Main agar kahoon yeh dilkashi',dur:10},
+    {hi:'है नहीं कहीं, ना होगी कभी',ro:'Hai nahin kahin, na hogi kabhi',dur:9},
+    {hi:'तुम हुए मेहरबाँ तो है ये दास्ताँ',ro:'Tum hue meherbaan toh hai yeh dastaan',dur:10},
+    {hi:'अब तुम्हारा मेरा एक है कारवाँ',ro:'Ab tumhara mera ek hai karwaan',dur:10},
+    {hi:'तुम जहाँ मैं वहाँ…',ro:'Tum jahaan, main wahaan…',dur:9},
+    {hi:'मैं अगर कहूँ, हमसफ़र मेरी',ro:'Main agar kahoon, humsafar meri',dur:10},
+    {hi:'अप्सरा हो तुम, या कोई परी',ro:'Apsara ho tum, ya koi pari',dur:9},
+    {hi:'तुमको पाया है तो जैसे खोया हूँ…',ro:'Tumko paaya hai toh jaise khoya hoon…',dur:12}
+  ]},
+  loud:{title:'tum hi ho · aashiqui 2',lines:[
+    {hi:'हम तेरे बिन अब रह नहीं सकते',ro:'Hum tere bin ab reh nahi sakte',dur:22},
+    {hi:'तेरे बिना क्या वजूद मेरा',ro:'Tere bina kya wajood mera',dur:11},
+    {hi:'हम तेरे बिन अब रह नहीं सकते',ro:'Hum tere bin ab reh nahi sakte',dur:12},
+    {hi:'तुझसे जुदा गर हो जाएँगे',ro:'Tujhse juda gar ho jaayenge',dur:12},
+    {hi:'तो खुद से ही हो जाएँगे जुदा',ro:'Toh khud se hi ho jaayenge juda',dur:12},
+    {hi:'क्योंकि तुम ही हो, अब तुम ही हो',ro:'Kyunki tum hi ho, ab tum hi ho',dur:15},
+    {hi:'ज़िंदगी अब तुम ही हो',ro:'Zindagi ab tum hi ho',dur:11},
+    {hi:'चैन भी, मेरा दर्द भी',ro:'Chain bhi, mera dard bhi',dur:11},
+    {hi:'मेरी आशिक़ी अब तुम ही हो',ro:'Meri aashiqui ab tum hi ho',dur:11},
+    {hi:'तेरा मेरा रिश्ता है कैसा',ro:'Tera mera rishta hai kaisa',dur:13},
+    {hi:'एक पल दूर गवारा नहीं',ro:'Ek pal door gawara nahin',dur:11},
+    {hi:'तेरे लिए हर रोज़ हैं जीते',ro:'Tere liye har roz hain jeete',dur:12},
+    {hi:'तुझको दिया मेरा वक़्त सभी',ro:'Tujhko diya mera waqt sabhi',dur:12},
+    {hi:'कोई लम्हा मेरा ना हो तेरे बिना',ro:'Koi lamha mera na ho tere bina',dur:12},
+    {hi:'हर साँस पे नाम तेरा',ro:'Har saans pe naam tera',dur:10},
+    {hi:'क्योंकि तुम ही हो, अब तुम ही हो',ro:'Kyunki tum hi ho, ab tum hi ho',dur:14},
+    {hi:'ज़िंदगी अब तुम ही हो',ro:'Zindagi ab tum hi ho',dur:10},
+    {hi:'चैन भी, मेरा दर्द भी…',ro:'Chain bhi, mera dard bhi…',dur:10},
+    {hi:'तुम ही हो, तुम ही हो',ro:'Tum hi ho, tum hi ho',dur:11},
+    {hi:'तेरे लिए ही जिया मैं',ro:'Tere liye hi jiya main',dur:11},
+    {hi:'खुद को जो यूँ दे दिया है',ro:'Khud ko jo yun de diya hai',dur:11},
+    {hi:'तेरी वफ़ा ने मुझको संभाला',ro:'Teri wafa ne mujhko sambhala',dur:11},
+    {hi:'सारे ग़मों को दिल से निकाला',ro:'Saare ghamon ko dil se nikala',dur:11},
+    {hi:'तेरे साथ मेरा है नसीब जुड़ा',ro:'Tere saath mera hai naseeb juda',dur:11},
+    {hi:'तुझे पा के अधूरा ना रहा…',ro:'Tujhe paake adhoora na raha…',dur:11},
+    {hi:'क्योंकि तुम ही हो, अब तुम ही हो',ro:'Kyunki tum hi ho, ab tum hi ho',dur:14},
+    {hi:'चैन भी, मेरा दर्द भी, मेरी आशिक़ी अब तुम ही हो',ro:'Chain bhi, mera dard bhi, meri aashiqui ab tum hi ho',dur:14},
+    {hi:'क्योंकि तुम ही हो…',ro:'Kyunki tum hi ho…',dur:16}
+  ]}
+};
+let lyrOpen=false,lyrKey=null,lyrIdx=-1,lyrTotal=0,lyrStarts=[];
+function buildLyrics(key){
+  const d=LYRICS_DATA[key];if(!d)return false;
+  lyrKey=key;lyrIdx=-1;lyrTotal=0;lyrStarts=[];
+  let acc=0;
+  d.lines.forEach(l=>{lyrStarts.push(acc);acc+=l.dur;});
+  lyrTotal=acc;
+  const t=document.getElementById('lyrTitle');if(t)t.textContent=d.title;
+  return true;
+}
+function syncLyric(t){
+  if(!lyrOpen||!lyrKey||!lyrTotal)return;
+  const lines=LYRICS_DATA[lyrKey].lines;
+  const rt=((t%lyrTotal)+lyrTotal)%lyrTotal;
+  let idx=lines.length-1;
+  while(idx>0&&lyrStarts[idx]>rt)idx--;
+  if(idx===lyrIdx)return;
+  lyrIdx=idx;
+  const el=document.getElementById('lyrLine'),ro=document.getElementById('lyrRoman');
+  el.classList.add('swap');
+  setTimeout(()=>{
+    el.textContent=lines[idx].hi;
+    ro.textContent=lines[idx].ro;
+    el.classList.remove('swap');
+  },280);
+}
+function openLyrics(key){
+  if(!buildLyrics(key||lyrKey||'soft'))return;
+  const panel=document.getElementById('lyrPanel');
+  if(!panel)return;
+  lyrOpen=true;
+  const b=document.getElementById('lyrBtn');if(b)b.setAttribute('aria-pressed','true');
+  panel.classList.add('show');
+  syncLyric(bgm.currentTime||0);
+}
+function closeLyrics(){
+  lyrOpen=false;
+  const b=document.getElementById('lyrBtn');if(b)b.setAttribute('aria-pressed','false');
+  const panel=document.getElementById('lyrPanel');if(panel)panel.classList.remove('show');
+}
+function toggleLyrics(){
+  lyrOpen?closeLyrics():openLyrics();
+}
+/* keep the words in step with the music while it plays */
+setInterval(()=>{if(lyrOpen&&!bgm.paused)syncLyric(bgm.currentTime);},300);
+
+/* ── NO button — shy, slow, begs before running away ── */
+const noBtn=document.getElementById('btnNo');
+const noEmoji=document.getElementById('noEmoji');
+const noText=document.getElementById('noText');
+const noBubble=document.getElementById('noBubble');
+let noCount=0,noVisible=false,noSurrendered=false;
+
+/* The pleading lines — "No" thinks again before it runs */
+const noPleads=[
+  'hmm… let me think again 🤔',
+  'I know… but pleaseeeee 🥺',
+  'please please please 👉👈',
+  'don\'t make me say yes!! 😳',
+  'ok wait — I can explain!!',
+  'you never caught me anyway 😤',
+  'fine… maybe… just this once 🥹',
+];
+const noSurrenderLine='okay okay… fine. Yes. 💖';
+
+function bubbleSay(msg){
+  noBubble.textContent=msg;
+  const r=noBtn.getBoundingClientRect();
+  let bx=r.left+r.width/2;
+  bx=Math.max(90,Math.min(window.innerWidth-90,bx));
+  noBubble.style.left=bx+'px';
+  noBubble.style.top=Math.max(10,r.top-52)+'px';
+  noBubble.classList.add('show');
+  clearTimeout(bubbleSay._t);
+  bubbleSay._t=setTimeout(()=>noBubble.classList.remove('show'),1400);
+}
+
+function poofAt(x,y){
+  const pcs=['💨','❤','✦','💦','💕'];
+  for(let i=0;i<4;i++){
+    const p=document.createElement('div');p.className='no-puff';
+    p.textContent=pcs[Math.floor(Math.random()*pcs.length)];
+    const dx=(Math.random()-.5)*70,dy=-(25+Math.random()*45);
+    p.style.cssText=`left:${x+(Math.random()-.5)*24}px;top:${y+(Math.random()-.5)*20}px;--px:${dx}px;--py:${dy}px`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),1200);
+  }
+}
+
+function surrenderNo(){
+  noSurrendered=true;noVisible=false;
+  noEmoji.textContent='🥹';
+  noText.textContent='Yes, I do';
+  noBtn.classList.remove('fleeing');
+  noBtn.style.position='relative';noBtn.style.left='';noBtn.style.top='';noBtn.style.transform='none';
+  noBtn.style.animation='none';
+  noBtn.onclick=()=>onYes();
+  bubbleSay(noSurrenderLine);
+  burstHearts();
+}
+
+let fleeCooldown=false;
+function triggerFlee(){
+  if(!noVisible||noSurrendered||fleeCooldown)return;
+  flee();
+  fleeCooldown=true;
+  setTimeout(()=>{fleeCooldown=false;},1450); /* only steers again after the glide ends */
+}
+
+function flee(){
+  noCount++;
+  if(noCount>noPleads.length){surrenderNo();return;}
+  const msg=noPleads[noCount-1];
+  bubbleSay(msg);
+  /* Grab old on-screen position */
+  const old=noBtn.getBoundingClientRect();
+  const ox=old.left+old.width/2,oy=old.top+old.height/2;
+  /* Switch to fixed WITHOUT moving — records the start spot for the slow glide */
+  noBtn.classList.add('fleeing');
+  noBtn.style.position='fixed';
+  noBtn.style.left=old.left+'px';
+  noBtn.style.top=old.top+'px';
+  noBtn.style.transform='none';
+  void noBtn.offsetWidth; /* force reflow so the transition animates */
+  /* Pick a destination — a LONG run, pointed AWAY from the Yes button,
+     fully on-screen, on every device. It must never orbit back near Yes
+     where a stray click could accidentally hit it. */
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const bw=noBtn.offsetWidth||150,bh=noBtn.offsetHeight||56;
+  const m=16;
+  const curCx=old.left+old.width/2,curCy=old.top+old.height/2;
+  const yesR=document.getElementById('btnYes').getBoundingClientRect();
+  const yesCx=yesR.left+yesR.width/2,yesCy=yesR.top+yesR.height/2;
+  /* keep a wide safety ring around Yes on every screen size */
+  const minYesDist=Math.max(Math.min(vw,vh)*.42,220);
+  /* the run itself should feel far — a big dramatic escape */
+  const minTravel=Math.max(140,Math.min(vw,vh)*.34);
+  /* aim in a cone pointing away from Yes center (through NO's current spot) */
+  const baseAng=Math.atan2(curCy-yesCy,curCx-yesCx);
+  const maxDist=Math.max(vw,vh);
+  let nx=curCx,ny=curCy,tries=0;
+  for(;tries<80;tries++){
+    const ang=baseAng+(Math.random()*2-1)*(Math.PI/1.55); /* ±~115° cone, away */
+    const dist=minTravel+Math.random()*(maxDist-minTravel);
+    const cx=curCx+Math.cos(ang)*dist,cy=curCy+Math.sin(ang)*dist;
+    nx=Math.max(m,Math.min(cx-bw/2,vw-bw-m));
+    ny=Math.max(m,Math.min(cy-bh/2,vh-bh-m));
+    const dYes=Math.hypot(nx+bw/2-yesCx,ny+bh/2-yesCy);
+    const dTravel=Math.hypot(nx+bw/2-curCx,ny+bh/2-curCy);
+    if(dYes>=minYesDist&&dTravel>=minTravel*.55)break; /* safe + far enough */
+  }
+  /* Fallback — sprint to the corner MAXIMUM far from Yes */
+  if(Math.hypot(nx+bw/2-yesCx,ny+bh/2-yesCy)<minYesDist){
+    const corners=[[m,m],[vw-bw-m,m],[m,vh-bh-m],[vw-bw-m,vh-bh-m]];
+    corners.sort((a,b)=>Math.hypot(b[0]+bw/2-yesCx,b[1]+bh/2-yesCy)-Math.hypot(a[0]+bw/2-yesCx,a[1]+bh/2-yesCy));
+    nx=corners[0][0];ny=corners[0][1];
+  }
+  noBtn.style.left=nx+'px';noBtn.style.top=ny+'px';
+  noBtn.style.transform=`rotate(${(Math.random()-.5)*8}deg)`;
+  poofAt(ox,oy);
+}
+
+/* Keyboard users — pressing NO also makes it run away (never a dead button).
+   Once it surrenders and becomes a real "Yes, I do" button, let the click through. */
+noBtn.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'&&e.key!==' '&&e.key!=='Spacebar')return;
+  if(noSurrendered)return; /* real button now — Enter/Space triggers its click normally */
+  e.preventDefault();
+  triggerFlee();
+});
+
+/* If the viewport changes (mobile URL bar, rotation), keep NO fully on-screen
+   AND still far from the Yes button */
+window.addEventListener('resize',()=>{
+  if(noBtn.style.position!=='fixed'||noSurrendered)return;
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const bw=noBtn.offsetWidth||150,bh=noBtn.offsetHeight||56;
+  const m=16;
+  let x=parseFloat(noBtn.style.left)||0,y=parseFloat(noBtn.style.top)||0;
+  x=Math.max(m,Math.min(x,vw-bw-m));
+  y=Math.max(m,Math.min(y,vh-bh-m));
+  const yesR=document.getElementById('btnYes').getBoundingClientRect();
+  const yesCx=yesR.left+yesR.width/2,yesCy=yesR.top+yesR.height/2;
+  const minYesDist=Math.max(Math.min(vw,vh)*.42,220);
+  if(Math.hypot(x+bw/2-yesCx,y+bh/2-yesCy)<minYesDist){
+    const corners=[[m,m],[vw-bw-m,m],[m,vh-bh-m],[vw-bw-m,vh-bh-m]];
+    corners.sort((a,b)=>Math.hypot(b[0]+bw/2-yesCx,b[1]+bh/2-yesCy)-Math.hypot(a[0]+bw/2-yesCx,a[1]+bh/2-yesCy));
+    x=corners[0][0];y=corners[0][1];
+  }
+  noBtn.style.left=x+'px';noBtn.style.top=y+'px';
+});
+
+function burstHearts(){
+  for(let i=0;i<10;i++){
+    setTimeout(()=>{
+      const h=document.createElement('div');h.className='fheart';
+      h.textContent=['♥','❤','💕','🥹'][Math.floor(Math.random()*4)];
+      h.style.color='#E53935';h.style.fontSize=(1+Math.random())*1.4+'rem';
+      h.style.left=(20+Math.random()*60)+'%';h.style.bottom='10%';
+      h.style.animationDuration=(1.8+Math.random()*1.2)+'s';
+      document.body.appendChild(h);setTimeout(()=>h.remove(),3400);
+    },i*90);
+  }
+}
+
+/* Track mouse — INSTANTLY flee the moment the cursor touches the button,
+   then the glide takes its (slow) time crossing the screen */
+document.addEventListener('mousemove',e=>{
+  if(!noVisible||noSurrendered)return;
+  const r=noBtn.getBoundingClientRect();
+  const pad=6; /* just past the border */
+  if(e.clientX>=r.left-pad&&e.clientX<=r.right+pad&&e.clientY>=r.top-pad&&e.clientY<=r.bottom+pad)triggerFlee();
+});
+/* Touch support — same idea for fingers */
+document.addEventListener('touchstart',e=>{
+  if(!noVisible||noSurrendered)return;
+  const t=e.touches[0];
+  const r=noBtn.getBoundingClientRect();
+  const pad=14; /* finger pad */
+  if(t.clientX>=r.left-pad&&t.clientX<=r.right+pad&&t.clientY>=r.top-pad&&t.clientY<=r.bottom+pad)triggerFlee();
+},{passive:true});
+
+/* Make NO react after a moment — until then it just sits beside YES */
+setTimeout(()=>{noVisible=true;},1000);
+
+/* Remove card animation after it completes so it never traps position:fixed children */
+const cardEl=document.querySelector('.card');
+if(cardEl)cardEl.addEventListener('animationend',()=>{cardEl.style.animation='none';},{once:true});
+
+/* ── YES ── */
+let yesHit=false;
+function onYes(){
+  if(yesHit)return;yesHit=true;
+  noVisible=false;noBtn.style.display='none';
+  /* Petal burst — red & white */
+  const canvas=document.getElementById('petalCanvas');
+  const colors=['#E53935','#C62828','#B71C1C','#fff','#FFCDD2','#F44336'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');p.className='petal';
+    const sz=4+Math.random()*13,dur=.8+Math.random()*1.5;
+    const angle=Math.random()*Math.PI*2,dx=(Math.cos(angle)*50+Math.random()*20);const dy=(Math.sin(angle)*50+Math.random()*20);
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${colors[i%colors.length]};left:${50+Math.cos(angle)*3}%;top:${50+Math.sin(angle)*3}%;animation-duration:${dur}s;animation-delay:${Math.random()*.25}s`;
+    p.style.transition=`transform ${dur}s cubic-bezier(.22,1,.36,1),opacity ${dur*.45}s ease ${dur*.55}s`;
+    canvas.appendChild(p);
+    requestAnimationFrame(()=>{p.style.transform=`translate(${dx}vw,${dy}vh) rotate(${Math.random()*720}deg) scale(.18)`;p.style.opacity='0';});
+  }
+  /* Floating hearts */
+  for(let i=0;i<6;i++)setTimeout(()=>spawnHeart(),i*200);
+  /* Switch slides + reveal moments */
+  setTimeout(()=>{goSlide(1);document.getElementById('bg').className='slide2';},500);
+  setTimeout(()=>{
+    storyReveal();
+    const t=setInterval(()=>spawnHeart(),1600);setTimeout(()=>clearInterval(t),9000);
+  },800);
+}
+
+/* Type text into an element with the same human rhythm as the letter.
+   parts: [{t:'plain text'} | {em:'emphasised text'} | {br:true}] */
+function typeInto(el,parts,done){
+  el.textContent='';el.style.visibility='visible';el.classList.add('typing');
+  let seg=0,ci=0,node=null;
+  function put(ch){
+    if(parts[seg]&&parts[seg].em){
+      if(!node||!node.isConnected){node=document.createElement('em');el.appendChild(node);}
+      node.appendChild(document.createTextNode(ch));
+    }else{node=null;el.appendChild(document.createTextNode(ch));}
+  }
+  function tick(){
+    if(parts[seg]&&parts[seg].br){el.appendChild(document.createElement('br'));seg++;ci=0;}
+    if(seg>=parts.length){el.classList.remove('typing');if(done)done();return;}
+    const txt=parts[seg].em||parts[seg].t;
+    if(ci>=txt.length){seg++;ci=0;node=null;tick();return;} /* move to next segment */
+    const ch=txt[ci++];
+    put(ch);
+    let d=14;if('.!?'.includes(ch))d=200;else if(ch===',')d=60;
+    setTimeout(tick,d);
+  }
+  setTimeout(tick,120);
+}
+
+function goSlide3(){
+  goSlide(2);document.getElementById('bg').className='slide3';
+  /* Type the message — slow, human, honest */
+  const msg="I don't remember the exact day it stopped being \"my friend\" and just became you. Somewhere between the bad jokes, the walks we took only to talk, and the way you say my name — it quietly happened.\n\nPeople call me mad. And they're right — I am. Mad for you. For the way you hum when you're happy without realising. For how you always order first, then share half. For that silly photo you sent at midnight that I still haven't deleted.\n\nI'm not good with grand words, so here's the simplest one I have: my favourite part of every day is the part where you're in it. I'd rather wait for you in the rain than stand anywhere else in the sun.\n\nSo — yes. And I meant every word.";
+  const el=document.getElementById('msgText');
+  el.textContent='';el.classList.add('typing');
+  let i=0;
+  function tick(){
+    if(i>=msg.length){
+      el.classList.remove('typing');
+      /* Letter done → the tender lines type out, same rhythm, one by one,
+         then the signature, then the seal */
+      const nameEl=document.getElementById('msgName');
+      const psEl=document.getElementById('msgPS');
+      const closeEl=document.getElementById('msgClose');
+      const sigEl=document.getElementById('sig');
+      const sealBtn=document.getElementById('sealBtn');
+      setTimeout(()=>{
+        typeInto(nameEl,[{t:'You make me '},{em:'braver.'}],()=>{
+          setTimeout(()=>{
+            typeInto(psEl,[{t:"P.S. — I've wanted to say that for a long time."}],()=>{
+              setTimeout(()=>{
+                typeInto(closeEl,[{t:"And I'd say it again, every single day. ❤️"}],()=>{
+                  setTimeout(()=>{
+                    typeInto(sigEl,[{t:'— forever yours,'},{br:true},{em:'your biggest fan'}],()=>{
+                      /* a little heart draws itself under the signature */
+                      const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+                      svg.setAttribute('class','sig-heart');svg.setAttribute('viewBox','0 0 18 17');svg.setAttribute('aria-hidden','true');
+                      const hp=document.createElementNS('http://www.w3.org/2000/svg','path');
+                      hp.setAttribute('d','M9 15.2C6.9 13.5 1.5 9.6 1.5 5.6C1.5 3.2 3.4 1.6 5.4 1.6c1.4 0 2.7.7 3.6 2 0.9-1.3 2.2-2 3.6-2 2 0 3.9 1.6 3.9 4 0 4-5.4 7.9-7.5 9.6z');
+                      svg.appendChild(hp);
+                      sigEl.appendChild(svg);
+                      setTimeout(()=>sealBtn.classList.add('show'),900);
+                    });
+                  },450);
+                });
+              },350);
+            });
+          },350);
+        });
+      },500);
+      return;
+    }
+    const ch=msg[i++];
+    if(ch==='\n'){el.appendChild(document.createElement('br'));if(msg[i]==='\n'){el.appendChild(document.createElement('br'));i++;}}
+    else el.appendChild(document.createTextNode(ch));
+    let d=16;if('.!?'.includes(ch))d=230;else if(ch===',')d=75;else if(Math.random()<.03)d=90;
+    setTimeout(tick,d);
+  }
+  setTimeout(tick,400);
+  /* Heart shower */
+  const t=setInterval(()=>spawnHeart(),1500);setTimeout(()=>clearInterval(t),14000);
+}
+
+/* the wax seal gets pressed (stamp + gold ring), then the night arrives */
+function pressSeal(btn){
+  if(btn.dataset.stamped)return;btn.dataset.stamped='1';
+  btn.classList.add('press');
+  const r=btn.getBoundingClientRect();
+  ringAt(r.left+r.width/2,r.top+r.height/2);
+  for(let i=0;i<3;i++)setTimeout(()=>spawnHeart(20+Math.random()*60,48),120+i*90);
+  setTimeout(()=>openFinal(),520);
+}
+
+function openFinal(){
+  const s=document.getElementById('sealBtn');
+  s.classList.remove('show');s.style.pointerEvents='none';
+  /* step into the night — one last, biggest ask */
+  document.getElementById('bg').className='slide4';
+  /* soften the warm red blooms so the night sky reads clean */
+  document.querySelectorAll('.rose-blur').forEach(b=>b.style.opacity='0');
+  goSlide(3);
+  /* the moon proposal types itself out, then offers the yes */
+  const moonText=document.getElementById('moonText');
+  typeInto(moonText,[
+    {t:'In the presence of this '},{em:'beautiful moon'},{t:','},
+    {br:true},
+    {t:'I am asking the'},{em:' most beautiful girl'},{t:' in the world —'},
+    {br:true},
+    {em:'will you be mine?'}
+  ],()=>{
+    const mt=document.getElementById('moonText');mt.classList.add('done');
+    document.getElementById('moonYes').classList.add('show');
+  });
+  /* a few shy hearts drift up while she reads */
+  for(let i=0;i<6;i++)setTimeout(()=>spawnHeart(25+Math.random()*50,45),i*140);
+  if(window.scrollTo)window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── The big yes under the moon ── */
+let moonDone=false;
+const LOUD_SONG='https://archive.org/download/tum-hi-ho-aashiqui-2/Tum%20Hi%20Ho_%20Aashiqui%202.mp3';
+function switchSong(url,vol,label){
+  try{bgm.pause();}catch(e){}
+  const src=bgm.querySelector('source')||document.createElement('source');
+  if(!src.parentNode)bgm.appendChild(src);
+  src.setAttribute('src',url);
+  bgm.load();
+  bgm.volume=vol;
+  const p=bgm.play();
+  if(p&&p.then)p.then(()=>{mBtn.textContent='❚❚';musicEl.classList.add('playing');}).catch(()=>{});
+  document.getElementById('mSong').textContent=label;
+  lyrKey=(url===LOUD_SONG)?'loud':'soft';
+  if(lyrOpen)syncLyric(bgm.currentTime||0);
+}
+
+/* expanding gold ring from a point (box-shadow keeps the centre perfectly still) */
+function ringAt(x,y){
+  const ring=document.createElement('div');ring.className='ring-pop';
+  ring.style.setProperty('--rx',x+'px');ring.style.setProperty('--ry',y+'px');
+  document.body.appendChild(ring);setTimeout(()=>ring.remove(),1000);
+}
+/* real fireworks — particle bursts exploding across the night sky */
+function fireworkShow(){
+  const bursts=(x,y)=>{
+    const n=window.innerWidth<480?14:22;
+    const cols=['#ffd98a','#ff8fa3','#ffdf9e','#ffffff','#f4b8ff','#8fd0ff'];
+    for(let i=0;i<n;i++){
+      const p=document.createElement('div');p.className='fw-p';
+      const ang=Math.random()*Math.PI*2;
+      const speed=60+Math.random()*135;
+      const vx=Math.cos(ang)*speed,vy=Math.sin(ang)*speed;
+      const sz=(3+Math.random()*5).toFixed(1);
+      p.style.cssText=`left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;background:${cols[i%cols.length]};box-shadow:0 0 ${6+Math.random()*9}px ${cols[i%cols.length]}`;
+      document.body.appendChild(p);
+      let t=0;
+      (function step(){
+        t+=16;
+        const k=Math.min(t/950,1);
+        if(k>=1){p.remove();return;}
+        p.style.transform=`translate(${(vx*k).toFixed(1)}px,${(vy*k+48*k*k).toFixed(1)}px)`;
+        p.style.opacity=(1-k).toFixed(2);
+        requestAnimationFrame(step);
+      })();
+    }
+  };
+  setTimeout(()=>bursts(Math.random()*window.innerWidth,window.innerHeight*(.12+Math.random()*.42)),350);
+  setTimeout(()=>bursts(Math.random()*window.innerWidth,window.innerHeight*(.1+Math.random()*.4)),1050);
+  setTimeout(()=>bursts(Math.random()*window.innerWidth,window.innerHeight*(.14+Math.random()*.44)),1800);
+  setTimeout(()=>bursts(Math.random()*window.innerWidth,window.innerHeight*(.12+Math.random()*.4)),2750);
+}
+
+function moonYes(){
+  if(moonDone)return;moonDone=true;
+  const btn=document.getElementById('moonYes');
+  btn.classList.remove('show');btn.style.pointerEvents='none';
+  document.getElementById('moonDone').classList.add('show');
+  /* the whole night celebrates with her — warm glow, flash, fireworks, her song */
+  document.getElementById('bg').classList.add('lit');
+  const mo=document.querySelector('.moon');if(mo)mo.classList.add('lit');
+  const r=btn.getBoundingClientRect();
+  ringAt(r.left+r.width/2,r.top+r.height/2);
+  setTimeout(()=>ringAt(window.innerWidth/2,window.innerHeight*.42),300);
+  const fl=document.createElement('div');fl.className='moon-flash';
+  document.body.appendChild(fl);setTimeout(()=>fl.remove(),1200);
+  switchSong(LOUD_SONG,.85,'tum hi ho · aashiqui 2');
+  if(lyrOpen)buildLyrics('loud');
+  setTimeout(()=>openLyrics('loud'),2600);
+  megaCelebrate();
+  fireworkShow();
+  setTimeout(()=>document.getElementById('moonReplay').classList.add('show'),5000);
+}
+function megaCelebrate(){
+  const colors=['#E53935','#C62828','#B71C1C','#fff','#FFCDD2','#F44336','#ffd54f','#fff8e1'];
+  const canvas=document.getElementById('petalCanvas');
+  for(let i=0;i<150;i++){
+    const p=document.createElement('div');p.className='petal';
+    const sz=4+Math.random()*14,dur=.9+Math.random()*1.7;
+    const angle=Math.random()*Math.PI*2;
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${colors[i%colors.length]};left:${50+Math.cos(angle)*4}%;top:${45+Math.sin(angle)*4}%;animation-duration:${dur}s;animation-delay:${Math.random()*.35}s`;
+    p.style.transition=`transform ${dur}s cubic-bezier(.22,1,.36,1),opacity ${dur*.45}s ease ${dur*.55}s`;
+    canvas.appendChild(p);
+    const ax=Math.cos(angle)*(40+Math.random()*70),ay=Math.sin(angle)*(40+Math.random()*70);
+    requestAnimationFrame(()=>{p.style.transform=`translate(${ax}px,${ay}px) rotate(${Math.random()*360-180}deg)`;p.style.opacity='0';});
+    setTimeout(()=>p.remove(),3000);
+  }
+  /* heart storm — a dense wave, then a long gentle rain */
+  for(let i=0;i<36;i++)setTimeout(()=>spawnHeart(3+Math.random()*94,30+Math.random()*35),i*65);
+  const t=setInterval(()=>spawnHeart(),280);setTimeout(()=>clearInterval(t),15000);
+  /* golden confetti falling around the moon */
+  const bits=['🎉','💛','✨','💖','🌟','🥳'];
+  for(let i=0;i<30;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');c.className='confetti';
+      c.textContent=bits[i%bits.length];
+      c.style.left=(Math.random()*96)+'%';
+      c.style.fontSize=(1.1+Math.random()*1.4)+'rem';
+      c.style.animationDuration=(2.6+Math.random()*1.8)+'s';
+      c.style.animationDelay=(Math.random()*.5)+'s';
+      document.body.appendChild(c);setTimeout(()=>c.remove(),4800);
+    },i*160);
+  }
+}
+
+/* Star field behind the moon — gentle, never distracting */
+(function(){
+  const field=document.getElementById('starField');
+  if(!field)return;
+  const n=window.innerWidth<480?55:95;
+  for(let i=0;i<n;i++){
+    const s=document.createElement('span');s.className='star';
+    s.style.left=(Math.random()*100)+'%';
+    s.style.top=(Math.random()*100)+'%';
+    const sz=(Math.random()*2+1).toFixed(1);
+    s.style.width=s.style.height=sz+'px';
+    s.style.animationDelay=(-Math.random()*3).toFixed(2)+'s';
+    s.style.animationDuration=(2.2+Math.random()*2.8).toFixed(2)+'s';
+    field.appendChild(s);
+  }
+})();
+
+/* shooting stars — rare streaks crossing her question */
+(function shootLoop(){
+  setTimeout(()=>{
+    const s4=document.getElementById('s4');
+    if(s4&&s4.classList.contains('active')){
+      const st=document.createElement('div');st.className='shooting';
+      st.style.left=(3+Math.random()*40).toFixed(1)+'%';
+      st.style.top=(2+Math.random()*28).toFixed(1)+'%';
+      st.style.animationDuration=(0.75+Math.random()*0.5).toFixed(2)+'s';
+      document.getElementById('starField').appendChild(st);
+      setTimeout(()=>st.remove(),2100);
+    }
+    shootLoop();
+  },3800+Math.random()*4500);
+})();
+/* fireflies drifting low over the hills */
+(function(){
+  const field=document.getElementById('starField');if(!field)return;
+  const n=window.innerWidth<480?5:8;
+  for(let i=0;i<n;i++){
+    const f=document.createElement('span');f.className='firefly';
+    f.style.left=(Math.random()*94).toFixed(1)+'%';
+    f.style.top=(52+Math.random()*38).toFixed(1)+'%';
+    f.style.animationDuration=(7+Math.random()*6).toFixed(1)+'s,2.2s';
+    f.style.animationDelay=(-Math.random()*8).toFixed(1)+'s,0s';
+    field.appendChild(f);
+  }
+})();
+
+let currentSlide=0;
+function updateDots(){
+  document.querySelectorAll('#dots .dot').forEach((d,i)=>d.classList.toggle('on',i===currentSlide));
+}
+function goSlide(n){
+  const slides=['s1','s2','s3','s4'];
+  const prev=document.getElementById(slides[currentSlide]);
+  prev.classList.remove('active');prev.classList.add('exit');
+  clearTimeout(goSlide._t);
+  goSlide._t=setTimeout(()=>{prev.classList.remove('exit');},750);
+  currentSlide=n;
+  document.getElementById(slides[n]).classList.add('active');
+  updateDots();
+}
+</script>
+</body>
+</html>

@@ -1,5 +1,31 @@
 # Our Moments — Future Growth Blueprint
 
+---
+
+## ✅ Built & Live — September 2026
+
+### Proposal Pages — Phase 1 (live on home page + navbar)
+
+Two interactive proposal demo pages are now built and live as `/demos/demo-10/` and `/demos/demo-11/`:
+
+**Demo 10 — "Do You Love Me?"** (`/demos/demo-10/index.html`)
+A mischievous, playful question page. The No button slides away every time she tries to click it — using smooth CSS transform escapes. Only Yes is possible. Clicking Yes triggers a confetti heart burst and transitions to a warm, personal confirmation slide. Petal rain background, floating hearts, cute face emoji that reacts to each No attempt. Pure HTML/CSS/JS — no dependencies.
+
+**Demo 11 — "A Letter, Just for You"** (`/demos/demo-11/index.html`)
+An animated love letter experience. Opens with a wax-sealed envelope. She taps to crack the seal (burst hearts animation), the flap rotates open, and the letter types itself out character-by-character with natural speed variation (pauses at punctuation, occasional hesitations). Floating hearts drift upward while she reads. Ends with a handwritten-style signature reveal and a PS. Uses Cormorant Garamond + Dancing Script + Cormorant fonts. Pure HTML — no build step.
+
+**Home page additions:**
+- "Proposal Pages" section added to the home page below the Wedding Collection, with 2 demo cards, teaser text, and a CTA strip (starting at ₹499).
+- "Proposals" link added to the Navbar (desktop + mobile) with a "New" badge.
+
+**Hero section improvements:**
+- Revised headline: "Beautiful digital experiences for love"
+- Added subtitle copy: invites + proposals framed clearly
+- Two CTAs: "Explore Collection" and "Proposal Pages"
+- Trust badges row: 9 designs · Starting ₹499 · Share on WhatsApp
+
+---
+
 ## Brand direction
 
 Our Moments should not stay only a wedding invitation company.
