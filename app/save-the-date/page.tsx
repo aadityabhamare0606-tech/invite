@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import DemoCard, { type DemoCardData } from "@/components/DemoCard";
 import Footer from "@/components/Footer";
 import MiniMoon from "@/components/MiniMoon";
+import { PHONE_TEL } from "@/lib/contact";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -81,11 +82,11 @@ export default function SaveTheDatePage() {
               Tell us your names, date and vibe — we&apos;ll craft a save the date your
               guests will screenshot the moment it lands.
             </p>
-            <a href="https://wa.me/919999999999?text=I+want+a+custom+save+the+date+page"
-              target="_blank" rel="noopener noreferrer"
+            <a href={PHONE_TEL}
               className="inline-flex items-center gap-2 rounded-full py-3 px-7 text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: "#25d366", boxShadow: "0 4px 16px rgba(37,211,102,0.25)" }}>
-              Chat on WhatsApp
+              style={{ background: "var(--primary)", boxShadow: "0 4px 16px rgba(194,24,91,0.25)" }}>
+              <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+              Call Now
             </a>
           </div>
         </div>

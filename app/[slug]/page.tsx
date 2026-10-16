@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PHONE_TEL } from "@/lib/contact";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://our-moments.in";
-const whatsappNumber = "919999999999";
 
 const pageData = {
   "wedding-invitation-website-india": {
@@ -79,7 +79,7 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
     return <main className="min-h-screen bg-white px-6 py-24 text-center"><Link href="/">Return to OurMoment</Link></main>;
   }
 
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi, I want to order a ${page.title} from OurMoment.`)}`;
+  const callHref = PHONE_TEL;
   const relatedPages = page.related.map((relatedSlug) => ({ slug: relatedSlug, page: pageData[relatedSlug as PageSlug] }));
 
   const structuredData = [
@@ -119,7 +119,10 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
             <h1 className="max-w-3xl font-[var(--font-cormorant)] text-5xl font-medium leading-[0.98] sm:text-7xl">{page.title}</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">{page.intro}</p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full bg-[var(--primary)] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-pink-900/10 transition-transform hover:-translate-y-0.5">Start on WhatsApp</a>
+              <a href={callHref} className="inline-flex items-center gap-2 rounded-full bg-[var(--primary)] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-pink-900/10 transition-transform hover:-translate-y-0.5">
+                <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+                Call to Order
+              </a>
               <span className="font-[var(--font-cormorant)] text-3xl text-[var(--primary)]">{page.price}</span>
             </div>
           </div>
