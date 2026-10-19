@@ -6,8 +6,6 @@ import FaqList from "@/components/FaqList";
 import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
 import { SITE_URL, intentPages, getIntentPage } from "@/lib/seo";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return intentPages.map((page) => ({ slug: page.slug }));
 }
@@ -16,7 +14,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const page = getIntentPage(slug);
 
-  if (!page) return {};
+  if (!page) {
+    return {
+      title: "Page not found",
+      robots: { index: false, follow: true },
+    };
+  }
 
   const url = `/${slug}`;
   return {
