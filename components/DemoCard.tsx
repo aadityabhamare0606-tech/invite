@@ -75,7 +75,7 @@ export default function DemoCard({ card }: DemoCardProps) {
         {card.previewImg
           ? <img
               src={card.previewImg}
-              alt=""
+              alt={`${card.title} — ${card.type} wedding invitation design by OurMoment`}
               width={600}
               height={400}
               loading="lazy"
@@ -124,6 +124,7 @@ export default function DemoCard({ card }: DemoCardProps) {
         </div>
 
         <a href={PHONE_TEL}
+          aria-label={`Call OurMoment to order the ${card.title} invitation`}
           className="flex w-full items-center justify-center gap-2 rounded-full py-2.5 text-[13px] font-semibold text-white transition-all hover:opacity-90"
           style={{ background: "var(--primary)", boxShadow: "0 2px 10px rgba(194,24,91,0.2)" }}>
           <svg className="h-3.5 w-3.5 fill-white" viewBox="0 0 24 24" aria-hidden="true">

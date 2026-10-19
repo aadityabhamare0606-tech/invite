@@ -29,6 +29,7 @@ export default function Footer() {
               Personalised Indian wedding invitation websites from ₹1,499 and wedding invitation videos from ₹399 — made for sharing with family and guests on WhatsApp.
             </p>
             <a href={PHONE_TEL}
+              aria-label={`Call us at ${PHONE_DISPLAY}`}
               className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
               style={{ background: "var(--primary)", boxShadow: "0 3px 14px rgba(194,24,91,0.22)" }}>
               <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
@@ -61,16 +62,24 @@ export default function Footer() {
               Occasions
             </h4>
             <ul className="space-y-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    {[
-                      ["💍", "Wedding Websites", "/wedding-invitation-website-india"],
-                      ["🎬", "Wedding Videos", "/wedding-invitation-video-india"],
-                      ["📱", "Save the Date", "/save-the-date-website-india"],
-                      ["✨", "Wedding Invite Cost", "/wedding-invitation-cost-india"],
-                    ].map(([icon, t, href]) => (
+              {([
+                ["💍", "Wedding Websites", "/wedding-invitation-website-india"],
+                ["🎬", "Wedding Videos", "/wedding-invitation-video-india"],
+                ["📱", "Save the Date", "/save-the-date-website-india"],
+                ["✨", "Wedding Invite Cost", "/wedding-invitation-cost-india"],
+                ["🌐", "Digital Invitations", "/digital-wedding-invitation-india"],
+                ["💬", "WhatsApp Invites", "/whatsapp-wedding-invitation"],
+                ["📝", "RSVP Websites", "/wedding-website-with-rsvp-india"],
+                ["🌸", "Mehendi & Sangeet", "/mehendi-haldi-sangeet-invitation"],
+                ["🏝️", "Destination Weddings", "/destination-wedding-invitation-website"],
+                ["💌", "Proposal Pages", "/proposals"],
+                ["🪔", "Hindi Invitations", "/hindi-wedding-invitation-website"],
+                ["🌾", "Marathi Invitations", "/marathi-wedding-invitation-website"],
+              ] as [string, string, string][]).map(([icon, t, href]) => (
                 <li key={t}>
-                        <Link href={href} className="hover:text-[var(--primary)] transition-colors inline-flex items-center gap-2">
-                    <span>{icon}</span>{t}
-                        </Link>
+                  <Link href={href} className="hover:text-[var(--primary)] transition-colors inline-flex items-center gap-2">
+                    <span aria-hidden="true">{icon}</span>{t}
+                  </Link>
                 </li>
               ))}
             </ul>

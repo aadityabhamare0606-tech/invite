@@ -1,52 +1,44 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://our-moments.in";
+import { SITE_URL, intentPages } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  return [
+  const homeImages = [
+    "/assets/demos/demo-1.webp",
+    "/assets/demos/demo-16.webp",
+    "/assets/demos/wedding-invite-7-501.webp",
+    "/assets/demos/demo-15-mountain-502.webp",
+  ].map((path) => `${SITE_URL}${path}`);
+
+  const core: MetadataRoute.Sitemap = [
     {
-      url: siteUrl,
+      url: SITE_URL,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
+      images: homeImages,
     },
     {
-      url: `${siteUrl}/wedding-invitation-website-india`,
+      url: `${SITE_URL}/proposals`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
-      url: `${siteUrl}/wedding-invitation-video-india`,
+      url: `${SITE_URL}/save-the-date`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/save-the-date-website-india`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/save-the-date`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/wedding-invitation-cost-india`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/proposals`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
     },
   ];
+
+  const intent: MetadataRoute.Sitemap = intentPages.map((page) => ({
+    url: `${SITE_URL}/${page.slug}`,
+    lastModified: now,
+    changeFrequency: page.slug === "wedding-invitation-cost-india" ? "monthly" : "weekly",
+    priority: page.slug === "wedding-invitation-website-india" ? 0.95 : 0.8,
+  }));
+
+  return [...core, ...intent];
 }

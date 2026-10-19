@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Plus, Minus } from "lucide-react";
+import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
 
 const faqs = [
   {
@@ -98,6 +99,24 @@ export default function FAQ() {
               </div>
             );
           })}
+        </div>
+
+        {/* ── Still stuck? Call us ── */}
+        <div className="reveal mt-10 rounded-2xl border px-6 py-7 text-center"
+          style={{ borderColor: "var(--blush-mid)", background: "linear-gradient(120deg,#fff0f4,#fff8f9)" }}>
+          <p className="mb-1 text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+            Still have a question?
+          </p>
+          <p className="mb-5 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            Call us and we&apos;ll answer in minutes — no forms, no waiting.
+          </p>
+          <a href={PHONE_TEL}
+            aria-label={`Call OurMoment at ${PHONE_DISPLAY}`}
+            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
+            style={{ background: "var(--primary)", boxShadow: "0 4px 16px rgba(194,24,91,0.25)" }}>
+            <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+            Call {PHONE_DISPLAY}
+          </a>
         </div>
       </div>
     </section>

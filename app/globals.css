@@ -301,7 +301,17 @@ body {
   overflow: hidden; transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 .faq-item:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
-.faq-item.open { border-color: var(--blush-mid); box-shadow: 0 4px 20px rgba(194,24,91,0.07); }
+.faq-item.open,
+.faq-item[open] { border-color: var(--blush-mid); box-shadow: 0 4px 20px rgba(194,24,91,0.07); }
+
+/* Native <details> used on landing pages for crawlable FAQ answers */
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+/* Reserve room for the mobile sticky call bar so nothing is hidden behind it */
+@media (max-width: 767px) {
+  body { padding-bottom: 84px; }
+}
 
 /* TAG PILL */
 .tag-pill {

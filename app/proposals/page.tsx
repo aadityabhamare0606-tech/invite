@@ -1,16 +1,35 @@
 import Navbar from "@/components/Navbar";
 import DemoCard, { type DemoCardData } from "@/components/DemoCard";
 import Footer from "@/components/Footer";
-import { PHONE_TEL } from "@/lib/contact";
+import FaqList from "@/components/FaqList";
+import CtaBanner from "@/components/CtaBanner";
+import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
+import { SITE_URL } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Proposal Pages — Say It Beautifully",
-  description: "Interactive proposal pages that make the moment unforgettable. Playful, animated, personalised — she won't be able to say no. From ₹499.",
+  title: "Proposal Pages — Interactive ‘Will You Marry Me’ Websites",
+  description:
+    "Interactive proposal pages and 'will you marry me' websites that make the moment unforgettable. Playful, animated and personalised from ₹499, with one shareable link.",
+  keywords: [
+    "proposal website India",
+    "will you marry me website",
+    "interactive proposal page",
+    "proposal idea online",
+    "romantic proposal website India",
+  ],
   alternates: { canonical: "/proposals" },
   openGraph: {
     title: "Proposal Pages — Say It Beautifully · OurMoment",
-    description: "Surprise her with an interactive proposal page she'll screenshot and share forever. From ₹499.",
+    description:
+      "Surprise her with an interactive proposal page she'll screenshot and share forever. From ₹499.",
+    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "OurMoment interactive proposal pages from ₹499" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Proposal Pages — Say It Beautifully · OurMoment",
+    description: "An interactive proposal page she'll screenshot and keep forever. From ₹499.",
+    images: ["/og-image.svg"],
   },
 };
 
@@ -61,43 +80,123 @@ const proposalCards: DemoCardData[] = [
   },
 ];
 
+const proposalFaqs = [
+  {
+    q: "What is an interactive proposal page?",
+    a: "It is a small personalised web page where she clicks through your story until the big question appears — with playful details like a NO button that slides away.",
+  },
+  {
+    q: "How do I show the proposal page to her?",
+    a: "Send the private link on WhatsApp, or open it on a laptop or tablet at the moment you plan to ask.",
+  },
+  {
+    q: "Can it be customised to our story?",
+    a: "Yes. Every proposal page is personalised with your names, memories and photos.",
+  },
+  {
+    q: "How much does a proposal page cost?",
+    a: "Proposal pages start at ₹499, and richer multi-concept experiences start at ₹599 and ₹799.",
+  },
+];
+
 export default function ProposalsPage() {
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Proposal Pages",
+      description:
+        "Interactive, personalised proposal websites for telling someone you love them.",
+      url: `${SITE_URL}/proposals`,
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "OurMoment", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Proposal Pages", item: `${SITE_URL}/proposals` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: proposalFaqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ];
+
   return (
     <main>
+      {structuredData.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
+        />
+      ))}
       <Navbar />
 
-      {/* ── Proposal list — directly under the navbar ── */}
-      <section className="py-16 md:py-20" style={{ background: "var(--bg-base)" }}>
+      {/* ── Hero ── */}
+      <section className="px-4 pb-4 pt-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: "var(--primary)" }}>
+            Say it beautifully
+          </p>
+          <h1 className="max-w-3xl font-light leading-[1.02]"
+            style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(2.4rem,6vw,4rem)", color: "var(--text-primary)" }}>
+            Proposal pages that make the moment{" "}
+            <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>unforgettable</em>
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-8" style={{ color: "var(--text-secondary)" }}>
+            Interactive, animated and personalised pages for the most important question you will ever ask.
+            She taps through your story, and a NO button that keeps escaping makes the answer obvious. From ₹499.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-4">
+            <a href={PHONE_TEL}
+              aria-label={`Call OurMoment to order at ${PHONE_DISPLAY}`}
+              className="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white"
+              style={{ boxShadow: "0 8px 28px rgba(194,24,91,0.28)" }}>
+              <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+              Call to order
+            </a>
+            <span className="font-[var(--font-cormorant)] text-3xl" style={{ color: "var(--primary)" }}>From ₹499</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Proposal list ── */}
+      <section className="py-12 md:py-16" style={{ background: "var(--bg-base)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {proposalCards.map((card) => (
               <DemoCard key={card.id} card={card} />
             ))}
           </div>
-
-          {/* More coming soon */}
-          <div className="mt-12 rounded-2xl border px-8 py-10 text-center"
-            style={{ borderColor: "var(--blush-mid)", background: "linear-gradient(120deg, #fff0f4, #fff8f9)" }}>
-            <p className="text-[11px] font-bold uppercase tracking-[0.28em] mb-2" style={{ color: "var(--primary)" }}>
-              More coming soon
-            </p>
-            <h2 className="font-light mb-3"
-              style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(1.6rem,4vw,2.2rem)", color: "var(--text-primary)" }}>
-              Have an idea in mind?
-            </h2>
-            <p className="text-sm mb-6 max-w-sm mx-auto leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Tell us your story and we&apos;ll build something just for you.
-              Custom proposal pages are available for any idea.
-            </p>
-            <a href={PHONE_TEL}
-              className="inline-flex items-center gap-2 rounded-full py-3 px-7 text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: "var(--primary)", boxShadow: "0 4px 16px rgba(194,24,91,0.25)" }}>
-              <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
-              Call Now
-            </a>
-          </div>
         </div>
       </section>
+
+      {/* ── FAQ ── */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8" style={{ background: "var(--bg-surface)", borderTop: "1px solid var(--border)" }}>
+        <div className="mx-auto max-w-3xl">
+          <h2 className="mb-8 font-[var(--font-cormorant)] text-4xl" style={{ color: "var(--text-primary)" }}>
+            Frequently asked questions
+          </h2>
+          <FaqList items={proposalFaqs} />
+        </div>
+      </section>
+
+      <CtaBanner
+        eyebrow="Have an idea in mind?"
+        title="Tell us your story — we'll build something just for you"
+        subtitle="Custom proposal pages are available for any idea. Call us and we'll plan it together."
+        buttonLabel="Call now"
+        secondaryHref="/"
+        secondaryLabel="See wedding invites"
+      />
 
       <Footer />
     </main>

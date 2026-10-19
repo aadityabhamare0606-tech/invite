@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
+import StickyCallBar from "@/components/StickyCallBar";
+import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -19,19 +21,26 @@ const jakarta = Plus_Jakarta_Sans({
   preload: true,
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://our-moments.in";
+export const viewport: Viewport = {
+  themeColor: "#C2185B",
+  width: "device-width",
+  initialScale: 1,
+  colorScheme: "light",
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   applicationName: "OurMoment",
-  authors: [{ name: "OurMoment" }],
+  authors: [{ name: "OurMoment", url: SITE_URL }],
+  creator: "OurMoment",
+  publisher: "OurMoment",
   category: "wedding",
   title: {
-    default: "Beautiful Digital Wedding Invites from ₹1,499 · OurMoment",
+    default: "Wedding Invitation Websites India from ₹1,499 · OurMoment",
     template: "%s · OurMoment",
   },
   description:
-    "India's most beautiful animated wedding invitation websites — share with family in one link. Cinematic scroll effects, live countdown, multi-event cards. Personalised for your wedding from ₹1,499.",
+    "India's most beautiful animated wedding invitation websites — share with family in one link. Cinematic scroll effects, live countdown, multi-event cards and RSVP. Personalised for your wedding from ₹1,499.",
   keywords: [
     "wedding invitation website India",
     "digital wedding invitation India",
@@ -47,9 +56,14 @@ export const metadata: Metadata = {
     "Indian wedding website",
     "custom wedding invitation website",
     "personalised wedding invite link",
+    "wedding website with RSVP",
+    "Marathi wedding invitation website",
+    "Hindi wedding invitation website",
+    "destination wedding invitation website",
+    "proposal website India",
   ],
   alternates: {
-    canonical: siteUrl,
+    canonical: "/",
   },
   verification: {
     google: "ysQ8_WZGcWxBFZe0NO5nxj1pHp6yAdzrbySKnTljRiA",
@@ -70,15 +84,23 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "/",
     siteName: "OurMoment",
-    title: "Beautiful Digital Wedding Invites from ₹1,499 · OurMoment",
+    title: "Wedding Invitation Websites India from ₹1,499 · OurMoment",
     description:
-      "India's most beautiful animated wedding invitation websites. Cinematic scroll effects, live countdown, multi-event cards — share with family in one link.",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630, alt: "OurMoment — beautiful Indian wedding invitation websites from ₹1,499" }],
+      "India's most beautiful animated wedding invitation websites. Cinematic scroll effects, live countdown, multi-event cards and RSVP — share with family in one link.",
+    images: [
+      {
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "OurMoment — beautiful Indian wedding invitation websites from ₹1,499",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Beautiful Digital Wedding Invites from ₹1,499 · OurMoment",
-    description: "Animated wedding invitation websites for Indian weddings. Share with everyone in one WhatsApp link. From ₹1,499.",
+    title: "Wedding Invitation Websites India from ₹1,499 · OurMoment",
+    description:
+      "Animated wedding invitation websites for Indian weddings. Share with everyone in one link. From ₹1,499.",
     images: ["/og-image.svg"],
   },
   icons: {
@@ -91,10 +113,55 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
+  name: "OurMoment",
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.svg`,
+  image: `${SITE_URL}/og-image.svg`,
+  description:
+    "Personalised Indian wedding invitation websites, wedding invitation videos and save the date pages, delivered as a single shareable link.",
+  telephone: "+917385893966",
+  areaServed: { "@type": "Country", name: "India" },
+  availableLanguage: ["English", "Hindi", "Marathi"],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      telephone: "+917385893966",
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi", "Marathi"],
+    },
+  ],
+};
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "OurMoment",
+  url: SITE_URL,
+  inLanguage: "en-IN",
+  publisher: { "@id": `${SITE_URL}/#organization` },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${jakarta.variable}`}>
-      <body className="motion-disabled">{children}</body>
+    <html lang="en-IN" className={`${cormorant.variable} ${jakarta.variable}`}>
+      <body className="motion-disabled">
+        {children}
+        <StickyCallBar />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd).replace(/</g, "\\u003c") }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd).replace(/</g, "\\u003c") }}
+        />
+      </body>
     </html>
   );
 }
