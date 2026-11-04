@@ -42,9 +42,9 @@ export default function Hero() {
             className="mt-6 font-light leading-[1.02]"
             style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(2.6rem,6.2vw,4.6rem)", color: "var(--text-primary)" }}
           >
-            Wedding invitation websites your family will{" "}
+            A beautiful wedding invitation website for your{" "}
             <em className="font-semibold not-italic" style={{ color: "var(--primary)", fontStyle: "italic" }}>
-              actually open
+              Indian wedding
             </em>
           </h1>
 

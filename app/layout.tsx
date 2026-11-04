@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   publisher: "OurMoment",
   category: "wedding",
   title: {
-    default: "Wedding Invitation Websites India from ₹1,499 · OurMoment",
+    default: "Wedding Invitation Websites in India | OurMoment",
     template: "%s · OurMoment",
   },
   description:
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "/",
     siteName: "OurMoment",
-    title: "Wedding Invitation Websites India from ₹1,499 · OurMoment",
+    title: "Wedding Invitation Websites in India | OurMoment",
     description:
       "India's most beautiful animated wedding invitation websites. Cinematic scroll effects, live countdown, multi-event cards and RSVP — share with family in one link.",
     images: [
@@ -98,7 +98,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wedding Invitation Websites India from ₹1,499 · OurMoment",
+    title: "Wedding Invitation Websites in India | OurMoment",
     description:
       "Animated wedding invitation websites for Indian weddings. Share with everyone in one link. From ₹1,499.",
     images: ["/og-image.svg"],
