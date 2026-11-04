@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /* Next.js blocks cross-origin requests to dev-only assets and endpoints by
+     default. The dev server binds every interface and treats `localhost` as
+     the canonical origin, so opening the site on 127.0.0.1 or on a phone over
+     the LAN returns 403 for every /_next/static chunk — the page renders but
+     never hydrates, which silently kills every click handler and scroll
+     reveal. Dev only; production is unaffected. */
+  allowedDevOrigins: [
+    "localhost",
+    "127.0.0.1",
+    "0.0.0.0",
+    "192.168.*.*",
+    "10.*.*.*",
+  ],
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1600],

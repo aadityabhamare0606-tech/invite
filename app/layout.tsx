@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     template: "%s · OurMoment",
   },
   description:
-    "India's most beautiful animated wedding invitation websites — share with family in one link. Cinematic scroll effects, live countdown, multi-event cards and RSVP. Personalised for your wedding from ₹1,499.",
+    "Animated wedding invitation websites — share with family in one link. Cinematic scroll effects, live countdown, multi-event cards and RSVP. Personalised for your wedding, all designs ₹1,299.",
   keywords: [
     "wedding invitation website India",
     "digital wedding invitation India",
@@ -92,7 +92,7 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "OurMoment — beautiful Indian wedding invitation websites from ₹1,499",
+        alt: "OurMoment — beautiful Indian wedding invitation websites",
       },
     ],
   },
@@ -100,18 +100,69 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Wedding Invitation Websites in India | OurMoment",
     description:
-      "Animated wedding invitation websites for Indian weddings. Share with everyone in one link. From ₹1,499.",
+      "Animated wedding invitation websites for Indian weddings. Share with everyone in one link. All designs ₹1,299.",
     images: ["/og-image.svg"],
   },
-  icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/logo.svg", type: "image/svg+xml" },
-    ],
-    shortcut: "/favicon.svg",
-    apple: "/logo.svg",
-  },
+  /* Icons come from the file conventions — app/favicon.ico, app/icon.svg and
+     app/apple-icon.png each emit their own <link>, so there is nothing to
+     declare here. Declaring them as well produced three duplicate icon
+     links. */
 };
+
+/* Runs before any .reveal element is parsed.
+
+   It injects the hidden start state for scroll reveals into <head> rather
+   than declaring it in globals.css, so the content is simply rendered in its
+   final state when JavaScript is unavailable — no class on <html> either,
+   which would trip React's hydration diff on the root element.
+
+   It also carries the safety net. The `.visible` class that fades a reveal in
+   is added by JavaScript, so if hydration never happens (a blocked chunk, a
+   script error) the page would render blank. These guards make that
+   impossible:
+
+     1. after a short delay, anything already in the viewport is revealed
+     2. if NO reveal has been revealed by then, hydration has failed, so
+        everything is revealed
+     3. any script load error reveals everything immediately */
+const jsFlag = `(function(){
+  var d = document, W = window;
+  try {
+    var s = d.createElement('style');
+    s.textContent = '.reveal{opacity:0;transform:translateY(22px)}' +
+      '.reveal-left{opacity:0;transform:translateX(-28px)}' +
+      '.reveal-right{opacity:0;transform:translateX(28px)}' +
+      '.reveal-pop{opacity:0;transform:scale(.88)}' +
+      '.reveal-scale{opacity:0;transform:scale(.95) translateY(12px)}' +
+      '.reveal-blur{opacity:0;transform:translateY(18px);filter:blur(6px)}' +
+      '.reveal-fade{opacity:0}' +
+      '.reveal-line{opacity:0;transform:scaleX(0)}' +
+      '.section-enter{opacity:0;transform:translateY(16px)}';
+    (d.head || d.documentElement).appendChild(s);
+  } catch (e) { /* styling is cosmetic — never block the page on it */ }
+  var SEL = '.reveal,.reveal-left,.reveal-right,.reveal-pop,.reveal-scale,.reveal-blur,.reveal-fade,.reveal-line,.section-enter';
+  function revealAll(){
+    var els = d.querySelectorAll(SEL);
+    for (var i = 0; i < els.length; i++) els[i].classList.add('visible');
+  }
+  if (!('IntersectionObserver' in W)) {
+    if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', revealAll);
+    else revealAll();
+    return;
+  }
+  W.addEventListener('error', revealAll, true);
+  W.setTimeout(function(){
+    var all = d.querySelectorAll(SEL);
+    var any = d.querySelectorAll('.reveal.visible').length;
+    var inView = [];
+    for (var i = 0; i < all.length; i++) {
+      var r = all[i].getBoundingClientRect();
+      if (r.top < W.innerHeight && r.bottom > 0 && r.width > 0) inView.push(all[i]);
+    }
+    if (any === 0 && inView.length > 0) { revealAll(); return; }
+    for (var j = 0; j < inView.length; j++) inView[j].classList.add('visible');
+  }, 2500);
+})();`;
 
 const organizationLd = {
   "@context": "https://schema.org",
@@ -150,7 +201,8 @@ const websiteLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN" className={`${cormorant.variable} ${jakarta.variable}`}>
-      <body className="motion-disabled">
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
         {children}
         <StickyCallBar />
         <script

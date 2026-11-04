@@ -4,6 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0e6b6e" />
+    <script>
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+      const navigationEntry = performance.getEntriesByType("navigation")[0];
+      if (navigationEntry?.type === "reload") {
+        window.addEventListener(
+          "pageshow",
+          () => window.scrollTo(0, 0),
+          { once: true }
+        );
+      }
+
+      if (
+        window.matchMedia("(max-width: 640px)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        document.documentElement.classList.add(
+          "lantern-mobile-scroll-animations"
+        );
+      }
+    </script>
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="dns-prefetch" href="https://c.animaapp.com" />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
@@ -20,6 +41,8 @@
     <script type="module" crossorigin src="/demos/demo-1/assets/index-BOqN-6mJ.js"></script>
     <link rel="modulepreload" crossorigin href="/demos/demo-1/assets/vendor-D3F3s8fL.js">
     <link rel="stylesheet" crossorigin href="/demos/demo-1/assets/style-B8Q8hEvi.css">
+    <link rel="stylesheet" href="/demos/demo-1/assets/lantern-sections.css?v=25">
+    <script defer src="/demos/demo-1/assets/lantern-sections.js?v=26"></script>
   </head>
   <body>
     <div id="app"></div>

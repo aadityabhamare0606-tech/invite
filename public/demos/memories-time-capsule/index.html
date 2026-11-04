@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Time Capsule — Sealed Until the Date</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  background:#0e0c1a;color:#e8e0f0;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6;
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+::selection{background:#7c4dba;color:#fff}
+:root{
+  --violet:#7c4dba;--violet-hi:#a67de0;--violet-lo:#4a2878;
+  --wax:#a0302a;--wax-hi:#d44840;
+  --gold:#c8963a;--gold-hi:#e8c060;
+  --ink:#e8e0f0;--ink2:#b0a8c8;--ink3:#706888;
+  --bg:#0e0c1a;--bg2:#160e28;--bg3:#1e1438;
+  --card:#1a1230;--card2:#221840;
+  --line:rgba(124,77,186,.22);--line2:rgba(124,77,186,.12);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Plus Jakarta Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-pop:cubic-bezier(.34,1.56,.64,1);
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--violet);border-radius:999px}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(14,12,26,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1100px;margin:0 auto;padding:13px 22px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{
+  width:38px;height:38px;border-radius:11px;
+  background:linear-gradient(135deg,var(--violet),var(--violet-lo));
+  display:grid;place-items:center;color:#fff;font-size:18px;
+  box-shadow:0 6px 20px rgba(124,77,186,.4);
+}
+.brand-name{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink)}
+.brand-sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-top:1px}
+.nav-mono{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.08em}
+.nav-mono b{color:var(--violet-hi)}
+
+/* ── STARFIELD ── */
+.stars{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.9) 1px,transparent 1px),
+    radial-gradient(circle,rgba(200,170,255,.6) 1px,transparent 1px),
+    radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);
+  background-size:220px 220px,340px 340px,150px 150px;
+  background-position:0 0,80px 60px,40px 100px;
+  opacity:.35;animation:drift 120s linear infinite;
+}
+@keyframes drift{to{background-position:220px 220px,420px 360px,190px 250px}}
+
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:92svh;z-index:1;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 90% 70% at 50% 0%,rgba(124,77,186,.18),transparent 65%);
+  pointer-events:none;
+}
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;padding:60px 22px;max-width:720px;
+}
+
+/* Wax seal animation */
+.wax-seal{
+  width:clamp(80px,14vw,110px);height:clamp(80px,14vw,110px);border-radius:50%;
+  background:radial-gradient(circle at 38% 30%,var(--wax-hi),var(--wax));
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 32px;
+  box-shadow:0 12px 36px rgba(160,48,42,.55),0 4px 12px rgba(0,0,0,.4);
+  position:relative;cursor:pointer;
+  transition:transform .4s var(--ease-pop),box-shadow .4s;
+  opacity:0;animation:fadeUp .8s .2s var(--ease) forwards;
+}
+.wax-seal::before{
+  content:'';position:absolute;inset:5px;border-radius:50%;
+  border:1.5px solid rgba(255,200,140,.25);
+}
+.wax-seal::after{
+  content:'';position:absolute;inset:12px;border-radius:50%;
+  border:1px dashed rgba(255,200,140,.18);
+}
+.wax-seal:hover{transform:scale(1.1) rotate(-5deg);box-shadow:0 18px 52px rgba(160,48,42,.7)}
+.seal-icon{font-size:clamp(30px,5vw,42px);position:relative;z-index:1}
+
+.hero-eyebrow{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.45em;text-transform:uppercase;
+  color:var(--violet-hi);display:block;margin-bottom:18px;
+  opacity:0;animation:fadeUp .7s .4s var(--ease) forwards;
+}
+.hero-h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(42px,8vw,86px);line-height:.97;letter-spacing:-.02em;
+  color:var(--ink);
+  opacity:0;animation:fadeUp .8s .55s var(--ease) forwards;
+}
+.hero-h1 em{font-style:italic;color:var(--violet-hi)}
+.hero-sub{
+  margin:18px auto 0;max-width:440px;font-size:15.5px;color:var(--ink2);line-height:1.8;
+  opacity:0;animation:fadeUp .8s .7s var(--ease) forwards;
+}
+.hero-locked{
+  display:inline-flex;align-items:center;gap:9px;
+  margin-top:28px;
+  padding:10px 20px;border-radius:999px;
+  background:rgba(124,77,186,.14);border:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--violet-hi);
+  opacity:0;animation:fadeUp .7s .85s var(--ease) forwards;
+}
+.locked-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--violet-hi);
+  animation:dotPulse 1.8s ease-in-out infinite;
+}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+.hero-cta-row{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:28px;
+  opacity:0;animation:fadeUp .7s 1s var(--ease) forwards;
+}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:999px;font-size:13.5px;font-weight:600;
+  cursor:pointer;border:none;transition:transform .25s var(--ease),box-shadow .25s;
+}
+.btn:hover{transform:translateY(-3px)}
+.btn-violet{
+  background:linear-gradient(135deg,var(--violet),var(--violet-hi));
+  color:#fff;box-shadow:0 8px 28px rgba(124,77,186,.4);
+}
+.btn-violet:hover{box-shadow:0 14px 40px rgba(124,77,186,.55)}
+.btn-ghost{
+  background:rgba(255,255,255,.05);color:var(--ink2);
+  border:1.5px solid var(--line);
+}
+.btn-ghost:hover{border-color:var(--violet-hi);color:var(--ink)}
+
+/* ── SECTION BASE ── */
+.sec{padding:clamp(60px,9vw,100px) 22px;position:relative;z-index:1}
+.sec-inner{max-width:1100px;margin:0 auto}
+.sec-alt{background:var(--bg2);border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.sec-head{text-align:center;max-width:580px;margin:0 auto 52px}
+.eyebrow{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--violet-hi);display:block;margin-bottom:14px;
+}
+.sec-h2{font-family:var(--serif);font-size:clamp(30px,5vw,50px);font-weight:600;line-height:1.04;color:var(--ink)}
+.sec-h2 em{font-style:italic;color:var(--violet-hi)}
+.sec-lead{margin-top:12px;font-size:15.5px;color:var(--ink2);line-height:1.75}
+
+/* ── REVEAL ── */
+.rev{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rev.in{opacity:1;transform:none}
+.rev-l{opacity:0;transform:translateX(-26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rev-l.in{opacity:1;transform:none}
+.rev-r{opacity:0;transform:translateX(26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rev-r.in{opacity:1;transform:none}
+.rev-s{opacity:0;transform:scale(.92);transition:opacity .7s var(--ease-pop),transform .7s var(--ease-pop)}
+.rev-s.in{opacity:1;transform:scale(1)}
+
+/* ── HOW IT WORKS ── */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.step{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px 24px;text-align:center;
+  position:relative;overflow:hidden;
+  transition:transform .35s var(--ease),box-shadow .35s;
+}
+.step:hover{transform:translateY(-6px);box-shadow:0 20px 52px rgba(124,77,186,.2)}
+.step::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--violet),var(--violet-hi));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .45s var(--ease);
+}
+.step:hover::before{transform:scaleX(1)}
+.step-num{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  color:var(--violet-hi);margin-bottom:16px;
+}
+.step-icon{
+  width:56px;height:56px;border-radius:16px;margin:0 auto 18px;
+  background:rgba(124,77,186,.14);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:24px;
+}
+.step h3{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);margin-bottom:9px}
+.step p{font-size:13.5px;color:var(--ink2);line-height:1.7}
+
+/* ── COMPOSE + PREVIEW layout ── */
+.compose-layout{
+  display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;
+}
+.panel{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:clamp(24px,4vw,36px);
+  box-shadow:0 16px 48px rgba(0,0,0,.35);
+}
+.panel-title{
+  font-family:var(--serif);font-size:clamp(20px,2.5vw,26px);font-weight:600;
+  color:var(--ink);margin-bottom:5px;
+}
+.panel-sub{font-size:13px;color:var(--ink3);margin-bottom:22px}
+
+/* Form elements */
+label{
+  display:block;font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink3);margin:18px 0 6px;
+}
+label:first-of-type{margin-top:0}
+input,textarea,select{
+  width:100%;padding:12px 14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--line);border-radius:12px;
+  color:var(--ink);font-family:var(--sans);font-size:14px;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--violet-hi);
+  box-shadow:0 0 0 4px rgba(124,77,186,.14);
+  background:rgba(255,255,255,.07);
+}
+textarea{
+  resize:vertical;min-height:120px;
+  font-family:var(--serif);font-size:16px;line-height:1.75;
+}
+select option{background:var(--bg3);color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.chip{
+  padding:8px 14px;border-radius:999px;
+  border:1.5px solid var(--line);background:rgba(255,255,255,.04);
+  font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink2);
+  cursor:pointer;transition:all .2s;
+}
+.chip:hover{border-color:var(--violet-hi);color:var(--violet-hi)}
+.chip.on{background:var(--violet);border-color:var(--violet);color:#fff}
+
+/* Toggle */
+.toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 15px;border-radius:12px;
+  border:1px solid var(--line);background:rgba(255,255,255,.04);margin-top:16px;
+}
+.toggle-text b{display:block;font-size:13.5px;color:var(--ink)}
+.toggle-text span{font-size:11.5px;color:var(--ink3)}
+.sw{
+  width:46px;height:26px;border-radius:999px;background:rgba(255,255,255,.12);
+  position:relative;cursor:pointer;flex-shrink:0;
+  transition:background .25s var(--ease);
+}
+.sw::after{
+  content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;
+  border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);
+  transition:transform .25s var(--ease);
+}
+.sw.on{background:var(--violet)}
+.sw.on::after{transform:translateX(20px)}
+
+/* Seal button */
+.seal-btn{
+  margin-top:22px;width:100%;padding:15px;border:none;border-radius:14px;
+  font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;
+  background:linear-gradient(135deg,var(--violet-lo),var(--violet),var(--violet-hi));
+  background-size:200% auto;color:#fff;
+  box-shadow:0 12px 32px rgba(124,77,186,.4);
+  transition:transform .25s var(--ease),box-shadow .25s,background-position .5s;
+}
+.seal-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(124,77,186,.55);
+  background-position:right center;
+}
+.seal-btn.done{background:linear-gradient(135deg,#1a6a4a,#28a870)!important;box-shadow:0 12px 32px rgba(28,168,112,.4)!important}
+
+/* ── Capsule preview card ── */
+.capsule{
+  background:linear-gradient(160deg,var(--card2),var(--card));
+  border:1.5px solid var(--line);border-radius:22px;overflow:visible;
+  padding:0;position:relative;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+}
+/* Wax seal on preview */
+.capsule-seal{
+  position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+  width:50px;height:50px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,var(--wax-hi),var(--wax));
+  display:grid;place-items:center;font-size:20px;
+  box-shadow:0 8px 22px rgba(160,48,42,.5),0 0 0 3px var(--card);
+  z-index:5;
+}
+.capsule-inner{padding:clamp(24px,3vw,36px);padding-top:clamp(36px,4vw,44px)}
+.capsule-locked{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  color:var(--violet-hi);background:rgba(124,77,186,.12);
+  padding:5px 12px;border-radius:999px;margin-bottom:16px;
+}
+.capsule-to{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--wax-hi)}
+.capsule-title{font-family:var(--serif);font-size:clamp(22px,3vw,30px);font-weight:600;color:var(--ink);margin:7px 0 5px}
+.capsule-when{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.07em;margin-bottom:18px}
+.capsule-body{
+  font-family:var(--serif);font-size:17px;line-height:1.8;color:var(--ink2);
+  filter:blur(5px);user-select:none;opacity:.55;
+}
+.capsule-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.capsule-tag{
+  font-size:11.5px;font-weight:600;color:var(--violet-hi);
+  background:rgba(124,77,186,.12);padding:4px 12px;border-radius:999px;
+}
+/* Countdown */
+.capsule-cd{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px;
+}
+.cd-unit{
+  text-align:center;background:rgba(255,255,255,.04);
+  border:1px solid var(--line2);border-radius:10px;padding:10px 6px;
+}
+.cd-n{
+  display:block;font-family:var(--mono);font-size:clamp(18px,2.5vw,22px);
+  color:var(--violet-hi);font-weight:500;line-height:1;
+}
+.cd-l{display:block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:3px}
+
+/* Saved capsules list */
+.saved{margin-top:18px;display:flex;flex-direction:column;gap:9px}
+.saved-item{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:12px;
+  padding:12px 14px;
+}
+.saved-ico{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  background:rgba(124,77,186,.14);display:grid;place-items:center;font-size:14px;
+}
+.saved-t{flex:1}
+.saved-t b{display:block;font-size:13.5px;color:var(--ink)}
+.saved-t span{font-size:11.5px;color:var(--ink3)}
+.saved-date{font-family:var(--mono);font-size:11px;color:var(--violet-hi);font-weight:500}
+
+/* ── Feature blocks ── */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feature{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;
+  transition:transform .3s var(--ease),box-shadow .3s;
+}
+.feature:hover{transform:translateY(-5px);box-shadow:0 16px 42px rgba(124,77,186,.18)}
+.feature-icon{
+  width:48px;height:48px;border-radius:14px;margin-bottom:16px;
+  background:rgba(124,77,186,.14);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:22px;
+}
+.feature h3{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.feature p{font-size:13.5px;color:var(--ink2);line-height:1.7}
+
+/* ── FOOTER ── */
+.foot{
+  border-top:1px solid var(--line);padding:40px 22px;
+  text-align:center;position:relative;z-index:1;
+}
+.foot-seal{
+  font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);margin-bottom:6px;
+}
+.foot-mono{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--violet-hi);margin-top:8px}
+.foot-s{font-size:11.5px;color:var(--ink3);margin-top:6px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  .compose-layout{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr 1fr}
+  .capsule-cd{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:520px){
+  .features{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+}
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="stars" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">⏳</div>
+      <div>
+        <div class="brand-name">Time Capsule</div>
+        <div class="brand-sub">Sealed · Private · Timeless</div>
+      </div>
+    </div>
+    <div class="nav-mono">LOCKED UNTIL &nbsp;<b id="navDate">14 FEB 2036</b></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="wax-seal" id="heroSeal" role="button" aria-label="Sealed capsule" tabindex="0">
+      <span class="seal-icon">❤</span>
+    </div>
+    <span class="hero-eyebrow">For the future &nbsp;·&nbsp; Not yet time</span>
+    <h1 class="hero-h1">A letter, <em>sealed</em><br/>until the date.</h1>
+    <p class="hero-sub">Write a message, add photos and a voice note. Choose the day it opens. Until then — it stays locked, even from you.</p>
+    <div class="hero-locked">
+      <span class="locked-dot"></span>
+      LOCKED &nbsp;·&nbsp; OPENS <span id="heroOpenDate">14 FEB 2036</span>
+    </div>
+    <div class="hero-cta-row">
+      <a href="#compose" class="btn btn-violet">
+        ✍️ Write a Capsule
+      </a>
+      <a href="#how" class="btn btn-ghost">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="sec sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="eyebrow rev">How it works</span>
+      <h2 class="sec-h2 rev">Simple. <em>Sacred.</em> Sealed.</h2>
+      <p class="sec-lead rev">Three steps — and your words live safely until the moment you choose.</p>
+    </div>
+    <div class="steps">
+      <div class="step rev" style="transition-delay:.05s">
+        <div class="step-num">STEP 01</div>
+        <div class="step-icon">✍️</div>
+        <h3>Write Your Letter</h3>
+        <p>Pour your heart into words. Add photos, a voice note, a favourite song — anything that captures this moment.</p>
+      </div>
+      <div class="step rev" style="transition-delay:.15s">
+        <div class="step-num">STEP 02</div>
+        <div class="step-icon">📅</div>
+        <h3>Choose the Date</h3>
+        <p>Set any future date — your anniversary, a milestone birthday, ten years from now. We keep it locked until then.</p>
+      </div>
+      <div class="step rev" style="transition-delay:.25s">
+        <div class="step-num">STEP 03</div>
+        <div class="step-icon">🔓</div>
+        <h3>Open on Time</h3>
+        <p>On the day, we send a reminder. The capsule unseals and your future self reads every word, exactly as written.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPOSE + PREVIEW -->
+<section id="compose" class="sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="eyebrow rev">Create Yours</span>
+      <h2 class="sec-h2 rev">Write your <em>capsule</em></h2>
+      <p class="sec-lead rev">Fill in the form — watch the sealed capsule appear live on the right.</p>
+    </div>
+    <div class="compose-layout">
+
+      <!-- COMPOSE FORM -->
+      <div class="panel rev-l">
+        <div class="panel-title">Compose</div>
+        <div class="panel-sub">Saved privately. Encrypted until the opening date.</div>
+
+        <label>Who is it for</label>
+        <input id="fTo" value="To: Our future selves" placeholder="To: …"/>
+
+        <label>Title</label>
+        <input id="fTitle" value="Dear us, twenty years from now" placeholder="A title for your capsule"/>
+
+        <label>Your letter</label>
+        <textarea id="fBody">If you are reading this, the world moved on and so did we. We hope the house still smells of morning chai, and that nobody sold the blue sofa. Most of all, we hope you are still together — still loud at dinner, still laughing at the same old jokes.</textarea>
+
+        <label>Include</label>
+        <div class="chips" id="chips">
+          <button class="chip on" data-i="photos">📸 Photos</button>
+          <button class="chip on" data-i="voice">🎙 Voice notes</button>
+          <button class="chip" data-i="recipe">📜 A recipe</button>
+          <button class="chip" data-i="music">🎵 A song</button>
+          <button class="chip" data-i="video">🎬 A short video</button>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Opens on</label>
+            <input type="date" id="fDate" value="2036-02-14"/>
+          </div>
+          <div>
+            <label>Rule</label>
+            <select id="fRule">
+              <option>Opens on the exact date</option>
+              <option>Open for the whole week</option>
+              <option>Open on our anniversary</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toggle">
+          <div class="toggle-text">
+            <b>Send a reminder</b>
+            <span>We nudge you the morning it opens.</span>
+          </div>
+          <div class="sw on" id="sw"></div>
+        </div>
+
+        <button class="seal-btn" id="sealBtn">Seal the capsule 🔒</button>
+      </div>
+
+      <!-- LIVE PREVIEW -->
+      <div class="rev-r" style="padding-top:32px">
+        <div class="capsule" id="capsule">
+          <div class="capsule-seal">❤</div>
+          <div class="capsule-inner">
+            <span class="capsule-locked"><span class="locked-dot" style="width:7px;height:7px"></span> LOCKED</span>
+            <div class="capsule-to" id="pTo">To: Our future selves</div>
+            <div class="capsule-title" id="pTitle">Dear us, twenty years from now</div>
+            <div class="capsule-when" id="pWhen">Opens 14 Feb 2036 · Opens on the exact date</div>
+            <div class="capsule-body" id="pBody">If you are reading this, the world moved on…</div>
+            <div class="capsule-tags" id="pTags"></div>
+            <div class="capsule-cd">
+              <div class="cd-unit"><span class="cd-n" id="cd-y">—</span><span class="cd-l">Years</span></div>
+              <div class="cd-unit"><span class="cd-n" id="cd-d">—</span><span class="cd-l">Days</span></div>
+              <div class="cd-unit"><span class="cd-n" id="cd-h">—</span><span class="cd-l">Hours</span></div>
+              <div class="cd-unit"><span class="cd-n" id="cd-m">—</span><span class="cd-l">Mins</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="saved" id="saved"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="sec sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="eyebrow rev">Why Time Capsule</span>
+      <h2 class="sec-h2 rev">Built for the <em>future you</em></h2>
+    </div>
+    <div class="features">
+      <div class="feature rev-s" style="transition-delay:.05s">
+        <div class="feature-icon">🔒</div>
+        <h3>Truly locked</h3>
+        <p>Content is encrypted until the opening date. Not even the sender can peek early — it's sealed the moment you submit.</p>
+      </div>
+      <div class="feature rev-s" style="transition-delay:.15s">
+        <div class="feature-icon">📸</div>
+        <h3>Photos & voice</h3>
+        <p>Add images and voice recordings so the future hears your actual voice, not just your words.</p>
+      </div>
+      <div class="feature rev-s" style="transition-delay:.25s">
+        <div class="feature-icon">⏰</div>
+        <h3>Opens on time</h3>
+        <p>Choose a date, an occasion, or a milestone. A gentle reminder arrives the morning it unlocks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-seal">Time Capsule</div>
+  <div class="foot-mono">NOT TO BE OPENED BEFORE THE DATE</div>
+  <div class="foot-s">Words and pictures, kept for later · Powered by <strong>OurMoment</strong></div>
+</footer>
+
+<script>
+/* ── Live preview logic ── */
+function fmtDate(d){
+  try{return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
+  catch(e){return d}
+}
+function activeTags(){
+  return Array.from(document.querySelectorAll('.chip.on')).map(function(c){return c.textContent.trim()});
+}
+function paint(){
+  var to=document.getElementById('fTo').value||'To: someone special';
+  var title=document.getElementById('fTitle').value||'Untitled letter';
+  var body=document.getElementById('fBody').value||'';
+  var date=document.getElementById('fDate').value||'2036-02-14';
+  var rule=document.getElementById('fRule').value;
+
+  document.getElementById('pTo').textContent=to;
+  document.getElementById('pTitle').textContent=title;
+  document.getElementById('pWhen').textContent='Opens '+fmtDate(date)+' · '+rule.toLowerCase();
+  document.getElementById('pBody').textContent=body.slice(0,120)+(body.length>120?'…':'');
+  document.getElementById('navDate').textContent=fmtDate(date).toUpperCase();
+  document.getElementById('heroOpenDate').textContent=fmtDate(date).toUpperCase();
+
+  var tags=activeTags();
+  document.getElementById('pTags').innerHTML=tags.map(function(t){return'<span class="capsule-tag">'+t+'</span>'}).join('');
+
+  countdown(date);
+}
+function countdown(dateStr){
+  var t=new Date(dateStr+'T00:00:00').getTime()-Date.now();
+  if(t<0)t=0;
+  var d=Math.floor(t/86400000);
+  document.getElementById('cd-y').textContent=Math.floor(d/365);
+  document.getElementById('cd-d').textContent=d%365;
+  document.getElementById('cd-h').textContent=Math.floor(t/3600000)%24;
+  document.getElementById('cd-m').textContent=Math.floor(t/60000)%60;
+}
+
+['fTo','fTitle','fBody','fDate','fRule'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el){el.addEventListener('input',paint);el.addEventListener('change',paint)}
+});
+document.getElementById('chips').addEventListener('click',function(e){
+  var c=e.target.closest('.chip');if(!c)return;c.classList.toggle('on');paint();
+});
+document.getElementById('sw').addEventListener('click',function(){this.classList.toggle('on')});
+
+/* Seal button */
+document.getElementById('sealBtn').addEventListener('click',function(){
+  var btn=this;
+  btn.classList.add('done');btn.textContent='Sealed ✓  Write another capsule';
+  var title=document.getElementById('fTitle').value||'Untitled';
+  var date=document.getElementById('fDate').value||'2036-02-14';
+  var s=document.createElement('div');s.className='saved-item';
+  s.innerHTML='<div class="saved-ico">🔒</div>'
+    +'<div class="saved-t"><b>'+title+'</b><span>'+document.getElementById('fTo').value+'</span></div>'
+    +'<span class="saved-date">'+fmtDate(date)+'</span>';
+  document.getElementById('saved').prepend(s);
+  document.getElementById('capsule').scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(function(){btn.classList.remove('done');btn.textContent='Seal the capsule 🔒';},2800);
+});
+
+/* Wax seal pulse on click */
+document.getElementById('heroSeal').addEventListener('click',function(){
+  this.style.transform='scale(1.15) rotate(-8deg)';
+  var self=this;setTimeout(function(){self.style.transform='';},400);
+});
+
+paint();
+setInterval(function(){
+  var d=document.getElementById('fDate').value||'2036-02-14';countdown(d);
+},60000);
+
+/* ── Scroll reveal ── */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rev,.rev-l,.rev-r,.rev-s').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>

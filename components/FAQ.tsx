@@ -6,27 +6,23 @@ import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
 const faqs = [
   {
     q: "What is a digital invitation website?",
-    a: "A personalised, mobile-friendly wedding website with your names, dates, venues, events and photos. Guests just tap the link on their phone — no app needed.",
+    a: "A personalised, mobile-friendly site with your names, dates, venues, events and photos. Guests tap the link — no app needed.",
   },
   {
-    q: "How much does a wedding invitation website cost in India?",
-    a: "OurMoment wedding invitation websites start at ₹1,499. Personalised wedding invitation videos start at ₹399.",
+    q: "How much does it cost?",
+    a: "Wedding invitation websites are ₹1,299. Save the date pages are ₹599, proposal pages are ₹499, and Wedding Memories experiences are ₹1,299 each. Invitation videos are ₹399.",
   },
   {
-    q: "Can it work for an Indian multi-day wedding?",
-    a: "Absolutely. Your website can include multiple events, dates and venues — Mehendi, Haldi, Sangeet, Reception — all in one beautiful site.",
+    q: "Can it cover a multi-day Indian wedding?",
+    a: "Yes — Mehendi, Haldi, Sangeet and Reception, each with its own date and venue, all in one link.",
   },
   {
-    q: "Can I share the invite on WhatsApp?",
-    a: "Yes. Your wedding website is delivered as one shareable link, and the invitation video can be sent directly to family and guests on WhatsApp.",
-  },
-  {
-    q: "Can you include Mehendi, Haldi, Sangeet and Reception?",
-    a: "Yes. Your wedding invitation website can include multiple Indian wedding events, dates and venues in one beautiful link.",
+    q: "Can I share it on WhatsApp?",
+    a: "Yes. One shareable link — guests open it instantly, with no app or login.",
   },
   {
     q: "How long does delivery take?",
-    a: "Standard personalisation takes 2–3 working days. Rush 24-hour delivery is available for most designs — just mention it when you reach out.",
+    a: "2–3 working days standard. 24-hour rush is available on most designs.",
   },
 ];
 
@@ -48,7 +44,7 @@ export default function FAQ() {
       <div className="mx-auto max-w-2xl px-5 sm:px-8">
 
         {/* Header */}
-        <div className="reveal text-center mb-14">
+        <div className="reveal-blur text-center mb-14">
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.32em]" style={{ color: "var(--primary)" }}>
             Got questions?
           </p>
@@ -108,11 +104,10 @@ export default function FAQ() {
             Still have a question?
           </p>
           <p className="mb-5 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            Call us and we&apos;ll answer in minutes — no forms, no waiting.
+            Call us — we answer in minutes. No forms, no waiting.
           </p>
           <a href={PHONE_TEL}
-            aria-label={`Call OurMoment at ${PHONE_DISPLAY}`}
-            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
+            className="cta-pulse inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
             style={{ background: "var(--primary)", boxShadow: "0 4px 16px rgba(194,24,91,0.25)" }}>
             <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
             Call {PHONE_DISPLAY}

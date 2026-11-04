@@ -11,7 +11,7 @@ interface Props {
   secondaryLabel?: string;
 }
 
-const TRUST = ["Free design preview", "48-hour rush option", "Hindi · Marathi · English"];
+const TRUST = ["Free design preview", "No extra personalisation fee", "Hindi · Marathi · English"];
 
 /**
  * Reusable closing call-to-action band.
@@ -23,7 +23,7 @@ export default function CtaBanner({
   eyebrow = "Ready when you are",
   title,
   subtitle,
-  buttonLabel = "Call to order",
+  buttonLabel = "Call to personalise",
   secondaryHref,
   secondaryLabel,
 }: Props) {
@@ -58,8 +58,7 @@ export default function CtaBanner({
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href={PHONE_TEL}
-              aria-label={`Call OurMoment to order at ${PHONE_DISPLAY}`}
-              className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-white px-8 py-3.5 text-sm font-semibold transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98] sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-white px-8 py-3.5 text-sm font-semibold transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98] sm:w-auto"
               style={{ color: "var(--primary)", boxShadow: "0 6px 24px rgba(0,0,0,0.22)" }}
             >
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

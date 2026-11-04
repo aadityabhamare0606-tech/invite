@@ -6,15 +6,15 @@ const steps = [
   {
     num: "01",
     title: "Choose a Style",
-    desc: "Browse our collection of 9 beautifully crafted invitation websites, or describe the look you have in mind.",
+    desc: "Pick a design — or tell us the look you want.",
     icon: "✦",
     iconBg: "radial-gradient(circle, #fdf5e0 0%, #fff 100%)",
     accent: "rgba(184,145,58,0.12)",
   },
   {
     num: "02",
-    title: "Share Your Details",
-    desc: "Send us your names, event dates, venue, family details and any photos you'd like to include.",
+    title: "Send Your Details",
+    desc: "Names, dates, venue, family and photos.",
     icon: "♡",
     iconBg: "radial-gradient(circle, #f5e8ec 0%, #fff 100%)",
     accent: "rgba(194,24,91,0.08)",
@@ -22,7 +22,7 @@ const steps = [
   {
     num: "03",
     title: "We Personalise It",
-    desc: "Our designers tailor every element — text, colours, photos — so it feels completely yours.",
+    desc: "Your names, your colours, your photos.",
     icon: "✿",
     iconBg: "radial-gradient(circle, #fdf5e0 0%, #fff 100%)",
     accent: "rgba(184,145,58,0.12)",
@@ -30,7 +30,7 @@ const steps = [
   {
     num: "04",
     title: "Share One Link",
-    desc: "Your invite is live. Share it on WhatsApp, Instagram, or email — guests open it instantly.",
+    desc: "Go live. Share on WhatsApp or Instagram.",
     icon: "⟡",
     iconBg: "radial-gradient(circle, #f5e8ec 0%, #fff 100%)",
     accent: "rgba(194,24,91,0.08)",
@@ -45,7 +45,7 @@ export default function HowItWorks() {
       (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
       { threshold: 0.08 }
     );
-    ref.current?.querySelectorAll(".reveal, .reveal-pop, .reveal-scale").forEach((el) => obs.observe(el));
+    ref.current?.querySelectorAll(".reveal, .reveal-pop, .reveal-scale, .reveal-blur").forEach((el) => obs.observe(el));
     return () => obs.disconnect();
   }, []);
 
@@ -68,7 +68,7 @@ export default function HowItWorks() {
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
 
         {/* ── Header ── */}
-        <div className="reveal text-center mb-16 md:mb-20">
+        <div className="reveal-blur text-center mb-16 md:mb-20">
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.32em]" style={{ color: "var(--primary)" }}>
             Simple &amp; seamless
           </p>
@@ -154,7 +154,7 @@ export default function HowItWorks() {
           </p>
           <a
             href={PHONE_TEL}
-            className="btn-shimmer inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-[14px] font-semibold text-white"
+            className="btn-shimmer cta-pulse inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-[14px] font-semibold text-white"
             style={{ boxShadow: "0 6px 28px rgba(194,24,91,0.3)" }}
           >
             <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">

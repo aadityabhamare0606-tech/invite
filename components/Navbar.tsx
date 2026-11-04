@@ -10,6 +10,14 @@ const NAV_LINKS = [
   { label: "Proposals",      href: "/proposals",     page: true  },
 ] as const;
 
+/*
+const MEMORIES_LINKS = [
+  { label: "Our Family Story", href: "/memories/family-story", desc: "Private family archive" },
+  { label: "Wedding Memories", href: "/memories/wedding-memories", desc: "Guest photos & wishes" },
+  { label: "Time Capsule", href: "/memories/time-capsule", desc: "Letters for the future" },
+] as const;
+*/
+
 export default function Navbar() {
   const [open,    setOpen]    = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -39,10 +47,10 @@ export default function Navbar() {
           willChange: "opacity",
         }} />
 
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:px-8">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 shrink-0 group" aria-label="OurMoment home">
+        <Link href="/" className="flex shrink-0 items-center gap-3 group" aria-label="OurMoment home">
           <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(194,24,91,0.12)] transition-transform duration-200 group-hover:scale-105"
             style={{ background: "linear-gradient(135deg, #fff7f9 0%, #ffeaf1 100%)", boxShadow: "0 6px 18px rgba(194,24,91,0.12)" }}>
             <svg width="17" height="17" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -66,12 +74,15 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop nav — the four items need ~936px in total, so the nav only
+            appears from lg (1024px) and tightens its padding until xl. The
+            old `md:` breakpoint let the links wrap onto three lines inside a
+            64px header between 768px and ~950px. */}
+        <nav className="hidden lg:flex items-center gap-1">
           {NAV_LINKS.map((n) => (
             n.page
               ? <Link key={n.label} href={n.href}
-                  className="relative px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)] inline-flex items-center gap-1.5"
+                  className="relative shrink-0 whitespace-nowrap px-3 xl:px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)] inline-flex items-center gap-1.5"
                   style={{ color: "var(--text-mid)" }}>
                   {n.label}
                   <span className="inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em]"
@@ -80,28 +91,60 @@ export default function Navbar() {
                   </span>
                 </Link>
               : <a key={n.label} href={n.href}
-                  className="px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+                  className="shrink-0 whitespace-nowrap px-3 xl:px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
                   style={{ color: "var(--text-mid)" }}>
                   {n.label}
                 </a>
           ))}
+          {/* Temporarily keep the full Memories collection dropdown here for later restoration.
+          <div className="relative group">
+            <button
+              className="shrink-0 whitespace-nowrap px-3 xl:px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 group-hover:bg-[var(--primary-soft)] group-hover:text-[var(--primary)] inline-flex items-center gap-1.5"
+              style={{ color: "var(--text-mid)" }}
+              aria-haspopup="menu"
+              aria-expanded="false">
+              Memories
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-[280px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 pointer-events-none group-hover:pointer-events-auto">
+              <div className="rounded-2xl border bg-white/98 backdrop-blur-xl shadow-[0_20px_60px_rgba(136,14,79,0.12)] overflow-hidden" style={{ borderColor: "var(--border)" }}>
+                <Link href="/memories" className="block px-5 py-4 border-b transition-colors hover:bg-[var(--primary-soft)]" style={{ borderColor: "var(--border)" }}>
+                  <div className="text-[14px] font-semibold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-cormorant)" }}>The Memories Collection</div>
+                  <div className="text-[12px] mt-1" style={{ color: "var(--text-muted)" }}>All demos in one place</div>
+                </Link>
+                {MEMORIES_LINKS.map((m) => (
+                  <Link key={m.href} href={m.href} className="flex flex-col px-5 py-3 transition-colors hover:bg-[var(--primary-soft)]">
+                    <span className="text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>{m.label}</span>
+                    <span className="text-[11px] mt-0.5" style={{ color: "var(--text-muted)" }}>{m.desc}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+              */}
+          <Link href="/memories"
+            className="shrink-0 whitespace-nowrap px-3 xl:px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+            style={{ color: "var(--text-mid)" }}>
+            Wedding Moments
+          </Link>
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <a href={PHONE_TEL}
-            className="btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13px] font-semibold text-white"
+            className="btn-primary inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-[13px] font-semibold text-white"
             style={{ boxShadow: "0 4px 16px rgba(194,24,91,0.28)" }}>
             <svg className="h-3.5 w-3.5 fill-white" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/>
             </svg>
-            Call to Order
+            Call to personalise
           </a>
         </div>
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden flex h-9 w-9 items-center justify-center rounded-full border transition-colors duration-200 hover:bg-[var(--primary-soft)]"
+          className="lg:hidden flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 hover:bg-[var(--primary-soft)]"
           style={{ borderColor: "var(--border)", color: "var(--primary)" }}
           onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">
           <span className="flex flex-col gap-[5px] items-center justify-center w-4">
@@ -116,8 +159,8 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      <div className="md:hidden overflow-hidden transition-all duration-250"
-        style={{ maxHeight: open ? "300px" : "0", opacity: open ? 1 : 0 }}>
+      <div className="lg:hidden overflow-hidden transition-all duration-250"
+        style={{ maxHeight: open ? "520px" : "0", opacity: open ? 1 : 0 }}>
         <div className="px-5 pb-5 pt-2 space-y-1"
           style={{ background: "rgba(255,255,255,0.98)", borderTop: "1px solid var(--border)" }}>
           {NAV_LINKS.map((n) => (
@@ -139,6 +182,31 @@ export default function Navbar() {
                   {n.label}
                 </a>
           ))}
+          {/* Temporarily keep the full Memories collection links here for later restoration.
+          <div className="pt-2">
+            <div className="px-4 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: "var(--text-muted)" }}>Memories</div>
+            <Link href="/memories" onClick={() => setOpen(false)}
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+              style={{ color: "var(--text-mid)" }}>
+              <span style={{ color: "var(--primary)", fontSize: 10 }}>♥</span>
+              Memories Collection
+            </Link>
+            {MEMORIES_LINKS.map((m) => (
+              <Link key={m.href} href={m.href} onClick={() => setOpen(false)}
+                className="flex flex-col rounded-xl px-4 py-2.5 pl-9 transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+                style={{ color: "var(--text-mid)" }}>
+                <span className="text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>{m.label}</span>
+                <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>{m.desc}</span>
+              </Link>
+            ))}
+          </div>
+          */}
+          <Link href="/memories" onClick={() => setOpen(false)}
+            className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
+            style={{ color: "var(--text-mid)" }}>
+            <span style={{ color: "var(--primary)", fontSize: 10 }}>♥</span>
+            Wedding Moments
+          </Link>
           <div className="pt-2">
             <a href={PHONE_TEL}
               onClick={() => setOpen(false)}

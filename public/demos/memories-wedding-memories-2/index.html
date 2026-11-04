@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Aarav &amp; Ishaan - Wedding Memories. A polaroid wall of guest photos and wishes, organised by Haldi, Mehendi, Sangeet, Wedding and Reception." />
+<title>Polaroid Wall - Aarav &amp; Ishaan's Wedding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f6f0e6;--card:#fffdf8;--ink:#3a2b28;--ink-soft:#7a6a63;--line:#e6dccb;
+  --rose:#c46b7c;--rose-deep:#9d4256;--gold:#c69a4e;--sage:#8a9a78;
+  --serif:"Cormorant Garamond",serif;--sans:"Plus Jakarta Sans",sans-serif;--hand:"Caveat",cursive;--ease:cubic-bezier(.16,1,.3,1);
+}
+body{font-family:var(--sans);color:var(--ink);background:
+  radial-gradient(900px 500px at 50% -10%,rgba(196,107,124,.14),transparent 62%),var(--bg);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}
+::selection{background:var(--rose);color:#fff}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(246,240,230,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-size:22px;font-weight:600}
+.brand-mark{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(150deg,var(--rose),var(--rose-deep));color:#fff;font-size:15px;box-shadow:0 8px 18px rgba(157,66,86,.34)}
+.nav .stat{font-size:12.5px;color:var(--ink-soft)}
+.nav .stat b{color:var(--rose-deep)}
+
+.hero{text-align:center;padding:62px 22px 26px;max-width:880px;margin:0 auto}
+.eyebrow{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--rose-deep);padding:7px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.7)}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(40px,7vw,80px);line-height:1.03;margin-top:20px}
+.hero h1 em{font-style:italic;color:var(--rose-deep)}
+.hero .who{font-family:var(--hand);font-size:clamp(24px,4vw,40px);color:var(--gold);margin-top:12px}
+.hero p{color:var(--ink-soft);max-width:54ch;margin:16px auto 0;font-size:16.5px}
+
+/* FILTERS */
+.filters{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:28px auto 0;max-width:1180px;padding:0 22px}
+.chip{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink-soft);padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.7);cursor:pointer;transition:all .25s var(--ease)}
+.chip:hover{transform:translateY(-1px);color:var(--ink)}
+.chip.on{background:var(--rose-deep);color:#fff;border-color:var(--rose-deep);box-shadow:0 10px 24px rgba(157,66,86,.28)}
+
+/* WALL */
+.wall{max-width:1240px;margin:32px auto 0;padding:0 22px 20px;display:grid;gap:26px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.pola{background:#fff;padding:13px 13px 46px;border-radius:4px;box-shadow:0 16px 40px rgba(90,60,50,.16);
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease);position:relative;cursor:pointer}
+.pola:hover{transform:translateY(-8px) rotate(0deg) scale(1.03);box-shadow:0 34px 70px rgba(90,60,50,.24);z-index:5}
+.pola .img{aspect-ratio:1/1;border-radius:2px;position:relative;overflow:hidden;display:grid;place-items:center}
+.pola .img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,transparent 45%,rgba(255,255,255,.24))}
+.pola .img .ini{font-family:var(--serif);font-size:40px;color:rgba(255,255,255,.9);text-shadow:0 3px 12px rgba(0,0,0,.2)}
+.pola .cap{position:absolute;left:14px;right:14px;bottom:11px;font-family:var(--hand);font-size:20px;color:#4a3a34;line-height:1.1;text-align:center}
+.pola .ev{position:absolute;top:9px;right:9px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.92);color:var(--rose-deep);padding:3px 8px;border-radius:999px;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.tape{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-3deg);width:78px;height:22px;background:rgba(196,107,124,.28);border-left:1px dashed rgba(255,255,255,.6);border-right:1px dashed rgba(255,255,255,.6)}
+
+/* ADD CARD */
+.add{background:rgba(255,255,255,.6);border:2px dashed var(--line);border-radius:16px;padding:26px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;min-height:260px;cursor:pointer;transition:all .3s var(--ease)}
+.add:hover{border-color:var(--rose);background:#fff;transform:translateY(-4px)}
+.add .plus{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(150deg,var(--rose),var(--rose-deep));color:#fff;font-size:26px;box-shadow:0 10px 24px rgba(157,66,86,.3)}
+.add h3{font-family:var(--serif);font-size:21px}
+.add p{font-size:13.5px;color:var(--ink-soft);max-width:22ch}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:300;display:none;place-items:center;padding:24px;background:rgba(58,43,40,.55);backdrop-filter:blur(6px)}
+.modal.on{display:grid;animation:fade .3s var(--ease)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet{width:min(430px,94%);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 50px 120px rgba(0,0,0,.35);animation:pop .4s var(--ease)}
+@keyframes pop{from{transform:translateY(24px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.sheet .top{height:230px;position:relative;display:grid;place-items:center}
+.sheet .top .ini{font-family:var(--serif);font-size:64px;color:rgba(255,255,255,.92)}
+.sheet .body{padding:22px 24px 26px;text-align:center}
+.sheet .ev2{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep)}
+.sheet .wish{font-family:var(--hand);font-size:27px;line-height:1.25;margin:12px 0;color:#3a2b28}
+.sheet .from{font-size:13.5px;color:var(--ink-soft)}
+.sheet .close{margin-top:20px;width:100%;padding:13px;border:none;border-radius:999px;background:var(--rose-deep);color:#fff;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.sheet .close:hover{opacity:.9}
+
+.foot{text-align:center;padding:40px 22px 56px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line);margin-top:26px}
+.foot b{font-family:var(--serif);color:var(--ink);font-size:17px}
+.foot .hand{font-family:var(--hand);font-size:22px;color:var(--rose-deep);margin-top:6px}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <div class="brand"><div class="brand-mark">&#10084;</div><span>Aarav &amp; Ishaan</span></div>
+  <div class="stat"><b id="count">0</b> photos &amp; wishes from guests</div>
+</div></nav>
+
+<header class="hero">
+  <span class="eyebrow">Guest memories</span>
+  <h1>The <em>polaroid wall</em></h1>
+  <div class="who">Aarav weds Ishaan &middot; 14 Feb 2026 &middot; Udaipur</div>
+  <p>Every guest added a photo and a note. Filter by event, tap a polaroid to read the wish in full.</p>
+</header>
+
+<div class="filters" id="filters"></div>
+<div class="wall" id="wall"></div>
+
+<div class="modal" id="modal">
+  <div class="sheet">
+    <div class="top" id="m-top"><div class="ini" id="m-ini"></div></div>
+    <div class="body">
+      <div class="ev2" id="m-ev"></div>
+      <div class="wish" id="m-wish"></div>
+      <div class="from" id="m-from"></div>
+      <button class="close" id="m-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer class="foot"><b>Aarav &amp; Ishaan</b><br/>A memory wall from everyone who celebrated with us<div class="hand">with all our love</div></footer>
+
+<script>
+var G=['linear-gradient(150deg,#d98ba0,#a84e63)','linear-gradient(150deg,#e0b568,#b0832f)','linear-gradient(150deg,#8fa47a,#5d7a4c)','linear-gradient(150deg,#9aa7cf,#5f6fa6)','linear-gradient(150deg,#d8a089,#b06a4a)','linear-gradient(150deg,#c39ac9,#8a5f96)'];
+var PH=[
+ {n:"Meera & Karan",ev:"Haldi",w:"The yellow everywhere, and the laughter. We will never forget this haldi.",g:0},
+ {n:"Nani",ev:"Haldi",w:"My blessings to both of you. Always stay this happy.",g:1},
+ {n:"Cousins from Pune",ev:"Mehendi",w:"Seven of us, one mehendi cone, endless chaos. Worth it.",g:2},
+ {n:"Riya",ev:"Mehendi",w:"The designs were unreal. Still hiding my hands from the office.",g:5},
+ {n:"The College Gang",ev:"Sangeet",w:"We rehearsed for a month. Aarav's face during our dance = priceless.",g:3},
+ {n:"Bua",ev:"Sangeet",w:"Sang the old song at midnight and the whole hall joined in.",g:0},
+ {n:"Dadi",ev:"Wedding",w:"Watched my grandson marry the love of his life. What more can a heart hold?",g:4},
+ {n:"Ishaan's Family",ev:"Wedding",w:"Welcome to the family, Aarav. You are one of us from today.",g:1},
+ {n:"Kabir",ev:"Wedding",w:"Best day, best friends, best food. The pheras at sunrise were magic.",g:2},
+ {n:"The Wedding Party",ev:"Reception",w:"Danced until 2am. Our feet hurt and we would do it again.",g:3},
+ {n:"Office Team",ev:"Reception",w:"Wishing you both a lifetime of the joy we saw on your faces tonight.",g:5},
+ {n:"Mummy & Papa",ev:"Reception",w:"From the first day you told us, to tonight. We are so proud.",g:4}
+];
+var events=["All","Haldi","Mehendi","Sangeet","Wedding","Reception"];
+var cur="All";
+var filters=document.getElementById("filters"),wall=document.getElementById("wall"),modal=document.getElementById("modal");
+document.getElementById("count").textContent=PH.length;
+
+filters.innerHTML=events.map(function(e){return '<button class="chip'+(e==="All"?' on':'')+'" data-e="'+e+'">'+e+'</button>'}).join("");
+
+function render(){
+  var list=PH.filter(function(p){return cur==="All"||p.ev===cur});
+  wall.innerHTML=list.map(function(p,i){
+    var rot=((i*37)%11-5);
+    var ini=p.n.split(" ").map(function(w){return w[0]}).join("").slice(0,2).toUpperCase();
+    return '<div class="pola" style="transform:rotate('+rot+'deg)" data-i="'+PH.indexOf(p)+'">'+
+      '<span class="tape"></span><span class="ev">'+p.ev+'</span>'+
+      '<div class="img" style="background:'+G[p.g]+'"><span class="ini">'+ini+'</span></div>'+
+      '<div class="cap">'+p.w.split(".")[0]+'</div></div>';
+  }).join("")+
+  '<div class="add" id="addcard"><div class="plus">+</div><h3>Add your memory</h3><p>Upload a photo and leave a wish for the couple.</p></div>';
+}
+render();
+
+filters.addEventListener("click",function(e){
+  var b=e.target.closest(".chip");if(!b)return;
+  cur=b.dataset.e;
+  filters.querySelectorAll(".chip").forEach(function(c){c.classList.toggle("on",c===b)});
+  render();
+});
+wall.addEventListener("click",function(e){
+  if(e.target.closest("#addcard")){alert("Guests upload directly from the shared link - no app needed.");return;}
+  var el=e.target.closest(".pola");if(!el)return;
+  var p=PH[+el.dataset.i];
+  document.getElementById("m-top").style.background=G[p.g];
+  document.getElementById("m-ini").textContent=p.n.split(" ").map(function(w){return w[0]}).join("").slice(0,2).toUpperCase();
+  document.getElementById("m-ev").textContent=p.ev;
+  document.getElementById("m-wish").textContent="\u201C"+p.w+"\u201D";
+  document.getElementById("m-from").textContent="\u2014 "+p.n;
+  modal.classList.add("on");
+});
+document.getElementById("m-close").addEventListener("click",function(){modal.classList.remove("on")});
+modal.addEventListener("click",function(e){if(e.target===modal)modal.classList.remove("on")});
+</script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 import { memo } from "react";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
 import WeddingCollection from "@/components/WeddingCollection";
+import CorporateWeddingInvite from "@/components/CorporateWeddingInvite";
 import CtaBanner from "@/components/CtaBanner";
 import { SITE_URL } from "@/lib/seo";
 
@@ -25,7 +25,7 @@ const structuredData = [
           brand: { "@type": "Brand", name: "OurMoment" },
           offers: {
             "@type": "Offer",
-            price: "1499",
+            price: "1299",
             priceCurrency: "INR",
             availability: "https://schema.org/InStock",
             url: SITE_URL,
@@ -61,7 +61,7 @@ const structuredData = [
           brand: { "@type": "Brand", name: "OurMoment" },
           offers: {
             "@type": "Offer",
-            price: "789",
+            price: "599",
             priceCurrency: "INR",
             availability: "https://schema.org/InStock",
             url: `${SITE_URL}/save-the-date-website-india`,
@@ -87,7 +87,7 @@ const structuredData = [
         name: "How much does a wedding invitation website cost in India?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "OurMoment wedding invitation websites start at Rs 1,499. Wedding invitation videos start at Rs 399 and save the date pages start at Rs 789.",
+          text: "Wedding invitation websites are Rs 1,299, save the date pages are Rs 599, proposal pages are Rs 499, Wedding Memories experiences are Rs 1,299 each, and wedding invitation videos start at Rs 399.",
         },
       },
       {
@@ -123,7 +123,6 @@ const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
 const FAQ = dynamic(() => import("@/components/FAQ"));
 const Footer = dynamic(() => import("@/components/Footer"));
 const TrustNumbers = dynamic(() => import("@/components/TrustNumbers"));
-const Testimonials = dynamic(() => import("@/components/Testimonials"));
 
 /* Stable wrapped components so filter state doesn't re-render them */
 const StableFeelSection = memo(FeelSection);
@@ -132,7 +131,6 @@ const StableHowItWorks = memo(HowItWorks);
 const StableFAQ = memo(FAQ);
 const StableFooter = memo(Footer);
 const StableTrust = memo(TrustNumbers);
-const StableTestimonials = memo(Testimonials);
 
 export default function Home() {
   return (
@@ -146,11 +144,10 @@ export default function Home() {
       ))}
       <Navbar />
 
-      {/* 1 — Hero: keyword-led H1 + price + call CTA above the fold */}
-      <Hero />
-
-      {/* 2 — Website invite designs + Save the Date + Proposals */}
-      <WeddingCollection activeFilter="All" />
+      {/* 1 — Website invite designs + Save the Date + Proposals, with
+          use-case filters and an in-page live preview of each design. */}
+      <WeddingCollection />
+      <CorporateWeddingInvite />
 
       {/* 3 — Feel the experience (mini invite preview + feature cards) */}
       <StableFeelSection />
@@ -161,9 +158,6 @@ export default function Home() {
       {/* 5 — The stat cards (99% happy couples etc.) */}
       <StableTrust />
 
-      {/* 6 — Testimonial marquee */}
-      <StableTestimonials />
-
       {/* 7 — How It Works, FAQ */}
       <StableHowItWorks />
       <StableFAQ />
@@ -172,8 +166,8 @@ export default function Home() {
       <CtaBanner
         eyebrow="Your wedding deserves this"
         title="One beautiful link for your whole wedding"
-        subtitle="Personalised with your names, dates and events — and a free preview before you pay anything. Most invites are ready in 48 hours."
-        buttonLabel="Call to order"
+        subtitle="We’ll personalise the experience for your day. Tell us what matters to you, and we’ll shape the details together—with no extra personalisation fee."
+        buttonLabel="Call to personalise"
         secondaryHref="/save-the-date"
         secondaryLabel="See save the date"
       />

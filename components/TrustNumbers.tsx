@@ -36,10 +36,10 @@ function Counter({ to, duration = 1600, suffix = "" }: { to: number; duration?: 
 
 const STATS = [
   {
-    value: 2400,
+    value: 1239,
     suffix: "+",
-    label: "Invites delivered",
-    sub: "Across India, every style of wedding",
+    label: "Couples",
+    sub: "Making their day personal",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -50,8 +50,8 @@ const STATS = [
   {
     value: 99,
     suffix: "%",
-    label: "Happy couples",
-    sub: "Most share it with us again next year",
+    label: "Happy customers",
+    sub: "Experiences made with care",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -59,10 +59,10 @@ const STATS = [
     ),
   },
   {
-    value: 48,
-    suffix: "h",
-    label: "Average delivery",
-    sub: "From order to live, shareable link",
+    value: 3,
+    suffix: "",
+    label: "Languages",
+    sub: "Hindi · Marathi · English",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
@@ -71,10 +71,10 @@ const STATS = [
     ),
   },
   {
-    value: 5,
-    suffix: "★",
-    label: "Average rating",
-    sub: "Rated by couples across India",
+    value: 2,
+    suffix: "",
+    label: "Ways to make it yours",
+    sub: "Choose a design or dream one up",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
@@ -95,7 +95,7 @@ export default function TrustNumbers() {
       }),
       { threshold: 0.06 }
     );
-    el.querySelectorAll(".reveal, .reveal-pop").forEach((n) => obs.observe(n));
+    el.querySelectorAll(".reveal, .reveal-pop, .reveal-blur").forEach((n) => obs.observe(n));
     return () => obs.disconnect();
   }, []);
 
@@ -112,7 +112,7 @@ export default function TrustNumbers() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="reveal mb-14 text-center">
+        <div className="reveal-blur mb-14 text-center">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.32em]" style={{ color: "var(--primary)" }}>
             Trusted across India
           </p>
@@ -121,6 +121,11 @@ export default function TrustNumbers() {
             Thousands of weddings —{" "}
             <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>one trusted team</em>
           </h2>
+          <div className="flex items-center justify-center gap-3 mt-5">
+            <div className="h-px w-12 section-divider-line" style={{ maxWidth: 48, margin: 0 }} />
+            <span className="animate-heart" style={{ color: "var(--primary)", fontSize: 14 }}>♥</span>
+            <div className="h-px w-12 section-divider-line" style={{ maxWidth: 48, margin: 0 }} />
+          </div>
         </div>
 
         {/* Stats grid */}
@@ -131,7 +136,7 @@ export default function TrustNumbers() {
               style={{ transitionDelay: `${i * 0.09}s` }}>
 
               {/* Icon */}
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
+              <div className="stat-icon-wrap mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
                 style={{ background: "var(--primary-soft)", color: "var(--primary)" }}>
                 {s.icon}
               </div>

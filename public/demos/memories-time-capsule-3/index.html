@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="The Antique Letter Box - a wax-sealed collection of letters written to the future, kept in an old wooden box until the day they are opened." />
+<title>The Antique Letter Box - Letters For The Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0e6d2;--paper:#fbf5e6;--ink:#3a2a1c;--ink-soft:#7c6752;--line:#e0d0b4;
+  --wood:#8a5a32;--wood-2:#6a3f1e;--wax:#a63a34;--wax-2:#7c2420;--gold:#a97d34;
+  --serif:"Cormorant Garamond",serif;--sans:"Plus Jakarta Sans",sans-serif;--hand:"Caveat",cursive;--ease:cubic-bezier(.16,1,.3,1);
+}
+body{font-family:var(--sans);color:var(--ink);background:
+  radial-gradient(900px 500px at 50% -10%,rgba(138,90,50,.16),transparent 60%),var(--bg);
+  min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.5;background-image:radial-gradient(rgba(120,90,50,.07) 1px,transparent 1px);background-size:5px 5px}
+a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}
+::selection{background:var(--wax);color:#fff}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(240,230,210,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1120px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-size:22px;font-weight:600}
+.brand-mark{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(150deg,var(--wood),var(--wood-2));color:#f4e2c4;font-size:16px;box-shadow:0 8px 18px rgba(106,63,30,.34)}
+.nav .meta{font-family:var(--hand);font-size:17px;color:var(--wood-2)}
+
+.head{text-align:center;padding:58px 22px 14px;max-width:820px;margin:0 auto}
+.eyebrow{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--wax);padding:7px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6)}
+.head h1{font-family:var(--serif);font-weight:600;font-size:clamp(38px,6.6vw,74px);line-height:1.03;margin-top:20px}
+.head h1 em{font-style:italic;color:var(--wax)}
+.head p{color:var(--ink-soft);max-width:52ch;margin:16px auto 0;font-size:16.5px}
+
+/* BOX */
+.stage{display:grid;place-items:center;padding:30px 22px 10px;perspective:1200px}
+.box{position:relative;width:min(420px,92vw)}
+.box .lid{position:absolute;left:0;right:0;top:0;height:96px;border-radius:14px 14px 6px 6px;
+  background:linear-gradient(160deg,#a26c3d,#7a4a24 60%,#65391a);
+  border:1px solid rgba(60,34,12,.4);box-shadow:0 20px 40px rgba(70,40,16,.34),inset 0 1px 0 rgba(255,235,200,.22);
+  transform-origin:bottom center;transition:transform 1s var(--ease);z-index:3}
+.box.open .lid{transform:rotateX(-118deg) translateY(-10px)}
+.box .lid .strap{position:absolute;left:50%;top:6px;bottom:6px;width:34px;transform:translateX(-50%);background:linear-gradient(180deg,#5c3417,#472610);border-radius:4px;box-shadow:inset 0 0 8px rgba(0,0,0,.5)}
+.box .lid .plate{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);width:64px;height:22px;border-radius:5px;background:linear-gradient(150deg,var(--gold),#d9b264);box-shadow:0 3px 8px rgba(0,0,0,.36)}
+.box .base{position:relative;margin-top:58px;border-radius:8px 8px 16px 16px;padding:26px;
+  background:linear-gradient(160deg,#9a6236,#72401c 62%,#5d3013);border:1px solid rgba(60,34,12,.44);
+  box-shadow:0 44px 90px rgba(70,40,16,.4),inset 0 2px 0 rgba(255,235,200,.16),inset 0 -20px 50px rgba(0,0,0,.36);min-height:230px}
+.box .base .plank{position:absolute;inset:12px;border-radius:6px;border:1px dashed rgba(255,235,200,.16);pointer-events:none}
+.box .empty{position:absolute;inset:26px;display:grid;place-items:center;text-align:center;color:rgba(255,235,200,.6);font-family:var(--hand);font-size:22px;transition:opacity .5s}
+.box.open .empty{opacity:0}
+.letters{position:relative;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(14px);transition:opacity .8s var(--ease) .5s,transform .8s var(--ease) .5s;pointer-events:none}
+.box.open .letters{opacity:1;transform:none;pointer-events:auto}
+.letters .mini{display:flex;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:11px 14px;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.letters .mini:hover{transform:translateX(6px);box-shadow:0 12px 28px rgba(70,40,16,.2)}
+.letters .mini .wax{width:30px;height:30px;border-radius:50%;flex:0 0 auto;background:radial-gradient(circle at 36% 30%,#c14c45,var(--wax-2));display:grid;place-items:center;color:#f4d9b0;font-family:var(--serif);font-size:14px;box-shadow:0 4px 10px rgba(124,36,32,.4)}
+.letters .mini .t{flex:1;min-width:0}
+.letters .mini .t b{display:block;font-family:var(--serif);font-size:17px;font-weight:600}
+.letters .mini .t span{font-size:12px;color:var(--ink-soft)}
+.letters .mini .y{font-family:var(--mono,.6);font-size:11px;font-weight:700;color:var(--wax);letter-spacing:.06em}
+.btn{margin:22px auto 0;display:block;padding:15px 32px;border:none;border-radius:999px;font-family:var(--sans);font-size:14.5px;font-weight:600;cursor:pointer;transition:all .25s var(--ease);
+  background:linear-gradient(150deg,var(--wax),var(--wax-2));color:#fff;box-shadow:0 14px 32px rgba(124,36,32,.3)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 20px 44px rgba(124,36,32,.4)}
+
+/* LETTER VIEW */
+.reader{max-width:700px;margin:8px auto 0;padding:0 22px;opacity:0;transform:translateY(24px);pointer-events:none;transition:all .7s var(--ease)}
+.reader.show{opacity:1;transform:none;pointer-events:auto}
+.reader .paper{background:
+  linear-gradient(170deg,#fdf9ee,#f6efdc);border-radius:14px;padding:46px 42px 34px;position:relative;
+  box-shadow:0 36px 90px rgba(70,40,16,.34);border:1px solid #ece0c6}
+.reader .paper::before{content:"";position:absolute;inset:0;border-radius:14px;opacity:.6;background-image:radial-gradient(rgba(150,120,80,.09) 1px,transparent 1px);background-size:6px 6px}
+.reader .wax-top{position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#c14c45,var(--wax-2));display:grid;place-items:center;color:#f4d9b0;font-family:var(--serif);font-size:24px;box-shadow:0 12px 26px rgba(124,36,32,.4);z-index:2}
+.reader .to{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--wax)}
+.reader h2{font-family:var(--serif);font-size:clamp(28px,4.4vw,42px);font-weight:600;margin:8px 0 6px;line-height:1.1}
+.reader .date{font-size:12.5px;color:var(--ink-soft);letter-spacing:.06em;margin-bottom:22px}
+.reader p{font-family:var(--serif);font-size:19.5px;line-height:1.86;color:#443529;margin-bottom:16px;position:relative}
+.reader .who{margin-top:24px;font-family:var(--hand);font-size:26px;color:var(--wax)}
+.reader .controls{display:flex;gap:10px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+.reader .controls button{padding:11px 22px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.7);font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:all .2s}
+.reader .controls button:hover{color:var(--ink);border-color:var(--wood);transform:translateY(-1px)}
+
+.foot{text-align:center;padding:44px 22px 58px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line);margin-top:38px}
+.foot b{font-family:var(--serif);color:var(--ink);font-size:17px}
+.foot .hand{font-family:var(--hand);font-size:22px;color:var(--wax);margin-top:6px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <div class="brand"><div class="brand-mark">&#9993;</div><span>The Antique Letter Box</span></div>
+  <div class="meta">4 letters &middot; sealed with wax</div>
+</div></nav>
+
+<header class="head">
+  <span class="eyebrow">A time capsule of letters</span>
+  <h1>Letters for the <em>future</em></h1>
+  <p>Four letters, written today and sealed with wax, to be opened on a date we chose years ago. Lift the lid, break a seal, read what we could not say out loud.</p>
+</header>
+
+<div class="stage">
+  <div class="box" id="box">
+    <div class="lid"><span class="strap"></span><span class="plate"></span></div>
+    <div class="base">
+      <div class="plank"></div>
+      <div class="empty">sealed for later&hellip;</div>
+      <div class="letters" id="letters"></div>
+    </div>
+  </div>
+</div>
+
+<button class="btn" id="open">Open the box</button>
+
+<div class="reader" id="reader">
+  <div class="paper">
+    <div class="wax-top" id="r-seal">&#10084;</div>
+    <div class="to" id="r-to"></div>
+    <h2 id="r-title"></h2>
+    <div class="date" id="r-date"></div>
+    <div id="r-body"></div>
+    <div class="who" id="r-who"></div>
+  </div>
+  <div class="controls">
+    <button id="back">Back to the box</button>
+  </div>
+</div>
+
+<footer class="foot"><b>The Letter Box</b><br/>Written now, meant for later<div class="hand">sealed with love</div></footer>
+
+<script>
+var L=[
+ {to:"To: Our daughter, on her wedding day",title:"On the day you marry",date:"Sealed 2026 &middot; Open 2046",seal:"&#10084;",who:"\u2014 Mummy & Papa",
+  body:["You were three years old when we sealed this, singing off-key in the kitchen. If you are reading it, you are grown, and someone has promised you a lifetime.",
+        "We want you to know we never imagined this day would arrive. We still see you chasing the neighbour's cat and refusing to sleep without four stories.",
+        "Marry someone kind. The rest, we promise, takes care of itself."]},
+ {to:"To: Whoever finds this house next",title:"To the next family here",date:"Sealed 2026 &middot; Open when we leave",seal:"&#8962;",who:"\u2014 The Sharmas",
+  body:["If you are reading this, you live where we lived, and the mango tree in the yard is yours now.",
+        "Water it in April. The roots hate dry summers. The third step creaks \u2014 we never fixed it, and now neither should you.",
+        "We hope your children are as loud as ours were, and as happy."]},
+ {to:"To: Me, at fifty",title:"A note to my older self",date:"Sealed 2026 &middot; Open 2056",seal:"&#9998;",who:"\u2014 Ananya, aged twenty-four",
+  body:["Hello from the kitchen table, at 1am, writing this because I could not sleep.",
+        "I hope you did the brave thing. Not the safe thing, the brave one. I hope you still call home on Sundays and still hate goodbyes.",
+        "If it did not work out the way I planned \u2014 that is alright. I forgive you in advance."]},
+ {to:"To: Our grandchildren",title:"What we were like",date:"Sealed 2026 &middot; Open 2076",seal:"&#10056;",who:"\u2014 Dadi & Dada",
+  body:["You will never meet us, and that is a strange thing to write down. So here is everything we want you to know.",
+        "We were not rich, but our table was always full. We argued loudly and forgave quickly. We kept every photograph and every embarrassing haircut.",
+        "Be gentle with each other. That is the whole of what we learned."]}
+];
+var box=document.getElementById("box"),letters=document.getElementById("letters"),reader=document.getElementById("reader");
+letters.innerHTML=L.map(function(l,i){
+  return '<div class="mini" data-i="'+i+'"><div class="wax">'+l.seal+'</div><div class="t"><b>'+l.title+'</b><span>'+l.to+'</span></div><div class="y">'+l.date.split("&middot;")[0].replace("Sealed","")+'</div></div>';
+}).join("");
+
+function show(i){
+  var l=L[i];
+  document.getElementById("r-seal").innerHTML=l.seal;
+  document.getElementById("r-to").textContent=l.to;
+  document.getElementById("r-title").textContent=l.title;
+  document.getElementById("r-date").textContent=l.date;
+  document.getElementById("r-body").innerHTML=l.body.map(function(p){return "<p>"+p+"</p>"}).join("");
+  document.getElementById("r-who").textContent=l.who;
+  reader.classList.add("show");
+  reader.scrollIntoView({behavior:"smooth",block:"start"});
+}
+letters.addEventListener("click",function(e){var el=e.target.closest(".mini");if(el)show(+el.dataset.i)});
+document.getElementById("open").addEventListener("click",function(){
+  box.classList.toggle("open");
+  this.textContent=box.classList.contains("open")?"Close the box":"Open the box";
+  if(box.classList.contains("open"))setTimeout(function(){box.scrollIntoView({behavior:"smooth",block:"center"})},300);
+});
+document.getElementById("back").addEventListener("click",function(){
+  reader.classList.remove("show");
+  box.scrollIntoView({behavior:"smooth",block:"center"});
+});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.14});
+document.querySelectorAll(".reveal").forEach(function(el){io.observe(el)});
+</script>
+</body>
+</html>

@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
-    <meta name="description" content="Arjun & Ishaan are getting married. Tap the wax seal to open." />
-    <title>Rajwada Royale Extended — Arjun &amp; Ishaan</title>
+    <meta name="description" content="Arjun & Anaya are getting married. Tap the wax seal to open." />
+    <script>
+      const navigation = performance.getEntriesByType("navigation")[0];
+      if (navigation && navigation.type === "reload" && "scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      }
+    </script>
+    <title>Rajwada Royale Extended — Arjun &amp; Anaya</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://c.animaapp.com" crossorigin />
     <link rel="preconnect" href="https://framerusercontent.com" crossorigin />
@@ -15,17 +22,17 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" /></noscript>
     <script type="module" crossorigin src="./assets/index-CRCuhgh7.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-gHDURWKE.css">
-    <link rel="stylesheet" href="hero.css?v=c2e8b023" />
-    <link rel="stylesheet" href="royale.css?v=41f70f61" />
+    <link rel="stylesheet" href="hero.css?v=d793ad33" />
+    <link rel="stylesheet" href="royale.css?v=daee058f" />
   </head>
   <body>
   <!-- ══════════ AUDIO CONTROL ══════════ -->
-  <audio id="bg-audio" src="https://framerusercontent.com/assets/q8x7MYVF61gOLfkcxdG7dlXjxw.mp3" loop preload="none"></audio>
-  <button id="audio-btn" class="audio-btn" aria-label="Play music">
-    <svg id="ico-play" width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,228,202,.9)" style="display:none">
+  <audio id="bg-audio" src="../demo-1/11.mp3" loop preload="none"></audio>
+  <button id="audio-btn" class="audio-btn" aria-label="Play music" aria-pressed="false" title="Play music">
+    <svg id="ico-play" width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,228,202,.9)">
       <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd"/>
     </svg>
-    <svg id="ico-pause" width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,228,202,.9)">
+    <svg id="ico-pause" width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,228,202,.9)" style="display:none">
       <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75.75V18a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm10.5 0a.75.75 0 0 1 .75.75V18a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
     </svg>
   </button>
@@ -91,7 +98,7 @@
     <div class="env-content">
       <header class="env-headline">
         <p class="env-kicker">A wedding invitation</p>
-        <h1 class="env-couple">Arjun <em aria-hidden="true">&amp;</em> Ishaan</h1>
+        <h1 class="env-couple">Arjun <em aria-hidden="true">&amp;</em> Anaya</h1>
       </header>
 
       <div class="env-stage">
@@ -113,7 +120,7 @@
               <circle cx="41.4" cy="9.4" r="1.1" fill="rgba(59,7,24,.5)"/>
             </svg>
             <p class="env-cordially">You are cordially invited</p>
-            <p class="env-names">Arjun &amp; Ishaan</p>
+            <p class="env-names">Arjun &amp; Anaya</p>
             <div class="env-divider" aria-hidden="true"></div>
           </div>
 
@@ -175,7 +182,7 @@
         <div class="hero-names">
           <span class="f-upright hero-name" data-letters="Arjun" data-delay="1900">Arjun</span>
           <span class="hero-amp text-gold-shimmer">&#38;</span>
-          <span class="f-upright hero-name" data-letters="Ishaan" data-delay="3300">Ishaan</span>
+          <span class="f-upright hero-name" data-letters="Anaya" data-delay="3300">Anaya</span>
           <span class="hero-heart-float" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
         </div>
 
@@ -273,6 +280,6 @@
       </svg>
     </section>
     <div id="app"></div>
-    <script src="hero.js?v=b5aefd4e"></script>
+    <script src="hero.js?v=6295a656"></script>
   </body>
 </html>

@@ -3,8 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CtaBanner from "@/components/CtaBanner";
 import FaqList from "@/components/FaqList";
+import DemoShowcase from "@/components/DemoShowcase";
+import FeaturedDesign from "@/components/FeaturedDesign";
+import PersonalizedAddress from "@/components/PersonalizedAddress";
 import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
 import { SITE_URL, intentPages, getIntentPage } from "@/lib/seo";
+import { demosForSlug } from "@/lib/demos";
 
 export function generateStaticParams() {
   return intentPages.map((page) => ({ slug: page.slug }));
@@ -45,7 +49,87 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-const TRUST = ["Free design preview", "24–48 hour rush option", "Hindi · Marathi · English"];
+const TRUST = ["Free design preview", "2–3 working days · rush by request", "Hindi · Marathi · English"];
+
+function getAddressPreview(slug: string) {
+  if (slug.includes("save-the-date")) {
+    return {
+      occasion: "save the date",
+      example: "veena-weds-aarav.com",
+      title: "Give your date a first look they'll remember.",
+      description:
+        "Share your names, wedding date and countdown in one beautiful link—easy to send while everyone makes plans.",
+    };
+  }
+
+  if (slug.includes("proposal") || slug.includes("marry-me")) {
+    return {
+      occasion: "proposal",
+      example: "our-yes-moment.com",
+      title: "Make the big question a moment of its own.",
+      description:
+        "Set your story, photos and question behind one thoughtful link. Send it when the moment feels right.",
+    };
+  }
+
+  if (slug.includes("video")) {
+    return {
+      occasion: "wedding video",
+      example: "riya-weds-aryan.com",
+      title: "Your wedding invitation, ready to press play.",
+      description:
+        "Put your celebration on screen and send one lovely link to the people you love.",
+    };
+  }
+
+  if (slug.includes("destination")) {
+    return {
+      occasion: "destination wedding",
+      example: "veena-aarav-in-goa.com",
+      title: "Your destination wedding, from invite to arrival.",
+      description:
+        "Bring every celebration, venue and travel detail together in one easy-to-share link.",
+    };
+  }
+
+  if (slug.includes("marathi") || slug.includes("mehendi")) {
+    return {
+      occasion: "Marathi wedding invitation",
+      example: "aditya-weds-sai.com",
+      title: "A wedding link that feels like your celebration.",
+      description:
+        "Bring your wedding traditions and event details together in one personal invite, ready to share with family.",
+    };
+  }
+
+  if (slug.includes("hindi")) {
+    return {
+      occasion: "Hindi wedding invitation",
+      example: "riya-weds-kabir.com",
+      title: "A wedding link that feels like your celebration.",
+      description:
+        "Bring your wedding traditions and event details together in one personal invite, ready to share with family.",
+    };
+  }
+
+  if (slug.includes("whatsapp")) {
+    return {
+      occasion: "WhatsApp wedding invitation",
+      example: "aarav-weds-kanika.com",
+      title: "One lovely link, ready for the family group.",
+      description:
+        "Share your names, celebration schedule, venues and RSVP in a message guests can open anywhere.",
+    };
+  }
+
+  return {
+    occasion: "wedding invitation",
+    example: "aarav-weds-kanika.com",
+    title: "Your wedding. Every detail. One lovely link.",
+    description:
+      "Bring your names, celebration schedule, venues, photos and RSVP together—ready to share with every guest.",
+  };
+}
 
 export default async function IntentPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -56,6 +140,9 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
   const relatedPages = page.related
     .map((relatedSlug) => getIntentPage(relatedSlug))
     .filter((related): related is NonNullable<typeof related> => Boolean(related));
+
+  const demos = demosForSlug(slug);
+  const addressPreview = getAddressPreview(slug);
 
   const structuredData = [
     {
@@ -119,8 +206,7 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
             </Link>
             <a
               href={PHONE_TEL}
-              aria-label={`Call OurMoment at ${PHONE_DISPLAY}`}
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold text-white"
+              className="inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-semibold text-white"
               style={{ background: "var(--primary)" }}
             >
               <svg className="h-3.5 w-3.5 fill-white" viewBox="0 0 24 24" aria-hidden="true">
@@ -152,14 +238,13 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
                   href={PHONE_TEL}
-                  aria-label={`Call OurMoment to order at ${PHONE_DISPLAY}`}
-                  className="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white"
+                  className="btn-primary inline-flex items-center gap-2 whitespace-nowrap rounded-full px-6 py-3.5 text-sm font-semibold text-white"
                   style={{ boxShadow: "0 8px 28px rgba(194,24,91,0.28)" }}
                 >
                   <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z" />
                   </svg>
-                  Call to order
+                  Call to personalise
                 </a>
                 <Link
                   href="/#collection"
@@ -176,28 +261,9 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
               </p>
             </div>
 
-            <div className="relative overflow-hidden rounded-[28px] border border-[var(--border-strong)] bg-[linear-gradient(145deg,#160840,#5d103d)] p-4 shadow-[0_24px_70px_rgba(93,16,61,0.18)]">
-              <div className="rounded-2xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur">
-                <div className="flex items-center gap-2 border-b border-white/15 pb-3">
-                  <span className="h-2.5 w-2.5 rounded-full bg-white/90" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-white/60" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-white/35" />
-                  <span className="ml-auto text-[9px] uppercase tracking-[0.25em] text-white/70">Preview</span>
-                </div>
-                <div className="flex min-h-[280px] flex-col items-center justify-center text-center sm:min-h-[340px]">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/60">{page.eyebrow}</p>
-                  <p className="mt-4 max-w-sm font-[var(--font-cormorant)] text-5xl leading-none sm:text-6xl">Your wedding website</p>
-                  <div className="my-6 flex items-center gap-3 text-white/60">
-                    <span className="h-px w-10 bg-white/40" />&#9825;<span className="h-px w-10 bg-white/40" />
-                  </div>
-                  <div className="grid w-full max-w-sm grid-cols-3 gap-2 text-left text-[10px] text-white/70">
-                    <span className="rounded-lg bg-white/10 p-3">Story</span>
-                    <span className="rounded-lg bg-white/10 p-3">Events</span>
-                    <span className="rounded-lg bg-white/10 p-3">RSVP</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* A real design instead of a hand-drawn mockup. It opens the
+                live preview in-page, so the visitor sees the actual product. */}
+            <FeaturedDesign card={demos[0]} />
           </div>
 
           {/* Trust strip */}
@@ -211,6 +277,21 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
           </ul>
         </div>
       </section>
+
+      <PersonalizedAddress {...addressPreview} />
+
+      {/* More designs */}
+      {demos.length > 1 && (
+        <section className="border-y border-[var(--border)] bg-white px-5 py-16 sm:px-8 sm:py-20">
+          <div className="mx-auto max-w-6xl">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--primary)]">
+              {page.eyebrow}
+            </p>
+            <h2 className="mb-8 font-[var(--font-cormorant)] text-4xl">More designs</h2>
+            <DemoShowcase cards={demos.slice(1)} columns={2} />
+          </div>
+        </section>
+      )}
 
       <section className="border-y border-[var(--border)] bg-white px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-6xl">
@@ -260,7 +341,7 @@ export default async function IntentPage({ params }: { params: Promise<{ slug: s
         eyebrow="Let's build yours"
         title="Your names, your date — on a beautiful invite today"
         subtitle="Tell us your details on a quick call and we'll share a free preview before you decide anything."
-        buttonLabel="Call to order"
+        buttonLabel="Call to personalise"
         secondaryHref="/#collection"
         secondaryLabel="Browse designs"
       />

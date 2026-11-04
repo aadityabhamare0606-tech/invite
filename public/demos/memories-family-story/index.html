@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Our Family Story — The Sharma Family</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ── Reset ── */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  background:#faf7f2;
+  color:#2c1f14;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+::selection{background:#c2885b;color:#fff}
+
+/* ── Tokens ── */
+:root{
+  --ink:#2c1f14;
+  --ink2:#5a3e28;
+  --ink3:#8a6a50;
+  --bg:#faf7f2;
+  --bg2:#f3ede4;
+  --bg3:#ece4d8;
+  --rose:#b84a2e;
+  --gold:#c2885b;
+  --gold2:#e8c090;
+  --line:#ddd0bc;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Plus Jakarta Sans",system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:999px}
+
+/* ── Nav ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,247,242,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,#c2885b,#8a4a20);
+  display:grid;place-items:center;
+  color:#fff;font-size:16px;
+  box-shadow:0 6px 18px rgba(194,136,91,.35);
+}
+.brand-name{
+  font-family:var(--serif);font-size:20px;font-weight:600;
+  color:var(--ink);letter-spacing:.02em;
+}
+.brand-sub{
+  font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--ink3);margin-top:1px;
+}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{
+  font-size:13px;font-weight:500;color:var(--ink2);
+  padding:7px 13px;border-radius:999px;
+  transition:background .2s,color .2s;
+}
+.nav-links a:hover{background:var(--bg3);color:var(--ink)}
+.nav-pill{
+  background:var(--rose)!important;color:#fff!important;
+  box-shadow:0 4px 14px rgba(184,74,46,.3);
+}
+.nav-toggle{
+  display:none;width:38px;height:38px;
+  border:1px solid var(--line);border-radius:10px;
+  background:var(--bg2);cursor:pointer;
+  align-items:center;justify-content:center;
+  flex-direction:column;gap:5px;
+}
+.nav-toggle span{
+  display:block;width:18px;height:1.5px;
+  background:var(--ink2);border-radius:999px;
+  transition:transform .25s,opacity .25s;
+}
+
+/* ── Hero ── */
+.hero{
+  position:relative;
+  min-height:90svh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  background:linear-gradient(160deg,#f5ede0 0%,#ede0cc 50%,#e8d8c0 100%);
+}
+.hero-bg-ornament{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.hero-bg-ornament::before{
+  content:'';position:absolute;
+  top:-20%;left:-10%;width:70%;height:140%;
+  background:radial-gradient(ellipse,rgba(194,136,91,.12),transparent 60%);
+}
+.hero-bg-ornament::after{
+  content:'';position:absolute;
+  bottom:-10%;right:-5%;width:50%;height:80%;
+  background:radial-gradient(ellipse,rgba(184,74,46,.08),transparent 65%);
+}
+/* Decorative lines */
+.hero-rule{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(600px,88vw);height:min(600px,88vw);
+  border:1px solid rgba(194,136,91,.18);border-radius:50%;pointer-events:none;
+  animation:rotateRing 30s linear infinite;
+}
+.hero-rule2{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(480px,72vw);height:min(480px,72vw);
+  border:1px solid rgba(194,136,91,.12);border-radius:50%;pointer-events:none;
+  animation:rotateRing 20s linear infinite reverse;
+}
+@keyframes rotateRing{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;padding:60px 24px;max-width:760px;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:10px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:24px;
+  opacity:0;animation:fadeUp .8s .2s var(--ease) forwards;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;height:1px;width:32px;background:currentColor;opacity:.4}
+.hero-h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(48px,8vw,92px);
+  line-height:.98;letter-spacing:-.02em;
+  color:var(--ink);
+  opacity:0;animation:fadeUp .9s .4s var(--ease) forwards;
+}
+.hero-h1 em{font-style:italic;color:var(--rose)}
+.hero-sub{
+  margin:20px auto 0;max-width:480px;
+  font-size:clamp(15px,2vw,17px);color:var(--ink2);line-height:1.7;
+  opacity:0;animation:fadeUp .9s .6s var(--ease) forwards;
+}
+.hero-cta-row{
+  margin-top:36px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp .9s .8s var(--ease) forwards;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:14px 28px;border-radius:999px;font-size:13.5px;font-weight:600;
+  cursor:pointer;border:none;transition:transform .25s var(--ease),box-shadow .25s;
+}
+.btn:hover{transform:translateY(-3px)}
+.btn-primary{background:var(--rose);color:#fff;box-shadow:0 8px 28px rgba(184,74,46,.3)}
+.btn-primary:hover{box-shadow:0 14px 40px rgba(184,74,46,.4)}
+.btn-ghost{background:transparent;color:var(--ink2);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--ink)}
+
+/* ── Stats strip ── */
+.stats-strip{
+  background:var(--bg3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:24px;
+}
+.stats-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;divide-x:1px solid var(--line);
+}
+.stat{
+  text-align:center;padding:12px 20px;
+  border-right:1px solid var(--line);
+}
+.stat:last-child{border-right:none}
+.stat-n{
+  font-family:var(--serif);font-size:clamp(28px,4vw,40px);
+  font-weight:600;color:var(--rose);line-height:1;
+}
+.stat-l{font-size:12px;font-weight:500;color:var(--ink3);margin-top:4px}
+
+/* ── Section base ── */
+.sec{padding:clamp(64px,10vw,112px) 24px}
+.sec-inner{max-width:1200px;margin:0 auto}
+.sec-alt{background:var(--bg2)}
+
+.sec-head{text-align:center;max-width:640px;margin:0 auto 56px}
+.eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:.38em;text-transform:uppercase;
+  color:var(--rose);display:block;margin-bottom:14px;
+}
+.sec-h2{
+  font-family:var(--serif);font-size:clamp(32px,5vw,52px);
+  font-weight:600;line-height:1.04;color:var(--ink);
+}
+.sec-h2 em{font-style:italic;color:var(--rose)}
+.sec-lead{
+  margin-top:14px;font-size:16px;color:var(--ink2);line-height:1.7;
+}
+
+/* ── Reveal ── */
+.rev{opacity:0;transform:translateY(28px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rev.in{opacity:1;transform:none}
+.rev-l{opacity:0;transform:translateX(-28px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rev-l.in{opacity:1;transform:none}
+.rev-r{opacity:0;transform:translateX(28px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rev-r.in{opacity:1;transform:none}
+.rev-s{opacity:0;transform:scale(.92);transition:opacity .7s cubic-bezier(.34,1.56,.64,1),transform .7s cubic-bezier(.34,1.56,.64,1)}
+.rev-s.in{opacity:1;transform:scale(1)}
+
+/* ── Intro ── */
+.intro-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+}
+.intro-img{
+  position:relative;border-radius:24px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(44,31,20,.18);
+  aspect-ratio:4/5;background:var(--bg3);
+}
+.intro-img img{width:100%;height:100%;object-fit:cover;display:block}
+.intro-img-badge{
+  position:absolute;bottom:20px;left:20px;
+  background:rgba(250,247,242,.92);backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:14px;
+  padding:12px 16px;
+  font-size:13px;font-weight:600;color:var(--ink);
+}
+.intro-img-badge small{display:block;font-size:10px;font-weight:500;color:var(--ink3);margin-top:2px}
+.intro-text h3{
+  font-family:var(--serif);font-size:clamp(28px,4vw,44px);font-weight:600;
+  line-height:1.05;color:var(--ink);margin-bottom:18px;
+}
+.intro-text h3 em{font-style:italic;color:var(--rose)}
+.intro-text p{font-size:15.5px;line-height:1.8;color:var(--ink2);margin-bottom:14px}
+.intro-quote{
+  margin-top:28px;padding:20px 24px;
+  background:var(--bg3);border-left:3px solid var(--rose);border-radius:0 12px 12px 0;
+  font-family:var(--serif);font-style:italic;font-size:20px;color:var(--ink);line-height:1.45;
+}
+.intro-quote cite{
+  display:block;margin-top:10px;
+  font-family:var(--sans);font-style:normal;font-size:11px;
+  font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+}
+
+/* ── People grid ── */
+.people-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:20px;
+}
+.person-card{
+  background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:24px 20px;text-align:center;
+  transition:transform .3s var(--ease),box-shadow .3s;
+  cursor:default;
+}
+.person-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(44,31,20,.12)}
+.avatar{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 14px;
+  background-size:cover;background-position:center;
+  border:3px solid var(--bg3);box-shadow:0 8px 22px rgba(44,31,20,.14);
+}
+.person-name{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink)}
+.person-role{font-size:11.5px;color:var(--ink3);margin-top:4px}
+
+/* ── Stories ── */
+.stories-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.story-card{
+  background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:28px;
+  transition:transform .3s var(--ease),box-shadow .3s;
+}
+.story-card:hover{transform:translateY(-5px);box-shadow:0 18px 46px rgba(44,31,20,.1)}
+.story-icon{
+  width:48px;height:48px;border-radius:14px;
+  background:var(--bg3);display:grid;place-items:center;
+  font-size:22px;margin-bottom:18px;
+}
+.story-quote{
+  font-family:var(--serif);font-style:italic;font-size:19px;
+  line-height:1.45;color:var(--ink);margin-bottom:16px;
+}
+.story-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+}
+
+/* ── Timeline ── */
+.timeline{position:relative;max-width:680px;margin:0 auto}
+.timeline::before{
+  content:'';position:absolute;left:calc(50% - 0.75px);
+  top:0;bottom:0;width:1.5px;
+  background:linear-gradient(to bottom,transparent,var(--gold) 8%,var(--gold) 92%,transparent);
+}
+.tl-item{
+  display:flex;align-items:flex-start;gap:32px;margin-bottom:48px;
+  position:relative;
+}
+.tl-item:nth-child(even){flex-direction:row-reverse}
+.tl-item:nth-child(even) .tl-card{text-align:right}
+.tl-dot{
+  position:absolute;left:50%;transform:translateX(-50%);
+  width:16px;height:16px;border-radius:50%;
+  background:var(--rose);border:3px solid var(--bg);
+  box-shadow:0 0 0 5px rgba(184,74,46,.18);
+  flex-shrink:0;z-index:2;margin-top:4px;
+}
+.tl-card{
+  flex:1;max-width:calc(50% - 40px);
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;
+  box-shadow:0 6px 22px rgba(44,31,20,.07);
+}
+.tl-year{
+  font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:6px;
+}
+.tl-title{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink)}
+.tl-desc{font-size:13.5px;color:var(--ink2);margin-top:6px;line-height:1.65}
+
+/* ── Gallery ── */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:auto auto;
+  gap:14px;
+}
+.gal-item{
+  border-radius:18px;overflow:hidden;
+  position:relative;background:var(--bg3);
+  box-shadow:0 8px 24px rgba(44,31,20,.12);
+  transition:transform .35s var(--ease),box-shadow .35s;
+}
+.gal-item:hover{transform:scale(1.03);box-shadow:0 18px 48px rgba(44,31,20,.2)}
+.gal-item:first-child{grid-column:1/3;aspect-ratio:16/9}
+.gal-item:not(:first-child){aspect-ratio:4/5}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block}
+.gal-label{
+  position:absolute;bottom:0;left:0;right:0;padding:16px;
+  background:linear-gradient(to top,rgba(44,31,20,.7),transparent);
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.9);
+  letter-spacing:.08em;
+}
+
+/* ── Add Memory CTA ── */
+.add-card{
+  max-width:720px;margin:0 auto;
+  background:#fff;border:1.5px solid var(--line);border-radius:28px;
+  padding:clamp(36px,5vw,60px);text-align:center;
+  box-shadow:0 24px 64px rgba(44,31,20,.09);
+}
+.add-card h3{font-family:var(--serif);font-size:clamp(28px,4vw,42px);color:var(--ink);margin-bottom:12px}
+.add-card p{font-size:15px;color:var(--ink2);max-width:440px;margin:0 auto 28px;line-height:1.7}
+.add-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.chip{
+  padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);
+  font-size:13px;font-weight:600;color:var(--ink2);
+  transition:border-color .2s,color .2s,background .2s;
+}
+.chip:hover{border-color:var(--rose);color:var(--rose);background:rgba(184,74,46,.06)}
+
+/* ── Footer ── */
+.foot{
+  border-top:1px solid var(--line);
+  padding:40px 24px;
+  background:var(--bg2);text-align:center;
+}
+.foot-brand{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.foot-sub{font-size:12px;color:var(--ink3)}
+
+/* ── Mobile nav ── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-toggle{display:flex}
+  .nav-links.open{
+    display:flex;flex-direction:column;gap:2px;
+    position:fixed;inset-x:0;top:66px;bottom:0;
+    background:rgba(250,247,242,.98);backdrop-filter:blur(16px);
+    padding:20px;z-index:99;overflow-y:auto;
+  }
+  .nav-links.open a{padding:14px 18px;border-radius:14px;font-size:15px;border-bottom:1px solid var(--line)}
+  .intro-grid{grid-template-columns:1fr}
+  .intro-img{max-width:100%;aspect-ratio:3/2}
+  .stories-grid{grid-template-columns:1fr}
+  .timeline::before{left:20px}
+  .tl-item,.tl-item:nth-child(even){flex-direction:column;padding-left:52px}
+  .tl-item:nth-child(even) .tl-card{text-align:left}
+  .tl-dot{left:20px;transform:none}
+  .tl-card{max-width:100%}
+  .gallery{grid-template-columns:1fr 1fr}
+  .gal-item:first-child{grid-column:1/3;aspect-ratio:3/2}
+  .stats-inner{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:none}
+  .people-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .gallery{grid-template-columns:1fr}
+  .gal-item:first-child{grid-column:1}
+  .stats-inner{grid-template-columns:1fr 1fr}
+  .people-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ── Keyframes ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">♥</div>
+      <div>
+        <div class="brand-name">Sharma Family</div>
+        <div class="brand-sub">Our Family Story</div>
+      </div>
+    </div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#story">Our Story</a>
+      <a href="#family">The Family</a>
+      <a href="#memories">Memories</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#add" class="nav-pill">Add a Memory</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span id="nb1"></span><span id="nb2"></span><span id="nb3"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-ornament"></div>
+  <div class="hero-rule" aria-hidden="true"></div>
+  <div class="hero-rule2" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span>Est. 1968</span></div>
+    <h1 class="hero-h1">Every family has a thousand <em>little</em> stories.</h1>
+    <p class="hero-sub">A private, living archive for the Sharma family — told across generations, kept for a lifetime.</p>
+    <div class="hero-cta-row">
+      <a href="#story" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Read Our Story
+      </a>
+      <a href="#add" class="btn btn-ghost">Add a Memory →</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat rev">
+      <div class="stat-n">3</div>
+      <div class="stat-l">Generations</div>
+    </div>
+    <div class="stat rev" style="transition-delay:.1s">
+      <div class="stat-n">6</div>
+      <div class="stat-l">Family Members</div>
+    </div>
+    <div class="stat rev" style="transition-delay:.2s">
+      <div class="stat-n">48+</div>
+      <div class="stat-l">Shared Memories</div>
+    </div>
+    <div class="stat rev" style="transition-delay:.3s">
+      <div class="stat-n">1968</div>
+      <div class="stat-l">When It Began</div>
+    </div>
+  </div>
+</div>
+
+<!-- OUR STORY / INTRO -->
+<section id="story" class="sec">
+  <div class="sec-inner">
+    <div class="intro-grid">
+      <div class="intro-img rev-l">
+        <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=900&q=80" alt="Family home" loading="lazy"/>
+        <div class="intro-img-badge">📍 Jaipur, Rajasthan<small>Where it all began</small></div>
+      </div>
+      <div class="intro-text rev-r">
+        <h3>A home built on <em>love</em> and chai.</h3>
+        <p>It began with simple things — shared meals, late-night chai, and the quiet act of looking out for one another. Those everyday moments became the traditions we still carry today.</p>
+        <p>Generations later, we return to these stories to remember who we are. To pass on what was given to us. To feel that warmth, even from a distance.</p>
+        <blockquote class="intro-quote">
+          "The best thing about family is that they know you — really know you — and love you anyway."
+          <cite>Grandma Shanti, 1985</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEET THE FAMILY -->
+<section id="family" class="sec sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="eyebrow rev">The Sharma Family</span>
+      <h2 class="sec-h2 rev">The people who make this <em>home</em></h2>
+      <p class="sec-lead rev">Six people, three generations, one endless thread of love.</p>
+    </div>
+    <div class="people-grid">
+      <div class="person-card rev-s" style="transition-delay:.05s">
+        <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80')"></div>
+        <div class="person-name">Ramesh Sharma</div>
+        <div class="person-role">Grandfather · Patriarch</div>
+      </div>
+      <div class="person-card rev-s" style="transition-delay:.1s">
+        <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=200&q=80')"></div>
+        <div class="person-name">Shanti Sharma</div>
+        <div class="person-role">Grandmother · Matriarch</div>
+      </div>
+      <div class="person-card rev-s" style="transition-delay:.15s">
+        <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80')"></div>
+        <div class="person-name">Amit Sharma</div>
+        <div class="person-role">Father · Son</div>
+      </div>
+      <div class="person-card rev-s" style="transition-delay:.2s">
+        <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80')"></div>
+        <div class="person-name">Neha Sharma</div>
+        <div class="person-role">Mother · Daughter-in-law</div>
+      </div>
+      <div class="person-card rev-s" style="transition-delay:.25s">
+        <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=200&q=80')"></div>
+        <div class="person-name">Rohan Sharma</div>
+        <div class="person-role">Son · First grandchild</div>
+      </div>
+      <div class="person-card rev-s" style="transition-delay:.3s">
+        <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80')"></div>
+        <div class="person-name">Ananya Sharma</div>
+        <div class="person-role">Daughter · Youngest</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMORIES / STORIES -->
+<section id="memories" class="sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="eyebrow rev">Stories We Remember</span>
+      <h2 class="sec-h2 rev">Little moments, <em>told as they happened</em></h2>
+    </div>
+    <div class="stories-grid">
+      <div class="story-card rev" style="transition-delay:.05s">
+        <div class="story-icon">🪔</div>
+        <p class="story-quote">"The best memories are made around a crowded dining table with everyone talking at once."</p>
+        <div class="story-meta"><span>Diwali Nights</span><span>Shared by Neha</span></div>
+      </div>
+      <div class="story-card rev" style="transition-delay:.15s">
+        <div class="story-icon">☕</div>
+        <p class="story-quote">"We'd wake up to the smell of chai and know it was going to be a good day no matter what."</p>
+        <div class="story-meta"><span>Summer Mornings</span><span>Shared by Rohan</span></div>
+      </div>
+      <div class="story-card rev" style="transition-delay:.25s">
+        <div class="story-icon">📖</div>
+        <p class="story-quote">"Dadi's bedtime stories taught us values before we even knew we were learning them."</p>
+        <div class="story-meta"><span>Bedtime Stories</span><span>Shared by Ananya</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline" class="sec sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="eyebrow rev">Our Timeline</span>
+      <h2 class="sec-h2 rev">Milestones <em>across generations</em></h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item rev">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-year">1968</div>
+          <div class="tl-title">The Beginning</div>
+          <p class="tl-desc">Ramesh & Shanti begin their journey together in Jaipur.</p>
+        </div>
+        <div style="flex:1"></div>
+      </div>
+      <div class="tl-item rev" style="transition-delay:.1s">
+        <div class="tl-dot"></div>
+        <div style="flex:1"></div>
+        <div class="tl-card">
+          <div class="tl-year">1975</div>
+          <div class="tl-title">A Growing Home</div>
+          <p class="tl-desc">Amit joins the family and the home fills with laughter and cricket.</p>
+        </div>
+      </div>
+      <div class="tl-item rev" style="transition-delay:.2s">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-year">2005</div>
+          <div class="tl-title">New Chapters</div>
+          <p class="tl-desc">Amit & Neha begin their own story — the family grows wider.</p>
+        </div>
+        <div style="flex:1"></div>
+      </div>
+      <div class="tl-item rev" style="transition-delay:.3s">
+        <div class="tl-dot"></div>
+        <div style="flex:1"></div>
+        <div class="tl-card">
+          <div class="tl-year">2008</div>
+          <div class="tl-title">Rohan Arrives</div>
+          <p class="tl-desc">Our first grandchild brings joy to three generations at once.</p>
+        </div>
+      </div>
+      <div class="tl-item rev" style="transition-delay:.4s">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-year">2012</div>
+          <div class="tl-title">Ananya Completes Us</div>
+          <p class="tl-desc">Our home grows a little bigger and a great deal brighter.</p>
+        </div>
+        <div style="flex:1"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="sec">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="eyebrow rev">Family Gallery</span>
+      <h2 class="sec-h2 rev">Celebrations, <em>big and small</em></h2>
+    </div>
+    <div class="gallery">
+      <div class="gal-item rev-s">
+        <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1200&q=80" alt="Family gathering" loading="lazy"/>
+        <div class="gal-label">Family Reunion · 2023</div>
+      </div>
+      <div class="gal-item rev-s" style="transition-delay:.1s">
+        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80" alt="Diwali" loading="lazy"/>
+        <div class="gal-label">Diwali · Jaipur</div>
+      </div>
+      <div class="gal-item rev-s" style="transition-delay:.2s">
+        <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80" alt="Wedding" loading="lazy"/>
+        <div class="gal-label">Wedding Day</div>
+      </div>
+      <div class="gal-item rev-s" style="transition-delay:.3s">
+        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191011?auto=format&fit=crop&w=800&q=80" alt="Family dinner" loading="lazy"/>
+        <div class="gal-label">Sunday Lunch</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADD MEMORY CTA -->
+<section id="add" class="sec sec-alt">
+  <div class="sec-inner">
+    <div class="add-card rev-s">
+      <h3>Add Your Memory</h3>
+      <p>Invited family members can submit a story, photo or recording. The family owner reviews before publishing — keeping the archive private and curated.</p>
+      <div class="add-chips">
+        <span class="chip">📝 A story</span>
+        <span class="chip">📸 A photo</span>
+        <span class="chip">🎙 A voice note</span>
+        <span class="chip">🎥 A short video</span>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button onclick="alert('Guests submit through their private invitation link — no app or account needed.')" class="btn btn-primary">Submit a Memory</button>
+        <button onclick="alert('This is a demo — your real archive would be invite-only and completely private.')" class="btn btn-ghost">How it works</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-brand">The Sharma Family</div>
+  <div class="foot-sub">A private family archive · Made with love · Kept for generations</div>
+  <div style="margin-top:10px;font-size:11px;color:var(--ink3)">Powered by <strong>OurMoment</strong></div>
+</footer>
+
+<script>
+/* ── Nav toggle ── */
+var toggle=document.getElementById('navToggle');
+var links=document.getElementById('navLinks');
+var nb1=document.getElementById('nb1');var nb2=document.getElementById('nb2');var nb3=document.getElementById('nb3');
+var open=false;
+toggle.addEventListener('click',function(){
+  open=!open;links.classList.toggle('open',open);
+  nb1.style.transform=open?'rotate(45deg) translateY(6.5px)':'';
+  nb2.style.opacity=open?'0':'';
+  nb3.style.transform=open?'rotate(-45deg) translateY(-6.5px)':'';
+});
+links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){open=false;links.classList.remove('open');nb1.style.transform='';nb2.style.opacity='';nb3.style.transform='';})});
+
+/* ── Scroll reveal ── */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rev,.rev-l,.rev-r,.rev-s').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>

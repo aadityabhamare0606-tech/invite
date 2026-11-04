@@ -78,37 +78,37 @@ const FEATURES = [
   {
     icon: "✦",
     title: "Animated name reveal",
-    desc: "Your names bloom into view — blur-in on a giant serif, perfectly timed.",
+    desc: "Names bloom in, letter by letter.",
     delay: "0s",
   },
   {
     icon: "⏱",
     title: "Live countdown",
-    desc: "Days, hours, minutes, seconds. Ticking in real time for every guest.",
+    desc: "Ticks in real time.",
     delay: "0.1s",
   },
   {
     icon: "♥",
     title: "Multi-event cards",
-    desc: "Mehendi, Haldi, Sangeet, Reception — all in one shareable link.",
+    desc: "Mehendi to Reception, one link.",
     delay: "0.2s",
   },
   {
     icon: "📱",
     title: "WhatsApp-ready",
-    desc: "One tap to share. Guests open it instantly — no app, no login.",
+    desc: "Opens in one tap. No app.",
     delay: "0.3s",
   },
   {
     icon: "✿",
     title: "Your photos & story",
-    desc: "Gallery, couple story, blessings and venue map — all included.",
+    desc: "Gallery, story, venue map.",
     delay: "0.4s",
   },
   {
     icon: "⟡",
     title: "Scroll animations",
-    desc: "Every section comes alive as guests scroll — lanterns, petals, sparks.",
+    desc: "Lanterns, petals, sparks.",
     delay: "0.5s",
   },
 ];
@@ -129,7 +129,7 @@ export default function FeelSection() {
       }),
       { threshold: 0.06 }
     );
-    el.querySelectorAll(".reveal, .reveal-pop, .reveal-scale").forEach((n) => obs.observe(n));
+    el.querySelectorAll(".reveal, .reveal-pop, .reveal-scale, .reveal-left, .reveal-right, .reveal-blur").forEach((n) => obs.observe(n));
     // Section-level observer for the mini-invite
     const secObs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setVisible(true); },
@@ -143,9 +143,12 @@ export default function FeelSection() {
     <section ref={ref} id="feel" className="relative overflow-hidden py-20 md:py-28"
       style={{ background: "var(--bg-base)" }}>
 
-      {/* Top divider */}
+      {/* Decorative radial glow top-right */}
+      <div aria-hidden="true" className="pointer-events-none absolute -top-40 right-0 h-[500px] w-[500px] rounded-full opacity-30"
+        style={{ background: "radial-gradient(circle, rgba(194,24,91,0.06), transparent 70%)", filter: "blur(60px)" }} />
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="reveal mb-14 text-center">
+        <div className="reveal-blur mb-14 text-center">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.32em]" style={{ color: "var(--primary)" }}>
             See it come alive
           </p>
@@ -155,8 +158,14 @@ export default function FeelSection() {
             <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>an experience</em>
           </h2>
           <p className="text-sm max-w-md mx-auto leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            Every invite is a miniature cinematic experience. Watch how it unfolds the moment a guest opens the link.
+            Every invite is a miniature cinematic. Watch how it unfolds.
           </p>
+          {/* Animated divider line */}
+          <div className="flex items-center justify-center gap-3 mt-5">
+            <div className="h-px w-16 section-divider-line" style={{ maxWidth: 48, margin: 0 }} />
+            <span className="animate-heart" style={{ color: "var(--primary)", fontSize: 14 }}>♥</span>
+            <div className="h-px w-16 section-divider-line" style={{ maxWidth: 48, margin: 0 }} />
+          </div>
         </div>
 
         {/* Two-col: preview left, features right */}
@@ -180,24 +189,23 @@ export default function FeelSection() {
                 <div style={{ width: 28, height: 2, borderRadius: 1, background: "rgba(255,255,255,0.15)" }} />
               </div>
             </div>
-            {/* Caption */}
             <p className="mt-3 text-center text-[11px]" style={{ color: "var(--text-muted)" }}>
               ↑ Watch the invite animate in real-time
             </p>
           </div>
 
-          {/* Features */}
+          {/* Feature cards — alternating left/right reveal */}
           <div className="flex-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {FEATURES.map((f) => (
+            {FEATURES.map((f, idx) => (
               <div key={f.title}
-                className="reveal flex items-start gap-3.5 rounded-2xl border p-4"
+                className={`feature-card ${idx % 2 === 0 ? "reveal-left" : "reveal-right"} flex items-start gap-3.5 rounded-2xl border p-4`}
                 style={{
                   transitionDelay: f.delay,
                   borderColor: "var(--border)",
                   background: "var(--bg-card)",
                   boxShadow: "0 2px 10px rgba(0,0,0,0.03)",
                 }}>
-                <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-base"
+                <div className="feature-icon mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-base"
                   style={{ background: "var(--primary-soft)", color: "var(--primary)", fontWeight: 700 }}>
                   {f.icon}
                 </div>
@@ -213,7 +221,7 @@ export default function FeelSection() {
         {/* CTA */}
         <div className="reveal mt-14 text-center">
           <a href="#collection"
-            className="btn-primary inline-flex items-center gap-2.5 rounded-full px-9 py-3.5 text-[14px] font-semibold text-white"
+            className="btn-primary cta-pulse inline-flex items-center gap-2.5 rounded-full px-9 py-3.5 text-[14px] font-semibold text-white"
             style={{ boxShadow: "0 6px 24px rgba(194,24,91,0.28)" }}>
             See all designs
             <svg className="h-4 w-4" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2.2}>

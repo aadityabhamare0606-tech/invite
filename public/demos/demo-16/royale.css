@@ -285,3 +285,699 @@
   .story-node.rg-arrive { animation: none !important; }
   .rg-nav button { transition: none; }
 }
+
+/* Keep the portrait and names legible together on narrow screens. */
+@media (max-width: 767px) {
+  #app .invitation-details {
+    padding-top: 52px !important;
+  }
+
+  #hero .hero-names {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    gap: .06em;
+    white-space: nowrap;
+    margin-top: 32px;
+    transform: translateX(clamp(40px, 16vw, 62px));
+  }
+  #hero .hero-name {
+    font-size: clamp(36px, 10.5vw, 46px);
+    line-height: 1;
+  }
+  #hero .hero-amp {
+    margin: 0;
+    font-size: clamp(1.7rem, 7vw, 2.1rem);
+  }
+  #hero .hero-heart-float {
+    display: none;
+  }
+  #hero .hero-petal {
+    opacity: .24 !important;
+  }
+
+  #app .story-section .star-card {
+    width: calc(100% - 2.75rem);
+    max-width: 100%;
+    margin-left: 2.75rem;
+  }
+
+  #app .closing-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    padding-bottom: 28px;
+  }
+  #app .closing-section > .relative.z-10 {
+    grid-row: 1;
+    padding-bottom: 0 !important;
+  }
+  #app .closing-section .countdown-corner-photo {
+    position: relative !important;
+    inset: auto !important;
+    grid-row: 2;
+    justify-self: center;
+    width: 108px;
+    height: 138px;
+    margin: 36px auto 0;
+  }
+
+}
+
+@keyframes royal-light-breathe {
+  from { opacity: .16; }
+  to { opacity: .32; }
+}
+#hero .hero-beams {
+  opacity: .28;
+  animation: royal-light-breathe 9s ease-in-out infinite alternate;
+}
+#hero .hero-shooting-star {
+  display: none;
+}
+
+.rg-directions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 24px;
+  padding: 0 22px;
+  border: 1px solid rgba(246, 207, 124, .62);
+  border-radius: 999px;
+  color: #f6e5bb;
+  background: rgba(246, 207, 124, .08);
+  font: 600 11px/1 "Manrope", sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+.rg-directions:hover {
+  border-color: rgba(246, 207, 124, .95);
+  background: rgba(246, 207, 124, .16);
+  transform: translateY(-2px);
+}
+.rg-directions:focus-visible {
+  outline: 2px solid #f6cf7c;
+  outline-offset: 4px;
+}
+
+#audio-btn:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+#audio-btn {
+  width: 44px;
+  height: 44px;
+  touch-action: manipulation;
+}
+#audio-btn:focus-visible {
+  outline: 2px solid #f6cf7c;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hero .hero-beams { animation: none; }
+  .rg-directions { transition: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ROYALE ART DIRECTION — parchment, berry, and midnight; emerald is an accent
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  --royal-ink: #271a20;
+  --royal-wine: #3b1728;
+  --royal-berry: #57273b;
+  --royal-rose: #ead9d7;
+  --royal-paper: #f5efe4;
+  --royal-paper-light: #fbf7ef;
+  --royal-gold: #b48a4a;
+  --royal-night: #101b2c;
+}
+
+body { background: var(--royal-night); }
+
+#hero .hero-love,
+#hero .hero-petals,
+#hero .hero-sparks,
+#hero .hero-heart-float,
+#hero .heart-fly,
+#hero .heart-rays,
+#hero .heart-flash { display: none !important; }
+#hero .heart-core {
+  fill: none !important;
+  stroke: #f1dfbd;
+  stroke-width: 1.05;
+  filter: drop-shadow(0 0 8px rgba(246, 207, 124, .34));
+}
+#hero.played .heart-core {
+  opacity: .92 !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+  animation: none !important;
+}
+#hero .hero-name .ltr {
+  color: #fff1cf !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff1cf !important;
+  text-shadow: 0 2px 18px rgba(20, 12, 18, .8), 0 1px 2px rgba(20, 12, 18, .85);
+  animation: none !important;
+}
+#hero.played .hero-name .ltr {
+  opacity: 1 !important;
+  transform: none !important;
+}
+#hero.played .hero-names { animation: royal-name-arrive .75s .25s both; }
+#hero.played .hero-amp { opacity: 1; animation: fade-in .45s .2s ease both; }
+#hero.played .hero-est { animation: fade-up .65s .55s ease both; }
+#hero.played .hero-rule { animation: draw-line-center .7s .65s ease both, fade-in .4s .65s ease both; }
+#hero.played .hero-tagline { animation: fade-up .65s .75s ease both; }
+#hero.played .hero-scroll { animation: fade-up .55s 1.15s ease both; }
+
+@media (min-width: 768px) {
+  #hero .hero-anims {
+    align-items: flex-end;
+    padding: 0 clamp(64px, 10vw, 150px) 0 0;
+  }
+  #hero .hero-names,
+  #hero .hero-crest { align-items: flex-end; }
+  #hero .hero-name { font-size: clamp(72px, 8vw, 112px); }
+  #hero .hero-heart-stage { width: 84px; height: 70px; }
+  #hero .heart-core { width: 54px; }
+  #hero .hero-est,
+  #hero .hero-tagline,
+  #hero .hero-scroll { text-align: right; }
+  #hero .hero-scroll { align-items: flex-end; }
+  #hero .hero-rule { align-self: flex-end; }
+}
+
+#app .rl-sec {
+  color: var(--royal-ink);
+  background-color: var(--royal-paper) !important;
+}
+
+/* The invitation gets its own framed keepsake, not a full-height green field. */
+#app .invitation-details {
+  padding-top: 52px !important;
+  padding-bottom: 30px !important;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(196, 160, 112, .13), transparent 46%),
+    linear-gradient(160deg, #26151e, #472032 54%, #28161f) !important;
+}
+#app .invitation-details::before,
+#app .invitation-details::after { display: none; }
+#app .invitation-details > .relative.flex.flex-col.items-center {
+  position: relative;
+  isolation: isolate;
+  width: min(calc(100% - 36px), 760px);
+  margin: 0 auto;
+  padding: clamp(42px, 7vw, 72px) clamp(22px, 7vw, 72px) !important;
+  border: 1px solid rgba(180, 138, 74, .6);
+  border-radius: 5px;
+  color: var(--royal-ink);
+  background:
+    radial-gradient(ellipse at 50% 8%, rgba(255,255,255,.92), transparent 58%),
+    linear-gradient(145deg, var(--royal-paper-light), #eee2d0 100%) !important;
+  box-shadow: 0 24px 70px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.95);
+}
+#app .invitation-details > .relative.flex.flex-col.items-center::before,
+#app .invitation-details > .relative.flex.flex-col.items-center::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 9px;
+  border: 1px solid rgba(146, 104, 57, .32);
+  pointer-events: none;
+}
+#app .invitation-details > .relative.flex.flex-col.items-center::after {
+  inset: 15px;
+  border-color: rgba(146, 104, 57, .17);
+}
+#app .invitation-details .invitation-step { position: relative; z-index: 1; }
+#app .invitation-details .invitation-step p {
+  color: var(--royal-ink) !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+#app .invitation-details > .relative.flex.flex-col.items-center p:not(.invite-shimmer) {
+  color: var(--royal-ink) !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+#app .invitation-details .invitation-step p.text-white {
+  color: var(--royal-wine) !important;
+}
+#app .invitation-details .invitation-step p[class*="ffd46f"] {
+  color: #8a6437 !important;
+}
+#app .invitation-details img {
+  filter: sepia(.62) saturate(.72) brightness(.78) drop-shadow(0 8px 18px rgba(112,72,37,.18)) !important;
+}
+#app .invitation-details .invite-shimmer {
+  background: linear-gradient(100deg, #865d31, #c59b5c 35%, #80572f 70%, #b48a4a) !important;
+  background-size: 180% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: none !important;
+}
+
+/* Celebration cards become objects on paper; the photographs keep their color. */
+#app .events-section {
+  color: var(--royal-ink);
+  background:
+    radial-gradient(ellipse at 50% 4%, #fffaf1 0%, transparent 58%),
+    linear-gradient(180deg, #f1e7d8, #e8dccb) !important;
+}
+#app .events-section .rl-title,
+#app .events-section .rl-eyebrow { color: var(--royal-wine) !important; }
+#app .events-card {
+  color: var(--royal-ink) !important;
+  background: linear-gradient(155deg, #fffaf1, #eee3d2) !important;
+  border: 1px solid rgba(139, 102, 57, .36) !important;
+  box-shadow: 0 18px 42px rgba(52, 34, 29, .13), inset 0 1px rgba(255,255,255,.9) !important;
+}
+#app .events-card h2,
+#app .events-card h3,
+#app .events-card .events-title { color: var(--royal-wine) !important; }
+#app .events-card p { color: #66544a !important; }
+#app .events-card span:not(.events-dot):not(.events-num) { color: #66544a !important; }
+#app .events-card .events-num {
+  color: #805d36 !important;
+  background: rgba(180, 138, 74, .1) !important;
+  border-color: rgba(139, 102, 57, .5) !important;
+}
+#app .events-card::after {
+  background: radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(180,138,74,.12), transparent 56%);
+}
+
+/* A berry velvet moment separates the event itinerary from the date keepsake. */
+#app .date-reveal-section {
+  color: var(--royal-paper);
+  background:
+    radial-gradient(ellipse at 50% 22%, rgba(173, 103, 113, .2), transparent 58%),
+    linear-gradient(155deg, #321725, #55263b 52%, #2b1624) !important;
+}
+#app .date-reveal-section .dr-band-top {
+  background: linear-gradient(180deg, #e8dccb, rgba(232,220,203,.35) 44%, transparent);
+}
+#app .date-reveal-section .dr-band-bottom {
+  background: linear-gradient(180deg, transparent, rgba(16,27,44,.42) 75%, var(--royal-night));
+}
+#app .date-reveal-section .dr-panel {
+  color: var(--royal-ink) !important;
+  background: linear-gradient(150deg, #fff8ed, #eadbce) !important;
+  border-color: rgba(199, 157, 103, .66) !important;
+  box-shadow: 0 24px 68px rgba(8, 4, 12, .32), inset 0 1px rgba(255,255,255,.9) !important;
+}
+#app .date-reveal-section .dr-title {
+  color: var(--royal-paper-light) !important;
+  text-shadow: 0 2px 22px rgba(0, 0, 0, .48), 0 0 38px rgba(180, 138, 74, .16) !important;
+}
+#app .date-reveal-section .dr-sub {
+  color: rgba(245, 239, 228, .82) !important;
+}
+#app .date-reveal-section .dr-names,
+#app .date-reveal-section .dr-month { color: var(--royal-wine) !important; text-shadow: none !important; }
+#app .date-reveal-section .dr-replay { color: #806048 !important; }
+#app .date-reveal-section .dr-eyebrow { color: #e8c07a !important; }
+#app .date-reveal-section .dr-title-orn { color: #806048 !important; }
+#app .date-reveal-section .dr-date-kicker,
+#app .date-reveal-section .dr-hint { color: #8a6437 !important; }
+#app .date-reveal-section .dr-path,
+#app .date-reveal-section .dr-heart-ring { border-color: rgba(142, 100, 57, .5) !important; }
+#app .date-reveal-section .dr-heart-svg stop:first-child { stop-color: #d6a5a2 !important; }
+#app .date-reveal-section .dr-heart-svg stop:last-child { stop-color: #9f5a69 !important; }
+#app .date-reveal-section .dr-heart-svg {
+  filter: drop-shadow(0 6px 12px rgba(89, 48, 61, .22)) !important;
+}
+#app .date-reveal-section .dr-date-on .dr-heart-svg {
+  filter: drop-shadow(0 5px 14px rgba(89, 48, 61, .28)) !important;
+}
+#app .date-reveal-section .dr-date-inner {
+  background: linear-gradient(145deg, #6a3546, #452132) !important;
+}
+#app .date-reveal-section .dr-date-inner .dr-names {
+  color: #fff1cf !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .28) !important;
+}
+#app .date-reveal-section .dr-date-inner .dr-month { color: #f5efe4 !important; }
+#app .date-reveal-section .dr-date-inner .dr-month span { color: #e8c07a !important; }
+#app .date-reveal-section .dr-date-inner .dr-big {
+  color: #e8c07a !important;
+  background: none !important;
+  -webkit-text-fill-color: #e8c07a !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .22);
+}
+#app .date-reveal-section .dr-date-inner .dr-replay { color: rgba(245, 239, 228, .78) !important; }
+
+/* A warm stone venue panel gives guests one calm, practical pause. */
+#app .venue-section {
+  color: var(--royal-ink);
+  background:
+    radial-gradient(ellipse at 50% 24%, #fffaf1, transparent 56%),
+    linear-gradient(180deg, #f0e5d6, #e6d9c8) !important;
+}
+#app .venue-section .rl-title,
+#app .venue-section .rl-eyebrow,
+#app .venue-section p { color: var(--royal-wine) !important; }
+#app .venue-section .rl-stars { opacity: .16; }
+#app .rg-directions {
+  color: var(--royal-paper-light);
+  border-color: rgba(87, 39, 59, .5);
+  background: var(--royal-wine);
+}
+#app .rg-directions:hover {
+  color: #fff;
+  background: #6a3047;
+  border-color: #6a3047;
+}
+
+/* Story cards are warm paper on berry, with the original timeline as a fine gold thread. */
+#app .story-section {
+  color: var(--royal-paper);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(164, 103, 109, .19), transparent 50%),
+    linear-gradient(180deg, #351a28, #26151f 100%) !important;
+}
+#app .story-section .rl-title,
+#app .story-section .rl-eyebrow { color: var(--royal-paper) !important; }
+#app .story-section .star-card.rl-glass,
+#app .story-section .star-card .rl-glass {
+  color: var(--royal-ink) !important;
+  background: linear-gradient(150deg, #fff8ed, #eadfce) !important;
+  border: 1px solid rgba(200, 160, 103, .54) !important;
+  box-shadow: 0 18px 46px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.9) !important;
+}
+#app .story-section .star-card h2,
+#app .story-section .star-card h3,
+#app .story-section .star-card p { color: var(--royal-ink) !important; }
+#app .story-section .star-card { transition: transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .45s ease !important; }
+#app .story-section .star-card:hover { transform: translateY(-4px) !important; }
+
+/* Keep the couple's letter distinct, framed by a restrained midnight-plum ground. */
+#app .couple-msg-section {
+  color: var(--royal-paper);
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(93, 53, 67, .22), transparent 60%),
+    linear-gradient(180deg, #171b27, #251721) !important;
+}
+#app .couple-msg-section .rl-stars { opacity: .22; }
+#app .couple-msg-section .letter-paper {
+  color: var(--royal-ink);
+  background: linear-gradient(145deg, #fff8ed, #ecdcc9) !important;
+  border: 1px solid rgba(180, 138, 74, .5);
+  box-shadow: 0 24px 64px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.9);
+}
+#app .couple-msg-section .msg-heart-svg stop:first-child { stop-color: #f0dfc0 !important; }
+#app .couple-msg-section .msg-heart-svg stop:nth-child(2) { stop-color: #c79183 !important; }
+#app .couple-msg-section .msg-heart-svg stop:last-child { stop-color: #925a64 !important; }
+
+/* Let the gallery feel like a quiet, darkroom pause before the final card. */
+#app .photo-carousel-section {
+  color: var(--royal-paper);
+  background:
+    radial-gradient(ellipse at 50% 44%, #34222b, transparent 68%),
+    #17151c !important;
+}
+#app .photo-carousel-section .photo-frame {
+  filter: drop-shadow(0 24px 42px rgba(0,0,0,.42));
+}
+
+/* The countdown keeps its midnight identity, now without a green seam. */
+#app .closing-section {
+  color: var(--royal-paper);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(105, 61, 77, .23), transparent 48%),
+    linear-gradient(180deg, #171622, #101b2c) !important;
+}
+#app .closing-section .rl-stars { opacity: .25; }
+
+/* Recolour the section joins to follow the new alternating palette. */
+#app .events-section,
+#app .story-section,
+#app .couple-msg-section,
+#app .photo-carousel-section,
+#app .closing-section { --seam: transparent 0%, transparent 100%; }
+#app .story-section { --seam: #e6d9c8 0%, #e6d9c8a8 36%, #e6d9c800 100%; }
+#app .couple-msg-section { --seam: #26151f 0%, #26151fa8 36%, #26151f00 100%; }
+#app .closing-section { --seam: #17151c 0%, #17151ca8 36%, #17151c00 100%; }
+
+/* Cinematic, low-motion mobile hero: preserve the faces and let the names read at a glance. */
+@media (max-width: 767px) {
+  #hero .hero-bg img {
+    object-position: 45% 24%;
+    filter: brightness(.78) saturate(.88) contrast(1.02);
+  }
+  #hero .hero-vignette {
+    background:
+      linear-gradient(180deg, rgba(20, 12, 18, .2), transparent 24%, transparent 56%, rgba(20, 12, 18, .62)),
+      linear-gradient(90deg, rgba(20, 12, 18, .12), transparent 60%);
+  }
+  #hero .hero-names {
+    position: absolute;
+    top: clamp(175px, 28vh, 245px);
+    left: 0;
+    width: 100%;
+    margin-top: 0;
+    transform: none;
+    gap: .12em;
+    justify-content: center;
+  }
+  #hero .hero-name {
+    font-size: clamp(29px, 8.6vw, 34px);
+    text-shadow: 0 2px 18px rgba(20, 12, 18, .8), 0 1px 2px rgba(20, 12, 18, .85);
+  }
+  #hero .hero-name .ltr {
+    color: #fff1cf !important;
+    background: none !important;
+    -webkit-text-fill-color: #fff1cf !important;
+    text-shadow: 0 2px 14px rgba(20, 12, 18, .95);
+  }
+  #hero.played .hero-amp {
+    color: #fff1cf;
+    -webkit-text-fill-color: #fff1cf;
+    opacity: 1;
+    animation: none !important;
+  }
+  #hero .hero-amp { font-size: clamp(1.45rem, 6vw, 1.8rem); }
+  #hero .hero-love,
+  #hero .hero-petals,
+  #hero .hero-sparks,
+  #hero .hero-rings,
+  #hero .hero-constellation { display: none !important; }
+  #hero .hero-heart-float { display: none !important; }
+  #hero .heart-fly,
+  #hero .heart-rays,
+  #hero .heart-flash { display: none !important; }
+  #hero .hero-heart-stage { width: 62px; height: 54px; }
+  #hero .heart-core {
+    width: 44px;
+    fill: none;
+    stroke: #f1dfbd;
+    stroke-width: 1.05;
+    filter: drop-shadow(0 0 8px rgba(246, 207, 124, .34));
+  }
+  #hero.played .hero-heart-stage { animation: royal-heart-settle .7s 1.15s both; }
+  #hero.played .heart-core {
+    opacity: .92 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    animation: none !important;
+  }
+  #hero.played .hero-names { animation: royal-name-arrive .75s .25s both; }
+  #hero.played .hero-name .ltr {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  #hero .hero-beams { opacity: .14; animation: none; }
+  #hero .hero-shooting-star { display: none; }
+
+  #app .invitation-details { padding-top: 48px !important; }
+  #app .invitation-details > .relative.flex.flex-col.items-center {
+    width: min(calc(100% - 28px), 600px);
+    padding: 46px 24px !important;
+  }
+  #app .invitation-details .invitation-step p:not(.invite-shimmer) {
+    font-size: clamp(18px, 5vw, 21px) !important;
+    line-height: 1.5 !important;
+  }
+  #app .invitation-details .invitation-step p.font-gotu {
+    font-size: clamp(17px, 4.7vw, 19px) !important;
+    letter-spacing: .12em !important;
+  }
+  #app .invitation-details .invite-shimmer {
+    font-size: clamp(56px, 17vw, 70px) !important;
+    line-height: 1 !important;
+    letter-spacing: .06em;
+  }
+
+  #app .events-section > .relative.z-10 {
+    padding-top: 76px;
+    padding-bottom: 48px;
+  }
+  #app .events-section .relative.mt-16 { margin-top: 48px; }
+  #app .events-section .grid.grid-cols-1 { row-gap: 24px; }
+  #app .events-section .events-card { padding: 26px 22px 24px; }
+  #app .date-reveal-section .dr-date-inner {
+    padding: 16px 12px 14px !important;
+  }
+  #app .venue-section > .relative.z-10 { padding-bottom: 72px; }
+  #app .date-reveal-section .dr-panel {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 22px;
+  }
+  #app .story-section > .relative.z-10 { padding-top: 76px; padding-bottom: 82px; }
+  #app .story-section .star-card:hover { transform: none !important; }
+  #app .photo-carousel-section {
+    height: auto !important;
+    min-height: 530px;
+  }
+  #app .photo-carousel-section .photo-frame { max-width: 360px; }
+}
+
+@keyframes royal-name-arrive {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes royal-heart-settle {
+  from { opacity: 0; transform: translateY(8px) scale(.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes royal-section-arrive {
+  from { opacity: 0; transform: translateY(18px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes royal-keepsake-arrive {
+  from { opacity: 0; transform: translateY(18px) scale(.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes royal-date-arrive {
+  0% { opacity: 0; transform: translateY(12px) scale(.96); }
+  65% { opacity: 1; transform: translateY(-2px) scale(1.012); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes royal-heart-sign {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes royal-photo-arrive {
+  from { opacity: 0; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes royal-countdown-arrive {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes royal-floating-heart {
+  0% { opacity: 0; transform: translate3d(0, 8px, 0) scale(.78) rotate(-8deg); }
+  24% { opacity: .3; }
+  72% { opacity: .22; }
+  100% { opacity: 0; transform: translate3d(-14px, -30px, 0) scale(1.08) rotate(9deg); }
+}
+
+#app .invitation-details.is-visible > .relative.flex.flex-col.items-center {
+  animation: royal-keepsake-arrive .8s cubic-bezier(.2,.7,.2,1) both;
+}
+#app .rl-sec::after {
+  content: "♥";
+  position: absolute;
+  top: clamp(34px, 5vh, 50px);
+  right: clamp(28px, 7vw, 104px);
+  z-index: 1;
+  color: rgba(232, 192, 122, .66);
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(14px, 1.8vw, 19px);
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  text-shadow: 0 0 14px rgba(232, 192, 122, .28);
+}
+#app .rl-sec.is-visible::after {
+  animation: royal-floating-heart 2.8s .2s cubic-bezier(.2,.7,.2,1) both;
+}
+#app .venue-section::after { color: rgba(133, 71, 74, .44); }
+#app .couple-msg-section::after { color: rgba(237, 191, 173, .64); }
+#app .photo-carousel-section::after { right: auto; left: clamp(28px, 7vw, 104px); }
+#app .closing-section::after { right: auto; left: clamp(28px, 7vw, 104px); }
+#app .events-section.is-visible .events-card { animation: none !important; }
+#app .events-section.is-visible .events-card.lit {
+  animation: royal-section-arrive .7s cubic-bezier(.2,.7,.2,1) both !important;
+  animation-delay: var(--d, 0s) !important;
+}
+#app .dr-date-on .dr-date-inner {
+  height: auto !important;
+  min-height: 270px;
+  box-sizing: border-box;
+  padding: 20px 16px 18px !important;
+  animation: royal-date-arrive .82s cubic-bezier(.2,.7,.2,1) both !important;
+}
+#app .dr-date-on .dr-date-inner::after {
+  animation: nm-sheen-sweep 3.8s ease-in-out 1 both !important;
+}
+#app .story-section .star-card.royal-in {
+  animation: royal-keepsake-arrive .72s cubic-bezier(.2,.7,.2,1) both;
+}
+#app .story-section .story-node.rg-arrive {
+  animation: royal-section-arrive .72s cubic-bezier(.2,.7,.2,1) both;
+}
+#app .couple-msg-section.is-visible .letter-paper {
+  animation: royal-keepsake-arrive .82s cubic-bezier(.2,.7,.2,1) both;
+}
+#app .couple-msg-section.is-visible .msg-heart-ink {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: royal-heart-sign 1.15s .32s cubic-bezier(.3,.7,.2,1) forwards;
+}
+#app .photo-carousel-section .photo-frame { animation: none !important; }
+#app .photo-carousel-section.is-visible .photo-slide-active {
+  animation: royal-photo-arrive .75s cubic-bezier(.2,.7,.2,1) both;
+}
+#app .photo-carousel-section .photo-ring-2 { animation-duration: 48s; }
+#app .photo-carousel-section button {
+  transition: transform .25s ease, opacity .25s ease;
+}
+#app .photo-carousel-section button:hover { transform: scaleX(1.12); }
+#app .closing-section.is-visible .countdown-unit-drop {
+  animation: royal-countdown-arrive .62s cubic-bezier(.2,.7,.2,1) both;
+}
+#app .closing-section.is-visible .countdown-unit-drop:nth-child(2) { animation-delay: .08s; }
+#app .closing-section.is-visible .countdown-unit-drop:nth-child(3) { animation-delay: .16s; }
+#app .closing-section.is-visible .countdown-unit-drop:nth-child(4) { animation-delay: .24s; }
+
+@media (max-width: 767px) {
+  #app .dr-date-on .dr-date-inner { min-height: 298px; padding: 16px 12px 14px !important; }
+  #app .dr-date-on .dr-date-inner .dr-replay {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: .12em;
+  }
+  #app .rl-sec::after { top: clamp(30px, 4.5vh, 40px); }
+  #app .photo-carousel-section .photo-ring-2 { animation-duration: 72s; }
+  #app .closing-section.is-visible .countdown-unit-drop { animation-duration: .5s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app .events-section.is-visible .events-card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  #app .invitation-details.is-visible > .relative.flex.flex-col.items-center,
+  #app .rl-sec.is-visible::after,
+  #app .events-section.is-visible .events-card.lit,
+  #app .dr-date-on .dr-date-inner,
+  #app .dr-date-on .dr-date-inner::after,
+  #app .story-section .star-card.royal-in,
+  #app .story-section .story-node.rg-arrive,
+  #app .couple-msg-section.is-visible .letter-paper,
+  #app .couple-msg-section.is-visible .msg-heart-ink,
+  #app .photo-carousel-section.is-visible .photo-slide-active,
+  #app .closing-section.is-visible .countdown-unit-drop {
+    animation: none !important;
+  }
+  #app .couple-msg-section .msg-heart-ink { stroke-dashoffset: 0 !important; }
+  #app .photo-carousel-section button { transition: none; }
+}

@@ -36,9 +36,9 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-india",
     title: "Wedding Invitation Website India",
     description:
-      "Create a personalised wedding invitation website in India with your events, venue, photos, RSVP and one WhatsApp-ready link from ₹1,499.",
+      "Create a personalised wedding invitation website in India with your events, venue, photos, RSVP and one WhatsApp-ready link for ₹1,299.",
     eyebrow: "Digital wedding invitations",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "A beautiful wedding website for every ceremony, guest and family member — designed in India and delivered as one link.",
     points: [
@@ -53,7 +53,7 @@ export const intentPages: IntentPage[] = [
       },
       {
         q: "How much does a wedding invitation website cost in India?",
-        a: "OurMoment wedding invitation websites start at ₹1,499, which includes personalisation with your details and delivery of your live link.",
+        a: "Every wedding invitation design is ₹1,299, including personalisation with your names, story, events and photos — with no extra personalisation fee.",
       },
       {
         q: "Can the website include every function?",
@@ -76,9 +76,9 @@ export const intentPages: IntentPage[] = [
     slug: "digital-wedding-invitation-india",
     title: "Digital Wedding Invitation India",
     description:
-      "A digital wedding invitation for Indian weddings — animated, personalised and shareable in one link from ₹1,499. No printing, no courier, no waiting.",
+      "A digital wedding invitation for Indian weddings — animated, personalised and shareable in one link for ₹1,299. No printing, no courier, no waiting.",
     eyebrow: "Digital invitations",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "Skip printing and couriers. A digital wedding invitation reaches every guest instantly and stays up to date in real time.",
     points: [
@@ -116,9 +116,9 @@ export const intentPages: IntentPage[] = [
     slug: "online-wedding-invitation-india",
     title: "Online Wedding Invitation India",
     description:
-      "Send an online wedding invitation that opens instantly on any phone — personalised with your names, events, venue and RSVP from ₹1,499.",
+      "Send an online wedding invitation that opens instantly on any phone — personalised with your names, events, venue and RSVP for ₹1,299.",
     eyebrow: "Online invitations",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "An online wedding invitation lives on a link you own — always available, always current and effortless for your guests.",
     points: [
@@ -236,9 +236,9 @@ export const intentPages: IntentPage[] = [
     slug: "whatsapp-wedding-invitation",
     title: "WhatsApp Wedding Invitation",
     description:
-      "A WhatsApp wedding invitation that opens instantly when you share the link — personalised with events, venue, map and RSVP from ₹1,499.",
+      "A WhatsApp wedding invitation that opens instantly when you share the link — personalised with events, venue, map and RSVP for ₹1,299.",
     eyebrow: "Built for WhatsApp",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "Your invitation should be as easy to send as a message. Share one link and every guest holds the full wedding.",
     points: [
@@ -278,7 +278,7 @@ export const intentPages: IntentPage[] = [
     description:
       "Share your wedding date early with a personalised save the date website in India — your story, date, countdown and a simple mobile-friendly link.",
     eyebrow: "Save the date websites",
-    price: "₹789",
+    price: "₹599",
     intro:
       "Give family and friends a beautiful first look at the date that matters, months before the wedding.",
     points: [
@@ -316,15 +316,15 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-cost-india",
     title: "Wedding Invitation Cost India",
     description:
-      "See the cost of a digital wedding invitation website and video in India. OurMoment websites start at ₹1,499 and invitation videos start at ₹399.",
+      "See clear pricing for a digital wedding invitation website, save-the-date page and invitation video in India.",
     eyebrow: "Simple, transparent pricing",
     price: "From ₹399",
     intro:
       "Choose the format that fits your wedding, guest list and budget — with no hidden charges.",
     points: [
-      "Wedding invitation website: from ₹1,499",
+      "Wedding invitation website: ₹1,299",
       "Wedding invitation video: from ₹399",
-      "Save the date website: from ₹789",
+      "Save the date website: ₹599",
     ],
     faqs: [
       {
@@ -356,9 +356,9 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-website-with-rsvp-india",
     title: "Wedding Website with RSVP India",
     description:
-      "A wedding website with RSVP built in — guests confirm attendance, guest count and meal preference in one tap. Personalised for Indian weddings from ₹1,499.",
+      "A wedding website with RSVP built in — guests confirm attendance, guest count and meal preference in one tap. Personalised for Indian weddings for ₹1,299.",
     eyebrow: "RSVP built in",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "Stop chasing replies across five different chats. Every RSVP lands in one simple place you can actually use.",
     points: [
@@ -396,9 +396,9 @@ export const intentPages: IntentPage[] = [
     slug: "marathi-wedding-invitation-website",
     title: "Marathi Wedding Invitation Website",
     description:
-      "Marathi wedding invitation websites with traditional warmth — lagna patrika details, Devanagari text and your family names, from ₹1,499.",
+      "Marathi wedding invitation websites with traditional warmth — lagna patrika details, Devanagari text and your family names, for ₹1,299.",
     eyebrow: "Marathi lagna invitations",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "A Marathi wedding invitation that feels like home — traditional motifs, Devanagari text and every ceremony your family expects.",
     points: [
@@ -436,9 +436,9 @@ export const intentPages: IntentPage[] = [
     slug: "hindi-wedding-invitation-website",
     title: "Hindi Wedding Invitation Website",
     description:
-      "Hindi wedding invitation websites with shubh vivah details, Devanagari text and animated scroll effects, personalised from ₹1,499.",
+      "Hindi wedding invitation websites with shubh vivah details, Devanagari text and animated scroll effects, personalised for ₹1,299.",
     eyebrow: "Hindi shaadi invitations",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "Shaadi ka nimantran, in the language your family speaks and reads with ease.",
     points: [
@@ -476,9 +476,9 @@ export const intentPages: IntentPage[] = [
     slug: "destination-wedding-invitation-website",
     title: "Destination Wedding Invitation Website",
     description:
-      "Destination wedding invitation websites with travel, stay and itinerary details for your guests, plus RSVP. Personalised from ₹1,999.",
+      "Destination wedding invitation websites with travel, stay and itinerary details for your guests, plus RSVP. Personalised for ₹1,299.",
     eyebrow: "Destination weddings",
-    price: "₹1,999",
+    price: "₹1,299",
     intro:
       "When guests travel, your invitation becomes their guide — flights, stays, schedule and everything in between.",
     points: [
@@ -516,9 +516,9 @@ export const intentPages: IntentPage[] = [
     slug: "mehendi-haldi-sangeet-invitation",
     title: "Mehendi, Haldi & Sangeet Invitation",
     description:
-      "Mehendi, Haldi and Sangeet invitation websites with a card for every function — dates, venues, dress code and RSVP in one link from ₹1,499.",
+      "Mehendi, Haldi and Sangeet invitation websites with a card for every function — dates, venues, dress code and RSVP in one link for ₹1,299.",
     eyebrow: "One card for every function",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "Indian weddings are many celebrations, not one. Give every function its own beautiful card on a single link.",
     points: [
@@ -556,9 +556,9 @@ export const intentPages: IntentPage[] = [
     slug: "engagement-invitation-website-india",
     title: "Engagement Invitation Website India",
     description:
-      "Engagement invitation websites with ring ceremony, roka and engagement details, your proposal story and photos from ₹1,499.",
+      "Engagement invitation websites with ring ceremony, roka and engagement details, your proposal story and photos for ₹1,299.",
     eyebrow: "Engagement invitations",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "The first celebration of your life together deserves more than a forwarded image.",
     points: [
@@ -596,9 +596,9 @@ export const intentPages: IntentPage[] = [
     slug: "reception-invitation-website-india",
     title: "Reception Invitation Website India",
     description:
-      "Reception invitation websites with venue, timings and dress code, personalised and shareable in one link from ₹1,499.",
+      "Reception invitation websites with venue, timings and dress code, personalised and shareable in one link for ₹1,299.",
     eyebrow: "Reception invitations",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "Keep the reception simple to find, easy to remember and beautiful to open.",
     points: [
@@ -716,9 +716,9 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-mumbai",
     title: "Wedding Invitation Website Mumbai",
     description:
-      "Wedding invitation websites for Mumbai couples — personalised, animated and shareable in one link from ₹1,499. No traffic, no couriers.",
+      "Wedding invitation websites for Mumbai couples — personalised, animated and shareable in one link for ₹1,299. No traffic, no couriers.",
     eyebrow: "Mumbai weddings",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "From Bandra to Borivali, one link brings your whole guest list together without the traffic.",
     points: [
@@ -756,9 +756,9 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-pune",
     title: "Wedding Invitation Website Pune",
     description:
-      "Wedding invitation websites for Pune couples — traditional Marathi warmth with modern animation, personalised from ₹1,499.",
+      "Wedding invitation websites for Pune couples — traditional Marathi warmth with modern animation, personalised for ₹1,299.",
     eyebrow: "Pune weddings",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "Pune weddings blend tradition and ease — your invitation can do the same.",
     points: [
@@ -796,9 +796,9 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-delhi",
     title: "Wedding Invitation Website Delhi",
     description:
-      "Wedding invitation websites for Delhi and NCR couples — animated, multi-event and shareable in one link from ₹1,499.",
+      "Wedding invitation websites for Delhi and NCR couples — animated, multi-event and shareable in one link for ₹1,299.",
     eyebrow: "Delhi & NCR weddings",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "For big Delhi weddings, one link replaces a hundred phone calls and lost cards.",
     points: [
@@ -836,9 +836,9 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-bangalore",
     title: "Wedding Invitation Website Bangalore",
     description:
-      "Wedding invitation websites for Bangalore couples — multi-language, animated and shareable in one link from ₹1,499.",
+      "Wedding invitation websites for Bangalore couples — multi-language, animated and shareable in one link for ₹1,299.",
     eyebrow: "Bangalore weddings",
-    price: "₹1,499",
+    price: "₹1,299",
     intro:
       "For couples who grew up across India and now call Bangalore home — one link reaches everyone.",
     points: [

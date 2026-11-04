@@ -1,11 +1,10 @@
 import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
 
 const TRUST = [
-  { title: "Ready fast", sub: "24–48 hour rush option" },
+  { title: "Made for your day", sub: "Personalised to your story" },
   { title: "Free preview", sub: "See it before you pay" },
   { title: "Every language", sub: "Hindi · Marathi · English" },
 ];
-
 /**
  * Home page hero.
  *
@@ -35,7 +34,7 @@ export default function Hero() {
             style={{ borderColor: "var(--blush-mid)", background: "rgba(255,255,255,0.7)", color: "var(--primary)" }}
           >
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--primary)" }} />
-            Trusted by 2,400+ Indian couples
+            Trusted by 1,234+ Indian couples
           </p>
 
           <h1
@@ -49,23 +48,21 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-8 sm:text-lg" style={{ color: "var(--text-secondary)" }}>
-            Personalised, animated and shareable in one link — Mehendi to Reception, venue, gallery,
-            love story and RSVP. Made for Indian weddings from{" "}
-            <strong style={{ color: "var(--text-primary)" }}>₹1,499</strong>, with a free preview
-            before you pay.
+            Your whole wedding on one link. Every function, venue, photo and RSVP —
+            ready to share on WhatsApp. All six designs are{" "}
+            <strong style={{ color: "var(--text-primary)" }}>₹1,299</strong>, including personalisation with no extra personalisation fee.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={PHONE_TEL}
-              aria-label={`Call OurMoment to order at ${PHONE_DISPLAY}`}
-              className="btn-primary inline-flex items-center justify-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-semibold text-white"
+              className="btn-primary inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-7 py-3.5 text-sm font-semibold text-white"
               style={{ boxShadow: "0 8px 28px rgba(194,24,91,0.30)" }}
             >
               <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z" />
               </svg>
-              Call to order
+              Call to personalise
             </a>
 
             <a
@@ -113,10 +110,13 @@ export default function Hero() {
               <img
                 src="/assets/demos/demo-1.webp"
                 alt="Animated Indian wedding invitation website design — OurMoment 'Lantern Dreams' template"
-                width={640}
-                height={900}
+                width={900}
+                height={1125}
                 fetchPriority="high"
-                className="h-[430px] w-full object-cover"
+                /* The preview is a real 4:5 screenshot of the design, which is
+                   how a guest opens it. The phone frame is slightly narrower,
+                   so bias the crop up to where the names sit. */
+                className="h-[430px] w-full object-cover object-[center_25%]"
               />
             </div>
           </div>
@@ -125,13 +125,14 @@ export default function Hero() {
             className="absolute -left-3 top-8 rounded-full px-3.5 py-1.5 text-[11px] font-bold text-white shadow-lg"
             style={{ background: "var(--gradient-rose)" }}
           >
-            From ₹1,499
+            ₹1,299
           </span>
           <span
-            className="absolute -right-3 bottom-10 rounded-full border bg-white px-3.5 py-1.5 text-[11px] font-bold shadow-lg"
+            className="absolute -right-3 bottom-8 rounded-2xl border bg-white px-4 py-2.5 text-left shadow-lg"
             style={{ borderColor: "var(--border)", color: "var(--text-mid)" }}
           >
-            Ready in 48 hrs
+            <span className="block text-[8px] font-bold uppercase tracking-[0.16em]" style={{ color: "var(--text-muted)" }}>Personalised wedding domain</span>
+            <span className="mt-0.5 block text-[11px] font-bold">veena-weds-aarav</span>
           </span>
         </div>
       </div>

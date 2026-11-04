@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="The Sharma Family Tree - an interactive branching tree of the whole family, generation by generation." />
+<title>The Sharma Family Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f1e8;--panel:#fffdf7;--ink:#22301f;--ink-soft:#5a6650;--line:#d9d3c0;
+  --leaf:#4f7a48;--leaf-2:#7fa06a;--gold:#b9863f;--bark:#6b4f34;
+  --serif:"Cormorant Garamond",serif;--sans:"Plus Jakarta Sans",sans-serif;--ease:cubic-bezier(.16,1,.3,1);
+}
+body{font-family:var(--sans);color:var(--ink);background:
+  radial-gradient(900px 500px at 50% -10%,rgba(127,160,106,.18),transparent 65%),var(--bg);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}
+::selection{background:var(--leaf);color:#fff}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(244,241,232,.84);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-size:22px;font-weight:600}
+.brand-mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(150deg,var(--leaf),var(--leaf-2));color:#fff;box-shadow:0 8px 18px rgba(79,122,72,.3)}
+.nav .meta{font-size:12.5px;color:var(--ink-soft);letter-spacing:.06em}
+@media(max-width:640px){.nav .meta{display:none}}
+
+.hero{text-align:center;padding:64px 22px 34px;max-width:900px;margin:0 auto;animation:heroArrive .9s var(--ease) both}
+@keyframes heroArrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.eyebrow{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--leaf);padding:7px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.7)}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(40px,7vw,78px);line-height:1.03;margin-top:20px}
+.hero h1 em{font-style:italic;color:var(--leaf)}
+.hero p{color:var(--ink-soft);max-width:54ch;margin:18px auto 0;font-size:16.5px}
+.legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:26px;font-size:12.5px;color:var(--ink-soft)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.dot{width:10px;height:10px;border-radius:50%}
+
+.stage{position:relative;max-width:1180px;margin:22px auto 0;padding:0 18px 40px}
+.tree-wrap{position:relative;border-radius:22px;border:1px solid var(--line);background:
+  radial-gradient(700px 400px at 50% 0%,rgba(255,255,255,.9),rgba(255,253,247,.6)),var(--panel);
+  box-shadow:0 40px 100px rgba(60,50,30,.1);overflow:hidden;padding:30px 20px 48px}
+.tree-wrap svg.branches{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.tree-wrap svg.branches path{stroke-dasharray:1;stroke-dashoffset:1;animation:branchGrow 1.2s var(--ease) forwards}
+@keyframes branchGrow{to{stroke-dashoffset:0}}
+.tree{position:relative;z-index:1;display:flex;flex-direction:column;gap:52px;align-items:center}
+.gen-label{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-left:6px}
+.row{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;width:100%}
+.node{width:200px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;
+  box-shadow:0 14px 34px rgba(60,50,30,.09);transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .3s;cursor:pointer;position:relative;
+  opacity:0;animation:nodeArrive .7s var(--ease) forwards;animation-delay:var(--node-delay,0s)}
+@keyframes nodeArrive{to{opacity:1}}
+.node:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(60,50,30,.16);border-color:var(--leaf-2)}
+.node:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.node .av{width:64px;height:64px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-family:var(--serif);font-size:26px;color:#fff;
+  background:linear-gradient(150deg,var(--leaf),var(--leaf-2));box-shadow:0 10px 22px rgba(79,122,72,.28);position:relative;overflow:hidden}
+.node .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s var(--ease)}
+.node .av img.loaded{opacity:1}
+.node .av .initials{position:relative;z-index:0}
+.node.wine .av{background:linear-gradient(150deg,#8a3b4a,#b96a78)}
+.node.gold .av{background:linear-gradient(150deg,var(--gold),#e3b96b);color:#3d2c12}
+.node h3{font-family:var(--serif);font-size:20px;font-weight:600}
+.node .r{font-size:12px;color:var(--ink-soft);letter-spacing:.04em;margin-top:2px}
+.node .yrs{display:inline-block;margin-top:9px;font-size:11px;font-weight:600;color:var(--leaf);background:rgba(127,160,106,.14);padding:3px 10px;border-radius:999px}
+.node .badge{position:absolute;top:-9px;right:-6px;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--gold);color:#fff;padding:3px 9px;border-radius:999px;box-shadow:0 6px 14px rgba(185,134,63,.4)}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:300;display:none;place-items:center;padding:24px;background:rgba(34,48,31,.5);backdrop-filter:blur(6px)}
+.modal.on{display:grid;animation:fade .3s var(--ease)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet{width:min(460px,94%);background:var(--panel);border-radius:22px;border:1px solid var(--line);box-shadow:0 50px 120px rgba(0,0,0,.34);overflow:hidden;animation:pop .4s var(--ease)}
+@keyframes pop{from{transform:translateY(24px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.sheet .top{height:120px;background:linear-gradient(150deg,var(--leaf),var(--leaf-2));position:relative}
+.sheet .top .av{position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;border:5px solid var(--panel);display:grid;place-items:center;font-family:var(--serif);font-size:32px;color:#fff;background:linear-gradient(150deg,var(--gold),#e3b96b)}
+.sheet .body{padding:48px 26px 28px;text-align:center}
+.sheet h3{font-family:var(--serif);font-size:28px}
+.sheet .r{color:var(--ink-soft);font-size:14px;margin-top:2px}
+.sheet p{margin-top:14px;color:var(--ink-soft);font-size:15px}
+.sheet .facts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.sheet .facts span{font-size:12px;font-weight:600;color:var(--leaf);background:rgba(127,160,106,.14);padding:5px 12px;border-radius:999px}
+.sheet .close{margin-top:22px;width:100%;padding:13px;border:none;border-radius:999px;background:var(--ink);color:#fff;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.sheet .close:hover{opacity:.88}
+
+.foot{text-align:center;padding:36px 22px 54px;color:var(--ink-soft);font-size:13px}
+.foot b{font-family:var(--serif);color:var(--ink);font-size:16px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .hero,.node,.tree-wrap svg.branches path{animation-duration:.01ms!important;animation-delay:0s!important}
+  .node{transition-duration:.01ms}
+}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <div class="brand"><div class="brand-mark">&#127795;</div><span>The Sharma Family Tree</span></div>
+  <div class="meta">3 generations &middot; 8 family stories</div>
+</div></nav>
+
+<header class="hero">
+  <span class="eyebrow">A living family archive</span>
+  <h1>One family, <em>rooted</em> and branching</h1>
+  <p>Every name carries a story. Follow the branches, then meet the people who made this family what it is.</p>
+  <div class="legend">
+    <span><i class="dot" style="background:#4f7a48"></i> Roots</span>
+    <span><i class="dot" style="background:#8a3b4a"></i> Keepers</span>
+    <span><i class="dot" style="background:#b9863f"></i> New leaves</span>
+  </div>
+</header>
+
+<div class="stage">
+  <div class="tree-wrap">
+    <svg class="branches" id="branches" preserveAspectRatio="none"></svg>
+    <div class="tree" id="tree"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-name">
+  <div class="sheet">
+    <div class="top"><div class="av" id="m-av"></div></div>
+    <div class="body">
+      <h3 id="m-name"></h3>
+      <div class="r" id="m-role"></div>
+      <p id="m-bio"></p>
+      <div class="facts" id="m-facts"></div>
+      <button class="close" id="m-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer class="foot"><b>The Sharma Family</b><br/>Branches added every year &middot; nothing forgotten</footer>
+
+<script>
+var DATA=[
+ {gen:"Roots &middot; 1930s",cls:"",badge:"Roots",members:[
+   {n:"Kamla Devi",r:"Great-grandmother",y:"1934&ndash;2011",f:["Jodhpur"],photo:"https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=240&q=80",bio:"Held the family together through three moves. Her kitchen was the first home every child remembered."},
+   {n:"Mohan Lal",r:"Great-grandfather",y:"1929&ndash;2008",f:["Jodhpur","Tailor"],photo:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=240&q=80",bio:"A tailor who stitched school uniforms for the whole street and never took money from a widow."}
+ ]},
+ {gen:"The keepers &middot; 1960s",cls:"wine",badge:"Keepers",members:[
+   {n:"Rakesh",r:"Grandfather",y:"b. 1962",f:["Jodhpur","Mumbai"],photo:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=240&q=80",bio:"Left home at nineteen with a borrowed cycle and a promise. Built a life from one sewing machine."},
+   {n:"Savitri",r:"Grandmother",y:"b. 1965",f:["Mumbai"],photo:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=240&q=80",bio:"The family's memory keeper. Every recipe, every remedy and every name lives in her head."},
+   {n:"Sarla",r:"Great-aunt",y:"b. 1968",f:["Jaipur","Singer"],photo:"https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=240&q=80",bio:"Sang at every wedding for forty years. Her voice is the soundtrack of our childhood."}
+ ]},
+ {gen:"New leaves &middot; 1990s",cls:"gold",badge:"New leaves",members:[
+   {n:"Ananya",r:"Daughter",y:"b. 1994",f:["Bangalore","Designer"],photo:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=240&q=80",bio:"Started this album. Believes a family is only lost when its stories stop being told."},
+   {n:"Rohan",r:"Son",y:"b. 1997",f:["Pune","Engineer"],photo:"https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=240&q=80",bio:"Fixes the Wi-Fi at every reunion and documents every gathering in photos no one else takes."},
+   {n:"Meera",r:"Niece",y:"b. 2001",f:["Delhi","Doctor"],photo:"https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=240&q=80",bio:"The first doctor in the family. Wears her grandmother's ring on every shift."}
+ ]}
+];
+var tree=document.getElementById("tree");
+tree.innerHTML=DATA.map(function(g){
+  return '<div class="gen-label">'+g.gen+'</div><div class="row">'+g.members.map(function(m,mi){
+    var initials=m.n.split(" ").map(function(w){return w[0]}).join("").slice(0,2).toUpperCase();
+    return '<div class="node '+g.cls+'" role="button" tabindex="0" aria-label="Read '+m.n+'’s family story" style="--node-delay:'+((mi+1)*.12)+'s" data-n="'+m.n+'" data-r="'+m.r+'" data-y="'+m.y+'" data-b="'+m.bio+'" data-f="'+m.f.join(",")+'" data-p="'+m.photo+'">'+
+      '<span class="badge">'+g.badge+'</span><div class="av"><span class="initials">'+initials+'</span><img src="'+m.photo+'" alt="" loading="lazy"></div><h3>'+m.n+'</h3><div class="r">'+m.r+'</div><span class="yrs">'+m.y+'</span></div>';
+  }).join("")+'</div>';
+}).join("");
+
+tree.querySelectorAll(".av img").forEach(function(img){
+  if(img.complete&&img.naturalWidth){img.classList.add("loaded");return;}
+  img.addEventListener("load",function(){img.classList.add("loaded")});
+});
+
+function drawBranches(){
+  var svg=document.getElementById("branches");
+  var wrap=document.querySelector(".tree-wrap").getBoundingClientRect();
+  svg.setAttribute("viewBox","0 0 "+wrap.width+" "+wrap.height);
+  var nodes=document.querySelectorAll(".node");
+  var anchors=[];
+  nodes.forEach(function(n){var b=n.getBoundingClientRect();anchors.push({x:b.left-wrap.left+b.width/2,y:b.top-wrap.top});});
+  var rowsWrap=document.querySelectorAll(".row");
+  var html="";
+  rowsWrap.forEach(function(row,ri){
+    if(ri===rowsWrap.length-1)return;
+    var next=rowsWrap[ri+1];
+    var kids=next.querySelectorAll(".node");
+    var px=[].slice.call(row.querySelectorAll(".node")).map(function(n){var b=n.getBoundingClientRect();return b.left-wrap.left+b.width/2;});
+    if(!px.length)return;
+    var parentX=px.reduce(function(a,b){return a+b},0)/px.length;
+    var b0=row.getBoundingClientRect(),b1=next.getBoundingClientRect();
+    var midY=(b0.bottom-wrap.top+b1.top-wrap.top)/2;
+    kids.forEach(function(k,ki){
+      var kb=k.getBoundingClientRect();
+      var kx=kb.left-wrap.left+kb.width/2, ky=kb.top-wrap.top;
+      html+='<path d="M'+parentX+' '+(b0.bottom-wrap.top)+' C '+parentX+' '+midY+', '+kx+' '+midY+', '+kx+' '+ky+'" fill="none" stroke="'+(ri===0?"#7fa06a":ri===1?"#b9863f":"#b96a78")+'" stroke-width="2" stroke-linecap="round" pathLength="1" opacity=".75" style="animation-delay:'+(ki*.12)+'s"/>';
+    });
+  });
+  svg.innerHTML=html;
+}
+window.addEventListener("load",drawBranches);
+window.addEventListener("resize",drawBranches);
+
+var modal=document.getElementById("modal");
+var lastFocus=null;
+tree.addEventListener("click",function(e){
+  var n=e.target.closest(".node");if(!n)return;
+  lastFocus=n;
+  var avatar=document.getElementById("m-av");
+  avatar.textContent=n.dataset.n.split(" ").map(function(w){return w[0]}).join("").slice(0,2).toUpperCase();
+  avatar.style.backgroundImage='linear-gradient(150deg,rgba(79,122,72,.2),rgba(127,160,106,.2)),url("'+n.dataset.p+'")';
+  avatar.style.backgroundSize="cover";
+  document.getElementById("m-name").textContent=n.dataset.n;
+  document.getElementById("m-role").textContent=n.dataset.r+" \u00b7 "+n.dataset.y;
+  document.getElementById("m-bio").textContent=n.dataset.b;
+  document.getElementById("m-facts").innerHTML=n.dataset.f.split(",").map(function(f){return "<span>"+f+"</span>"}).join("");
+  modal.classList.add("on");
+  document.getElementById("m-close").focus();
+});
+tree.addEventListener("keydown",function(e){
+  if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("node")){e.preventDefault();e.target.click();}
+});
+function closeMember(){
+  modal.classList.remove("on");
+  if(lastFocus)lastFocus.focus();
+}
+document.getElementById("m-close").addEventListener("click",closeMember);
+modal.addEventListener("click",function(e){if(e.target===modal)closeMember()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&modal.classList.contains("on"))closeMember()});
+
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.14});
+document.querySelectorAll(".reveal").forEach(function(el){io.observe(el)});
+</script>
+</body>
+</html>

@@ -36,8 +36,8 @@ export default function StickyCallBar() {
         }}
       >
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[12px] font-semibold text-white">Wedding invites from ₹1,499</p>
-          <p className="truncate text-[10px] text-white/60">Free preview · 48-hour rush option</p>
+          <p className="truncate text-[12px] font-semibold text-white">Wedding invites · ₹1,299</p>
+          <p className="truncate text-[10px] text-white/60">Personalised for your day</p>
         </div>
         <a
           href={PHONE_TEL}

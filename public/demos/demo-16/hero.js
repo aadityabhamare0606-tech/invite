@@ -6,8 +6,37 @@
   "use strict";
 
   const $ = (s, c = document) => c.querySelector(s);
-  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const replaceFormerName = (node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      node.nodeValue = node.nodeValue.replace(/\bIshaan\b/g, "Anaya");
+      return;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return;
+    for (const attr of node.attributes) {
+      if (/\bIshaan\b/.test(attr.value)) {
+        node.setAttribute(attr.name, attr.value.replace(/\bIshaan\b/g, "Anaya"));
+      }
+    }
+    node.childNodes.forEach(replaceFormerName);
+  };
+  const app = document.getElementById("app");
+  if (app) {
+    app.childNodes.forEach(replaceFormerName);
+    new MutationObserver((records) => {
+      for (const record of records) {
+        if (record.type === "characterData") replaceFormerName(record.target);
+        if (record.type === "attributes") replaceFormerName(record.target);
+        record.addedNodes.forEach(replaceFormerName);
+      }
+    }).observe(app, {
+      attributes: true,
+      attributeFilter: ["aria-label", "alt", "title"],
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+  }
 
   /* ── 0. Retire ONLY the old demo-8 hero visuals (Rahul/Namita over
      /assets/12.svg). Invite (invitation-details), Celebrations
@@ -323,7 +352,7 @@
     el.removeAttribute("data-letters");
   }
   letterize($("[data-letters='Arjun']"));
-  letterize($("[data-letters='Ishaan']"));
+  letterize($("[data-letters='Anaya']"));
 
   /* Replay hero when it enters view / after the seal opens. */
   if (hero && typeof IntersectionObserver !== "undefined") {
@@ -355,34 +384,37 @@
   if (audio && audioBtn) {
     const icoPlay = $("#ico-play");
     const icoPause = $("#ico-pause");
-    let audioFailed = false;
-    audio.addEventListener("error", () => {
-      audioFailed = true;
-    });
-    const burstAt = (el, n) => {
-      const r = el.getBoundingClientRect();
-      burst(r.left + r.width / 2, r.top + r.height / 2, n);
+    const setAudioState = (playing) => {
+      audioBtn.classList.toggle("playing", playing);
+      audioBtn.setAttribute("aria-pressed", String(playing));
+      audioBtn.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+      audioBtn.title = playing ? "Pause music" : "Play music";
+      if (icoPlay) icoPlay.style.display = playing ? "none" : "block";
+      if (icoPause) icoPause.style.display = playing ? "block" : "none";
     };
+    const reportAudioFailure = () => {
+      audioBtn.disabled = true;
+      audioBtn.setAttribute("aria-label", "Music unavailable");
+      audioBtn.title = "Music could not be loaded";
+      console.error("Rajwada wedding music could not be loaded.");
+    };
+    audio.addEventListener("error", () => {
+      reportAudioFailure();
+    });
+    audio.addEventListener("play", () => setAudioState(true));
+    audio.addEventListener("pause", () => setAudioState(false));
+    audio.addEventListener("ended", () => setAudioState(false));
     audioBtn.addEventListener("click", async (e) => {
       e.stopPropagation();
-      if (audioFailed) {
-        burstAt(audioBtn, 10);
-        return;
-      }
       try {
         if (audio.paused) {
           await audio.play();
-          audioBtn.classList.add("playing");
-          if (icoPlay) icoPlay.style.display = "block";
-          if (icoPause) icoPause.style.display = "none";
         } else {
           audio.pause();
-          audioBtn.classList.remove("playing");
-          if (icoPlay) icoPlay.style.display = "none";
-          if (icoPause) icoPause.style.display = "block";
         }
-      } catch (_) {
-        /* autoplay blocked - ignore */
+      } catch (error) {
+        console.error("Rajwada wedding music could not be started.", error);
+        audioBtn.title = "Music could not start. Tap to try again";
       }
     });
   }
@@ -495,6 +527,7 @@
      be exposed.                                                             */
   const hero = $("#hero");
   const heroImg = $("#hero .hero-bg img");
+  const isMobile = matchMedia("(max-width: 767px)");
   let stars = []; // filled once React has mounted — see wire() at the foot
 
   const depth = () => {
@@ -502,7 +535,8 @@
     if (heroImg) {
       const span = hero ? hero.offsetHeight : vh;
       const p = clamp(Math.min(scrollY, span) * 0.14, 0, 56);
-      heroImg.style.transform = `translate3d(0,${p.toFixed(1)}px,0) scale(1.22)`;
+      const scale = isMobile.matches ? 1.035 : 1.12;
+      heroImg.style.transform = `translate3d(0,${p.toFixed(1)}px,0) scale(${scale})`;
     }
     for (const el of stars) {
       const r = el.parentElement.getBoundingClientRect();
@@ -554,6 +588,29 @@
       nav.appendChild(b);
       items.push({ el, b });
     }
+  };
+
+  const retireDuplicateMusic = () => {
+    for (const duplicate of $$("audio", app)) {
+      const wrapper = duplicate.closest(".sticky");
+      if (wrapper) wrapper.remove();
+      else duplicate.remove();
+    }
+  };
+
+  const addVenueDirections = () => {
+    const venue = $(".venue-section", app);
+    const content = venue && venue.querySelector(".relative.z-10.mx-auto");
+    if (!content || content.querySelector(".rg-directions")) return;
+
+    const directions = document.createElement("a");
+    directions.className = "rg-directions";
+    directions.href =
+      "https://www.google.com/maps/search/?api=1&query=Rajwada+Lawns+Pune";
+    directions.target = "_blank";
+    directions.rel = "noopener noreferrer";
+    directions.textContent = "Get directions";
+    content.appendChild(directions);
   };
   buildNav();
   document.body.append(bar, nav);
@@ -628,6 +685,8 @@
     }
     stars = $$(".rl-sec .rl-stars");
     buildNav();
+    retireDuplicateMusic();
+    addVenueDirections();
 
     /* ── B · ARRIVAL BEATS ───────────────────────────────────────────────
        The event cards' gold sheen otherwise only ever runs off-screen.      */
@@ -658,6 +717,18 @@
         }
       }, { threshold: 0.9 });
       nodes.forEach((n) => flare.observe(n));
+    }
+
+    const storyCards = $$(".story-section .star-card");
+    if (storyCards.length && !REDUCED) {
+      const cardArrival = new IntersectionObserver((es) => {
+        for (const e of es) {
+          if (!e.isIntersecting) continue;
+          cardArrival.unobserve(e.target);
+          e.target.classList.add("royal-in");
+        }
+      }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+      storyCards.forEach((card) => cardArrival.observe(card));
     }
 
     /* ── C · COUNTDOWN TICK ──────────────────────────────────────────────
