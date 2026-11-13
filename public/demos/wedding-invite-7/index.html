@@ -217,7 +217,7 @@
       background:
         radial-gradient(ellipse 64% 52% at 50% 44%, var(--gate-glow) 0%, rgba(36, 18, 37, .55) 38%, rgba(36, 18, 37, 0) 70%),
         var(--gate-navy);
-      transition: opacity 1.15s var(--ease-out), visibility 1.15s;
+      transition: opacity .95s var(--ease-out), visibility .95s;
     }
     #opening.opening { opacity: 0; visibility: hidden; pointer-events: none; }
     #opening.done { display: none; }
@@ -229,10 +229,9 @@
        that drift right across the frame. The drift is what separates a sky
        from a screensaver. Only transform/translate/scale/opacity animate,
        so the whole field stays on the compositor. */
-    .opening-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; transition: transform 1.15s var(--ease-out), opacity 1.15s var(--ease-out); }
-    /* the gate does not simply fade, it lifts away like the sky is being drawn
-       up out of the way, which is what hands the stars over to the page */
-    #opening.opening .opening-sky { transform: translateY(-7%) scale(1.08); opacity: 0; }
+    .opening-sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; transition: transform .95s var(--ease-out), opacity .95s var(--ease-out); }
+    /* The gate lets its stars fade gently into the invitation's night sky. */
+    #opening.opening .opening-sky { transform: translateY(-1.5%); opacity: 0; }
     .opening-sky i { position: absolute; border-radius: 50%; }
 
     /* far dust — texture, not sparkle */
@@ -479,22 +478,20 @@
       width: min(92vw, 720px);
       text-align: center;
       user-select: none;
-      /* the exit: everything the guest is looking at lifts and settles rather
-         than the gate snapping away to reveal the site underneath */
-      transition: transform 1.15s var(--ease-out), opacity 1.15s var(--ease-out);
+      transition: transform .85s var(--ease-out), opacity .75s ease;
     }
-    #opening.opening .opening-content { transform: translateY(-2.5%) scale(1.035); opacity: 0; }
+    #opening.opening .opening-content { transform: translateY(-12px) scale(.99); opacity: 0; }
 
-    /* the small Ganesh this moment is about: a thin ring of gold with a single
-       jewel riding it (a rotating plain circle is invisible), the figure inside,
-       and one very quiet pool of light behind it all. The fine line work still
+    /* Ganesh sits clearly at the centre of a thin gold ring, with one jewel
+       riding it and a quiet pool of light behind the figure. The fine line work still
        gets no glow filter of its own — a drop-shadow over it costs a fifth of
        its detail, so the light lives behind it, courtesy of the aura. */
     .opening-emblem {
       position: relative;
       display: grid;
       place-items: center;
-      width: clamp(66px, 10.1vmin, 68px);
+      width: clamp(96px, 14vmin, 104px);
+      height: clamp(96px, 14vmin, 104px);
       aspect-ratio: 1;
       margin: 0 auto 28px;
     }
@@ -527,13 +524,16 @@
     }
     .opening-emblem picture { display: contents; }
     .opening-emblem img {
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
       z-index: 1;
-      width: 64%;
+      width: 88%;
       height: auto;
       aspect-ratio: 421 / 512;
       object-fit: contain;
       filter: drop-shadow(0 12px 26px rgba(0, 0, 0, .45));
+      transform: translate(-50%, -50%);
     }
 
     /* the words arrive quietly, one beat apart, never all at once */
@@ -556,13 +556,18 @@
       text-transform: uppercase;
       color: var(--gold);
     }
-    .opening-eyebrow { color: var(--gate-gold); }
+    .opening-eyebrow {
+      color: var(--gate-gold);
+      font-size: clamp(14px, 1.1vw, 15px);
+      letter-spacing: clamp(.22em, .7vw, .38em);
+      line-height: 1.55;
+    }
     .opening-names {
       margin: .55em 0 0;
       color: var(--gate-ivory);
       font-family: var(--serif);
       font-weight: 500;
-      font-size: clamp(2.38rem, 8.12vw, 3.60rem);
+      font-size: clamp(2.5rem, 7.2vw, 4rem);
       line-height: 1;
       letter-spacing: .01em;
     }
@@ -582,8 +587,8 @@
       gap: 16px;
       margin-top: 46px;
       color: var(--gate-gold);
-      font-size: 11px;
-      letter-spacing: .3em;
+      font-size: clamp(12px, .95vw, 14px);
+      letter-spacing: clamp(.18em, .38vw, .28em);
       text-transform: uppercase;
     }
     .opening-hint::before, .opening-hint::after { content: ""; width: 30px; height: 1px; background: rgba(214, 173, 99, .34); }
@@ -610,7 +615,7 @@
       margin: 14px 0 0;
       color: var(--gate-ivory);
       font-family: var(--serif);
-      font-size: clamp(0.76rem, 2.21vw, 0.85rem);
+      font-size: clamp(1rem, 1.35vw, 1.15rem);
       font-style: italic;
       font-weight: 400;
       letter-spacing: .02em;
@@ -690,18 +695,42 @@
        from save-the-date-1 so the phase reads exactly the same. */
     .mini-moon {
       position: fixed;
+      display: grid;
+      place-items: center;
       top: 26px;
       right: 26px;
       z-index: 1800;
       width: 104px;
       height: 104px;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
       opacity: 0;
       pointer-events: none;
+      cursor: pointer;
       filter: drop-shadow(0 0 12px rgba(230, 201, 124, .45)) drop-shadow(0 0 30px rgba(230, 201, 124, .2));
       transition: opacity .6s ease;
     }
-    .mini-moon.show { opacity: 1; }
+    .mini-moon.show { opacity: 1; pointer-events: auto; }
+    .mini-moon:focus-visible { outline: 2px solid rgba(247, 230, 181, .82); outline-offset: 3px; border-radius: 50%; }
     .mini-moon svg { display: block; width: 100%; height: 100%; }
+    .moon-heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: var(--heart-color, #f7d8e2);
+      font-size: var(--heart-size, 14px);
+      line-height: 1;
+      pointer-events: none;
+      text-shadow: 0 0 8px rgba(255, 205, 220, .8), 0 0 18px rgba(230, 201, 124, .48);
+      animation: moonHeartFloat 2.7s cubic-bezier(.16, 1, .3, 1) var(--heart-delay, 0s) both;
+    }
+    @keyframes moonHeartFloat {
+      0% { opacity: 0; transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(.35) rotate(-12deg); }
+      18% { opacity: .95; transform: translate(-50%, -50%) translate3d(0, -8px, 0) scale(1) rotate(0); }
+      100% { opacity: 0; transform: translate(-50%, -50%) translate3d(var(--heart-drift), var(--heart-rise), 0) scale(.52) rotate(var(--heart-rotation)); }
+    }
     .moon-defs { position: absolute; width: 0; height: 0; }
 
     /* Hero — the moonlit artwork is the stage; the moon, heart-knot and names
@@ -869,28 +898,45 @@
     }
     body.entered .hero-ring { animation: ringOpen 1.1s var(--ease-out) .45s forwards; }
     .hero-names {
+      display: grid;
+      justify-items: center;
+      row-gap: 4px;
       margin: 0;
       color: #fffaf0;
       font-family: var(--serif);
       font-size: clamp(3.6rem, 9.6vw, 5.9rem);
       font-weight: 500;
       letter-spacing: -.045em;
-      line-height: .78;
+      line-height: .9;
       text-shadow: 0 8px 48px rgba(6, 3, 15, .68), 0 1px 1px rgba(0, 0, 0, .45);
+      transform: translateY(-2px);
     }
     .hero-names .name {
-      display: inline-block;
+      display: block;
+      width: max-content;
+      margin-inline: auto;
       opacity: 0;
       transform: translateY(45px) scale(.96);
       filter: blur(8px);
     }
-    .hero-names .amp { display: inline-block; margin: 0 .13em; color: var(--gold-hi); font-size: .44em; font-style: italic; vertical-align: .27em; }
+    .hero-names .weds {
+      display: block;
+      margin: 0;
+      color: var(--gold-hi);
+      font-family: var(--sans);
+      font-size: clamp(.78rem, 2.1vw, 1rem);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: .3em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
     body.entered .hero-names .name { animation: nameRise 1.35s var(--ease-out) forwards; }
     body.entered .hero-names .name:first-child { animation-delay: .55s; }
-    body.entered .hero-names .name:last-child { animation-delay: .7s; }
-    body.entered .hero-names .amp { animation: ampIn 1s var(--ease-out) 1.05s forwards; opacity: 0; }
+    body.entered .hero-names .name:last-child { animation-delay: 1.05s; }
+    body.entered .hero-names .weds { animation: wedsIn 1s var(--ease-out) .8s forwards; opacity: 0; }
     @keyframes nameRise { to { opacity: 1; transform: none; filter: blur(0); } }
-    @keyframes ampIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @keyframes wedsIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
     @keyframes ringOpen { to { opacity: 1; transform: scaleX(1); } }
     .hero-line { margin: 0; color: #fffdf8; opacity: 0; font-family: var(--serif); font-size: clamp(1.08rem, 2.34vw, 1.32rem); font-style: italic; font-weight: 400; letter-spacing: .05em; text-shadow: 0 3px 20px rgba(12, 6, 30, .9), 0 0 30px rgba(255, 246, 220, .28); }
     .hero-line-1 { margin-top: 28px; text-shadow: 0 3px 20px rgba(12, 6, 30, .9), 0 0 30px rgba(255, 246, 220, .28); }
@@ -941,7 +987,7 @@
       16%  { opacity: .85; }
       100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
     }
-    /* Slow turn for every dashed orbit ring (opening halo, comet, seals, event symbols) */
+    /* Slow turn for the gate emblem and event-symbol orbit rings. */
     @keyframes orbitSpin { to { transform: rotate(360deg); } }
     .scroll-cue {
       position: absolute;
@@ -1019,7 +1065,6 @@
     .ornament i { position: relative; display: block; width: 8px; height: 8px; transform: rotate(45deg); border: 1px solid currentColor; }
     .ornament i::after { content: ""; position: absolute; width: 2px; height: 2px; inset: 2px; background: currentColor; }
 
-    /* Interactive date reveal */
     /* Couple photos — editorial grid: one tall portrait beside a 2×2 block.
        The 4/5 small tiles make the tall tile resolve to the same 0.8 portrait
        ratio as the source photos, so nothing is cropped awkwardly. */
@@ -1099,8 +1144,6 @@
     .gallery-item:hover .gallery-frame::after, .gallery-item:focus-visible .gallery-frame::after { opacity: .42; }
     .gallery-item:hover .gallery-frame::before, .gallery-item:focus-visible .gallery-frame::before { opacity: 1; transform: scale(1); }
     .gallery-item:hover .gallery-caption, .gallery-item:focus-visible .gallery-caption { transform: none; }
-    .gallery-note { margin: 30px auto 0; max-width: 600px; color: var(--muted); font-size: 20px; text-align: center; }
-
     /* Lightbox */
     .lightbox {
       position: fixed;
@@ -1179,139 +1222,106 @@
       mask-image: radial-gradient(circle at center, #000, transparent 74%);
     }
     .date-reveal { position: relative; }
-    .seal-row { display: grid; grid-template-columns: repeat(3, minmax(110px, 180px)); justify-content: center; gap: clamp(12.60px, 3.25vw, 34.80px); margin: 68px auto 48px; }
-    .seal {
+    .date-display {
       position: relative;
+      isolation: isolate;
       display: grid;
-      place-items: center;
-      width: 100%;
-      aspect-ratio: 1;
-      border: 1px solid rgba(230, 201, 124, .32);
-      border-radius: 50%;
-      color: var(--gold-hi);
-      background: radial-gradient(circle at 40% 32%, rgba(230, 201, 124, .11), rgba(12, 9, 27, .84) 65%);
-      box-shadow: inset 0 0 0 8px rgba(12, 9, 27, .55), inset 0 0 0 9px rgba(230, 201, 124, .08), 0 18px 55px rgba(0, 0, 0, .28);
-      transition: transform .5s var(--ease-pop), border-color .4s ease, box-shadow .4s ease;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(10px, 2.6vw, 24px);
+      width: min(660px, 100%);
+      margin: 42px auto 0;
     }
-    .seal::before, .seal::after { content: ""; position: absolute; border-radius: 50%; transition: opacity .5s ease, scale .8s var(--ease-out); }
-    .seal::before { inset: 8px; border: 1px dashed rgba(200, 206, 142, .28); animation: orbitSpin 22s linear infinite; }
-    .seal::after { inset: 22px; border: 1px solid rgba(230, 201, 124, .13); }
-    .seal:hover { transform: translateY(-6px) scale(1.035); border-color: rgba(247, 230, 181, .8); box-shadow: 0 24px 70px rgba(230, 201, 124, .18), inset 0 0 0 8px rgba(12, 9, 27, .5); }
-
-    /* Scratch-to-reveal, on the circle itself.
-       The number is ordinary DOM text under a canvas of gold foil, so it stays
-       readable to assistive tech, plainly visible if the script never runs, and
-       a keyboard guest can simply press the circle to lift the foil. JS paints
-       the foil, tracks how much has been rubbed away, and takes over at 45% so
-       nobody is ever stuck grinding at it. */
-    .seal { cursor: crosshair; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
-    .seal.is-scratching { cursor: grabbing; }
-    .seal:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 5px; }
-    /* Once the gold is off, the circle has done its job and goes away entirely:
-       border, disc, both rings and the halo all dissolve, and the number is left
-       standing on its own. What replaces the circle is not another shape but
-       light — a warm bloom behind the digits, so the row still reads as a row. */
-    .seal.is-done {
-      cursor: default;
-      background: none;
-      border-color: transparent;
-      box-shadow: none;
-      transition: transform .5s var(--ease-pop), background .7s var(--ease-out), border-color .6s ease, box-shadow .6s ease;
-    }
-    .seal.is-done::before, .seal.is-done::after { opacity: 0; scale: 1.34; }
-    .seal.is-done .seal-glow { opacity: 0; transform: none; }
-    .seal.is-done .seal-value {
-      opacity: 0;
-      transform: scale(.9);
-      text-shadow: 0 0 30px rgba(230, 201, 124, .5), 0 0 74px rgba(230, 201, 124, .22);
-    }
-    .seal.is-done .seal-value.is-in { animation: sealValueIn .9s var(--ease-out) both; }
-    @keyframes sealValueIn { 0% { opacity: 0; transform: scale(.86); } 60% { opacity: 1; } 100% { opacity: 1; transform: none; } }
-
-    /* the foil: a canvas, so the rubbed edge can be genuinely torn */
-    .seal-foil {
+    .date-display::before {
+      content: "";
       position: absolute;
-      inset: 13px;
-      z-index: 3;
-      display: block;
-      width: calc(100% - 26px);
-      height: calc(100% - 26px);
+      z-index: -1;
+      inset: -20% -8%;
       border-radius: 50%;
-      pointer-events: none;
+      background: radial-gradient(ellipse, rgba(230, 201, 124, .16), rgba(122, 16, 33, .08) 44%, transparent 72%);
+      filter: blur(18px);
       opacity: 0;
-      transition: opacity .45s ease, transform .85s var(--ease-out), filter .85s var(--ease-out);
-    }
-    .seal.is-armed .seal-foil { opacity: 1; }
-    .seal.is-armed:not(.is-done) .seal-foil { animation: foilShimmer 5.4s ease-in-out infinite; }
-    .seal.is-done .seal-foil { opacity: 0; transform: scale(1.08); filter: blur(2px); }
-    @keyframes foilShimmer { 0%, 100% { filter: brightness(1) saturate(1); } 50% { filter: brightness(1.2) saturate(1.14); } }
-
-    /* a warm halo, kept dark while the circle is still closed — it belongs to
-       the moon at the end, and to nothing before that */
-    .seal-glow {
-      position: absolute;
-      inset: -18%;
-      z-index: 0;
-      border-radius: 50%;
+      transform: scale(.78);
       pointer-events: none;
-      background: radial-gradient(closest-side, rgba(230, 201, 124, .22), transparent 72%);
-      opacity: 0;
-      transform: scale(.72);
-      transition: opacity 1s var(--ease-out), transform 1.3s var(--ease-out);
     }
-    @keyframes moonBreath {
-      0%, 100% { opacity: .78; scale: 1; }
-      50%      { opacity: 1;   scale: 1.07; }
+    .date-display.in::before { animation: dateHalo 1.8s var(--ease-out) both; }
+    @keyframes dateHalo {
+      24% { opacity: 1; transform: scale(1.08); }
+      100% { opacity: .58; transform: scale(1); }
     }
-
-    /* one light sweep across the circle as the last of the gold lifts */
-    .seal-shine {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0;
-      mix-blend-mode: screen;
-      background: linear-gradient(102deg, transparent 36%, rgba(255, 246, 216, .48) 50%, transparent 64%);
-    }
-    .seal.is-done .seal-shine { animation: shineSweep 1.5s .1s var(--ease-out) both; }
-    @keyframes shineSweep { 0% { opacity: 0; transform: translateX(-78%); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateX(78%); } }
-
-    /* rings blooming out of the point the gold was last lifted */
-    .seal-ring {
-      position: absolute;
-      z-index: 5;
-      width: 58px;
-      height: 58px;
-      margin: -29px 0 0 -29px;
-      border: 1px solid rgba(255, 242, 210, .8);
-      border-radius: 50%;
-      pointer-events: none;
-      animation: sealRingOut 1.3s var(--ease-out) forwards;
-    }
-    @keyframes sealRingOut { 0% { opacity: .9; transform: scale(.18); } 100% { opacity: 0; transform: scale(9); } }
-    .seal-value {
+    .date-part {
       position: relative;
-      z-index: 1;
+      isolation: isolate;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      min-width: 0;
+      min-height: clamp(132px, 18vw, 164px);
+      padding: 18px 10px;
+      overflow: hidden;
+      border: 1px solid rgba(230, 201, 124, .28);
+      border-radius: 18px;
+      background: linear-gradient(155deg, rgba(255, 255, 255, .055), rgba(230, 201, 124, .025) 60%, rgba(12, 9, 27, .42));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 18px 44px rgba(0, 0, 0, .2);
+      opacity: 0;
+      transform: perspective(900px) translateY(26px) rotateX(13deg) scale(.94);
+      transform-origin: 50% 100%;
+      backface-visibility: hidden;
+    }
+    .date-part::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      z-index: -1;
+      border: 1px solid rgba(200, 206, 142, .12);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+    .date-part::after {
+      content: "";
+      position: absolute;
+      inset: -20% -70%;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(110deg, transparent 46%, rgba(247, 230, 181, .18) 50%, transparent 54%);
+      opacity: 0;
+      transform: translateX(-65%);
+    }
+    .date-display.in .date-part {
+      animation: dateLift 1.05s var(--ease-out) forwards;
+    }
+    .date-display.in .date-part:nth-child(2) { animation-delay: .18s; }
+    .date-display.in .date-part:nth-child(3) { animation-delay: .36s; }
+    .date-display.in .date-part::after {
+      animation: dateShine 1.35s var(--ease-out) .48s both;
+    }
+    .date-display.in .date-value { animation: dateValueIn .8s var(--ease-out) both; }
+    .date-display.in .date-part:nth-child(2) .date-value { animation-delay: .24s; }
+    .date-display.in .date-part:nth-child(3) .date-value { animation-delay: .42s; }
+    @keyframes dateLift {
+      from { opacity: 0; filter: blur(5px); transform: perspective(900px) translateY(26px) rotateX(13deg) scale(.94); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes dateValueIn {
+      from { opacity: 0; filter: blur(5px); transform: translateY(10px) scale(.88); }
+      to { opacity: 1; filter: blur(0); transform: none; }
+    }
+    @keyframes dateShine {
+      18% { opacity: .8; }
+      100% { opacity: 0; transform: translateX(65%); }
+    }
+    .date-value {
+      color: var(--gold-hi);
       font-family: var(--serif);
-      font-size: clamp(1.75rem, 4.94vw, 2.76rem);
+      font-size: clamp(2.15rem, 5.2vw, 3.25rem);
       font-weight: 500;
       line-height: 1;
-      transition: opacity .45s ease, transform .7s var(--ease-out), color .9s var(--ease-out), text-shadow .9s var(--ease-out);
+      font-variant-numeric: lining-nums;
+      text-shadow: 0 0 28px rgba(230, 201, 124, .2);
     }
-    .seal:last-child .seal-value { font-size: clamp(1.15rem, 3.51vw, 1.95rem); letter-spacing: .02em; }
-
-    /* The three moons settle and glow once the whole date is out */
-    .seal-row.settled .seal { animation: sealSettle .78s var(--ease-pop) both; }
-    .seal-row.settled .seal:nth-child(1) { animation-delay: .04s; }
-    .seal-row.settled .seal:nth-child(2) { animation-delay: .16s; }
-    .seal-row.settled .seal:nth-child(3) { animation-delay: .28s; }
-    @keyframes sealSettle { 0% { transform: scale(1); } 42% { transform: scale(1.14); } 100% { transform: scale(1); } }
-
-    .reveal-copy { max-width: 660px; min-height: 3.4em; margin: 26px auto 0; text-align: center; color: var(--muted); font-size: 17px; line-height: 1.7; }
-    .reveal-copy em { color: var(--gold-hi); font-style: normal; }
-
+    .date-part:nth-child(2) .date-value {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      letter-spacing: .12em;
+    }
     /* Story timeline */
     .story-section { overflow: hidden; background: linear-gradient(170deg, #0e0a1f, #1b1230 48%, #0e0a1f); }
     .story-section::before, .story-section::after {
@@ -1423,8 +1433,8 @@
     .celeb-ornament i { width: min(120px, 22vw); height: 1px; background: linear-gradient(90deg, transparent, rgba(230, 201, 124, .5), transparent); }
     .celeb-ornament span { font-size: 13px; line-height: 1; }
 
-    /* Six tracks so the last two of the five cards sit centred beneath the
-       first three on wide screens. */
+    /* Six tracks keep the first four ceremonies balanced; the reception sits
+       beneath the gap between the second and third cards. */
     .event-grid {
       position: relative;
       z-index: 1;
@@ -1439,7 +1449,7 @@
     .event-thread-progress { stroke: rgba(247, 230, 181, .66); stroke-width: 1.6; filter: drop-shadow(0 0 4px rgba(230, 201, 124, .24)); transition: stroke-dashoffset 1.7s var(--ease-out); }
     .event-wrap { position: relative; z-index: 1; grid-column: span 2; }
     .event-wrap:nth-of-type(4) { grid-column: 2 / span 2; }
-    .event-wrap:nth-of-type(5) { grid-column: 4 / span 2; }
+    .event-wrap:nth-of-type(5) { grid-column: 4 / span 2; grid-row: 3; }
     /* cascade the five cards in one after another */
     .event-grid .event-wrap:nth-of-type(2) { transition-delay: .09s; }
     .event-grid .event-wrap:nth-of-type(3) { transition-delay: .18s; }
@@ -1593,7 +1603,7 @@
 
     @media (max-width: 900px) {
       .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .event-wrap { grid-column: span 1 !important; }
+      .event-wrap { grid-column: span 1 !important; grid-row: auto !important; }
     }
     @media (max-width: 560px) {
       .event-grid { grid-template-columns: 1fr; }
@@ -1667,7 +1677,6 @@
     .count-cell + .count-cell::before { content: ""; position: absolute; top: 17px; bottom: 17px; left: 0; width: 1px; background: linear-gradient(transparent, rgba(230, 201, 124, .22), transparent); }
     .count-number { display: block; color: var(--gold-hi); font-family: var(--serif); font-size: clamp(2.24rem, 5.46vw, 3.48rem); font-variant-numeric: tabular-nums; font-weight: 500; line-height: 1; text-shadow: 0 0 26px rgba(230, 201, 124, .15); }
     .count-label { display: block; margin-top: 11px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; }
-    .countdown-note { position: relative; z-index: 1; margin: 30px 0 0; color: var(--faint); font-family: var(--serif); font-size: 17px; font-style: italic; }
     .countdown-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
     /* the four figures rise in turn as the section lands */
     .countdown .count-cell { opacity: 0; transform: translateY(18px); }
@@ -1684,10 +1693,7 @@
     .message-section::before { content: ""; position: absolute; inset: 0; opacity: .5; background: radial-gradient(circle at 15% 8%, rgba(230, 201, 124, .12), transparent 26%), radial-gradient(circle at 86% 92%, rgba(53, 95, 88, .22), transparent 30%); }
     .message-section .section-heading { position: relative; z-index: 1; margin-bottom: 52px; }
     .letter-stage { position: relative; z-index: 1; display: grid; justify-items: center; }
-    /* The letter arrives sealed. A wax-sealed envelope is what the guest meets
-       first, and they open it themselves. The parchment below is already in the
-       DOM — so the words exist for anyone who never taps — but it stays folded
-       away until the envelope is broken. */
+    /* The letter arrives sealed and stays folded away until the envelope opens. */
     .letter-env-wrap {
       display: grid;
       justify-items: center;
@@ -1784,9 +1790,8 @@
       box-shadow: 0 46px 110px rgba(0, 0, 0, .5), 0 6px 22px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .75);
     }
     .letter-stage.is-open .letter-paper { opacity: 1; }
-    /* The body is written, not merely shown: a single blinking nib follows the
-       last letter for as long as the message is being typed out. */
-    .letter-copy.is-typing::after {
+    /* A blinking nib moves with the letter as each line is written. */
+    .letter-paper p.is-typing::after {
       content: "";
       display: inline-block;
       width: 2px;
@@ -1837,17 +1842,6 @@
 
     /* RSVP */
 
-    /* Finale */
-    .finale { position: relative; display: grid; min-height: 75svh; place-items: center; overflow: hidden; text-align: center; background: radial-gradient(circle at 50% 45%, #3b2444, #15102b 44%, #080611 100%); }
-    .finale::before { content: ""; position: absolute; left: 50%; top: 45%; width: min(74vw, 620px); aspect-ratio: 1; transform: translate(-50%, -50%); border: 1px solid rgba(230, 201, 124, .13); border-radius: 50%; box-shadow: 0 0 0 48px rgba(230, 201, 124, .02), 0 0 0 100px rgba(230, 201, 124, .015); animation: haloBreathe 6s ease-in-out infinite; }
-    @keyframes haloBreathe { 50% { transform: scale(1.04); opacity: .72; } }
-    .finale-moon { position: absolute; top: 6%; left: 50%; width: min(25vw, 220px); transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle at 37% 32%, #fff5d5, #dac48e 55%, #8c754d); box-shadow: 0 0 90px rgba(230, 201, 124, .32), inset -28px -18px 50px rgba(80, 57, 55, .28); }
-    .finale-moon::after { content: ""; position: absolute; width: 12%; aspect-ratio: 1; top: 24%; left: 24%; border-radius: 50%; background: rgba(99, 79, 68, .13); box-shadow: 44px 67px 0 12px rgba(99, 79, 68, .08), 18px 108px 0 4px rgba(99, 79, 68, .08); }
-    .finale-content { position: relative; z-index: 2; width: min(92vw, 730px); margin-top: 5vh; }
-    .finale-content h2 { margin: 14px 0 0; color: var(--cream); font-family: var(--serif); font-size: clamp(2.38rem, 5.98vw, 4.14rem); font-weight: 500; line-height: .9; }
-    .finale-content h2 em { color: var(--gold-hi); }
-    .finale-content p { max-width: 580px; margin: 26px auto 0; color: var(--muted); font-size: 18px; }
-    .finale-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 35px; }
     .footer { position: relative; z-index: 2; padding: 0 20px 32px; text-align: center; background: #080611; }
     .footer-orn { width: 42px; height: 1px; margin: 0 auto 20px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
     .footer p { margin: 0; color: rgba(246, 237, 218, .36); font-size: 11px; letter-spacing: .23em; text-transform: uppercase; }
@@ -1863,11 +1857,7 @@
       background: var(--spark-color, var(--gold));
       box-shadow: 0 0 10px var(--spark-color, var(--gold));
     }
-    /* Entry: the gate handing its sky over to the invitation. The particles are
-       four point sparkles rather than round dots, because this sky has never
-       held a round dot and confetti would break it, and they rise and wander
-       instead of exploding. Everything sits above the gate's own z-index so the
-       last of it is still floating over the site after the overlay is gone. */
+    /* A few small four-point stars drift up from the tap as the gate fades. */
     .gate-star {
       position: fixed;
       z-index: 4100;
@@ -1888,94 +1878,6 @@
     }
     .gate-star::before { width: 1px; height: var(--flare, 10px); translate: -50% -50%; }
     .gate-star::after  { width: var(--flare, 10px); height: 1px; translate: -50% -50%; }
-    .gate-bloom {
-      position: fixed;
-      z-index: 4090;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 248, 231, .95), rgba(247, 230, 181, .5) 38%, transparent 70%);
-      pointer-events: none;
-    }
-    .gate-ring {
-      position: fixed;
-      z-index: 4080;
-      border: 1px solid rgba(247, 230, 181, .5);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .gate-meteor {
-      position: fixed;
-      z-index: 4070;
-      height: 1.5px;
-      background: linear-gradient(90deg, transparent, rgba(255, 248, 231, .95));
-      box-shadow: 0 0 12px rgba(247, 230, 181, .55);
-      pointer-events: none;
-    }
-    /* Date-reveal celebration: hearts drifting up, ice drifting down.
-       Every particle reads its own travel, sway, tint and rhythm from inline
-       custom properties so one keyframe set can drive all of them. */
-    .flow-heart {
-      position: fixed;
-      z-index: 2250;
-      pointer-events: none;
-      font-family: var(--serif);
-      line-height: 1;
-      will-change: transform, opacity;
-      /* the halo follows the heart's own colour, so a rose heart glows rose */
-      text-shadow: 0 0 12px currentColor, 0 0 30px currentColor;
-      animation: heartFlow var(--dur, 3600ms) var(--ease-out) var(--delay, 0ms) forwards;
-    }
-    .flow-ice, .flow-flake {
-      position: fixed;
-      z-index: 2240;
-      pointer-events: none;
-      will-change: transform, opacity;
-      animation: iceDrift var(--dur, 4200ms) linear var(--delay, 0ms) forwards;
-    }
-    .flow-ice {
-      width: var(--size, 12px);
-      height: var(--size, 12px);
-      background: var(--tint, #e8f4ff);
-      clip-path: polygon(50% 0%, 59% 41%, 100% 50%, 59% 59%, 50% 100%, 41% 59%, 0% 50%, 41% 41%);
-      filter: drop-shadow(0 0 7px var(--tint, #e8f4ff));
-    }
-    .flow-flake {
-      width: var(--size, 4px);
-      height: var(--size, 4px);
-      border-radius: 1px;
-      background: var(--tint, #dceaff);
-      box-shadow: 0 0 9px var(--tint, #dceaff);
-    }
-    /* A radial burst of hearts for the instant the date comes out of the gold.
-       Unlike the moon's rising column, these fly outward all at once, so the
-       reveal lands as a single celebratory pop rather than a drift. */
-    .blast-heart {
-      position: fixed;
-      z-index: 2260;
-      pointer-events: none;
-      font-family: var(--serif);
-      line-height: 1;
-      will-change: transform, opacity;
-      text-shadow: 0 0 12px currentColor, 0 0 26px currentColor;
-    }
-    @keyframes heartFlow {
-      0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(.3); }
-      14%  { opacity: 1; }
-      26%  { transform: translate3d(calc(var(--dx) * .1), calc(var(--rise) * .22), 0) scale(.86) rotate(calc(var(--rot) * .12)); }
-      48%  { transform: translate3d(calc(var(--dx) * .46 + var(--sway)), calc(var(--rise) * .5), 0) scale(1) rotate(calc(var(--rot) * .42)); }
-      70%  { opacity: .92; transform: translate3d(calc(var(--dx) * .74 - var(--sway)), calc(var(--rise) * .74), 0) scale(1.06) rotate(calc(var(--rot) * .7)); }
-      100% { opacity: 0; transform: translate3d(var(--dx), var(--rise), 0) scale(1.12) rotate(var(--rot)); }
-    }
-    @keyframes iceDrift {
-      0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(.2) rotate(0deg); }
-      9%   { opacity: var(--peak); }
-      24%  { opacity: calc(var(--peak) * .28); }
-      40%  { opacity: var(--peak); }
-      58%  { opacity: calc(var(--peak) * .34); }
-      76%  { opacity: calc(var(--peak) * .8); }
-      100% { opacity: 0; transform: translate3d(var(--dx), var(--dy), 0) scale(var(--sc)) rotate(var(--rot)); }
-    }
     .toast {
       position: fixed;
       right: 18px;
@@ -2009,8 +1911,6 @@
       .moon-wrap { top: 16%; width: min(47vw, 210px); }
       .hero-content { top: 26%; }
       .hero-names { font-size: clamp(2.80rem, 13.00vw, 4.14rem); }
-      .seal-row { gap: 13px; }
-      .seal { box-shadow: inset 0 0 0 5px rgba(12, 9, 27, .55), inset 0 0 0 6px rgba(230, 201, 124, .08), 0 18px 40px rgba(0, 0, 0, .22); }
       .story-list { gap: 36px; padding-left: 45px; }
       .story-item { display: block; }
       .story-item:nth-child(odd) .story-card, .story-item:nth-child(even) .story-card { width: 100%; text-align: left; }
@@ -2019,8 +1919,6 @@
       .countdown { grid-template-columns: repeat(2, 1fr); max-width: 390px; }
       .count-cell:nth-child(3)::before { display: none; }
       .count-cell:nth-child(n+3) { margin-top: 28px; }
-      .finale-moon { width: min(43vw, 180px); }
-      .finale-content { margin-top: 18vh; }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-item--tall { grid-column: span 2; grid-row: span 1; }
       .gallery-item--tall .gallery-frame { aspect-ratio: 5 / 4; }
@@ -2033,22 +1931,16 @@
          closer to the top of the gate than it does on a desktop. Only the
          radius changes — overriding the mask here would pin the phase still. */
       .gate-moon { top: 5%; right: 6%; width: 44px; height: 44px; --rmoon: 22px; }
-      .opening-names { font-size: 3.15rem; }
+      .opening-names { font-size: clamp(2.4rem, 12.3vw, 3.15rem); }
       .hero-names { line-height: .84; }
-      .hero-names .amp { margin: 0 .05em; }
       .opening-frame { inset: 12px; }
       .opening-frame::before { inset: 6px; }
       .opening-frame i { width: 5px; height: 5px; }
       .opening-emblem { margin-bottom: 18px; }
       .opening-dividend { margin-top: 18px; }
       .opening-hint { margin-top: 34px; }
-      .seal-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .seal::after { inset: 16px; }
-      .seal-value { font-size: clamp(1.22rem, 6.50vw, 1.50rem); }
-      .seal:last-child .seal-value { font-size: clamp(0.88rem, 4.29vw, 1.08rem); }
       .story-card h3 { font-size: 2.1rem; }
       .rsvp-actions .btn { width: 100%; }
-      .finale-actions .btn { width: 100%; }
     }
 
     /* Mobile type and rhythm */
@@ -2064,24 +1956,20 @@
           url("assets/402.webp") center 32% / cover no-repeat,
           linear-gradient(180deg, #0c091b 0%, #171027 33%, #2c1a3c 59%, #5a3448 78%, #844b50 100%);
       }
-      .opening-eyebrow, .kicker, .sec-kicker { font-size: 10.5px; line-height: 1.5; }
+      .opening-eyebrow { font-size: 14.5px; letter-spacing: .22em; line-height: 1.5; }
+      .kicker, .sec-kicker { font-size: 10.5px; line-height: 1.5; }
       .section-heading { margin-bottom: 30px; }
       .section-heading > p:last-child { margin-top: 14px; font-size: 15.5px; line-height: 1.55; }
       .section-pad { padding: 40px clamp(18px, 5vw, 22px); }
-      .reveal-copy { font-size: 15.5px; line-height: 1.6; }
       .story-card > p { font-size: 15.5px; line-height: 1.62; }
       .story-card h3 { margin: 8px 0 6px; }
       .story-detail { line-height: 1.5; }
       .event-note { font-size: 15px; line-height: 1.42; }
-      .event-meta p { gap: 9px; font-size: 13.5px; line-height: 1.45; }
+      .event-meta p { gap: 9px; font-size: clamp(13.5px, 3.55vw, 14px); line-height: 1.45; }
       .venue-content > p { font-size: 15.5px; line-height: 1.6; }
       .venue-address { font-size: 16.5px; line-height: 1.45; }
       .letter-copy { font-size: 16px; line-height: 1.72; }
-      .gallery-note { margin-top: 18px; font-size: 15.5px; line-height: 1.55; }
-      .countdown-note { font-size: 17px; line-height: 1.5; }
       .rsvp-note { font-size: 16px; line-height: 1.55; }
-      .finale-content p { font-size: 16px; line-height: 1.55; }
-      .finale-content { margin-top: 4vh; }
       .footer p { font-size: 10px; letter-spacing: .16em; }
     }
     @media (max-width: 430px) {
@@ -2096,13 +1984,15 @@
       .mini-moon { transition: none; }
       .event-body > *, .venue-address, .count-cell { opacity: 1; transform: none; }
       .snow-field { display: none; }
-      .flow-heart, .flow-ice, .flow-flake, .blast-heart, .seal-shine { display: none; }
       /* the letter's whole premise is the unfolding animation, so with motion
          turned down it is simply open and readable from the first glance */
       .letter-env-wrap { display: none; }
       .letter-reveal-wrap { grid-template-rows: 1fr; }
       .letter-paper { opacity: 1; }
-      .seal { cursor: pointer; }
+      .date-part { opacity: 1; transform: none; }
+      .date-display::before { opacity: .58; transform: none; }
+      .date-display.in::before, .date-display.in .date-part, .date-display.in .date-value,
+      .date-display.in .date-part::after { animation: none !important; }
       /* Every star would otherwise freeze on its dimmest keyframe and the gate
          would look empty. So the drift, the orbits and the meteors go, and what
          is left holds still as a plain scatter of dots. */
@@ -2147,16 +2037,6 @@
     }
   </style>
   <style>
-    .gate-heart {
-      position: fixed;
-      z-index: 4100;
-      pointer-events: none;
-      font-family: Georgia, "Times New Roman", serif;
-      line-height: 1;
-      user-select: none;
-      text-shadow: 0 0 16px var(--heart-color, var(--gold-hi));
-    }
-
     /* 1. Hero moon halo sync with name entrance */
     body.entered .moon-glow { animation: moonHaloSync .9s var(--ease-out) .45s forwards; }
     @keyframes moonHaloSync {
@@ -2235,9 +2115,6 @@
       .gallery-item img { transform: none !important; }
       .story-thread-progress { transition: none; }
       .event-thread-progress { transition: none; }
-      .hero-heart-star { animation: none !important; opacity: .94 !important; transform: none !important; }
-      .hero-heart-outline { animation: none !important; stroke-dashoffset: 0 !important; }
-      .hero-heart-monogram { animation: none !important; opacity: 1 !important; transform: translate(-50%, -50%) !important; }
     }
   </style>
   <style>
@@ -2288,64 +2165,10 @@
     .toast.is-special { font-weight: 500; letter-spacing: .06em; }
   </style>
   <style>
-    .dawn-wash {
-      position: fixed;
-      inset: 0;
-      z-index: 4010;
-      pointer-events: none;
-      overflow: hidden;
-      background: radial-gradient(ellipse at var(--origin-x, 50%) var(--origin-y, 50%), rgba(247, 230, 181, .22), rgba(247, 230, 181, 0) 64%);
-      opacity: 0;
-      mix-blend-mode: screen;
-      animation: dawnBloom 1.55s var(--ease-out) forwards;
-    }
-    .dawn-wash::before {
-      content: "";
-      position: absolute;
-      top: var(--origin-y, 50%);
-      left: var(--origin-x, 50%);
-      width: min(62vmax, 82vh);
-      aspect-ratio: 1;
-      border: 1px solid rgba(255, 230, 178, .62);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 236, 195, .13), rgba(255, 215, 164, .025) 46%, transparent 70%);
-      box-shadow: 0 0 38px rgba(255, 216, 164, .2), inset 0 0 38px rgba(255, 216, 164, .12);
-      transform: translate(-50%, -50%) scale(.08);
-      animation: portalBloom 1.55s cubic-bezier(.16, 1, .3, 1) both;
-    }
-    .dawn-wash::after {
-      content: "";
-      position: absolute;
-      inset: -55%;
-      background: linear-gradient(112deg, transparent 47%, rgba(255, 237, 199, .16) 50%, transparent 53%);
-      transform: translateX(-45%) rotate(-8deg);
-      animation: portalSweep 1.2s cubic-bezier(.22, .61, .36, 1) .18s both;
-    }
-    @keyframes dawnBloom {
-      0%   { opacity: 0; }
-      24%  { opacity: .72; }
-      58%  { opacity: .42; }
-      100% { opacity: 0; }
-    }
-    @keyframes portalBloom {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(.08); }
-      28% { opacity: .85; }
-      100% { opacity: 0; transform: translate(-50%, -50%) scale(5.2); }
-    }
-    @keyframes portalSweep {
-      to { transform: translateX(45%) rotate(-8deg); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .dawn-wash { display: none; }
-    }
-  </style>
-  <style>
     #progress { height: 2.5px; transition: width .15s linear; }
     @media (max-width: 720px) {
-      .seal { min-width: 116px; }
       .letter-env { transform: translateY(4px); }
       .count-cell { padding-top: 6px; }
-      .finale-moon { margin-top: -2vh; }
       .footer { padding-bottom: 90px; }
       .footer p { letter-spacing: .16em; }
     }
@@ -2353,133 +2176,33 @@
   <style>
     @media (max-width: 560px) {
       .event-grid { gap: 11px; margin-top: 26px; }
-      .event-card { min-height: 310px; padding: 18px; border-radius: 20px; }
+      .event-card { min-height: 326px; padding: 18px; border-radius: 20px; }
       .event-note { margin-top: 9px; font-size: clamp(1.02rem, 4.2vw, 1.12rem); line-height: 1.42; }
       .event-meta { gap: 7px; margin-top: 14px; padding-top: 12px; }
-      .event-meta p { gap: 9px; font-size: clamp(.88rem, 3.8vw, .96rem); line-height: 1.45; }
+      .event-meta p { gap: 9px; font-size: clamp(13.5px, 3.55vw, 14px); line-height: 1.45; }
     }
   </style>
   <style>
-    /* A short, letterbox-style reveal lets the invitation open like a film. */
-    .cinema-matte {
-      position: absolute;
-      left: 0;
-      z-index: 8;
-      width: 100%;
-      height: clamp(68px, 13svh, 132px);
-      pointer-events: none;
-      background: linear-gradient(180deg, #05040b, rgba(5, 4, 11, .82));
-      transform: translateY(-110%);
-    }
-    .cinema-matte-top { top: 0; }
-    .cinema-matte-bottom { bottom: 0; background: linear-gradient(0deg, #05040b, rgba(5, 4, 11, .82)); transform: translateY(110%); }
-    #opening.is-releasing .cinema-matte-top { animation: cinemaMatteTop 1.4s cubic-bezier(.76, 0, .24, 1) both; }
-    #opening.is-releasing .cinema-matte-bottom { animation: cinemaMatteBottom 1.4s cubic-bezier(.76, 0, .24, 1) both; }
-    @keyframes cinemaMatteTop {
-      0%, 100% { transform: translateY(-110%); }
-      30%, 57% { transform: translateY(0); }
-    }
-    @keyframes cinemaMatteBottom {
-      0%, 100% { transform: translateY(110%); }
-      30%, 57% { transform: translateY(0); }
-    }
-    #opening.is-releasing .opening-content { animation: cinemaTitleOut .8s cubic-bezier(.2, .75, .2, 1) both; }
-    #opening.is-releasing .opening-emblem { animation: cinemaEmblemOut .75s cubic-bezier(.2, .75, .2, 1) both; }
-    #opening.is-releasing .opening-sky { animation: cinemaSkyPull 1.4s ease both; }
-    #opening.is-releasing.opening {
+    #opening.is-releasing .opening-content {
+      transform: translateY(-12px) scale(.99);
       opacity: 0;
-      filter: blur(7px);
-      transform: scale(1.045);
-      transition: opacity 1.4s ease, filter 1.4s ease, transform 1.4s cubic-bezier(.2, .75, .2, 1), visibility 1.4s;
+      transition: transform .75s var(--ease-out), opacity .55s ease;
     }
-    @keyframes cinemaTitleOut {
-      to { opacity: 0; filter: blur(10px); transform: translateY(-4%) scale(1.08); }
+    body.moonlit-arrival .hero { animation: moonlitHeroIn 1.05s ease-out both; }
+    body.moonlit-arrival .hero-content::before { animation: moonlitGlow 1.5s ease-out both; }
+    @keyframes moonlitHeroIn {
+      from { opacity: .78; }
+      to { opacity: 1; }
     }
-    @keyframes cinemaEmblemOut {
-      45% { opacity: 1; transform: scale(1.08); }
-      100% { opacity: 0; transform: scale(1.42); filter: blur(4px); }
-    }
-    @keyframes cinemaSkyPull {
-      42% { transform: scale(1.12); filter: brightness(1.45); }
-      100% { transform: scale(1.22); opacity: 0; }
-    }
-    body.cinema-arrival .hero { animation: cinemaHeroReveal 1.45s cubic-bezier(.18, .72, .18, 1) both; }
-    @keyframes cinemaHeroReveal {
-      from { opacity: .48; filter: blur(7px); transform: scale(1.045); clip-path: inset(5% 3% round 18px); }
-      to { opacity: 1; filter: blur(0); transform: none; clip-path: inset(0 round 0); }
-    }
-    body.cinema-arrival .hero-content::before { animation: heroVelvetGlow 1.8s ease-out both; }
-    @keyframes heroVelvetGlow {
-      0% { opacity: .2; transform: scale(.8); }
-      42% { opacity: 1; transform: scale(1.08); }
-      100% { opacity: .7; transform: scale(1); }
-    }
-
-    .hero-heart-scene {
-      position: relative;
-      width: min(220px, 58vw);
-      aspect-ratio: 240 / 190;
-      margin: 8px auto 0;
-      filter: drop-shadow(0 0 24px rgba(255, 190, 210, .16));
-    }
-    .hero-heart-art { width: 100%; height: 100%; overflow: visible; }
-    .hero-heart-outline {
-      fill: rgba(37, 15, 40, .12);
-      stroke: #f7d8a2;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 520;
-      stroke-dashoffset: 520;
-      filter: drop-shadow(0 0 9px rgba(255, 203, 218, .92));
-    }
-    .hero-heart-star {
-      fill: #ffe8ad;
-      font-size: 13px;
-      text-anchor: middle;
-      dominant-baseline: central;
-      opacity: 0;
-      filter: drop-shadow(0 0 6px rgba(255, 218, 150, .95));
-    }
-    .hero-heart-star:nth-of-type(3n) { fill: #ffd1de; }
-    .hero-heart-monogram {
-      position: absolute;
-      top: 53%;
-      left: 50%;
-      color: #fff3d1;
-      font-family: var(--serif);
-      font-size: clamp(1.16rem, 3.1vw, 1.48rem);
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-shadow: 0 0 9px rgba(255, 211, 157, .82), 0 0 24px rgba(255, 165, 190, .56);
-      opacity: 0;
-      transform: translate(-50%, -40%) scale(.82);
-      white-space: nowrap;
-    }
-    .hero-heart-monogram span { color: #f4c77c; font-size: .75em; font-style: italic; }
-    body.entered .hero-heart-star { animation: heroStarFall .95s var(--ease-out) var(--fall-delay) both; }
-    body.entered .hero-heart-outline { animation: heroHeartDraw 1.35s var(--ease-out) 3.05s forwards; }
-    body.entered .hero-heart-monogram { animation: heroMonogramAppear .9s var(--ease-out) 3.55s forwards; }
-    @keyframes heroStarFall {
-      0% { opacity: 0; transform: translate(var(--fall-x), var(--fall-y)) scale(.12) rotate(-35deg); }
-      62% { opacity: 1; transform: translate(0, 0) scale(1.3) rotate(12deg); }
-      100% { opacity: .94; transform: translate(0, 0) scale(1) rotate(0); }
-    }
-    @keyframes heroHeartDraw { to { stroke-dashoffset: 0; } }
-    @keyframes heroMonogramAppear {
-      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    @keyframes moonlitGlow {
+      0% { opacity: .24; transform: scale(.94); }
+      48% { opacity: .82; transform: scale(1.04); }
+      100% { opacity: .5; transform: scale(1); }
     }
     body.entered .hero-line-1 { animation-delay: 1.48s; }
     .hero-line { text-shadow: 0 3px 20px rgba(12, 6, 30, .96), 0 0 30px rgba(255, 246, 220, .24); }
 
-    .seal-row.settled .seal { animation: none; }
-    .seal-row.settled .seal-value { animation: dateKeepsakeGlow 3.2s ease-in-out 2; }
-    @keyframes dateKeepsakeGlow {
-      0%, 100% { text-shadow: 0 0 22px rgba(230, 201, 124, .24); }
-      50% { text-shadow: 0 0 42px rgba(247, 230, 181, .62), 0 0 76px rgba(230, 201, 124, .3); }
-    }
-
-    .event-card { min-height: 306px; }
+    .event-card { min-height: 326px; }
     .event-artwork {
       position: absolute;
       top: 0;
@@ -2529,12 +2252,12 @@
     .venue-moon {
       overflow: visible;
       background:
-        radial-gradient(circle at 64% 31%, rgba(104, 79, 49, .2) 0 2.2%, transparent 2.7%),
-        radial-gradient(circle at 32% 58%, rgba(104, 79, 49, .15) 0 4%, transparent 4.5%),
-        radial-gradient(circle at 70% 69%, rgba(104, 79, 49, .13) 0 2.8%, transparent 3.3%),
-        radial-gradient(circle at 48% 24%, rgba(255, 248, 220, .48), transparent 37%),
+        radial-gradient(ellipse at 32% 24%, rgba(255, 252, 231, .88), transparent 38%),
+        radial-gradient(ellipse at 27% 44%, rgba(255, 245, 208, .48), transparent 53%),
+        radial-gradient(ellipse at 67% 67%, rgba(111, 84, 55, .28), transparent 44%),
+        linear-gradient(112deg, transparent 38%, rgba(111, 84, 55, .12) 73%, rgba(56, 48, 47, .36) 100%),
         radial-gradient(circle at 36% 31%, #fff4d3 0%, #e8d39d 42%, #c4a66a 76%, #887247 100%);
-      box-shadow: inset -26px -18px 38px rgba(57, 41, 36, .34), inset 5px 5px 18px rgba(255, 250, 224, .32), 0 0 70px rgba(230, 201, 124, .25);
+      box-shadow: inset -30px -20px 42px rgba(52, 42, 42, .38), inset 7px 5px 22px rgba(255, 250, 224, .38), 0 0 70px rgba(230, 201, 124, .25);
       animation: venueMoonLight 8s ease-in-out infinite;
     }
     .venue-moon::before {
@@ -2542,10 +2265,18 @@
       border: 0;
       border-radius: inherit;
       background:
-        radial-gradient(ellipse at 23% 34%, rgba(255, 248, 220, .23), transparent 28%),
-        radial-gradient(ellipse at 71% 75%, rgba(68, 51, 41, .11), transparent 34%);
-      box-shadow: inset -12px -10px 24px rgba(57, 41, 36, .18);
-      opacity: .8;
+        radial-gradient(ellipse 8% 6% at 67% 28%, rgba(91, 69, 48, .24) 0 47%, rgba(255, 247, 216, .28) 61%, rgba(100, 75, 50, .16) 78%, transparent 100%),
+        radial-gradient(ellipse 4.5% 3.5% at 30% 30%, rgba(92, 70, 48, .2) 0 48%, rgba(255, 247, 216, .2) 64%, transparent 100%),
+        radial-gradient(ellipse 3.4% 2.8% at 72% 56%, rgba(84, 64, 46, .22) 0 46%, rgba(255, 246, 213, .18) 65%, transparent 100%),
+        radial-gradient(ellipse 6.5% 4.2% at 38% 68%, rgba(90, 68, 48, .18) 0 48%, rgba(255, 248, 219, .2) 65%, transparent 100%),
+        radial-gradient(ellipse 3.8% 3% at 59% 79%, rgba(90, 68, 48, .2) 0 45%, rgba(255, 248, 219, .17) 64%, transparent 100%),
+        radial-gradient(ellipse 2.3% 1.8% at 49% 46%, rgba(86, 66, 46, .18) 0 52%, rgba(255, 248, 219, .16) 68%, transparent 100%),
+        radial-gradient(ellipse 2.7% 2.2% at 21% 56%, rgba(86, 66, 46, .16) 0 48%, rgba(255, 248, 219, .14) 66%, transparent 100%),
+        radial-gradient(ellipse at 23% 55%, rgba(91, 67, 45, .08), transparent 17%),
+        radial-gradient(ellipse at 77% 37%, rgba(91, 67, 45, .09), transparent 19%),
+        radial-gradient(ellipse at 46% 46%, rgba(255, 249, 224, .08), transparent 32%);
+      box-shadow: inset -16px -12px 28px rgba(57, 41, 36, .2);
+      opacity: .9;
     }
     .venue-moon::after {
       inset: -17%;
@@ -2591,33 +2322,24 @@
     @keyframes palaceLamp { from { opacity: .52; } to { opacity: 1; } }
     @keyframes palaceWater { 0%, 100% { transform: scaleX(.86); opacity: .34; } 50% { transform: scaleX(1.06); opacity: .68; } }
     .story-thread-progress { stroke-width: 2.2; filter: drop-shadow(0 0 7px rgba(230, 201, 124, .42)); }
-    .story-thread-heart { fill: rgba(247, 230, 181, .9); stroke: none; font-family: var(--serif); font-size: 23px; text-anchor: middle; dominant-baseline: central; filter: drop-shadow(0 0 7px rgba(230, 201, 124, .48)); opacity: 0; transition: opacity .45s ease; }
+    .story-thread-heart { opacity: 0; filter: drop-shadow(0 2px 3px rgba(8, 5, 18, .52)) drop-shadow(0 0 8px rgba(230, 105, 139, .4)); transition: opacity .45s ease; }
     .story-thread-progress.is-complete { filter: drop-shadow(0 0 9px rgba(255, 198, 211, .68)); }
 
     @media (max-width: 720px) {
       .hero-line-1 { margin-top: 21px; }
-      .event-card { min-height: 342px; }
+      .event-card { min-height: 356px; }
       .event-artwork { height: 54%; }
       .venue-art { min-height: 380px; }
       .story-thread-progress { stroke-width: 2; }
-      .story-thread-heart { font-size: 21px; }
     }
     @media (max-width: 390px) {
-      .event-card { min-height: 342px; padding: 16px; }
+      .event-card { min-height: 356px; padding: 16px; }
       .event-artwork { height: 52%; }
-      .cinema-matte { height: 10svh; }
     }
     @media (prefers-reduced-motion: reduce) {
-      #opening.is-releasing .cinema-matte-top,
-      #opening.is-releasing .cinema-matte-bottom,
-      #opening.is-releasing .opening-content,
-      #opening.is-releasing .opening-emblem,
-      #opening.is-releasing .opening-sky,
-      body.cinema-arrival .hero { animation: none; }
-      .cinema-matte { display: none; }
-      #opening.is-releasing.opening { filter: none; transform: none; }
+      body.moonlit-arrival .hero,
+      body.moonlit-arrival .hero-content::before { animation: none; }
       .venue-moon, .venue-moon::after, .palace-scene .palace-window { animation: none; }
-      .seal-row.settled .seal-value { animation: none; }
     }
   </style>
   <style>
@@ -2625,15 +2347,18 @@
       .hero-names { font-size: clamp(2.7rem, 14.2vw, 3.8rem); line-height: .92; }
       .section-heading h2 { font-size: clamp(2rem, 8vw, 2.4rem); line-height: 1.02; }
       .section-heading > p:last-child { max-width: 34ch; }
-      .seal-row { width: min(100%, 390px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 38px auto 28px; }
-      .seal { min-width: 0; }
+      .date-display { margin-top: 32px; gap: 8px; }
+      .date-part { min-height: 120px; padding: 14px 6px; border-radius: 15px; }
+      .date-part::before { inset: 6px; border-radius: 10px; }
+      .date-value { font-size: clamp(1.9rem, 8.5vw, 2.4rem); }
+      .date-part:nth-child(2) .date-value { font-size: clamp(1.02rem, 4.2vw, 1.15rem); letter-spacing: .06em; }
       .event-grid { gap: 12px; margin-top: 20px; }
-      .event-card { min-height: 320px; padding: 16px; }
+      .event-card { min-height: 336px; padding: 16px; }
       .event-artwork { height: 49%; }
       .event-name { font-size: clamp(1.35rem, 6vw, 1.52rem); }
       .event-note { margin-top: 8px; font-size: 15px; line-height: 1.4; }
       .event-meta { gap: 7px; margin-top: 12px; padding-top: 11px; }
-      .event-meta p { gap: 8px; font-size: 13.5px; line-height: 1.4; }
+      .event-meta p { gap: 8px; font-size: clamp(13.5px, 3.55vw, 14px); line-height: 1.4; }
       .venue-grid { gap: 22px; }
       .venue-art { min-height: clamp(285px, 78vw, 320px); }
       .venue-content h2 { font-size: clamp(2rem, 8vw, 2.4rem); line-height: 1; }
@@ -2657,17 +2382,10 @@
       .letter-sign { margin-top: 25px; }
       .gallery-caption { padding: 18px 13px 13px; font-size: 13px; }
       .gallery-item--tall .gallery-caption { font-size: 15.5px; }
-      .gallery-note { margin-top: 18px; font-size: 15.5px; line-height: 1.55; }
       .countdown { max-width: 320px; }
       .count-cell:nth-child(n+3) { margin-top: 16px; }
       .count-number { font-size: clamp(2.2rem, 10vw, 2.7rem); }
-      .countdown-note { margin-top: 22px; font-size: 17px; line-height: 1.5; }
       .countdown-actions { gap: 9px; margin-top: 20px; }
-      .finale { min-height: 70svh; }
-      .finale-content { width: min(100% - 36px, 730px); margin-top: 4vh; }
-      .finale-content h2 { font-size: clamp(2.2rem, 9vw, 2.8rem); line-height: .98; }
-      .finale-content p { margin-top: 18px; font-size: 16px; line-height: 1.55; }
-      .finale-actions { gap: 9px; margin-top: 24px; }
       .footer { padding: 0 18px 34px; }
       .footer p { font-size: 10px; letter-spacing: .14em; }
     }
@@ -2724,8 +2442,6 @@
       <p class="opening-plea">Request the honour of your presence</p>
       <p class="opening-hint"><span>Tap to open</span></p>
     </div>
-    <span class="cinema-matte cinema-matte-top" aria-hidden="true"></span>
-    <span class="cinema-matte cinema-matte-bottom" aria-hidden="true"></span>
   </div>
 
   <svg class="moon-defs" width="0" height="0" aria-hidden="true">
@@ -2740,8 +2456,8 @@
       </radialGradient>
     </defs>
   </svg>
-  <div class="mini-moon" id="miniMoon" aria-hidden="true">
-    <svg viewBox="0 0 200 200">
+  <button class="mini-moon" id="miniMoon" type="button" aria-label="Send a shower of hearts">
+    <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
       <defs>
         <radialGradient id="mmG" cx="38%" cy="34%" r="80%">
           <stop offset="0%" stop-color="#fdf6dc" /><stop offset="55%" stop-color="#f0dca6" /><stop offset="100%" stop-color="#c9a96b" />
@@ -2758,10 +2474,10 @@
         <path id="mmMaskPath" fill="#fff" d="M100,14 A86,86 0 0 1 100,186 A79.98,86 0 0 0 100,14 Z" />
       </mask>
     </svg>
-  </div>
+  </button>
 
   <main id="main">
-    <!-- Hero: the couple's names, a quiet promise, and their star-formed heart. -->
+    <!-- Hero: the couple's names and a quiet promise. -->
     <header class="hero" id="home">
       <canvas id="heroStars" aria-hidden="true"></canvas>
       <div class="hero-glow" aria-hidden="true"></div>
@@ -2772,33 +2488,8 @@
       </svg>
       <div class="hero-content">
         <div class="hero-ring" aria-hidden="true"></div>
-        <h1 class="hero-names"><span class="name">Vivaan</span><span class="amp">&amp;</span><span class="name">Anaya</span></h1>
+        <h1 class="hero-names"><span class="name">Vivaan</span><span class="weds">weds</span><span class="name">Anaya</span></h1>
         <p class="hero-line hero-line-1">Two paths became one.</p>
-        <div class="hero-heart-scene" role="img" aria-label="A heart formed from falling stars with the initials V plus A">
-          <svg class="hero-heart-art" viewBox="0 0 240 190" aria-hidden="true" focusable="false">
-            <path class="hero-heart-outline" d="M120 174C103 156 37 119 37 76C37 47 70 31 94 52L120 76L146 52C170 31 203 47 203 76C203 119 137 156 120 174Z" />
-            <text class="hero-heart-star" x="48" y="75" style="--fall-x:-48px;--fall-y:-112px;--fall-delay:2s">✦</text>
-            <text class="hero-heart-star" x="57" y="54" style="--fall-x:22px;--fall-y:-148px;--fall-delay:2.08s">✦</text>
-            <text class="hero-heart-star" x="76" y="45" style="--fall-x:-34px;--fall-y:-128px;--fall-delay:2.16s">✦</text>
-            <text class="hero-heart-star" x="94" y="55" style="--fall-x:44px;--fall-y:-166px;--fall-delay:2.24s">✦</text>
-            <text class="hero-heart-star" x="108" y="68" style="--fall-x:-22px;--fall-y:-138px;--fall-delay:2.32s">✦</text>
-            <text class="hero-heart-star" x="120" y="79" style="--fall-x:10px;--fall-y:-178px;--fall-delay:2.4s">✦</text>
-            <text class="hero-heart-star" x="132" y="68" style="--fall-x:-42px;--fall-y:-145px;--fall-delay:2.48s">✦</text>
-            <text class="hero-heart-star" x="146" y="55" style="--fall-x:34px;--fall-y:-120px;--fall-delay:2.56s">✦</text>
-            <text class="hero-heart-star" x="164" y="45" style="--fall-x:-16px;--fall-y:-168px;--fall-delay:2.64s">✦</text>
-            <text class="hero-heart-star" x="183" y="55" style="--fall-x:50px;--fall-y:-138px;--fall-delay:2.72s">✦</text>
-            <text class="hero-heart-star" x="192" y="77" style="--fall-x:-54px;--fall-y:-158px;--fall-delay:2.8s">✦</text>
-            <text class="hero-heart-star" x="185" y="101" style="--fall-x:28px;--fall-y:-126px;--fall-delay:2.88s">✦</text>
-            <text class="hero-heart-star" x="168" y="123" style="--fall-x:-28px;--fall-y:-174px;--fall-delay:2.96s">✦</text>
-            <text class="hero-heart-star" x="146" y="143" style="--fall-x:42px;--fall-y:-142px;--fall-delay:3.04s">✦</text>
-            <text class="hero-heart-star" x="126" y="161" style="--fall-x:-18px;--fall-y:-182px;--fall-delay:3.12s">✦</text>
-            <text class="hero-heart-star" x="114" y="161" style="--fall-x:18px;--fall-y:-150px;--fall-delay:3.2s">✦</text>
-            <text class="hero-heart-star" x="94" y="143" style="--fall-x:-46px;--fall-y:-130px;--fall-delay:3.28s">✦</text>
-            <text class="hero-heart-star" x="72" y="123" style="--fall-x:30px;--fall-y:-166px;--fall-delay:3.36s">✦</text>
-            <text class="hero-heart-star" x="55" y="101" style="--fall-x:-30px;--fall-y:-144px;--fall-delay:3.44s">✦</text>
-          </svg>
-          <span class="hero-heart-monogram" aria-hidden="true">V <span>+</span> A</span>
-        </div>
       </div>
       <a class="scroll-cue" href="#date" aria-label="Scroll to the date reveal">
         <span>Reveal the date</span>
@@ -2810,30 +2501,13 @@
     <section class="reveal-section section-pad" id="date">
       <div class="section-shell date-reveal">
         <div class="section-heading reveal" data-split>
-          <p class="kicker">A secret written in starlight</p>
-          <h2>First, let us <em>reveal</em> the day</h2>
+          <h2>The day we say <em>forever</em></h2>
         </div>
-        <div class="seal-row reveal" id="sealRow" role="group" aria-label="Reveal the wedding date: 21 November 2027">
-          <button class="seal" type="button" aria-label="Reveal 21 — the day of our wedding. Press to lift the gold.">
-            <span class="seal-glow" aria-hidden="true"></span>
-            <span class="seal-value">21</span>
-            <canvas class="seal-foil" aria-hidden="true"></canvas>
-            <span class="seal-shine" aria-hidden="true"></span>
-          </button>
-          <button class="seal" type="button" aria-label="Reveal 11 — the month. Press to lift the gold.">
-            <span class="seal-glow" aria-hidden="true"></span>
-            <span class="seal-value">11</span>
-            <canvas class="seal-foil" aria-hidden="true"></canvas>
-            <span class="seal-shine" aria-hidden="true"></span>
-          </button>
-          <button class="seal" type="button" aria-label="Reveal 2027 — the year. Press to lift the gold.">
-            <span class="seal-glow" aria-hidden="true"></span>
-            <span class="seal-value">2027</span>
-            <canvas class="seal-foil" aria-hidden="true"></canvas>
-            <span class="seal-shine" aria-hidden="true"></span>
-          </button>
+        <div class="date-display reveal" role="group" aria-label="Wedding date: 21 November 2027">
+          <div class="date-part"><span class="date-value">21</span></div>
+          <div class="date-part"><span class="date-value">November</span></div>
+          <div class="date-part"><span class="date-value">2027</span></div>
         </div>
-        <p class="reveal-copy reveal" id="revealCopy">Scratch the gold from each seal.</p>
       </div>
     </section>
 
@@ -3026,7 +2700,6 @@
         <div class="venue-content reveal" data-split>
           <p class="sec-kicker">Where we'll say “I do”</p>
           <h2>Udaipur,<br><em>Rajasthan</em></h2>
-          <p>Beneath still lakes and palace light, we begin forever.</p>
           <div class="venue-address">
             <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
             <span>City Palace Courtyard<br><small>Udaipur, Rajasthan</small></span>
@@ -3054,7 +2727,7 @@
           </div>
           <div class="letter-reveal-wrap">
             <div class="letter-reveal-inner">
-            <article class="letter-paper" id="letterPaper">
+            <article class="letter-paper" id="letterPaper" aria-hidden="true">
               <i class="letter-corner tl" aria-hidden="true"></i>
               <i class="letter-corner tr" aria-hidden="true"></i>
               <i class="letter-corner bl" aria-hidden="true"></i>
@@ -3064,7 +2737,7 @@
               <p class="letter-salute">Dear family &amp; friends,</p>
               <p class="letter-quote">“The best is yet to come, and we cannot wait to share it <em>with you.</em>”</p>
               <div class="letter-rule" aria-hidden="true"></div>
-              <p class="letter-copy" id="letterCopy">Thank you for being part of our story so far. Whether you are joining us for a ceremony, a dance floor, or just a little love from afar — you are part of this beginning, and this day would not be the same without you.</p>
+              <p class="letter-copy">Thank you for being part of our story so far. Whether you are joining us for a ceremony, a dance floor, or just a little love from afar — you are part of this beginning, and this day would not be the same without you.</p>
               <p class="letter-sign">With all our love,<span class="letter-sign-name">Vivaan &amp; Anaya</span></p>
               <span class="letter-seal" aria-hidden="true">V&amp;A</span>
             </article>
@@ -3077,13 +2750,29 @@
     <!-- Story -->
     <section class="story-section section-pad" id="story">
       <svg class="story-thread" id="storyThreadSvg" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+        <defs>
+          <radialGradient id="storyHeartGloss" cx="30%" cy="20%" r="86%">
+            <stop offset="0%" stop-color="#fff5ed" />
+            <stop offset="28%" stop-color="#f8a7b9" />
+            <stop offset="68%" stop-color="#d94b76" />
+            <stop offset="100%" stop-color="#8f244e" />
+          </radialGradient>
+          <linearGradient id="storyHeartShade" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#fff4e8" stop-opacity=".68" />
+            <stop offset="38%" stop-color="#fff4e8" stop-opacity=".08" />
+            <stop offset="100%" stop-color="#56152f" stop-opacity=".5" />
+          </linearGradient>
+        </defs>
         <path class="story-thread-track"></path>
         <path class="story-thread-progress" id="storyFill"></path>
-        <text class="story-thread-heart" id="storyThreadHeart">♥</text>
+        <g class="story-thread-heart" id="storyThreadHeart">
+          <path d="M0 16C-3 13-18 3-18-6C-18-16-5-20 0-9C5-20 18-16 18-6C18 3 3 13 0 16Z" fill="url(#storyHeartGloss)" stroke="#ffd5df" stroke-opacity=".72" stroke-width="1.1" />
+          <path d="M-13-7C-13-13-5-16-1-10C-4-11-7-8-7-4C-7-1-5 2-2 5C-9 1-13-3-13-7Z" fill="url(#storyHeartShade)" />
+          <path d="M-10-10C-8-14-4-14-2-11" fill="none" stroke="#fff9f2" stroke-linecap="round" stroke-opacity=".78" stroke-width="1.6" />
+        </g>
       </svg>
       <div class="section-shell">
         <div class="section-heading reveal" data-split>
-          <p class="sec-kicker">How we found our way</p>
           <h2>Our little <em>forever</em></h2>
         </div>
         <div class="story-list">
@@ -3135,9 +2824,7 @@
     <section class="gallery-section section-pad" id="photos">
       <div class="section-shell">
         <div class="section-heading reveal" data-split>
-          <p class="sec-kicker">Us, in pictures</p>
           <h2>Every chapter, <em>framed</em></h2>
-          <p>A few pre-wedding portraits from the quiet moments before forever.</p>
         </div>
         <div class="gallery-grid">
           <button class="gallery-item gallery-item--tall reveal" type="button" aria-label="Open larger: A little closer">
@@ -3171,7 +2858,6 @@
             <span class="gallery-caption">An ordinary kind of magic</span>
           </button>
         </div>
-        <p class="gallery-note reveal">Select a photograph to open it full size.</p>
       </div>
     </section>
 
@@ -3189,21 +2875,10 @@
           <div class="count-cell"><span class="count-number" id="minutes">--</span><span class="count-label">Minutes</span></div>
           <div class="count-cell"><span class="count-number" id="seconds">--</span><span class="count-label">Seconds</span></div>
         </div>
-        <p class="countdown-note reveal" id="countdownNote">Until we say “I do” · 21 November 2027</p>
         <div class="countdown-actions reveal">
           <button class="btn" type="button" id="backTop">Back to the beginning ↑</button>
           <button class="btn" type="button" id="shareInvite">Share the invitation ⌁</button>
         </div>
-      </div>
-    </section>
-
-    <!-- Finale -->
-    <section class="finale" id="finale">
-      <div class="finale-moon" aria-hidden="true"></div>
-      <div class="finale-content" data-split>
-        <p class="kicker">The date is set</p>
-        <h2>See you under<br>the <em>moon.</em></h2>
-        <p>21 November 2027</p>
       </div>
     </section>
 
@@ -3614,32 +3289,13 @@
         }
       }
 
-      /* The hero's love-knot: an echo of the gate's, but placed beside the
-         moon in the open sky rather than above the words, so the two skies
-         speak the same language from different registers. It is only busy
-         while the hero is actually on screen and after the gate has been
-         entered — never behind the closed door, never off in a scrolled-away
-         corner. The moon-anchored painter keeps the heart clear of the moon
-         on every viewport, however the user holds their phone. */
-      /* Two hearts keep the sky honest: one lands to the moon's left, the next
-         to its right, turning on every new beat while the previous heart is
-         still finishing its fall. The first starts almost the moment the gate
-         lifts, so the hero never waits for its centrepiece. */
-      /* The heart keeps one moon-anchored rhythm — same cadence, same forming
-         flight — but its perch wanders: each beat lands wherever the sky has
-         room around the moon, leaning to the side the last heart left free, so
-         two hearts in the sky at once read as a constellation, not a metronome.
-         Even on a phone, where the moon leaves little room, the fallback keeps
-         the heart tucked beside it, clear of the names. */
-      let lastSide = null;
       const heartAnchor = () => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
         const moon = Math.min(vw * .31, 270);
         const heartWidth = Math.min(Math.min(vw * .38, vh * .38), 320, Math.max(72, vw * .24));
         const gap = Math.max(22, heartWidth * .16);
-        const margin = 10;
-        const edge = margin + heartWidth / 2;
+        const edge = 10 + heartWidth / 2;
         const reach = Math.max(24, vw * .24);
         const leftBand = {
           min: Math.max(edge, (vw - moon) / 2 - heartWidth / 2 - gap - reach),
@@ -3651,27 +3307,19 @@
         };
         const room = (band) => Math.max(0, band.max - band.min);
         const sides = [room(leftBand), room(rightBand)];
-        /* 72% of the time the next heart crosses the moon; when only one side
-           has room, the sky decides for itself */
-        const flip = lastSide === null ? .5 : .72;
-        let side = Math.random() < flip ? 1 : 0;
+        let side = Math.random() < .5 ? 1 : 0;
         if (sides[side] <= 0 && sides[1 - side] > 0) side = 1 - side;
-        lastSide = side;
         const band = side === 0 ? leftBand : rightBand;
         const centreX = sides[side] > 0
           ? band.min + Math.random() * sides[side]
           : Math.max(edge, Math.min(vw - edge, vw / 2 + (side === 0 ? -1 : 1) * (moon / 2 + heartWidth / 2 + gap)));
-        /* the same moon register, with a little wander up and down, never low
-           enough to crowd the names below */
         const top = vh * .055 + (Math.random() * 2 - 1) * heartWidth * .3;
         return { centreX, top: Math.max(36, top), scale: heartWidth / 32 };
       };
       const heroLove = loveKnot($("#home"), heartAnchor, [500, 900, 2400, 3600]);
       if (heroLove && !reducedMotion) {
-        let heroVisible = true;
         new IntersectionObserver((entries) => {
-          heroVisible = entries[0].isIntersecting;
-          if (!heroVisible) heroLove.stop();
+          if (!entries[0].isIntersecting) heroLove.stop();
           else if (document.body.classList.contains("entered")) heroLove.start();
         }, { threshold: 0 }).observe($("#home"));
       }
@@ -3720,124 +3368,37 @@
          land dead on the seal and every keyframe stays in plain pixels: no
          calc() inside a transform, which is where this kind of thing usually
          goes wrong. */
-      const GATE_STAR_TINTS = ["#fff8e7", "#f7e6b5", "#e6c97c", "#c8ce8e"];
-      const GATE_EASE = "cubic-bezier(.22,.61,.36,1)";
-      const GATE_OUT = "cubic-bezier(.16,1,.3,1)";
-
       function celebrateEntry(originX, originY) {
-        if (reducedMotion) return;
-        const rand = (min, max) => min + Math.random() * (max - min);
-        const run = (node, frames, options) => {
-          if (typeof node.animate !== "function") { node.remove(); return; }
-          node.animate(frames, options).finished
-            .then(() => node.remove())
-            .catch(() => node.remove());
-        };
-        const centre = (node, x, y, size) => {
-          const half = size / 2;
-          node.style.left = `${x}px`;
-          node.style.top = `${y}px`;
-          node.style.margin = `${-half}px 0 0 ${-half}px`;
-          document.body.appendChild(node);
-          return node;
-        };
-
-        /* the seal blooming, then two rings leaving it a beat apart */
-        const bloom = centre(document.createElement("i"), originX, originY, 22);
-        bloom.className = "gate-bloom";
-        run(bloom, [
-          { transform: "scale(.2)", opacity: 0 },
-          { transform: "scale(2.4)", opacity: .95, offset: .18 },
-          { transform: "scale(5.2)", opacity: 0 }
-        ], { duration: 950, easing: GATE_OUT });
-
-        [0, 180].forEach((delay, index) => {
-          const ring = centre(document.createElement("i"), originX, originY, 34);
-          ring.className = "gate-ring";
-          ring.style.width = "34px";
-          ring.style.height = "34px";
-          run(ring, [
-            { transform: "scale(.3)", opacity: 0 },
-            { transform: "scale(1)", opacity: .75, offset: .2 },
-            { transform: `scale(${index ? 12 : 8.5})`, opacity: 0 }
-          ], { duration: 1150 + index * 280, delay, easing: GATE_OUT, fill: "backwards" });
-        });
-
-        /* three waves of sparkles, rising and wandering rather than exploding */
-        [{ at: 60, count: 14, power: 1 }, { at: 350, count: 18, power: 1.25 }, { at: 700, count: 16, power: 1.5 }]
-          .forEach((wave) => {
-            window.setTimeout(() => {
-              for (let i = 0; i < wave.count; i += 1) {
-                const size = rand(2, 4.4) * wave.power;
-                const star = centre(document.createElement("i"), originX, originY, size);
-                star.className = "gate-star";
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.setProperty("--star-color", GATE_STAR_TINTS[i % GATE_STAR_TINTS.length]);
-                star.style.setProperty("--flare", `${Math.round(size * rand(2.6, 4.4))}px`);
-                const rise = rand(90, 230) * wave.power;
-                const drift = rand(-130, 130) * wave.power;
-                const sway = rand(16, 44) * (Math.random() < .5 ? -1 : 1);
-                run(star, [
-                  { transform: "scale(.25)", opacity: 0 },
-                  { transform: `translate(${drift * .3}px, ${-rise * .38}px) scale(1)`, opacity: 1, offset: .3 },
-                  { transform: `translate(${drift * .74 + sway}px, ${-rise * .74}px) scale(.72)`, opacity: .7, offset: .68 },
-                  { transform: `translate(${drift}px, ${-rise}px) scale(.15)`, opacity: 0 }
-                ], { duration: rand(1500, 2500), easing: GATE_EASE });
-              }
-            }, wave.at);
-          });
-
-        /* two meteors, angled the same way as the gate's own so the sky does not
-           change its mind about which direction it is travelling */
-        [{ at: 150, y: .16 }, { at: 620, y: .58 }].forEach((shot) => {
-          const length = rand(110, 180);
-          const meteor = document.createElement("i");
-          meteor.className = "gate-meteor";
-          meteor.style.width = `${length}px`;
-          meteor.style.left = `${-length}px`;
-          meteor.style.top = `${window.innerHeight * shot.y}px`;
-          document.body.appendChild(meteor);
-          const travel = window.innerWidth + length * 2;
-          run(meteor, [
-            { transform: "translate3d(0,0,0) rotate(26deg)", opacity: 0 },
-            { transform: `translate3d(${travel * .5}px, ${travel * .24}px, 0) rotate(26deg)`, opacity: 1, offset: .22 },
-            { transform: `translate3d(${travel}px, ${travel * .48}px, 0) rotate(26deg)`, opacity: 0 }
-          ], { duration: 1250, delay: shot.at, easing: "cubic-bezier(.4,0,.75,1)", fill: "backwards" });
-        });
-      /* ── entry reward: romantic hearts rising out of the tap/moon point ──,
-         one extra, softer wave deliberately distinct from the star points, so
-         the gate's last moment reads as a love letter, not as fireworks */
-      if (!reducedMotion) {
-        const heartColors = ["#f7e6b5", "#e6c97c", "#f6edda", "#c8ce8e", "#fff8e7"];
-        for (let h = 0; h < 16; h += 1) {
-          const size = rand(11, 22);
-          const heart = centre(document.createElement("i"), originX, originY, size);
-          heart.className = "gate-heart";
-          heart.textContent = "♥";
-          heart.style.fontSize = `${size}px`;
-          heart.style.setProperty("--heart-color", heartColors[h % heartColors.length]);
-          const rise = rand(130, 290) * (0.9 + Math.random() * 0.35);
-          const drift = rand(-175, 175);
-          const sway = rand(-34, 34);
-          const tilt = rand(-26, 26);
-          run(heart, [
-            { transform: "translate(0,0) scale(.18) rotate(0deg)", opacity: 0 },
-            { transform: `translate(${(drift * .28).toFixed(1)}px, ${(-rise * .36).toFixed(1)}px) scale(1) rotate(${(tilt * .4).toFixed(1)}deg)`, opacity: .95, offset: .26 },
-            { transform: `translate(${(drift * .7 + sway).toFixed(1)}px, ${(-rise * .76).toFixed(1)}px) scale(.86) rotate(${tilt.toFixed(1)}deg)`, opacity: .62, offset: .66 },
-            { transform: `translate(${drift.toFixed(1)}px, ${-rise.toFixed(1)}px) scale(.16) rotate(${(tilt * 1.5).toFixed(1)}deg)`, opacity: 0 }
-          ], { duration: rand(1700, 2600), delay: rand(0, 850), easing: GATE_EASE, fill: "backwards" });
+        if (reducedMotion || typeof Element.prototype.animate !== "function") return;
+        const colors = ["#fff8e7", "#f7e6b5", "#e6c97c"];
+        for (let i = 0; i < 10; i += 1) {
+          const star = document.createElement("i");
+          const size = 2 + Math.random() * 2;
+          const drift = (Math.random() - .5) * 90;
+          const rise = 55 + Math.random() * 100;
+          star.className = "gate-star";
+          star.style.left = `${originX}px`;
+          star.style.top = `${originY}px`;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.margin = `${-size / 2}px 0 0 ${-size / 2}px`;
+          star.style.setProperty("--star-color", colors[i % colors.length]);
+          star.style.setProperty("--flare", `${Math.round(size * 2.4)}px`);
+          document.body.appendChild(star);
+          star.animate([
+            { transform: "translate(0, 0) scale(.5)", opacity: 0 },
+            { transform: `translate(${(drift * .3).toFixed(1)}px, ${(-rise * .35).toFixed(1)}px) scale(1)`, opacity: .72, offset: .28 },
+            { transform: `translate(${drift.toFixed(1)}px, ${-rise.toFixed(1)}px) scale(.35)`, opacity: 0 }
+          ], { duration: 1050 + Math.random() * 450, delay: Math.random() * 180, easing: "ease-out", fill: "forwards" })
+            .finished.then(() => star.remove()).catch(() => star.remove());
         }
-      }
-
       }
 
       const openInvitation = () => {
         if (isOpened) return;
         isOpened = true;
         resetInvitationScroll();
-        /* measured off the tap-to-enter label itself, not the middle of the
-           window: the effect has to leave from where the guest actually pressed */
+        /* Let the quiet star drift begin at the guest's tap point. */
         const cta = opening.querySelector(".opening-hint");
         const rect = cta ? cta.getBoundingClientRect() : null;
         const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
@@ -3848,9 +3409,9 @@
           if (loveStop) loveStop();
           if (heroLove && !reducedMotion) heroLove.start();
           body.classList.add("entered");
-          if (!reducedMotion) body.classList.add("cinema-arrival");
+          if (!reducedMotion) body.classList.add("moonlit-arrival");
           gated.forEach((node) => { node.inert = false; });
-          /* A scatter of golden wishes leaves the moon as the curtain parts. */
+          /* A scatter of golden wishes lifts softly from the moon. */
           if (!reducedMotion) {
             const moonWrap = document.querySelector("#moonWrap");
             if (moonWrap && !moonWrap.querySelector(".hero-wish")) {
@@ -3871,24 +3432,16 @@
           }
           opening.classList.add("opening");
           celebrateEntry(originX, originY);
-          if (!reducedMotion) {
-            const dawn = document.createElement("div");
-            dawn.className = "dawn-wash";
-            dawn.style.setProperty("--origin-x", `${originX}px`);
-            dawn.style.setProperty("--origin-y", `${originY}px`);
-            document.body.appendChild(dawn);
-            window.setTimeout(() => dawn.remove(), 1650);
-            window.setTimeout(() => body.classList.remove("cinema-arrival"), 1550);
-          }
           window.setTimeout(() => {
             opening.classList.add("done");
             opening.setAttribute("aria-hidden", "true");
             opening.removeAttribute("aria-disabled");
             resetInvitationScroll();
             body.classList.remove("is-locked");
-          }, reducedMotion ? 40 : 1450);
+          }, reducedMotion ? 40 : 1000);
+          if (!reducedMotion) window.setTimeout(() => body.classList.remove("moonlit-arrival"), 1100);
         };
-        window.setTimeout(release, reducedMotion ? 0 : 620);
+        window.setTimeout(release, reducedMotion ? 0 : 180);
       };
 
       opening.addEventListener("click", openInvitation);
@@ -3932,38 +3485,6 @@
 
       /* A radial pop of hearts, used the moment the date is freed from the
          gold. It reads as a single burst outward, not a column. */
-      function heartBlast(x, y, amount = 24, tints = ["#f7e6b5", "#e6c97c", "#ffb3c1", "#c8ce8e", "#fff0d2", "#ff9db1"]) {
-        if (reducedMotion) return;
-        for (let i = 0; i < amount; i += 1) {
-          const heart = document.createElement("i");
-          heart.className = "blast-heart";
-          heart.textContent = Math.random() < .14 ? "❦" : "♥";
-          heart.style.left = `${x}px`;
-          heart.style.top = `${y}px`;
-          heart.style.fontSize = `${12 + Math.random() * 22}px`;
-          heart.style.color = tints[(Math.random() * tints.length) | 0];
-          document.body.appendChild(heart);
-          const angle = (Math.PI * 2 * i) / amount + (Math.random() * 2 - 1) * .3;
-          const distance = 70 + Math.random() * 195;
-          const dx = Math.cos(angle) * distance;
-          const dy = Math.sin(angle) * distance - 42;
-          const spin = (Math.random() * 2 - 1) * 70;
-          if (typeof heart.animate === "function") {
-            const animation = heart.animate([
-              { transform: "translate(-50%, -50%) scale(.2) rotate(0deg)", opacity: 0 },
-              { transform: `translate(-50%, -50%) translate(${dx * .72}px, ${dy * .72}px) scale(1.18) rotate(${spin * .5}deg)`, opacity: 1, offset: .5 },
-              { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px) scale(.42) rotate(${spin}deg)`, opacity: 0 }
-            ], { duration: 950 + Math.random() * 900, easing: "cubic-bezier(.16,1,.3,1)" });
-            animation.finished.then(() => heart.remove()).catch(() => heart.remove());
-          } else {
-            heart.style.transition = `transform ${950 + Math.random() * 900}ms ease, opacity 1100ms ease`;
-            heart.style.transform = `translate(-50%, -50%) translate(${dx}px, ${dy}px) scale(.42)`;
-            heart.style.opacity = "0";
-            window.setTimeout(() => heart.remove(), 2100);
-          }
-        }
-      }
-
       /* Hero star field and meteors */
       const hero = $("#home");
       /* The falling stars that travel the length of the whole invitation. Fine,
@@ -4029,7 +3550,7 @@
         heroCanvas.height = Math.round(canvasHeight * dpr);
         heroContext.setTransform(dpr, 0, 0, dpr, 0, 0);
         const targetStars = Math.round((canvasWidth * canvasHeight) / 5800);
-        /* About two fifths of the field falls. Crucially it falls THROUGH the hero
+        /* Just over a quarter of the field falls. Crucially it falls THROUGH the hero
            rather than over it: this canvas is z 0 inside .hero, so the moon at
            z 2 always stays in front of the stars. That ordering is the whole
            point -- a star passing behind the moon reads as depth, the same star
@@ -4038,7 +3559,7 @@
            and quicker and the field gains a foreground without extra objects. */
         stars = Array.from({ length: Math.min(180, Math.max(70, targetStars)) }, () => {
           const radius = Math.random() * 1.8 + .45;
-          const fall = Math.random() < .4;
+          const fall = Math.random() < .28;
           return {
             x: Math.random() * canvasWidth,
             y: Math.random() * canvasHeight,
@@ -4178,6 +3699,28 @@
       const mmMaskPath = $("#mmMaskPath");
       const gateMaskPath = $("#gateMaskD");
       let miniMoonVisible = false;
+      const releaseMoonHearts = () => {
+        if (!miniMoonEl || reducedMotion) return;
+        miniMoonEl.querySelectorAll(".moon-heart").forEach((heart) => heart.remove());
+        const colors = ["#fff0f3", "#f7d8e2", "#f7e6b5", "#eac0d0"];
+        for (let i = 0; i < 14; i += 1) {
+          const angle = Math.PI + (Math.PI * i) / 13;
+          const distance = 55 + Math.random() * 48;
+          const heart = document.createElement("span");
+          heart.className = "moon-heart";
+          heart.textContent = "♥";
+          heart.setAttribute("aria-hidden", "true");
+          heart.style.setProperty("--heart-size", `${10 + Math.random() * 9}px`);
+          heart.style.setProperty("--heart-color", colors[i % colors.length]);
+          heart.style.setProperty("--heart-drift", `${(Math.cos(angle) * distance + (Math.random() - .5) * 24).toFixed(1)}px`);
+          heart.style.setProperty("--heart-rise", `${(-48 - Math.abs(Math.sin(angle)) * 50 - Math.random() * 36).toFixed(1)}px`);
+          heart.style.setProperty("--heart-rotation", `${(-32 + Math.random() * 64).toFixed(1)}deg`);
+          heart.style.setProperty("--heart-delay", `${(Math.random() * .28).toFixed(2)}s`);
+          miniMoonEl.appendChild(heart);
+          heart.addEventListener("animationend", () => heart.remove(), { once: true });
+        }
+      };
+      miniMoonEl?.addEventListener("click", releaseMoonHearts);
       const updateMiniMoon = () => {
         const st = window.scrollY;
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -4218,7 +3761,6 @@
       };
 
       const venueMoonEl = $(".venue-moon");
-      const finaleMoonEl = $(".finale-moon");
       const storySection = $("#story");
       const storyThreadSvg = $("#storyThreadSvg");
       const storyFill = $("#storyFill");
@@ -4270,8 +3812,7 @@
             storyFill.style.strokeDasharray = `${storyThreadLength}`;
             const heart = $("#storyThreadHeart");
             if (heart) {
-              heart.setAttribute("x", `${x}`);
-              heart.setAttribute("y", `${heartY + 9}`);
+              heart.setAttribute("transform", `translate(${x.toFixed(1)} ${heartY + 9}) scale(.78)`);
             }
           }
         }
@@ -4336,12 +3877,6 @@
           const vAmount = clamp((window.innerHeight - vrect.top) / Math.max(1, window.innerHeight + vrect.height), 0, 1);
           venueMoonEl.style.transform = `translate3d(0, ${((vAmount - .5) * -44).toFixed(2)}px, 0)`;
         }
-        const finaleSection = $("#finale");
-        if (finaleSection && finaleMoonEl) {
-          const frect = finaleSection.getBoundingClientRect();
-          const fAmount = clamp((window.innerHeight - frect.top) / Math.max(1, window.innerHeight + frect.height), 0, 1);
-          finaleMoonEl.style.transform = `translateX(-50%) translate3d(0, ${((fAmount - .5) * -30).toFixed(2)}px, 0)`;
-        }
       };
       window.addEventListener("scroll", updateScrollUI, { passive: true });
       window.addEventListener("resize", () => { sizeHeroCanvas(); updateDecorativeThreads(); updateScrollUI(); });
@@ -4398,7 +3933,8 @@
       });
 
       /* Reveal-on-scroll */
-      const revealItems = $$(".reveal");
+      const dateDisplay = $(".date-display");
+      const revealItems = $$(".reveal:not(.date-display)");
       if ("IntersectionObserver" in window) {
         const revealObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach((entry) => {
@@ -4414,40 +3950,74 @@
           });
         }, { threshold: .12, rootMargin: "0px 0px -7% 0px" });
         revealItems.forEach((item) => revealObserver.observe(item));
+        if (dateDisplay) {
+          const dateObserver = new IntersectionObserver((entries, observer) => {
+            if (!entries[0].isIntersecting) return;
+            dateDisplay.classList.add("in");
+            observer.unobserve(dateDisplay);
+          }, { threshold: .2, rootMargin: "0px 0px -12% 0px" });
+          dateObserver.observe(dateDisplay);
+        }
       } else {
         revealItems.forEach((item) => item.classList.add("in"));
+        if (dateDisplay) dateDisplay.classList.add("in");
       }
 
-      /* The letter from the couple.
-         It stays sealed until the guest opens it: the wax seal turns away, the
-         envelope folds down and the parchment unfurls out of it. Only then does
-         the message type itself out, character by character, the way a hand is
-         still writing. Anyone who has asked for less motion gets the finished
-         letter at once, straight from the stylesheet. */
+      /* Keep the complete letter hidden until the envelope opens, then type
+         every line in reading order while preserving its inline formatting. */
       const letterStage = $("#letterStage");
       const letterEnv = $("#letterEnv");
-      const letterCopy = $("#letterCopy");
+      const letterPaper = $("#letterPaper");
       if (letterStage && letterEnv) {
+        const letterParagraphs = letterPaper ? $$("p", letterPaper) : [];
+        const letterTextNodes = [];
+        if (letterPaper) {
+          letterPaper.setAttribute("aria-hidden", "true");
+          letterParagraphs.forEach((paragraph) => {
+            paragraph.style.minHeight = `${paragraph.offsetHeight}px`;
+          });
+          const walker = document.createTreeWalker(letterPaper, NodeFilter.SHOW_TEXT);
+          while (walker.nextNode()) {
+            const node = walker.currentNode;
+            const fullText = node.nodeValue || "";
+            if (!/\S/.test(fullText)) continue;
+            letterTextNodes.push({ node, fullText });
+            node.nodeValue = "";
+          }
+        }
         let letterOpen = false;
-        const typeCopy = () => {
-          if (!letterCopy || reducedMotion) return;
-          const full = letterCopy.textContent;
-          if (!full) return;
-          /* Reserve the finished height first, so the signature and the wax
-             seal below do not creep downward while the words arrive. */
-          letterCopy.style.minHeight = `${letterCopy.offsetHeight}px`;
-          letterCopy.classList.add("is-typing");
-          letterCopy.textContent = "";
-          let index = 0;
+        const finishLetter = () => {
+          letterTextNodes.forEach(({ node, fullText }) => { node.nodeValue = fullText; });
+          letterParagraphs.forEach((paragraph) => {
+            paragraph.style.minHeight = "";
+            paragraph.classList.remove("is-typing");
+          });
+          if (letterPaper) letterPaper.removeAttribute("aria-hidden");
+        };
+        const typeLetter = () => {
+          if (!letterPaper) return;
+          if (reducedMotion) {
+            finishLetter();
+            return;
+          }
+          let textIndex = 0;
+          let characterIndex = 0;
           const step = () => {
-            letterCopy.textContent = full.slice(0, index);
-            index += 1;
-            if (index <= full.length) {
-              window.setTimeout(step, 12 + Math.random() * 16);
-            } else {
-              letterCopy.textContent = full;
-              letterCopy.classList.remove("is-typing");
+            const entry = letterTextNodes[textIndex];
+            if (!entry) {
+              finishLetter();
+              return;
             }
+            const paragraph = entry.node.parentElement.closest("p");
+            if (paragraph) paragraph.classList.add("is-typing");
+            entry.node.nodeValue = entry.fullText.slice(0, characterIndex + 1);
+            characterIndex += 1;
+            if (characterIndex >= entry.fullText.length) {
+              if (paragraph) paragraph.classList.remove("is-typing");
+              textIndex += 1;
+              characterIndex = 0;
+            }
+            window.setTimeout(step, 12 + Math.random() * 16);
           };
           step();
         };
@@ -4461,7 +4031,7 @@
             letterEnv.setAttribute("aria-hidden", "true");
             letterEnv.tabIndex = -1;
           }, reducedMotion ? 0 : 420);
-          window.setTimeout(typeCopy, reducedMotion ? 0 : 1600);
+          window.setTimeout(typeLetter, reducedMotion ? 0 : 1600);
         };
         /* a button already fires click on Enter and Space, so one listener is
            enough for pointer and keyboard alike */
@@ -4607,332 +4177,6 @@
         } else item.classList.add("in");
       });
 
-      /* Date seals — three little moons that give up one piece of the day each.
-         The gold is scratched off the circle itself, so the whole date is a
-         single interaction: no tap-then-scratch, no second card. */
-      const seals = $$(".seal");
-      const sealRow = $("#sealRow");
-      const revealCopy = $("#revealCopy");
-      const SEAL_SCRATCH_AT = 0.45;
-      let revealed = 0;
-
-      /* ---------------------------------------------------------------------
-         Scratch-to-reveal, on the circle.
-         The foil is a canvas; rubbing it away uses a soft radial brush stamped
-         along the pointer path so fast drags leave a clean, feathered edge
-         rather than gaps. Every ~130ms we sample the alpha channel, and at 45%
-         we take over and finish the job, so the interaction can never turn into
-         work. A tap or a keyboard press lifts the foil outright.
-         --------------------------------------------------------------------- */
-      const HEART_TINTS = ["#f7e6b5", "#e6c97c", "#ffb3c1", "#c8ce8e", "#fff0d2", "#ff9db1"];
-      const ICE_TINTS = ["#eaf5ff", "#d6ecff", "#fff4dc", "#cfe4ff", "#ffe9f2", "#ffffff"];
-      /* the finale runs on rose, so it reads as a different moment from the
-         gold of the rest of the page rather than more of the same */
-      const ROSE_TINTS = ["#ffc2d2", "#ff9db4", "#ffdbe4", "#f79fba", "#ffe6ec", "#e8869f"];
-
-      /* Release hearts in waves across a visible section instead of anchoring
-         the finale to one date seal. */
-      function flowHearts(bounds, count = 16, tints = HEART_TINTS, waves = 5) {
-        if (reducedMotion) return;
-        const perWave = Math.max(1, Math.ceil(count / waves));
-        let made = 0;
-        for (let wave = 0; wave < waves; wave += 1) {
-          window.setTimeout(() => {
-            for (let i = 0; i < perWave && made < count; i += 1) {
-              made += 1;
-              const heart = document.createElement("i");
-              heart.className = "flow-heart";
-              heart.textContent = Math.random() < .18 ? "❦" : "♥";
-              heart.style.left = `${bounds.left + Math.random() * bounds.width}px`;
-              heart.style.top = `${bounds.top + Math.random() * bounds.height}px`;
-              heart.style.fontSize = `${13 + Math.random() * 19}px`;
-              heart.style.color = tints[(Math.random() * tints.length) | 0];
-              heart.style.setProperty("--dx", `${(Math.random() * 2 - 1) * 74}px`);
-              heart.style.setProperty("--rise", `${-(240 + Math.random() * 330)}px`);
-              heart.style.setProperty("--sway", `${(Math.random() * 2 - 1) * 20}px`);
-              heart.style.setProperty("--rot", `${(Math.random() * 2 - 1) * 62}deg`);
-              heart.style.setProperty("--dur", `${3200 + Math.random() * 2400}ms`);
-              /* a whisper of stagger inside each wave keeps it from marching */
-              heart.style.setProperty("--delay", `${Math.random() * 190}ms`);
-              body.appendChild(heart);
-              window.setTimeout(() => heart.remove(), 6400);
-            }
-          }, wave * 290);
-        }
-      }
-
-      function flowIce(x, y, count = 40) {
-        if (reducedMotion) return;
-        for (let i = 0; i < count; i += 1) {
-          const rising = i % 5 === 0;
-          const flake = document.createElement("i");
-          /* Two of every five are a sharp four-point sparkle, the rest fine snow */
-          flake.className = i % 5 < 2 ? "flow-ice" : "flow-flake";
-          flake.style.left = `${x + (Math.random() * 2 - 1) * (rising ? 120 : 330)}px`;
-          flake.style.top = `${y + (Math.random() * 2 - 1) * (rising ? 90 : 46)}px`;
-          flake.style.setProperty("--tint", ICE_TINTS[(Math.random() * ICE_TINTS.length) | 0]);
-          flake.style.setProperty("--size", `${(rising ? 3 : 3.5) + Math.random() * (rising ? 5 : 9.5)}px`);
-          flake.style.setProperty("--peak", `${(.5 + Math.random() * .45).toFixed(2)}`);
-          flake.style.setProperty("--dx", `${(Math.random() * 2 - 1) * (rising ? 90 : 210)}px`);
-          flake.style.setProperty("--dy", `${rising ? -(90 + Math.random() * 190) : 150 + Math.random() * 320}px`);
-          flake.style.setProperty("--sc", `${(.3 + Math.random() * .8).toFixed(2)}`);
-          flake.style.setProperty("--rot", `${(Math.random() * 2 - 1) * 260}deg`);
-          flake.style.setProperty("--dur", `${3200 + Math.random() * 3200}ms`);
-          flake.style.setProperty("--delay", `${Math.random() * 900}ms`);
-          body.appendChild(flake);
-          window.setTimeout(() => flake.remove(), 7600);
-        }
-      }
-      /* Expanding gold rings, anchored on the circle at the last touch point */
-      function ringBurst(seal, localX, localY) {
-        if (reducedMotion) return;
-        for (let i = 0; i < 3; i += 1) {
-          const ring = document.createElement("span");
-          ring.className = "seal-ring";
-          ring.style.left = `${localX}px`;
-          ring.style.top = `${localY}px`;
-          ring.style.animationDelay = `${i * 150}ms`;
-          seal.appendChild(ring);
-          window.setTimeout(() => ring.remove(), 1900);
-        }
-      }
-
-      /* One soft-edged disc, reused as the eraser for every stamp on every seal */
-      const foilBrush = (() => {
-        const size = 96;
-        const c = document.createElement("canvas");
-        c.width = size;
-        c.height = size;
-        const bctx = c.getContext("2d");
-        const wash = bctx.createRadialGradient(size / 2, size / 2, size * .16, size / 2, size / 2, size * .5);
-        wash.addColorStop(0, "rgba(255,255,255,1)");
-        wash.addColorStop(.5, "rgba(255,255,255,.94)");
-        wash.addColorStop(.8, "rgba(255,255,255,.42)");
-        wash.addColorStop(1, "rgba(255,255,255,0)");
-        bctx.fillStyle = wash;
-        bctx.fillRect(0, 0, size, size);
-        return c;
-      })();
-
-      /* A light tick under the fingertip, so rubbing feels like something */
-      const haptic = (pointerType) => {
-        if ((pointerType === "touch" || pointerType === "pen") && navigator.vibrate) navigator.vibrate(4);
-      };
-
-      seals.forEach((seal) => {
-        const foil = $(".seal-foil", seal);
-        const value = $(".seal-value", seal);
-        if (!foil || !value) return;
-        const foilCtx = foil.getContext("2d", { willReadFrequently: true });
-        if (!foilCtx) return;
-
-        let brushSize = 24;
-        let scratching = false;
-        let finished = false;
-        let travelled = 0;
-        let cursor = null;
-        let lastSample = 0;
-        let lastTick = 0;
-
-        /* Golden leaf: a bright diagonal sheen, a soft struck-metal bloom,
-           fine warm grain and a scatter of sparkle, so the foil reads as real
-           gold the guest scratches away. */
-        const paintFoil = () => {
-          const w = foil.clientWidth;
-          const h = foil.clientHeight;
-          if (!w || !h) return false;
-          const ratio = Math.min(window.devicePixelRatio || 1, 2);
-          foil.width = Math.round(w * ratio);
-          foil.height = Math.round(h * ratio);
-          foilCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
-          /* Paint inside the disc rather than the whole square, so the progress
-             meter only ever counts gold the guest can actually see. */
-          foilCtx.beginPath();
-          foilCtx.arc(w / 2, h / 2, Math.min(w, h) / 2, 0, Math.PI * 2);
-          foilCtx.clip();
-          const sheen = foilCtx.createLinearGradient(0, 0, w, h);
-          sheen.addColorStop(0, "#7a5a18");
-          sheen.addColorStop(.16, "#c9a445");
-          sheen.addColorStop(.34, "#f6e2a0");
-          sheen.addColorStop(.5, "#ffeec0");
-          sheen.addColorStop(.66, "#e6c97c");
-          sheen.addColorStop(.84, "#b8892f");
-          sheen.addColorStop(1, "#6d4e16");
-          foilCtx.globalCompositeOperation = "source-over";
-          foilCtx.fillStyle = sheen;
-          foilCtx.fillRect(0, 0, w, h);
-          const bloom = foilCtx.createRadialGradient(w * .36, h * .3, 0, w * .36, h * .3, Math.max(w, h) * .72);
-          bloom.addColorStop(0, "rgba(255, 252, 226, .5)");
-          bloom.addColorStop(.45, "rgba(255, 240, 190, .14)");
-          bloom.addColorStop(1, "rgba(255, 240, 190, 0)");
-          foilCtx.fillStyle = bloom;
-          foilCtx.fillRect(0, 0, w, h);
-          for (let i = 0; i < Math.round(h * 2); i += 1) {
-            const y = Math.random() * h;
-            foilCtx.strokeStyle = `rgba(255, 248, 210, ${(Math.random() * .14).toFixed(3)})`;
-            foilCtx.lineWidth = Math.random() * 1.6 + .3;
-            foilCtx.beginPath();
-            foilCtx.moveTo(-10, y);
-            foilCtx.lineTo(w + 10, y + (Math.random() * 8 - 4));
-            foilCtx.stroke();
-          }
-          for (let i = 0; i < Math.round(w * h / 300); i += 1) {
-            foilCtx.fillStyle = Math.random() < .82
-              ? `rgba(255, 252, 232, ${(Math.random() * .34 + .08).toFixed(3)})`
-              : `rgba(122, 90, 26, ${(Math.random() * .16).toFixed(3)})`;
-            foilCtx.fillRect(Math.random() * w, Math.random() * h, 1.5, 1.5);
-          }
-          const rim = foilCtx.createLinearGradient(0, 0, 0, h);
-          rim.addColorStop(0, "rgba(255, 251, 226, .24)");
-          rim.addColorStop(.5, "rgba(0, 0, 0, 0)");
-          rim.addColorStop(1, "rgba(92, 66, 16, .22)");
-          foilCtx.fillStyle = rim;
-          foilCtx.fillRect(0, 0, w, h);
-          brushSize = clamp(w * 0.1286, 15, 26);
-          return true;
-        };
-
-        const localPoint = (event) => {
-          const rect = foil.getBoundingClientRect();
-          return { x: event.clientX - rect.left, y: event.clientY - rect.top };
-        };
-
-        const rub = (point) => {
-          if (!cursor) return;
-          const dx = point.x - cursor.x;
-          const dy = point.y - cursor.y;
-          const distance = Math.hypot(dx, dy);
-          const steps = Math.max(1, Math.ceil(distance / (brushSize * .3)));
-          foilCtx.globalCompositeOperation = "destination-out";
-          for (let step = 1; step <= steps; step += 1) {
-            const t = step / steps;
-            const size = brushSize * (.94 + Math.random() * .12);
-            foilCtx.drawImage(foilBrush, cursor.x + dx * t - size, cursor.y + dy * t - size, size * 2, size * 2);
-          }
-          travelled += distance;
-          cursor = point;
-        };
-
-        const finish = () => {
-          if (finished) return;
-          finished = true;
-          scratching = false;
-          seal.classList.remove("is-scratching");
-          seal.classList.add("is-done");
-            if (navigator.vibrate) navigator.vibrate([8, 30, 8]);
-          const rect = seal.getBoundingClientRect();
-          const centreX = rect.left + rect.width / 2;
-          const centreY = rect.top + rect.height / 2;
-          /* the ring lives on the circle, but the cursor is foil-local, so shift
-             it across the gap between the two boxes */
-          const foilBox = foil.getBoundingClientRect();
-          const offsetX = foilBox.left - rect.left;
-          const offsetY = foilBox.top - rect.top;
-          const hitX = cursor ? clamp(cursor.x + offsetX, 0, rect.width) : rect.width / 2;
-          const hitY = cursor ? clamp(cursor.y + offsetY, 0, rect.height) : rect.height / 2;
-          ringBurst(seal, hitX, hitY);
-          /* the number arrives just after the last of the gold lifts */
-          window.setTimeout(() => {
-            value.classList.add("is-in");
-            burstAt(centreX, centreY, 15, ["#e6c97c", "#f7e6b5", "#c8ce8e"]);
-            heartBlast(centreX, centreY, 7);
-          }, reducedMotion ? 0 : 170);
-
-          revealed += 1;
-          const left = seals.length - revealed;
-          if (revealed === seals.length) {
-            sealRow?.classList.add("settled");
-            if (revealCopy) revealCopy.innerHTML = "<em>21 November 2027</em>";
-
-            /* The date is out. The last circle settles into gold and a burst of
-               hearts carries the moment straight into the celebrations. */
-            window.setTimeout(() => {
-              const dateSection = $("#date");
-              const box = dateSection.getBoundingClientRect();
-              const left = Math.max(12, box.left);
-              const right = Math.min(window.innerWidth - 12, box.right);
-              const top = Math.max(12, box.top);
-              const bottom = Math.min(window.innerHeight - 12, box.bottom);
-              flowHearts({
-                left,
-                top,
-                width: Math.max(0, right - left),
-                height: Math.max(0, bottom - top)
-              }, 54, ROSE_TINTS, 8);
-            }, reducedMotion ? 0 : 620);
-          } else if (revealCopy) {
-            revealCopy.innerHTML = `<em>${left}</em> moon${left === 1 ? "" : "s"} still holding gold`;
-          }
-        };
-
-        const measure = () => {
-          if (finished) return;
-          const data = foilCtx.getImageData(0, 0, foil.width, foil.height).data;
-          let cleared = 0;
-          let total = 0;
-          for (let i = 3; i < data.length; i += 24) {
-            total += 1;
-            if (data[i] < 36) cleared += 1;
-          }
-          if (total && cleared / total >= SEAL_SCRATCH_AT) finish();
-        };
-
-        if (paintFoil()) {
-          seal.classList.add("is-armed");
-          /* Re-lay the foil if the layout settles after a resize or a font swap */
-          if ("ResizeObserver" in window) {
-            const relayout = new ResizeObserver(() => { if (!finished && !scratching) paintFoil(); });
-            relayout.observe(seal);
-          }
-          window.addEventListener("resize", () => { if (!finished && !scratching) paintFoil(); });
-
-          seal.addEventListener("pointerdown", (event) => {
-            if (finished) return;
-            scratching = true;
-            travelled = 0;
-            cursor = localPoint(event);
-            rub(cursor);
-            seal.classList.add("is-scratching");
-            if (seal.setPointerCapture) seal.setPointerCapture(event.pointerId);
-          });
-
-          seal.addEventListener("pointermove", (event) => {
-            if (!scratching || finished) return;
-            const samples = event.getCoalescedEvents ? event.getCoalescedEvents() : [event];
-            for (const sample of samples) rub(localPoint(sample));
-            const now = performance.now();
-            if (now - lastTick > 110) {
-              lastTick = now;
-              haptic(event.pointerType);
-            }
-            if (now - lastSample > 130) {
-              lastSample = now;
-              measure();
-            }
-          });
-
-          const stopScratch = () => {
-            if (!scratching) return;
-            scratching = false;
-            seal.classList.remove("is-scratching");
-            measure();
-            /* A tap, rather than a drag, should simply hand the number over */
-            if (travelled < 9) finish();
-          };
-          seal.addEventListener("pointerup", stopScratch);
-          seal.addEventListener("pointercancel", stopScratch);
-          seal.addEventListener("lostpointercapture", () => { scratching = false; });
-
-          /* Keyboard and assistive tech, and any browser without a usable canvas */
-          seal.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              finish();
-            }
-          });
-        }
-      });
-
       /* Countdown */
       /* ── Moonlit snowfall ─────────────────────────────────────────────────
          One fixed canvas of slow, drifting flakes in pale blue with a touch of
@@ -4961,6 +4205,7 @@
         let flakes = [];
         let snowW = 0;
         let snowH = 0;
+        const SNOW_DENSITY = .8;
         const sizeSnow = () => {
           const dpr = Math.min(window.devicePixelRatio || 1, 2);
           snowW = window.innerWidth;
@@ -4980,8 +4225,13 @@
           alpha: .2 + Math.random() * .56,
           sprite: snowSprites[(Math.random() * snowSprites.length) | 0]
         });
+        const getSnowCount = () => {
+          const baseCount = clamp(Math.round((snowW * snowH) / 26000), 32, 112);
+          const density = SNOW_DENSITY * (snowReduced ? .8 : 1);
+          return Math.round(baseCount * density);
+        };
         const seedSnow = (fromTop) => {
-          const count = clamp(Math.round((snowW * snowH) / 22000), 40, 140);
+          const count = getSnowCount();
           flakes = [];
           for (let i = 0; i < count; i += 1) flakes.push(makeFlake(fromTop && i % 3 !== 0));
         };
@@ -4991,10 +4241,19 @@
            still sky. */
         let snowOn = false;
         let snowSeeded = false;
+        let snowReduced = false;
         const snowGate = $("#venue");
         const updateSnowGate = () => {
-          const on = snowGate ? snowGate.getBoundingClientRect().top <= window.innerHeight * .5 : true;
+          const venueRect = snowGate ? snowGate.getBoundingClientRect() : null;
+          const on = venueRect ? venueRect.top <= window.innerHeight * .5 : true;
+          const reduce = venueRect ? venueRect.bottom <= 0 : false;
           if (on && !snowSeeded) { seedSnow(true); snowSeeded = true; }
+          if (snowSeeded && reduce !== snowReduced) {
+            snowReduced = reduce;
+            const targetCount = getSnowCount();
+            if (flakes.length > targetCount) flakes.length = targetCount;
+            while (flakes.length < targetCount) flakes.push(makeFlake(false));
+          }
           if (on === snowOn) return;
           snowOn = on;
           snowField.classList.toggle("is-on", on);
@@ -5044,8 +4303,6 @@
         if (remaining <= 0) {
           setCount("#days", "00"); setCount("#hours", "00"); setCount("#minutes", "00"); setCount("#seconds", "00");
           if (navigator.vibrate) navigator.vibrate([10, 60, 10, 60, 16]);
-          const note = $("#countdownNote");
-          if (note) note.textContent = "Today is the day · thank you for celebrating with us";
           return;
         }
         const totalSeconds = Math.floor(remaining / 1000);

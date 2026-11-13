@@ -12,18 +12,19 @@
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       }
     </script>
-    <title>Rajwada Royale Extended — Arjun &amp; Anaya</title>
+    <title>Rajwada Royale: Emerald Edition — Arjun &amp; Anaya</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://c.animaapp.com" crossorigin />
     <link rel="preconnect" href="https://framerusercontent.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" /></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Dancing+Script:wght@500;600;700&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Infant:wght@500;600;700&family=Cormorant+Upright:wght@400;500;600&family=Gotu&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet" /></noscript>
     <script type="module" crossorigin src="./assets/index-CRCuhgh7.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-gHDURWKE.css">
-    <link rel="stylesheet" href="hero.css?v=d793ad33" />
-    <link rel="stylesheet" href="royale.css?v=daee058f" />
+    <link rel="stylesheet" href="hero.css?v=a14aae24" />
+    <link rel="stylesheet" href="royale.css?v=85124b4f" />
+    <link rel="stylesheet" href="rajwada-intro.css?v=da14720a" />
   </head>
   <body>
   <!-- ══════════ AUDIO CONTROL ══════════ -->
@@ -36,106 +37,140 @@
       <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75.75V18a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Zm10.5 0a.75.75 0 0 1 .75.75V18a.75.75 0 0 1-1.5 0V6a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"/>
     </svg>
   </button>
-<!-- ══════════ ENVELOPE INTRO ══════════ -->
-  <div id="env-outer" class="env-outer" role="button" tabindex="0" aria-label="Open your wedding invitation">
-    <!-- soft cream-gold sheen for the handoff into the site -->
-    <div id="env-bloom" class="env-bloom" aria-hidden="true"></div>
+<!-- Rajwada Royale pre-invitation -->
+  <div id="env-outer" class="rj-entrance" role="button" tabindex="0" aria-label="Open your wedding invitation">
+      <div class="rj-pre-bg" aria-hidden="true"></div>
+      <div class="rj-pre-damask" aria-hidden="true"></div>
+      <div class="rj-pre-arch" aria-hidden="true"><i></i></div>
 
-    <!-- a very faint gold halo behind the envelope, breathing slowly -->
-    <div class="env-glow" aria-hidden="true"></div>
+      <p class="rj-pre-kicker">Together with their families</p>
+      <p class="rj-pre-names"><span class="rj-na">Arjun</span> <span class="rj-amp">&amp;</span> <span class="rj-nb">Anaya</span></p>
+      <div class="rj-pre-crest" aria-hidden="true"><span class="rj-crest-t">A·A</span></div>
 
-    <!-- rose hearts on the breeze + tiny gold stars, seeded by the script -->
-    <div class="env-petals" id="env-petals" aria-hidden="true"></div>
-    <div class="env-motes" id="env-motes" aria-hidden="true"></div>
+      <div class="rj-pre-ring" aria-hidden="true"></div>
 
-    <!-- a few very subtle thin gold botanical sprigs, one on each side -->
-    <svg class="env-flourish left" viewBox="0 0 40 140" fill="none" aria-hidden="true">
-      <path d="M35 4 C 30 42, 26 98, 30 136" />
-      <path d="M29 54 C 21 46, 14 44, 10 50" />
-      <path d="M30 90 C 22 96, 16 100, 12 106" />
-      <path d="M31 120 C 24 126, 19 132, 17 140" />
-    </svg>
-    <svg class="env-flourish right" viewBox="0 0 40 140" fill="none" aria-hidden="true">
-      <path d="M5 4 C 10 42, 14 98, 10 136" />
-      <path d="M11 54 C 19 46, 26 44, 30 50" />
-      <path d="M10 90 C 18 96, 24 100, 28 106" />
-      <path d="M9 120 C 16 126, 21 132, 23 140" />
-    </svg>
-
-    <!-- a pair of swaying gold garlands flanking the envelope — thread,
-         diamonds, beads that echo the wax-red seal, and a tassel drop -->
-    <div class="env-side left" aria-hidden="true">
-      <div class="env-side-sway">
-        <svg viewBox="0 0 60 150" fill="none">
-          <path d="M30 2 V148" stroke="rgba(201,148,76,.55)" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M21 16 C 27 12, 33 12, 39 16 M21 16 C 22 24, 22 28, 21 34" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
-          <path d="M39 134 C 33 138, 27 138, 21 134 M39 134 C 38 142, 38 146, 39 151" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
-          <path d="M30 40 L 35.5 45 L 30 50 L 24.5 45 Z" fill="rgba(201,148,76,.55)"/>
-          <path d="M30 74 L 36.5 79 L 30 84 L 23.5 79 Z" fill="rgba(201,148,76,.55)"/>
-          <path d="M30 108 L 34.5 112 L 30 116 L 25.5 112 Z" fill="rgba(201,148,76,.55)"/>
-          <circle cx="30" cy="59" r="2" fill="rgba(216,67,60,.8)"/>
-          <circle cx="30" cy="93" r="2" fill="rgba(216,67,60,.8)"/>
-          <circle cx="30" cy="127" r="2.6" fill="rgba(184,145,58,.55)"/>
-        </svg>
+      <div class="rj-pre-petals" aria-hidden="true">
+        <i class="rj-pre-petal" style="--y:5%;  --s:14px; --c:#E88D99; --d:15s; --dl:-2s;  --r:40deg;"></i>
+        <i class="rj-pre-petal" style="--y:12%; --s:11px; --c:#F3B0B5; --d:12s; --dl:-9s;  --r:120deg; animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:19%; --s:17px; --c:#FFD1CE; --d:18s; --dl:-5s;  --r:200deg;"></i>
+        <i class="rj-pre-petal" style="--y:27%; --s:12px; --c:#E88D99; --d:13s; --dl:-11s; --r:300deg; animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:35%; --s:15px; --c:#F3B0B5; --d:16s; --dl:-7s;  --r:80deg;"></i>
+        <i class="rj-pre-petal" style="--y:52%; --s:18px; --c:#FFD1CE; --d:19s; --dl:-13s; --r:240deg;"></i>
+        <i class="rj-pre-petal" style="--y:60%; --s:13px; --c:#E88D99; --d:14s; --dl:-1s;  --r:20deg; animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:68%; --s:12px; --c:#F3B0B5; --d:13.5s; --dl:-6s; --r:100deg;"></i>
+        <i class="rj-pre-petal" style="--y:82%; --s:16px; --c:#FFD1CE; --d:17s; --dl:-10s; --r:220deg; animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:88%; --s:14px; --c:#E88D99; --d:15.5s; --dl:-8s; --r:280deg; animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:9%;  --s:13px; --c:#E88D99; --d:14s;   --dl:-5s;  --r:70deg;  animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:23%; --s:10px; --c:#FFD1CE; --d:12s;   --dl:-10s; --r:300deg;"></i>
+        <i class="rj-pre-petal" style="--y:31%; --s:15px; --c:#F3B0B5; --d:16s;   --dl:-2s;  --r:140deg; animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:47%; --s:12px; --c:#E88D99; --d:13s;   --dl:-7s;  --r:250deg;"></i>
+        <i class="rj-pre-petal" style="--y:74%; --s:10px; --c:#FFD1CE; --d:12.5s; --dl:-12s; --r:110deg; animation-name:rjPreDriftL;"></i>
+        <i class="rj-pre-petal" style="--y:79%; --s:13px; --c:#F3B0B5; --d:15s;   --dl:-4s;  --r:320deg;"></i>
       </div>
-    </div>
-    <div class="env-side right" aria-hidden="true">
-      <div class="env-side-sway">
-        <svg viewBox="0 0 60 150" fill="none">
-          <path d="M30 2 V148" stroke="rgba(201,148,76,.55)" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M21 16 C 27 12, 33 12, 39 16 M21 16 C 22 24, 22 28, 21 34" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
-          <path d="M39 134 C 33 138, 27 138, 21 134 M39 134 C 38 142, 38 146, 39 151" stroke="rgba(201,148,76,.5)" stroke-width="1" stroke-linecap="round"/>
-          <path d="M30 40 L 35.5 45 L 30 50 L 24.5 45 Z" fill="rgba(201,148,76,.55)"/>
-          <path d="M30 74 L 36.5 79 L 30 84 L 23.5 79 Z" fill="rgba(201,148,76,.55)"/>
-          <path d="M30 108 L 34.5 112 L 30 116 L 25.5 112 Z" fill="rgba(201,148,76,.55)"/>
-          <circle cx="30" cy="59" r="2" fill="rgba(216,67,60,.8)"/>
-          <circle cx="30" cy="93" r="2" fill="rgba(216,67,60,.8)"/>
-          <circle cx="30" cy="127" r="2.6" fill="rgba(184,145,58,.55)"/>
-        </svg>
+      <div class="rj-pre-hearts" aria-hidden="true">
+        <i class="rj-pre-h" style="left:8%;  font-size:10px; color:#D97C89; animation-delay:-1s;   animation-duration:11s;">♥</i>
+        <i class="rj-pre-h" style="left:18%; font-size:13px; color:#C99A55; animation-delay:-6s;   animation-duration:14s;">♥</i>
+        <i class="rj-pre-h" style="left:62%; font-size:9px;  color:#D97C89; animation-delay:-3.5s; animation-duration:12s;">♥</i>
+        <i class="rj-pre-h" style="left:72%; font-size:12px; color:#C99A55; animation-delay:-8s;   animation-duration:13s;">♥</i>
+        <i class="rj-pre-h" style="left:82%; font-size:10px; color:#D97C89; animation-delay:-5s;   animation-duration:15s;">♥</i>
+        <i class="rj-pre-h" style="left:90%; font-size:9px;  color:#C99A55; animation-delay:-2.5s; animation-duration:11.5s;">♥</i>
+        <i class="rj-pre-h" style="left:95%; font-size:10px; color:#D97C89; animation-delay:-8.5s; animation-duration:14s;">♥</i>
+        <i class="rj-pre-h" style="left:5%;  font-size:9px;  color:#C99A55; animation-delay:-7.5s; animation-duration:12s;">♥</i>
+        <i class="rj-pre-h" style="left:36%; font-size:10px; color:#D97C89; animation-delay:-2s;   animation-duration:12s;">♥</i>
+        <i class="rj-pre-h" style="left:50%; font-size:8px;  color:#C99A55; animation-delay:-6.5s; animation-duration:13.5s;">♥</i>
       </div>
-    </div>
+      <div class="rj-pre-sparks" aria-hidden="true">
+        <i class="rj-pre-sp" style="left:18%; top:22%; animation-delay:.3s;  animation-duration:3s;"></i>
+        <i class="rj-pre-sp" style="left:82%; top:18%; animation-delay:1.4s; animation-duration:3.6s;"></i>
+        <i class="rj-pre-sp" style="left:12%; top:58%; animation-delay:2.2s; animation-duration:2.8s;"></i>
+        <i class="rj-pre-sp" style="left:88%; top:62%; animation-delay:.9s;  animation-duration:3.4s;"></i>
+        <i class="rj-pre-sp" style="left:30%; top:82%; animation-delay:1.8s; animation-duration:3.1s;"></i>
+        <i class="rj-pre-sp" style="left:70%; top:86%; animation-delay:2.6s; animation-duration:3.8s;"></i>
+      </div>
 
-    <div class="env-content">
-      <header class="env-headline">
-        <p class="env-kicker">A wedding invitation</p>
-        <h1 class="env-couple">Arjun <em aria-hidden="true">&amp;</em> Anaya</h1>
-      </header>
-
-      <div class="env-stage">
-        <div id="envelope" class="envelope">
-          <div class="env-body"></div>
-          <svg class="env-seams" viewBox="0 0 300 206" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M150 108 L2 204 M150 108 L298 204" />
-          </svg>
-
-          <!-- the letter — a cream slip showing over the rim until the seal breaks -->
-          <div class="env-card">
-            <p class="env-ganesh">ॐ श्री गणेशाय नमः</p>
-            <p class="env-families">Together with their families</p>
-            <svg class="env-crest" viewBox="0 0 44 30" width="44" height="30" fill="none" aria-hidden="true">
-              <path d="M3 25V10.5L12.5 17 22 3.5 31.5 17 41 10.5V25Z" stroke="rgba(59,7,24,.85)" stroke-width="1.2" stroke-linejoin="round"/>
-              <path d="M3 25h38" stroke="rgba(59,7,24,.5)" stroke-width="1" stroke-linecap="round"/>
-              <circle cx="22" cy="2.4" r="1.4" fill="rgba(59,7,24,.85)"/>
-              <circle cx="2.6" cy="9.4" r="1.1" fill="rgba(59,7,24,.5)"/>
-              <circle cx="41.4" cy="9.4" r="1.1" fill="rgba(59,7,24,.5)"/>
-            </svg>
-            <p class="env-cordially">You are cordially invited</p>
-            <p class="env-names">Arjun &amp; Anaya</p>
-            <div class="env-divider" aria-hidden="true"></div>
+      <div class="rj-pre-stage" aria-hidden="true">
+        <div class="rj-pre-env">
+          <div class="rj-pre-back"></div>
+          <div class="rj-pre-card">
+            <p class="rj-pre-eyebrow">The Wedding Of</p>
+            <h2 class="rj-pre-cardnames"><span class="rj-na">Arjun</span> <span>&amp;</span> <span class="rj-nb">Anaya</span></h2>
+            <div class="rj-pre-div"></div>
+            <p class="rj-pre-line">Join us as we tie the knot — joyfully, warmly, forever.</p>
+            <p class="rj-pre-sign"><em>With love,</em><span><span class="rj-na">Arjun</span> &amp; <span class="rj-nb">Anaya</span></span></p>
+            <div class="rj-pre-miniseal">♥</div>
           </div>
-
-          <div class="env-top-flap"></div>
-
-          <div class="wax-seal" aria-hidden="true"></div>
+          <div class="rj-pre-facegold"></div>
+          <div class="rj-pre-face">
+            <svg class="rj-pre-bot rj-pre-bot-l" viewBox="0 0 100 80" aria-hidden="true">
+              <g fill="none" stroke="#C99A55" stroke-width="1.6" stroke-linecap="round" opacity=".6">
+                <path d="M12 74 C 30 54, 32 32, 60 20"/>
+                <path d="M60 20 C 66 12, 76 10, 84 14 C 78 20, 68 22, 60 20 Z" fill="#C99A55" stroke="none" opacity=".5"/>
+                <path d="M34 52 C 40 44, 50 42, 58 46 C 52 52, 42 54, 34 52 Z" fill="#C99A55" stroke="none" opacity=".5"/>
+                <path d="M24 64 C 28 56, 36 52, 44 54 C 40 60, 32 64, 24 64 Z" fill="#C99A55" stroke="none" opacity=".5"/>
+                <circle cx="88" cy="14" r="2.2" fill="#C99A55" stroke="none" opacity=".6"/>
+              </g>
+            </svg>
+            <svg class="rj-pre-bot rj-pre-bot-r" viewBox="0 0 100 80" aria-hidden="true">
+              <g fill="none" stroke="#C99A55" stroke-width="1.6" stroke-linecap="round" opacity=".6">
+                <path d="M12 74 C 30 54, 32 32, 60 20"/>
+                <path d="M60 20 C 66 12, 76 10, 84 14 C 78 20, 68 22, 60 20 Z" fill="#C99A55" stroke="none" opacity=".5"/>
+                <path d="M34 52 C 40 44, 50 42, 58 46 C 52 52, 42 54, 34 52 Z" fill="#C99A55" stroke="none" opacity=".5"/>
+                <path d="M24 64 C 28 56, 36 52, 44 54 C 40 60, 32 64, 24 64 Z" fill="#C99A55" stroke="none" opacity=".5"/>
+                <circle cx="88" cy="14" r="2.2" fill="#C99A55" stroke="none" opacity=".6"/>
+              </g>
+            </svg>
+          </div>
+          <div class="rj-pre-flapwrap">
+            <div class="rj-pre-flapgold"></div>
+            <div class="rj-pre-flap"></div>
+          </div>
+          <div class="rj-pre-stamp" aria-hidden="true"><i>♥</i><b class="rj-stamp-t">A·A</b></div>
+          <div class="rj-pre-sealglow" aria-hidden="true"></div>
+          <div class="rj-pre-rest" aria-hidden="true">
+            <i style="--x:10%; --s:15px; --c:#E88D99; --r:-24deg;"></i>
+            <i style="--x:26%; --s:12px; --c:#FFD1CE; --d:2.2s; --r:18deg;"></i>
+            <i style="--x:47%; --s:17px; --c:#F3B0B5; --r:-8deg;"></i>
+            <i style="--x:68%; --s:13px; --c:#E88D99; --d:1.4s; --r:30deg;"></i>
+            <i style="--x:86%; --s:15px; --c:#FFD1CE; --r:-16deg;"></i>
+          </div>
+          <div class="rj-pre-seal" role="button" aria-label="Open the invitation">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <defs>
+                <radialGradient id="rjwax" cx="38%" cy="30%" r="75%">
+                  <stop offset="0" stop-color="#E45D70"/>
+                  <stop offset=".55" stop-color="#C73550"/>
+                  <stop offset="1" stop-color="#861832"/>
+                </radialGradient>
+                <filter id="rjwob" x="-20%" y="-20%" width="140%" height="140%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/>
+                </filter>
+              </defs>
+              <g filter="url(#rjwob)">
+                <path d="M50 88 C 20 62, 6 44, 6 28 C 6 14, 16 6, 28 6 C 37 6, 45 11, 50 19 C 55 11, 63 6, 72 6 C 84 6, 94 14, 94 28 C 94 44, 80 62, 50 88 Z"
+                      fill="url(#rjwax)" stroke="#631329" stroke-width="2.5" stroke-opacity=".65"/>
+                <ellipse cx="34" cy="24" rx="10" ry="6" fill="#fff" opacity=".22" transform="rotate(-24 34 24)"/>
+              </g>
+              <text x="50" y="57" text-anchor="middle" class="rj-seal-t" font-family="'Cormorant Garamond',serif" font-weight="600" font-size="12.5" letter-spacing="1" fill="#E8C77A">A ♥ A</text>
+            </svg>
+          </div>
         </div>
       </div>
 
-      <footer class="env-hint-wrap">
-        <p class="env-hint" id="env-hint">Break the seal to open</p>
-        <svg class="env-chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5"/></svg>
-      </footer>
+      <div class="rj-pre-motes" aria-hidden="true">
+        <i style="left:14%; top:30%; --d:16s; --dl:-3s;"></i>
+        <i style="left:24%; top:64%; --d:19s; --dl:-11s;"></i>
+        <i style="left:38%; top:18%; --d:15s; --dl:-7s;"></i>
+        <i style="left:63%; top:26%; --d:21s; --dl:-2s;"></i>
+        <i style="left:74%; top:58%; --d:17s; --dl:-9s;"></i>
+        <i style="left:86%; top:38%; --d:20s; --dl:-5s;"></i>
+        <i style="left:48%; top:76%; --d:18s; --dl:-13s;"></i>
+        <i style="left:8%;  top:46%; --d:22s; --dl:-1s;"></i>
+      </div>
+
+      <p class="rj-pre-tap">Tap to open</p>
+      <div class="rj-pre-divline" aria-hidden="true"></div>
     </div>
-  </div>
     <section id="hero" class="hero">
       <div class="hero-bg">
         <img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?fm=jpg&fit=crop&w=1920&q=95&cs=srgb" alt="" />
@@ -196,9 +231,9 @@
               <i style="--ra:0deg"></i><i style="--ra:45deg"></i><i style="--ra:90deg"></i><i style="--ra:135deg"></i><i style="--ra:180deg"></i><i style="--ra:225deg"></i><i style="--ra:270deg"></i><i style="--ra:315deg"></i>
             </span>
             <span class="heart-flash"></span>
-            <svg class="heart-core" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="heart-core" viewBox="0 0 24 24"><path pathLength="100" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </span>
-          <span class="f-manrope hero-est">Est. 2027 &middot; Pune</span>
+
         </div>
 
         <div class="hero-rule anim-in" aria-hidden="true"></div>
@@ -280,6 +315,6 @@
       </svg>
     </section>
     <div id="app"></div>
-    <script src="hero.js?v=6295a656"></script>
+    <script src="hero.js?v=a855e3be"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -94,10 +94,15 @@
          deep and saturated rather than milky */
       .hero-light-beam { opacity: 0.45 !important; }
       .hero-light-leak { opacity: 0.55 !important; }
-      /* retire the base template's big red edge hearts — the hero now keeps
-         only the subtle drifting hearts + the date celebration. The five
-         star sparkles that share this floater set are left untouched. */
+      /* Keep the slow heart drift; remove the extra star and orb effects. */
       .hero-floater:has(img[src$="heart.svg"]) { display: none !important; }
+      .hero-section .hero-floater:not(:has(img[src$="heart.svg"])),
+      .hero-section .starburst,
+      .hero-section .star-orb-gold,
+      .hero-section .star-orb-rose {
+        display: none !important;
+        animation: none !important;
+      }
       /* full-viewport hero on every device — svh stops the mobile
          browser-chrome jump; cover keeps the artwork framed
          from ultrawide laptops down to narrow phones */
@@ -120,16 +125,16 @@
          keeps it legible over the palace artwork, with only a hair of glow. */
       .hero-name-rahul, .hero-name-namita {
         color: #ffffff !important;
-        text-shadow: 0 0 1px rgba(255,255,255,0.5), 0 2px 5px rgba(0,0,0,0.55), 0 9px 28px rgba(0,0,0,0.5) !important;
-        -webkit-filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)) !important;
-        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)) !important;
+        text-shadow: 0 0 1px rgba(255,255,255,0.45), 0 2px 5px rgba(26,18,31,0.28), 0 9px 28px rgba(22,16,30,0.24) !important;
+        -webkit-filter: drop-shadow(0 2px 6px rgba(26,18,31,0.22)) !important;
+        filter: drop-shadow(0 2px 6px rgba(26,18,31,0.22)) !important;
         animation: none !important;
       }
       .hero-name-weds {
         color: #ffd77a !important;
-        text-shadow: 0 2px 5px rgba(0,0,0,0.55), 0 7px 22px rgba(0,0,0,0.45) !important;
-        -webkit-filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)) !important;
-        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)) !important;
+        text-shadow: 0 2px 5px rgba(26,18,31,0.26), 0 7px 22px rgba(22,16,30,0.22) !important;
+        -webkit-filter: drop-shadow(0 2px 6px rgba(26,18,31,0.2)) !important;
+        filter: drop-shadow(0 2px 6px rgba(26,18,31,0.2)) !important;
       }
       .hero-name-lockup { opacity: 1 !important; }
       .hero-tagline {
@@ -365,7 +370,14 @@
         /* mobile hero copy sits a little lower — the bundle pins it to the
            top (justify-start + pt-8) on small screens */
         .hero-section > div.relative {
-          padding-top: 11vh !important;
+          padding-top: 14vh !important;
+        }
+        .hero-name-rahul,
+        .hero-name-namita {
+          letter-spacing: .025em !important;
+        }
+        .hero-name-weds {
+          letter-spacing: .12em !important;
         }
       }
 
@@ -378,7 +390,7 @@
         }
       }
 
-      /* ── SAVE-THE-DATE — soft sky-blue premium · scratch to reveal ── */
+      /* ── SAVE-THE-DATE — warm paper reveal ── */
       .rj-date-section {
         display: none;
         position: relative;
@@ -453,15 +465,17 @@
         color: #b3862e;
         text-shadow: 0 0 12px rgba(201,168,76,0.55);
       }
-      .rj-scratch-row {
+      .rj-date-row {
         position: relative;
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, .85fr) auto minmax(0, 1.3fr) auto minmax(0, .95fr);
         align-items: center;
-        justify-content: center;
-        gap: 26px;
-        flex-wrap: wrap;
+        gap: clamp(6px, 2vw, 16px);
+        width: 100%;
+        max-width: 560px;
+        margin: 0 auto;
       }
-      .rj-scratch-row::before {
+      .rj-date-row::before {
         content: '';
         position: absolute;
         top: 50%; left: 50%;
@@ -471,166 +485,161 @@
         pointer-events: none;
         border-radius: 50%;
       }
-      .rj-scratch-circle {
+      .rj-date-card {
         position: relative;
-        width: 152px;
-        height: 152px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 3px solid #c9953a;
-        box-shadow: 0 18px 44px rgba(76,140,200,0.28), 0 0 0 6px rgba(201,168,76,0.18), 0 0 30px rgba(201,168,76,0.28);
-        cursor: grab;
-        touch-action: none;
-        user-select: none;
-        -webkit-user-select: none;
-        background:
-          radial-gradient(circle at 50% 30%, rgba(255,255,255,0.98), rgba(255,255,255,0) 60%),
-          linear-gradient(160deg, #fbfdff, #eef5fd 60%, #e2edfa);
-      }
-      .rj-scratch-circle:active { cursor: grabbing; }
-      .rj-scratch-reveal {
-        position: absolute; inset: 0;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 50%;
-        background: radial-gradient(circle at 50% 28%, #ffffff, #eaf3fe 78%);
-      }
-      .rj-sr-day {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 58px; line-height: 1;
-        color: #b8860b;
-        text-shadow: 0 0 18px rgba(232,200,117,0.5), 0 3px 12px rgba(76,140,200,0.25);
-      }
-      .rj-sr-month {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 25px;
-        color: #163a6b;
-        letter-spacing: 0.08em;
-        text-align: center;
-        padding: 0 4px;
-      }
-      .rj-sr-year {
-        font-family: 'Manrope', sans-serif;
-        font-size: 24px;
-        letter-spacing: 0.24em;
-        color: #3a6bb0;
-        padding-left: 0.24em;
-      }
-      .rj-scratch-sep {
-        font-size: 26px;
-        color: #b3862e;
-        opacity: 0.95;
-        text-shadow: 0 0 12px rgba(201,168,76,0.5);
-      }
-      .rj-scratch-canvas {
-        position: absolute; inset: 0;
-        width: 100%; height: 100%;
-        border-radius: 50%;
-        transition: opacity 1.1s ease;
-        cursor: grab;
-      }
-      .rj-scratch-canvas.done { opacity: 0; pointer-events: none; }
-      .rj-ds-celebrate {
-        display: inline-flex;
+        display: flex;
+        min-width: 0;
+        min-height: 126px;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 78px; height: 70px;
-        margin: 44px auto 0;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        filter: drop-shadow(0 10px 22px rgba(207,23,63,0.30)) drop-shadow(0 0 26px rgba(255,90,114,0.38));
-        opacity: 0;
-        transform: scale(0.5);
-        transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        gap: 5px;
+        overflow: hidden;
+        border: 1px solid rgba(157,111,70,.38);
+        border-radius: 18px;
+        background:
+          radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.94), transparent 68%),
+          linear-gradient(155deg, #FFFDF9, #F8EADF 70%, #F1DDCD);
+        box-shadow: 0 14px 34px rgba(110,78,51,.13), inset 0 1px rgba(255,255,255,.9);
+        isolation: isolate;
       }
-      .rj-ds-celebrate svg { width: 100%; height: 100%; display: block; overflow: visible; }
-      .rj-ds-celebrate.show {
-        opacity: 1;
-        transform: scale(1);
-        animation: rjHeartBeat 1.7s ease-in-out infinite;
+      .rj-date-card::before {
+        content: "";
+        position: absolute;
+        inset: 5px;
+        border: 1px solid rgba(196,154,91,.2);
+        border-radius: 13px;
+        pointer-events: none;
       }
-      @keyframes rjHeartBeat {
-        0%, 100% { transform: scale(1); }
-        12% { transform: scale(1.14); }
-        24% { transform: scale(1); }
-        36% { transform: scale(1.09); }
-        48% { transform: scale(1); }
+      .rj-date-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(112deg, transparent 22%, rgba(255,255,255,.68) 48%, transparent 74%);
+        transform: translateX(-120%);
+        pointer-events: none;
       }
-      .rj-ds-note {
+      .rj-date-label {
+        color: #947454;
+        font-family: 'Manrope', sans-serif;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: .24em;
+        line-height: 1.4;
+        text-transform: uppercase;
+      }
+      .rj-date-value {
+        color: #684A3A;
+        line-height: 1;
+      }
+      .rj-date-day {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 21px;
-        letter-spacing: 0.06em;
-        color: #24518f;
-        margin: 16px auto 0;
-        min-height: 30px;
+        font-size: 54px;
+        font-weight: 500;
+      }
+      .rj-date-month {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 28px;
+        font-weight: 500;
+      }
+      .rj-date-year {
+        font-family: 'Manrope', sans-serif;
+        font-size: 25px;
+        font-weight: 500;
+        letter-spacing: .12em;
+      }
+      .rj-date-sep {
+        position: relative;
+        z-index: 1;
+        color: #A87943;
+        font-size: 17px;
+        text-shadow: 0 2px 8px rgba(168,121,67,.18);
+      }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-card {
+        animation: rjDateCardIn .78s cubic-bezier(.2,.8,.2,1) both;
+      }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-card:nth-child(1) { animation-delay: 80ms; }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-card:nth-child(3) { animation-delay: 260ms; }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-card:nth-child(5) { animation-delay: 440ms; }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-card::after {
+        animation: rjDateSheen .9s ease-out both;
+      }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-card:nth-child(3)::after { animation-delay: 180ms; }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-card:nth-child(5)::after { animation-delay: 360ms; }
+      .rj-ds-inner::before {
+        content: "";
+        position: absolute;
+        inset: -24px 0;
+        border: 1px solid rgba(98,132,157,.2);
+        border-radius: 24px;
+        box-shadow: inset 0 1px rgba(255,255,255,.55);
+        pointer-events: none;
+        opacity: .7;
+      }
+      .rj-date-section .rj-ds-inner.rj-load::before {
+        animation: rjDateFrameIn .9s ease-out both;
+      }
+      .rj-date-section .rj-ds-inner.rj-load .rj-ds-eyebrow,
+      .rj-date-section .rj-ds-inner.rj-load .rj-ds-title,
+      .rj-date-section .rj-ds-inner.rj-load .rj-ds-rule,
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-note {
+        animation: rjDateDetailIn .8s cubic-bezier(.2,.8,.2,1) both;
+      }
+      .rj-date-section .rj-ds-inner.rj-load .rj-ds-title { animation-delay: 100ms; }
+      .rj-date-section .rj-ds-inner.rj-load .rj-ds-rule { animation-delay: 220ms; }
+      .rj-date-section .rj-ds-inner.rj-load .rj-date-note { animation-delay: 520ms; }
+      @keyframes rjDateFrameIn {
+        from { opacity: 0; transform: scale(.985); }
+        to { opacity: .7; transform: scale(1); }
+      }
+      @keyframes rjDateDetailIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes rjDateCardIn {
+        0% { opacity: 0; transform: translateY(18px) scale(.96); filter: blur(4px); }
+        70% { opacity: 1; }
+        100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      }
+      @keyframes rjDateSheen {
+        to { transform: translateX(120%); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .rj-date-section .rj-ds-inner.rj-load::before,
+        .rj-date-section .rj-ds-inner.rj-load .rj-ds-eyebrow,
+        .rj-date-section .rj-ds-inner.rj-load .rj-ds-title,
+        .rj-date-section .rj-ds-inner.rj-load .rj-ds-rule,
+        .rj-date-section .rj-ds-inner.rj-load .rj-date-note {
+          animation: none !important;
+        }
+        .rj-date-section .rj-ds-inner.rj-load .rj-date-card,
+        .rj-date-section .rj-ds-inner.rj-load .rj-date-card::after {
+          animation: none !important;
+        }
+      }
+      .rj-date-note {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 20px;
+        letter-spacing: 0.04em;
+        color: #79564B;
+        margin: 28px auto 0;
         max-width: 620px;
         padding: 0 12px;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s;
-      }
-      .rj-ds-note.show { opacity: 1; transform: translateY(0); }
-      .rj-ds-replay {
-        margin-top: 24px;
-        display: none;
-        padding: 11px 30px;
-        background: transparent;
-        border: 1.5px solid rgba(176,132,45,0.8);
-        border-radius: 24px;
-        color: #163a6b;
-        font-family: 'Manrope', sans-serif;
-        font-size: 12px;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        cursor: pointer;
-        box-shadow: 0 0 18px rgba(201,168,76,0.25);
-        transition: all 0.3s ease;
-      }
-      .rj-ds-replay.show { display: inline-block; }
-      .rj-ds-replay:hover { background: #c9953a; color: #ffffff; box-shadow: 0 4px 20px rgba(201,168,76,0.45); }
-
-      /* cute hearts bursting out of the celebration heart on tap */
-      .rj-burst-heart {
-        position: absolute;
-        z-index: 6;
-        pointer-events: none;
-        line-height: 1;
-        opacity: 0;
-        animation: rjBurst 1.25s cubic-bezier(0.16, 0.84, 0.3, 1) forwards;
-      }
-      @keyframes rjBurst {
-        0%   { transform: translate(0, 0) scale(0.35) rotate(0deg); opacity: 0; }
-        12%  { opacity: 1; }
-        100% { transform: translate(var(--dx, 0px), var(--dy, -90px)) scale(1.05) rotate(32deg); opacity: 0; }
-      }
-
-      /* floating hearts inside the date section */
-      .rj-flow-heart {
-        position: absolute;
-        bottom: -40px;
-        color: #D81B60;
-        opacity: 0;
-        pointer-events: none;
-        z-index: 1;
-        animation: rjHeartRise 3.4s ease-in forwards;
-      }
-      @keyframes rjHeartRise {
-        0%   { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
-        12%  { opacity: 0.9; }
-        100% { transform: translateY(-430px) scale(1.15) rotate(22deg); opacity: 0; }
       }
       @media (max-width: 480px) {
         .rj-date-section { padding: 64px 16px 84px; }
+          .rj-ds-inner::before { inset: -16px -2px; border-radius: 18px; }
         .rj-ds-title { font-size: 34px; }
-        .rj-ds-rule { margin: 16px auto 26px; }
-        .rj-scratch-row { gap: 12px; }
-        .rj-scratch-circle { width: 104px; height: 104px; }
-        .rj-sr-day { font-size: 40px; }
-        .rj-sr-month { font-size: 17px; }
-        .rj-sr-year { font-size: 15px; letter-spacing: 0.18em; }
-        .rj-scratch-sep { font-size: 18px; }
-        .rj-ds-celebrate { width: 62px; height: 56px; margin-top: 30px; }
-        .rj-ds-note { font-size: 17px; }
+        .rj-ds-rule { margin: 16px auto 28px; }
+        .rj-date-card { min-height: 102px; border-radius: 14px; }
+        .rj-date-card::before { inset: 4px; border-radius: 10px; }
+        .rj-date-label { font-size: 8px; letter-spacing: .16em; }
+        .rj-date-day { font-size: clamp(36px, 12vw, 46px); }
+        .rj-date-month { font-size: clamp(18px, 5.5vw, 24px); }
+        .rj-date-year { font-size: clamp(16px, 5vw, 21px); letter-spacing: .08em; }
+        .rj-date-sep { font-size: 13px; }
+        .rj-date-note { font-size: 18px; margin-top: 24px; }
         .rj-card-line { font-size: 14.5px; }
         .rj-card-sign span { font-size: 23px; }
         .rj-card-sign em { font-size: 16px; }
@@ -1356,20 +1365,23 @@
       }
 
       @media (max-width: 480px) {
-        .rj-pre-names { top: 6%; font-size: clamp(44px, 11.5vw, 54px); }
-        .rj-pre-kicker { top: 2.6%; font-size: 10px; }
-        .rj-pre-ring { width: 96vw; }
-        .rj-pre-stage { width: min(430px, 93vw); }
+        .rj-pre-names { top: 10%; font-size: clamp(44px, 11.5vw, 54px); }
+        .rj-pre-kicker { top: 4.6%; font-size: 10px; }
+        .rj-pre-ring { top: 64%; width: 93vw; }
+        .rj-pre-stage { top: 64%; width: min(430px, 90vw); }
         .rj-pre-seal { width: clamp(76px, 20vw, 92px); }
         .rj-pre-bot { width: 66px; bottom: 10px; }
         .rj-pre-bot-l { left: 10px; }
         .rj-pre-bot-r { right: 10px; }
         .rj-pre-card { padding: 14px 10px; }
-        .rj-pre-cardnames { font-size: clamp(30px, 9vw, 38px); }
-        .rj-pre-line { font-size: 13.5px; }
+        .rj-pre-eyebrow { font-size: 10.5px; letter-spacing: .3em; }
+        .rj-pre-cardnames { font-size: clamp(31px, 9.3vw, 39px); }
+        .rj-pre-line { font-size: 14.5px; }
+        .rj-pre-sign em { font-size: 17px; }
+        .rj-pre-sign span { font-size: 24px; }
         .rj-pre-tap { bottom: 6.5%; font-size: 10px; }
         .rj-pre-arch { inset: 12px; }
-        .rj-pre-crest { width: 54px; height: 54px; top: 21%; }
+        .rj-pre-crest { width: 54px; height: 54px; top: 23%; }
         .rj-crest-t { font-size: 18px; }
         .rj-pre-divline { bottom: 11.5%; width: 110px; }
       }
@@ -1413,9 +1425,9 @@
         z-index: 3;
         white-space: nowrap;
         color: #ffffff !important;
-        text-shadow: 0 0 1px rgba(255,255,255,0.5), 0 2px 5px rgba(0,0,0,0.55), 0 9px 28px rgba(0,0,0,0.5) !important;
-        -webkit-filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)) !important;
-        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)) !important;
+        text-shadow: 0 0 1px rgba(255,255,255,0.45), 0 2px 5px rgba(26,18,31,0.28), 0 9px 28px rgba(22,16,30,0.24) !important;
+        -webkit-filter: drop-shadow(0 2px 6px rgba(26,18,31,0.22)) !important;
+        filter: drop-shadow(0 2px 6px rgba(26,18,31,0.22)) !important;
         opacity: 1 !important;
         animation: none !important;
       }
@@ -1561,29 +1573,6 @@
       }
       @keyframes rjHeroSpin    { to { transform: translate(-50%, -50%) rotate(360deg); } }
       @keyframes rjHeroSpinRev { to { transform: rotate(-360deg); } }
-      .rj-hero-particles {
-        inset: 0;
-        overflow: hidden;
-        z-index: 4;
-      }
-      .rj-hero-p {
-        position: absolute;
-        bottom: -14px;
-        width: 5px; height: 5px;
-        border-radius: 50%;
-        background: radial-gradient(circle, #ffe9b3, rgba(255,214,122,0.45) 60%, transparent 75%);
-        box-shadow: 0 0 8px 2px rgba(255,214,122,0.28);
-        opacity: 0;
-        animation: rjHeroP 9s linear infinite;
-        animation-play-state: paused;
-      }
-      body.rj-hero-reveal .rj-hero-p { animation-play-state: running; animation-delay: 1.2s; }
-      @keyframes rjHeroP {
-        0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
-        10%  { opacity: 0.85; }
-        100% { transform: translate(34px, -96vh) scale(1.05); opacity: 0; }
-      }
-
       /* dreaming hearts drifting up through the hero, naturally swaying */
       .rj-hero-hearts {
         inset: 0;
@@ -1669,16 +1658,6 @@
       }
       /* celebration-burst hearts (JS-created, WAAPI-flown): start pinned to
          the hero floor, small, glowing */
-      .rj-burst-h {
-        position: absolute;
-        bottom: -30px;
-        z-index: 3;
-        pointer-events: none;
-        line-height: 1;
-        opacity: 0;
-        text-shadow: 0 0 12px rgba(255,150,175,0.6);
-      }
-
       /* ── music toggle — round, royal gold, top right ── */
       .rj-music-btn {
         position: fixed;
@@ -1724,7 +1703,7 @@
         body.rj-hero-hold .hero-divider, body.rj-hero-hold .hero-tagline,
         body.rj-hero-hold .hero-scroll-hint { opacity: 1 !important; }
         .rj-name-ltr,
-        .rj-hero-glow, .rj-hero-ring, .rj-hero-p, .rj-hero-heart, .rj-hero-heart svg, .rj-hero-love,
+        .rj-hero-glow, .rj-hero-ring, .rj-hero-heart, .rj-hero-heart svg, .rj-hero-love,
         body.rj-hero-reveal .hero-name-weds, body.rj-hero-reveal .hero-date-line,
         body.rj-hero-reveal .hero-crest,
         body.rj-hero-reveal .hero-divider, body.rj-hero-reveal .hero-tagline,
@@ -2139,7 +2118,9 @@
         .venue-arch-door::after,
         .venue-arch-frame,
         .venue-glow,
+        .venue-section .venue-title-write::after,
         .story-section .story-sign::after { animation: none !important; }
+        .venue-section .venue-title-write::after { transform: scaleX(1); }
         .rj-load { animation: none !important; }
       }
 
@@ -2183,48 +2164,6 @@
         box-shadow: 0 0 12px rgba(240,201,126,0.6);
         transition: width .1s linear;
       }
-
-      /* ── right-hand section rail (desktop) ── */
-      .rjf-rail {
-        position: fixed; right: 16px; top: 50%; transform: translateY(-50%);
-        z-index: 2147482500;
-        display: flex; flex-direction: column; gap: 15px;
-        padding: 15px 11px; border-radius: 999px;
-        background: rgba(18,8,42,0.42);
-        border: 1px solid rgba(240,201,126,0.16);
-        -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-        opacity: 0; transition: opacity .5s ease;
-      }
-      .rjf-rail.show { opacity: 1; }
-      .rjf-rail button {
-        position: relative; display: block; padding: 0;
-        width: 10px; height: 10px; border-radius: 50%;
-        background: rgba(255,255,255,0.26);
-        border: 1px solid rgba(240,201,126,0.42);
-        cursor: pointer; -webkit-tap-highlight-color: transparent;
-        transition: background .35s ease, transform .35s ease, box-shadow .35s ease;
-      }
-      .rjf-rail button:hover { background: rgba(255,214,122,0.55); transform: scale(1.15); }
-      .rjf-rail button.active {
-        background: radial-gradient(circle at 35% 30%, #fff3cf, #e0a13d 60%, #7a4416);
-        box-shadow: 0 0 0 3px rgba(240,201,126,0.16), 0 0 12px rgba(240,201,126,0.75);
-        transform: scale(1.25);
-      }
-      .rjf-rail button b {
-        position: absolute; right: 22px; top: 50%;
-        transform: translateY(-50%) translateX(6px);
-        white-space: nowrap; font-weight: 600;
-        font-family: 'Manrope', sans-serif;
-        font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-        color: #ffe3a1;
-        background: rgba(18,8,42,0.9);
-        border: 1px solid rgba(240,201,126,0.25);
-        padding: 5px 11px; border-radius: 999px;
-        opacity: 0; pointer-events: none;
-        transition: opacity .25s ease, transform .25s ease;
-      }
-      .rjf-rail button:hover b, .rjf-rail button:focus-visible b { opacity: 1; transform: translateY(-50%) translateX(0); }
-      @media (max-width: 1139px) { .rjf-rail { display: none !important; } }
 
       /* ── back to top ── */
       .rjf-top {
@@ -2428,14 +2367,311 @@
       /* ── gentle legibility lift for the very smallest labels ── */
       [class*="text-[9px]"]  { font-size: 10.5px !important; }
       [class*="text-[10px]"] { font-size: 11px !important; }
+      @media (max-width: 480px) {
+        [class*="text-[9px]"] { font-size: 11.5px !important; }
+        [class*="text-[10px]"],
+        [class*="text-[11px]"] { font-size: 12px !important; }
+        .hero-name-weds { margin-top: 0 !important; }
+        #rjDateSection .rj-ds-eyebrow { font-size: 12px !important; }
+        #rjDateSection .rj-date-label {
+          font-size: 9px !important;
+          letter-spacing: .13em;
+        }
+        #rjDateSection .rj-date-sep { font-size: 14px; }
+        .countdown-section .rjf-btn { font-size: 13px; }
+      }
 
       /* ── motion-sensitive: keep the new accents still ── */
       @media (prefers-reduced-motion: reduce) {
         .rjf-progress { transition: none !important; }
-        .rjf-rail button, .rjf-top, .rjf-btn, .rjf-lightbox,
+        .rjf-top, .rjf-btn, .rjf-lightbox,
         .rjf-music-hint, .rjf-toast { transition: none !important; }
         .rj-music-btn.rjf-pulse::after { animation: none !important; }
         .rjf-closing .rjf-flowers { display: none !important; }
+      }
+
+      /* A soft, coordinated palette gives each chapter its own paper tone.
+         The illustrated palace hero above intentionally remains untouched. */
+      .invitation-section {
+        background:
+          radial-gradient(ellipse at 50% 20%, rgba(255,255,255,.3), transparent 58%),
+          #F2D1D7 !important;
+      }
+      .invitation-section::before {
+        background: linear-gradient(to top, rgba(128,82,66,.055) 30%, transparent 100%) !important;
+      }
+      .invitation-section > .pointer-events-none.absolute.inset-0.opacity-30 {
+        opacity: .14 !important;
+      }
+      .invitation-section .ganesh-halo {
+        background:
+          radial-gradient(circle at 50% 34%, #FFF9F3 0%, #F8E7DF 65%, #EBCBC9 100%) !important;
+        border: 1px solid rgba(166,112,92,.38) !important;
+        box-shadow: 0 0 0 7px rgba(255,248,241,.62), 0 0 38px 10px rgba(168,91,83,.2) !important;
+      }
+      .invitation-section .ganesh-halo img {
+        opacity: 1 !important;
+        filter: brightness(0) saturate(100%) invert(33%) sepia(35%) saturate(1320%)
+          hue-rotate(316deg) brightness(87%) contrast(92%)
+          drop-shadow(0 3px 8px rgba(111,65,56,.32)) !important;
+      }
+      .invitation-section .ganesh-ripple {
+        border-color: rgba(159,112,91,.22) !important;
+      }
+      .invitation-section .cursor-blink {
+        display: none !important;
+        animation: none !important;
+      }
+      .invitation-section .text-white,
+      .invitation-section [class*="text-white/"] {
+        color: #59434A !important;
+      }
+      .invitation-section [class*="text-[#f0c97e]"] {
+        color: #705135 !important;
+      }
+      .invitation-section .gold-rule {
+        background: linear-gradient(90deg, transparent, #B88755, #D0A36A, #B88755, transparent) !important;
+      }
+      .invitation-section .invite-shimmer {
+        background-image: linear-gradient(100deg, #805344 0%, #B08056 28%, #805344 52%, #A87860 72%, #805344 100%) !important;
+      }
+      .celebrations-section {
+        background-color: #EED9B9 !important;
+        background-image:
+          radial-gradient(circle, rgba(142,104,62,.13) 1px, transparent 1px),
+          radial-gradient(circle, rgba(255,255,255,.38) 1px, transparent 1px),
+          linear-gradient(140deg, #F1DFC5 0%, #EED9B9 48%, #E8D1AE 100%) !important;
+        background-size: 160px 160px, 270px 270px, 100% 100% !important;
+        background-position: 0 0, 80px 50px, center !important;
+      }
+      .celebrations-section .event-card {
+        background: linear-gradient(150deg, rgba(255,251,244,.84), rgba(248,237,220,.76)) !important;
+        border-color: rgba(151,111,67,.3) !important;
+        box-shadow: 0 18px 42px rgba(104,76,45,.14), inset 0 1px rgba(255,255,255,.7) !important;
+      }
+      .celebrations-section .event-ring,
+      .celebrations-section .event-orbit-ring,
+      .celebrations-section .event-orbit-dot,
+      .celebrations-section .event-corner,
+      .celebrations-section .event-card-divider {
+        display: none !important;
+        animation: none !important;
+      }
+      .celebrations-section .event-card-tag {
+        color: #684F35 !important;
+      }
+      .celebrations-section .event-card-title {
+        color: #765337 !important;
+      }
+      .celebrations-section h2,
+      .celebrations-section h3 {
+        color: #594638 !important;
+        text-shadow: 0 2px 12px rgba(111,82,52,.1) !important;
+      }
+      .celebrations-section [class*="text-[#f0c97e]"] {
+        color: #684F35 !important;
+      }
+      .celebrations-section .event-card-details .text-white,
+      .celebrations-section .event-card-details [class*="text-white/"] {
+        color: #59483A !important;
+      }
+      .celebrations-section .event-location {
+        background: rgba(255,249,239,.68) !important;
+        color: #76583A !important;
+        border-color: rgba(151,111,67,.28) !important;
+      }
+      .celebrations-section .nebula-mehendi,
+      .celebrations-section .nebula-haldi,
+      .celebrations-section .nebula-reception {
+        opacity: .3 !important;
+      }
+      #rjDateSection {
+        background-color: #E5EFF7 !important;
+        background-image:
+          radial-gradient(circle, rgba(94,128,157,.08) .9px, transparent 1.2px),
+          repeating-linear-gradient(45deg, rgba(109,145,174,.035) 0 1px, transparent 1px 30px),
+          radial-gradient(1200px 520px at 50% -8%, rgba(255,255,255,.82), transparent 60%),
+          linear-gradient(145deg, #EFF5FA 0%, #E5EFF7 52%, #DCEAF3 100%) !important;
+      }
+      #rjDateSection::before,
+      #rjDateSection::after {
+        background: radial-gradient(circle, rgba(120,158,188,.22), transparent 70%) !important;
+      }
+      #rjDateSection .rj-ds-title {
+        color: #5B3D48 !important;
+        text-shadow: 0 1px 0 rgba(255,255,255,.65), 0 8px 26px rgba(133,94,77,.12) !important;
+      }
+      #rjDateSection .rj-ds-eyebrow,
+      #rjDateSection .rj-date-note {
+        color: #79564B !important;
+      }
+      #rjDateSection .rj-date-card {
+        background:
+          radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.94), transparent 68%),
+          linear-gradient(155deg, #FFFDF9, #F8EADF 70%, #F1DDCD) !important;
+        border-color: rgba(157,111,70,.38) !important;
+        box-shadow: 0 14px 34px rgba(110,78,51,.13), inset 0 1px rgba(255,255,255,.9) !important;
+      }
+      #rjDateSection .rj-date-label {
+        color: #806344 !important;
+      }
+      #rjDateSection .rj-date-value {
+        color: #684A3A !important;
+        text-shadow: 0 2px 10px rgba(151,111,67,.13) !important;
+      }
+      #rjDateSection .rj-date-sep { color: #A87943 !important; }
+      .venue-section {
+        background:
+          radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.62), transparent 62%),
+          linear-gradient(150deg, #EAF2F8 0%, #DFECF5 48%, #D7E7F1 100%) !important;
+      }
+      .venue-section .text-white,
+      .venue-section [class*="text-white/"] {
+        color: #58434A !important;
+      }
+      .venue-section [class*="text-[#f0c97e]"] {
+        color: #765338 !important;
+      }
+      .venue-section .venue-title-write {
+        text-shadow: 0 2px 14px rgba(104,75,58,.12) !important;
+      }
+      .venue-section .venue-title-write::after {
+        content: "";
+        display: block;
+        width: min(112px, 42%);
+        height: 2px;
+        margin: 18px auto 0;
+        background:
+          radial-gradient(circle at center, rgba(160,119,76,.88) 0 2px, transparent 2.6px),
+          linear-gradient(90deg, transparent, rgba(160,119,76,.55), transparent);
+        transform: scaleX(1);
+        transform-origin: center;
+      }
+      .venue-section > .relative.z-10.rj-load .venue-title-write::after {
+        animation: rjVenueRuleIn .9s cubic-bezier(.2,.8,.2,1) .25s both;
+      }
+      @keyframes rjVenueRuleIn {
+        to { transform: scaleX(1); }
+      }
+      .hero-section .rj-hero-love {
+        display: none !important;
+        animation: none !important;
+      }
+      .story-section {
+        background:
+          radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.58), transparent 58%),
+          linear-gradient(145deg, #E5E8D6 0%, #F0EFE3 48%, #E7E9DC 100%) !important;
+      }
+      .story-section .night-road {
+        background: linear-gradient(180deg, rgba(101,119,99,0) 0%, rgba(101,119,99,.045) 48%, rgba(101,119,99,.1) 100%) !important;
+      }
+      .story-section > .pointer-events-none.absolute.inset-0:not(.night-road) {
+        opacity: .12 !important;
+      }
+      .story-section .story-sign {
+        background: linear-gradient(150deg, rgba(255,253,247,.94), rgba(249,242,229,.88)) !important;
+        border-color: rgba(136,111,75,.25) !important;
+        box-shadow: 0 16px 38px rgba(82,80,61,.12), inset 0 1px rgba(255,255,255,.9) !important;
+      }
+      .story-section .text-white,
+      .story-section [class*="text-white/"] {
+        color: #514846 !important;
+      }
+      .story-section [class*="text-[#f0c97e]"],
+      .story-section [class*="text-[#ff9a6c]"],
+      .story-section [class*="text-[#f4a4b8]"] {
+        color: #6D563A !important;
+      }
+      .story-section .story-sign p {
+        color: #514846 !important;
+      }
+      .story-section .story-sign::after {
+        box-shadow: 0 0 0 4px rgba(250,247,237,.94), 0 0 0 5px rgba(177,137,79,.45), 0 0 14px rgba(177,137,79,.28) !important;
+      }
+      .message-section {
+        background:
+          radial-gradient(ellipse at 50% 0%, rgba(255,246,242,.38), transparent 60%),
+          linear-gradient(145deg, #D9B2B9 0%, #E1BEC2 48%, #D4AEB7 100%) !important;
+      }
+      .message-section .text-white,
+      .message-section [class*="text-white/"] {
+        color: #583E49 !important;
+      }
+      .message-section [class*="text-[#f0c97e]"] {
+        color: #603C38 !important;
+      }
+      .message-section h2 {
+        text-shadow: 0 2px 12px rgba(93,56,66,.12) !important;
+      }
+      .message-section .message-paper {
+        background: linear-gradient(145deg, rgba(255,250,247,.78), rgba(248,233,223,.68)) !important;
+        border: 1px solid rgba(123,75,84,.2) !important;
+        box-shadow: 0 18px 44px rgba(103,62,72,.12), inset 0 1px rgba(255,255,255,.7) !important;
+      }
+      .message-section .water-surface,
+      .message-section .moonbeam {
+        opacity: .16 !important;
+      }
+      .photo-section {
+        background:
+          radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.65), transparent 58%),
+          linear-gradient(145deg, #F8E9DF 0%, #F3E4D4 52%, #F7E8DE 100%) !important;
+      }
+      .photo-section .text-white,
+      .photo-section [class*="text-white/"] {
+        color: #59464B !important;
+      }
+      .photo-section [class*="text-[#f0c97e]"] {
+        color: #6C4D36 !important;
+      }
+      .photo-section > .pointer-events-none.absolute.inset-0.opacity-30 {
+        opacity: .12 !important;
+      }
+      .countdown-section {
+        background:
+          radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.78), transparent 58%),
+          linear-gradient(150deg, #EFF5FA 0%, #E5EFF7 48%, #DCEAF3 100%) !important;
+      }
+      .countdown-section .countdown-stars {
+        opacity: .16 !important;
+      }
+      .countdown-section .text-white,
+      .countdown-section [class*="text-white/"] {
+        color: #4D5146 !important;
+      }
+      .countdown-section [class*="text-[#f0c97e]"] {
+        color: #6D593D !important;
+      }
+      .countdown-section .countdown-road {
+        background: linear-gradient(to right, #CDD4BD, #BAC5A9, #CDD4BD) !important;
+      }
+      .countdown-section .dawn-horizon {
+        opacity: .24 !important;
+      }
+      .countdown-section .rjf-count-actions {
+        margin-top: 32px;
+        padding-bottom: 48px;
+      }
+      .countdown-section .rjf-actions { gap: 12px; }
+      .countdown-section .rjf-btn {
+        min-height: 52px;
+        padding: 14px 22px;
+        color: #fffaf0 !important;
+        background: linear-gradient(135deg, #49586f, #665268) !important;
+        border: 1px solid rgba(255,255,255,.78);
+        box-shadow: 0 8px 20px rgba(58,68,88,.2), inset 0 1px rgba(255,255,255,.18);
+        text-shadow: 0 1px 2px rgba(28,34,48,.35);
+        letter-spacing: .12em;
+      }
+      .countdown-section .rjf-btn svg { color: #f5d99a; }
+      .countdown-section .rjf-btn:hover {
+        background: linear-gradient(135deg, #3f4e65, #59465e) !important;
+        border-color: #f0d99e;
+        box-shadow: 0 10px 24px rgba(58,68,88,.26), inset 0 1px rgba(255,255,255,.2);
+      }
+      .countdown-section .rjf-btn:focus-visible {
+        outline: 3px solid #9a6b75;
+        outline-offset: 3px;
       }
     </style>
   </head>
@@ -2488,44 +2724,30 @@
     <!-- APP -->
     <div id="app"></div>
 
-    <!-- ═══ SAVE-THE-DATE — royal navy & sky premium section · scratch to reveal ═══ -->
+    <!-- ═══ SAVE-THE-DATE — warm paper and rose-gold date reveal ═══ -->
     <section class="rj-date-section" id="rjDateSection">
       <div class="rj-ds-inner">
         <p class="rj-ds-eyebrow">✦ The Big Day ✦</p>
-        <h2 class="rj-ds-title">Scratch to Reveal Our Date</h2>
+        <h2 class="rj-ds-title">Our Wedding Date</h2>
         <div class="rj-ds-rule" aria-hidden="true"><span>✦</span></div>
 
-        <div class="rj-scratch-row" id="rjScratchRow">
-          <div class="rj-scratch-circle rj-coin" data-part="day">
-            <div class="rj-scratch-reveal"><span class="rj-sr-day">21</span></div>
-            <canvas class="rj-scratch-canvas"></canvas>
+        <div class="rj-date-row" id="rjWeddingDate" aria-label="21 February 2027">
+          <div class="rj-date-card">
+            <span class="rj-date-label">Day</span>
+            <span class="rj-date-value rj-date-day">21</span>
           </div>
-          <span class="rj-scratch-sep">✦</span>
-          <div class="rj-scratch-circle rj-coin" data-part="month">
-            <div class="rj-scratch-reveal"><span class="rj-sr-month">February</span></div>
-            <canvas class="rj-scratch-canvas"></canvas>
+          <span class="rj-date-sep" aria-hidden="true">✦</span>
+          <div class="rj-date-card">
+            <span class="rj-date-label">Month</span>
+            <span class="rj-date-value rj-date-month">February</span>
           </div>
-          <span class="rj-scratch-sep">✦</span>
-          <div class="rj-scratch-circle rj-coin" data-part="year">
-            <div class="rj-scratch-reveal"><span class="rj-sr-year">2027</span></div>
-            <canvas class="rj-scratch-canvas"></canvas>
+          <span class="rj-date-sep" aria-hidden="true">✦</span>
+          <div class="rj-date-card">
+            <span class="rj-date-label">Year</span>
+            <span class="rj-date-value rj-date-year">2027</span>
           </div>
         </div>
-
-        <p class="rj-ds-celebrate" id="rjDSCelebrate" title="Tap for hearts">
-          <svg viewBox="0 0 32 29" aria-hidden="true">
-            <defs>
-              <linearGradient id="rjdsHeart" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#ff5a72"/>
-                <stop offset="1" stop-color="#cf173f"/>
-              </linearGradient>
-            </defs>
-            <path d="M16 28 C 10 22, 2 16.5, 2 9.8 C 2 5, 5.6 2, 9.2 2 C 12 2, 14.4 3.8, 16 6.2 C 17.6 3.8, 20 2, 22.8 2 C 26.4 2, 30 5, 30 9.8 C 30 16.5, 22 22, 16 28 Z" fill="url(#rjdsHeart)"/>
-            <ellipse cx="9" cy="8" rx="3.4" ry="2.1" fill="rgba(255,255,255,0.42)" transform="rotate(-24 9 8)"/>
-          </svg>
-        </p>
-        <p class="rj-ds-note" id="rjDSNote"></p>
-        <button class="rj-ds-replay" id="rjDSReplay" type="button">✦ Reveal Again ✦</button>
+        <p class="rj-date-note">A day to celebrate, a lifetime to remember</p>
       </div>
     </section>
 
@@ -2730,8 +2952,14 @@
         function teardown() {
           body.style.overflow = prevOverflow;
           if (ent.parentNode) ent.parentNode.removeChild(ent);
-          /* land every visitor at the very top — the hero — without exception */
-          try { window.scrollTo(0, 0); } catch (e) {}
+          function landAtTop() {
+            document.documentElement.scrollTop = 0;
+            body.scrollTop = 0;
+            window.scrollTo(0, 0);
+          }
+          landAtTop();
+          requestAnimationFrame(landAtTop);
+          setTimeout(landAtTop, 80);
           try { window.dispatchEvent(new Event('resize')); } catch (e) {}
         }
 
@@ -2967,7 +3195,6 @@
         }
         sec.classList.add('rj-date-placed');
         venue.parentNode.insertBefore(sec, venue);
-        try { window.dispatchEvent(new Event('resize')); } catch (e) {} // re-size scratch canvas
       }
 
       // ── VENUE — "With families · With love" finishes the place section ──
@@ -3029,7 +3256,7 @@
         });
       }
 
-      // ── SAVE-THE-DATE — three scratch coins reveal the date, then hearts flow ──
+      // ── SAVE-THE-DATE — date cards reveal on scroll ──
       (function() {
         var section = document.getElementById('rjDateSection');
         var coins = Array.prototype.slice.call(document.querySelectorAll('.rj-coin'));
@@ -3255,16 +3482,6 @@
         function addAtmosphere() {
           var hero = document.querySelector('.hero-section');
           if (!hero || hero.querySelector('.rj-hero-glow')) return;
-          var wrap = document.createElement('div');
-          wrap.className = 'rj-hero-atmos rj-hero-particles';
-          for (var i = 0; i < 14; i++) {
-            var p = document.createElement('i');
-            p.className = 'rj-hero-p';
-            p.style.left = (4 + Math.random() * 92) + '%';
-            p.style.animationDuration = (7 + Math.random() * 5) + 's';
-            p.style.animationDelay = (Math.random() * 6) + 's';
-            wrap.appendChild(p);
-          }
           var glow = document.createElement('div');
           glow.className = 'rj-hero-atmos rj-hero-glow';
           var ring = document.createElement('div');
@@ -3359,7 +3576,6 @@
             'fill="url(#rjlove)" stroke="#6e4a1f" stroke-width="2.5"/></svg>' +
             '<span>R+N</span>';
           hero.insertBefore(love, hero.firstChild);
-          hero.insertBefore(wrap, hero.firstChild);
           hero.insertBefore(glow, hero.firstChild);
           hero.insertBefore(ring, hero.firstChild);
         }
@@ -3392,40 +3608,6 @@
           });
         }
 
-        /* celebration burst once the date lands: many small hearts drifting
-           up like confetti — never one big heart. One-shot WAAPI flights,
-           nodes removed on finish. */
-        function heartsBurst() {
-          try {
-            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            var hero = document.querySelector('.hero-section');
-            if (!hero) return;
-            var cols = ['#ff8fa3', '#ffd98a', '#ffb3c1', '#ffffff', '#ffc9d4'];
-            for (var i = 0; i < 22; i++) {
-              (function (i) {
-                var s = document.createElement('i');
-                s.className = 'rj-burst-h';
-                var sz = 12 + Math.random() * 14;
-                s.textContent = '♥';
-                s.style.left = (4 + Math.random() * 92) + '%';
-                s.style.fontSize = sz.toFixed(0) + 'px';
-                s.style.color = cols[i % cols.length];
-                hero.appendChild(s);
-                var dx = (Math.random() - 0.5) * 120;
-                var lift = hero.clientHeight * (0.55 + Math.random() * 0.4);
-                var a = s.animate([
-                  { transform: 'translate(0, 0) rotate(0deg) scale(.5)', opacity: 0 },
-                  { opacity: 0.95, offset: 0.18 },
-                  { opacity: 0.9, offset: 0.7 },
-                  { transform: 'translate(' + dx.toFixed(0) + 'px,' + (-lift).toFixed(0) +
-                               'px) rotate(' + ((Math.random() - 0.5) * 90).toFixed(0) + 'deg) scale(1)', opacity: 0 }
-                ], { duration: 2600 + Math.random() * 2200, easing: 'cubic-bezier(.2,.7,.3,1)', delay: Math.random() * 900 });
-                a.onfinish = function () { if (s.parentNode) s.parentNode.removeChild(s); };
-              })(i);
-            }
-          } catch (e) {}
-        }
-
         function revealHero() {
           if (booted) return;
           booted = true;
@@ -3436,8 +3618,6 @@
             splitName(document.querySelector('.hero-name-namita'));
             armNameLetters();
             document.body.classList.add('rj-hero-reveal');
-            /* the date lands at 6.2s — the celebration follows it */
-            setTimeout(heartsBurst, 6600);
             // failsafe — never leave a letter invisible (after Namita's last letter)
             setTimeout(function () {
               document.querySelectorAll('.rj-name-ltr').forEach(function (s) {
@@ -3806,12 +3986,10 @@
     </script>
     <script id="rj-final-js">
       /* ═══════════════════════════════════════════════════════════════
-         FINAL PASS — orientation (progress bar + section rail + back to
+         FINAL PASS — orientation (progress bar + back to top),
          top), discoverable music, gallery swipe + lightbox, sharing +
          add-to-calendar, and accessibility (keyboard, tap targets,
-         reduced motion, scratch fallback). Nothing is recoloured: every
-         piece reuses the site's existing royal gold / navy palette.
-         ═══════════════════════════════════════════════════════════════ */
+         reduced motion, date readability). */
       (function () {
         var doc = document;
         function $(s, r) { return (r || doc).querySelector(s); }
@@ -3967,7 +4145,7 @@
           if (ex && ex.parentNode) ex.parentNode.removeChild(ex);
         }
 
-        /* ── progress bar + back to top + section rail ── */
+        /* ── progress bar + back to top ── */
         var bar = doc.createElement('div');
         bar.className = 'rjf-progress';
         doc.body.appendChild(bar);
@@ -3982,59 +4160,6 @@
         });
         doc.body.appendChild(topBtn);
 
-        var RAIL = [
-          { sel: '.hero-section',        label: 'Home' },
-          { sel: '.invitation-section',  label: 'Invitation' },
-          { sel: '.celebrations-section',label: 'Celebrations' },
-          { sel: '#rjDateSection',       label: 'Save the Date' },
-          { sel: '.venue-section',       label: 'Venue' },
-          { sel: '.story-section',       label: 'Our Story' },
-          { sel: '.message-section',     label: 'A Note' },
-          { sel: '.photo-section',       label: 'Moments' },
-          { sel: '.countdown-section',   label: 'Countdown' }
-        ];
-        var rail = doc.createElement('nav');
-        rail.className = 'rjf-rail';
-        rail.setAttribute('aria-label', 'Jump to a section');
-        doc.body.appendChild(rail);
-        var links = [];
-
-        function buildRail() {
-          var sig = [];
-          RAIL.forEach(function (it) { sig.push($(it.sel) ? '1' : '0'); });
-          sig = sig.join('');
-          if (rail.getAttribute('data-sig') === sig) return;   /* nothing new to add */
-          rail.setAttribute('data-sig', sig);
-          rail.innerHTML = '';
-          links = [];
-          RAIL.forEach(function (it) {
-            var target = $(it.sel);
-            if (!target) return;
-            var b = doc.createElement('button');
-            b.type = 'button';
-            b.setAttribute('aria-label', 'Go to ' + it.label);
-            b.innerHTML = '<b>' + it.label + '</b>';
-            on(b, 'click', function () {
-              target.scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' });
-            });
-            rail.appendChild(b);
-            links.push({ el: b, target: target });
-          });
-          rail.classList.toggle('show', links.length > 1);
-        }
-
-        function updateActive() {
-          if (!links.length) return;
-          var marker = (window.innerHeight || doc.documentElement.clientHeight) * 0.38;
-          var current = 0;
-          for (var i = 0; i < links.length; i++) {
-            if (links[i].target.getBoundingClientRect().top <= marker) current = i;
-          }
-          for (var j = 0; j < links.length; j++) {
-            links[j].el.classList.toggle('active', j === current);
-          }
-        }
-
         var ticking = false;
         function onScroll() {
           if (ticking) return;
@@ -4045,7 +4170,6 @@
             var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
             bar.style.width = Math.max(0, Math.min(100, pct)).toFixed(2) + '%';
             topBtn.classList.toggle('show', window.scrollY > window.innerHeight * 0.9);
-            updateActive();
           });
         }
         on(window, 'scroll', onScroll, { passive: true });
@@ -4094,7 +4218,12 @@
             doc.addEventListener('keydown', resume, true);
           }
 
-          function arm() { setTimeout(showHint, 1500); setTimeout(hideHint, 12000); }
+          function arm() {
+            setTimeout(function () {
+              showHint();
+              setTimeout(hideHint, 6000);
+            }, 1500);
+          }
           if (doc.body.classList.contains('rjf-ready')) arm();
           else window.addEventListener('rjf-ready', arm);
         }
@@ -4226,36 +4355,12 @@
           });
         }
 
-        /* ── scratch coins: keyboard + double-tap fallback ── */
-        function scratchFallback() {
-          $$('#rjDateSection .rj-coin').forEach(function (coin) {
-            if (coin.getAttribute('data-rjf-fb')) return;
-            coin.setAttribute('data-rjf-fb', '1');
-            coin.setAttribute('tabindex', '0');
-            coin.setAttribute('role', 'button');
-            coin.setAttribute('aria-label', 'Reveal the wedding date \u2014 press Enter, or scratch the coin');
-            function reveal() { if (coin._rjReveal) coin._rjReveal(); }
-            on(coin, 'keydown', function (e) {
-              if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); reveal(); }
-            });
-            on(coin, 'dblclick', reveal);
-            on(coin, 'touchend', function () {
-              var now = Date.now();
-              if (coin._rjLastTap && now - coin._rjLastTap < 360) reveal();
-              coin._rjLastTap = now;
-            }, { passive: true });
-          });
-        }
-
         /* ── boot: wait for React to mount, then (re)apply idempotently ── */
         function sync() {
-          buildRail();
           placeCountdownActions();
           buildClosing();
           music();
           gallery();
-          scratchFallback();
-          updateActive();
         }
 
         var t = null;

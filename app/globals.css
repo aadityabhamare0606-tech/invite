@@ -306,8 +306,8 @@ details > summary::-webkit-details-marker { display: none; }
 
 /* TAG PILL */
 .tag-pill {
-  display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
-  border-radius: 999px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+  border-radius: 999px; font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0; text-transform: none;
 }
 
 .hero-petal { position: absolute; pointer-events: none; will-change: transform, opacity; }

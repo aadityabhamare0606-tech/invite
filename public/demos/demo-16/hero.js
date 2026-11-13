@@ -1,7 +1,6 @@
-/* Rajwada Royale Extended (demo-16) — transplanted Love-Letter gate + hero.
-   Same stack as demo-8 (static demo under public/demos, React bundle untouched).
-   Only: envelope gate + hero come from demo-9's design with the 5th's photo
-   background; everything below the hero is demo-8 as-is. */
+/* Rajwada Royale: Emerald Edition (demo-16) — Rajwada intro gate + hero.
+   The gate follows demo-3's pre-invitation; the hero keeps its demo-9-inspired
+   choreography and the React invitation below remains untouched. */
 (() => {
   "use strict";
 
@@ -18,24 +17,29 @@
         node.setAttribute(attr.name, attr.value.replace(/\bIshaan\b/g, "Anaya"));
       }
     }
-    node.childNodes.forEach(replaceFormerName);
+  };
+  const replaceFormerNameInTree = (root) => {
+    replaceFormerName(root);
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT
+    );
+    while (walker.nextNode()) replaceFormerName(walker.currentNode);
   };
   const app = document.getElementById("app");
   if (app) {
-    app.childNodes.forEach(replaceFormerName);
-    new MutationObserver((records) => {
-      for (const record of records) {
-        if (record.type === "characterData") replaceFormerName(record.target);
-        if (record.type === "attributes") replaceFormerName(record.target);
-        record.addedNodes.forEach(replaceFormerName);
-      }
-    }).observe(app, {
-      attributes: true,
-      attributeFilter: ["aria-label", "alt", "title"],
-      characterData: true,
-      childList: true,
-      subtree: true,
-    });
+    const replaceMountedNames = () => {
+      if (!app.firstElementChild) return false;
+      replaceFormerNameInTree(app);
+      return true;
+    };
+    if (!replaceMountedNames()) {
+      const nameObserver = new MutationObserver(() => {
+        if (replaceMountedNames()) nameObserver.disconnect();
+      });
+      nameObserver.observe(app, { childList: true });
+      setTimeout(() => nameObserver.disconnect(), 12000);
+    }
   }
 
   /* ── 0. Retire ONLY the old demo-8 hero visuals (Rahul/Namita over
@@ -109,90 +113,19 @@
     }
   }
 
-  /* ── Envelope petals + gold motes ── */
-  const petals = [
-    { x: "5%", y: "3%", w: 26, h: 16, c: "#E88D98", delay: "0s", dur: "24s", sx: "-70px", rot: "-120deg", a: 0.6 },
-    { x: "86%", y: "9%", w: 20, h: 13, c: "#F3A8AD", delay: "2.6s", dur: "27s", sx: "60px", rot: "120deg", a: 0.55 },
-    { x: "2%", y: "38%", w: 30, h: 19, c: "#FFD0C9", delay: "4.8s", dur: "25s", sx: "-52px", rot: "130deg", a: 0.5 },
-    { x: "89%", y: "44%", w: 22, h: 14, c: "#E88D98", delay: "1.8s", dur: "29s", sx: "66px", rot: "-110deg", a: 0.58 },
-    { x: "10%", y: "66%", w: 17, h: 11, c: "#F3A8AD", delay: "6.8s", dur: "23s", sx: "-44px", rot: "105deg", a: 0.6 },
-    { x: "79%", y: "74%", w: 27, h: 17, c: "#FFD0C9", delay: "4s", dur: "21s", sx: "50px", rot: "-135deg", a: 0.52 },
-    { x: "46%", y: "1%", w: 16, h: 10, c: "#FFD0C9", delay: "8.2s", dur: "26s", sx: "54px", rot: "95deg", a: 0.48 },
-    { x: "66%", y: "26%", w: 24, h: 15, c: "#E88D98", delay: "10s", dur: "22s", sx: "-58px", rot: "-100deg", a: 0.56 },
-    { x: "36%", y: "20%", w: 18, h: 12, c: "#F3A8AD", delay: "5.6s", dur: "19s", sx: "-38px", rot: "140deg", a: 0.5 },
-    { x: "24%", y: "55%", w: 21, h: 13, c: "#E88D98", delay: "7.8s", dur: "28s", sx: "46px", rot: "-125deg", a: 0.54 },
-    { x: "71%", y: "58%", w: 19, h: 12, c: "#FFD0C9", delay: "9.4s", dur: "31s", sx: "-42px", rot: "115deg", a: 0.5 },
-    { x: "15%", y: "18%", w: 23, h: 15, c: "#E88D98", delay: "3.4s", dur: "20s", sx: "64px", rot: "-95deg", a: 0.58 },
-    { x: "57%", y: "30%", w: 22, h: 14, c: "#F3A8AD", delay: "11.3s", dur: "18s", sx: "-62px", rot: "-115deg", a: 0.55 },
-    { x: "12%", y: "46%", w: 26, h: 16, c: "#E88D98", delay: "6.2s", dur: "30s", sx: "40px", rot: "125deg", a: 0.6 },
-    { x: "82%", y: "12%", w: 19, h: 12, c: "#FFD0C9", delay: "12.6s", dur: "33s", sx: "-48px", rot: "-105deg", a: 0.5 },
-    { x: "33%", y: "80%", w: 25, h: 16, c: "#F3A8AD", delay: "9s", dur: "35s", sx: "56px", rot: "135deg", a: 0.58 },
-  ];
-  const petalBox = $("#env-petals");
-  if (petalBox) {
-    petals.forEach((p) => {
-      const d = document.createElement("span");
-      d.className = "env-petal";
-      d.style.cssText =
-        `left:${p.x};top:${p.y};width:${p.w}px;height:${p.h}px;` +
-        `background:${p.c};` +
-        `--dur:${p.dur};--delay:${p.delay};--sx:${p.sx};--rot:${p.rot};--a:${p.a};`;
-      petalBox.appendChild(d);
-    });
-  }
-  const moteBox = $("#env-motes");
-  if (moteBox) {
-    const tones = ["#D4A24C", "#c9944c", "#e6c98a"];
-    for (let i = 0; i < 18; i++) {
-      const m = document.createElement("span");
-      m.className = "env-mote";
-      const size = 1.6 + (i % 3) * 0.6;
-      m.style.cssText =
-        `left:${((i * 8.3 + 4) % 94).toFixed(1)}%;` +
-        `top:${((i * 13.7 + 6) % 88).toFixed(1)}%;` +
-        `width:${size.toFixed(1)}px;height:${size.toFixed(1)}px;` +
-        `--mc:${tones[i % tones.length]};` +
-        `--mdx:${(((i * 17.3 + 9) % 70) - 20).toFixed(0)}px;` +
-        `--mdy:${-(10 + (i % 5) * 6)}px;` +
-        `--md:${(2.8 + (i % 5) * 0.9).toFixed(2)}s;` +
-        `--mdd:${((i * 0.83) % 4).toFixed(2)}s;` +
-        `--ma:${(0.3 + (i % 4) * 0.12).toFixed(2)};`;
-      moteBox.appendChild(m);
-    }
-  }
-
-  function heartRise() {
-    if (reduced) return;
-    const layer = $("#env-petals");
-    if (!layer) return;
-    const tones = ["#E88D98", "#F3A8AD", "#FFD0C9"];
-    for (let i = 0; i < 16; i++) {
-      const h = document.createElement("span");
-      h.className = "env-heart-rise";
-      const size = 16 + (i % 4) * 5;
-      const drift = ((i * 29.7 + 10) % 120) - 60;
-      h.style.cssText =
-        `left:${(4 + ((i * 8.1 + 3) % 92)).toFixed(1)}%;` +
-        `bottom:-34px;width:${size}px;height:${Math.round(size * 0.82)}px;` +
-        `--hc:${tones[i % tones.length]};` +
-        `--ha:${(0.55 + (i % 4) * 0.1).toFixed(2)};` +
-        `--hdx:${drift.toFixed(0)}px;` +
-        `--hd:${(4.2 + (i % 5) * 0.5).toFixed(2)}s;` +
-        `--hdd:${((i * 0.37) % 2.3).toFixed(2)}s;`;
-      layer.appendChild(h);
-      setTimeout(() => h.remove(), 9000);
-    }
-  }
-
-  /* ── Envelope open choreography (no #site wrapper here — the hero is
-     already in normal flow behind the fixed gate) ── */
+  /* ── Rajwada Royale pre-invitation ── */
   const envOuter = $("#env-outer");
-  const envelope = $("#envelope");
-  const envBloom = $("#env-bloom");
-  const envStage = $(".env-stage");
   const hero = $("#hero");
-  let envPhase = "idle";
+  let introOpened = false;
+  let introFinished = false;
   let heroPending = false;
+  const introTimers = [];
+  const previousBodyOverflow = document.body.style.overflow;
+  document.body.style.overflow = "hidden";
+
+  function afterIntro(ms, callback) {
+    introTimers.push(setTimeout(callback, ms));
+  }
 
   function replayHero() {
     if (!hero) return;
@@ -206,46 +139,145 @@
     hero.classList.add("played");
   }
 
-  function openEnvelope() {
-    if (envPhase !== "idle" || !envOuter) return;
-    envPhase = "opening";
-    if (envStage) envStage.classList.add("clicked");
-    setTimeout(() => {
-      if (envelope) envelope.classList.add("open");
-      if (envStage) envStage.classList.add("bursting");
-      envOuter.classList.add("bursting");
-      if (envelope) {
-        const r = envelope.getBoundingClientRect();
-        burst(r.left + r.width / 2, r.top + r.height * 0.52, 12, ["#f0dfa8", "#D4A24C", "#fff8f0"]);
-      }
-      heartRise();
-    }, 280);
-    setTimeout(() => {
-      envPhase = "bloom";
-      if (envBloom) envBloom.classList.add("expand");
-      envOuter.classList.add("blooming");
+  function playIntroChime() {
+    const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextConstructor) return;
+    try {
+      const context = new AudioContextConstructor();
+      const start = context.currentTime;
+      [[659.25, 0], [987.77, 0.22]].forEach(([frequency, offset]) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(0.0001, start + offset);
+        gain.gain.exponentialRampToValueAtTime(0.18, start + offset + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + offset + 1.4);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(start + offset);
+        oscillator.stop(start + offset + 1.5);
+      });
       setTimeout(() => {
-        window.__introDone = true;
-        if (heroPending) replayHero();
-        else replayHero();
-      }, 420);
-      setTimeout(() => {
-        if (envBloom) envBloom.classList.add("fading");
-        envOuter.classList.add("hidden");
-      }, 1080);
-      setTimeout(() => {
-        envPhase = "done";
-      }, 2100);
-    }, 1150);
+        context.close().catch((error) => {
+          console.error("Rajwada intro chime could not close its audio context.", error);
+        });
+      }, 2200);
+    } catch (error) {
+      console.error("Rajwada intro chime could not play.", error);
+    }
   }
+
+  function burstIntroSeal() {
+    if (reduced || !envOuter) return;
+    const seal = $(".rj-pre-seal", envOuter);
+    if (!seal) return;
+    const sealRect = seal.getBoundingClientRect();
+    const gateRect = envOuter.getBoundingClientRect();
+    const centerX = sealRect.left + sealRect.width / 2 - gateRect.left;
+    const centerY = sealRect.top + sealRect.height / 2 - gateRect.top;
+    const particles = [];
+
+    for (let i = 0; i < 7; i++) {
+      const particle = document.createElement("span");
+      particle.className = "rj-pre-burst";
+      const angle = (Math.PI * 2 * i) / 7 + (Math.random() - 0.5) * 0.6;
+      const distance = 60 + Math.random() * 90;
+      particle.style.left = `${centerX.toFixed(1)}px`;
+      particle.style.top = `${centerY.toFixed(1)}px`;
+      envOuter.appendChild(particle);
+      particles.push({
+        element: particle,
+        dx: Math.cos(angle) * distance,
+        dy: Math.sin(angle) * distance,
+        start: performance.now() + Math.random() * 120,
+      });
+    }
+
+    const duration = 900;
+    function animateParticles(now) {
+      let active = false;
+      particles.forEach((particle) => {
+        const progress = (now - particle.start) / duration;
+        if (progress < 0) {
+          active = true;
+          return;
+        }
+        if (progress >= 1) {
+          particle.element.remove();
+          return;
+        }
+        active = true;
+        const eased = 1 - Math.pow(1 - progress, 3);
+        particle.element.style.transform =
+          `translate(${(particle.dx * eased).toFixed(1)}px,${(particle.dy * eased).toFixed(1)}px) ` +
+          `scale(${(0.5 + 0.7 * eased).toFixed(3)})`;
+        particle.element.style.opacity =
+          (progress < 0.18 ? progress / 0.18 : 1 - (progress - 0.18) / 0.82).toFixed(3);
+      });
+      if (active) requestAnimationFrame(animateParticles);
+    }
+    requestAnimationFrame(animateParticles);
+  }
+
+  function finishIntro() {
+    if (!envOuter || introFinished) return;
+    introFinished = true;
+    envOuter.classList.add("fadeout");
+    window.__introDone = true;
+    if (heroPending || document.visibilityState === "hidden") replayHero();
+  }
+
+  function teardownIntro() {
+    document.body.style.overflow = previousBodyOverflow;
+    document.removeEventListener("keydown", onIntroDocumentKeydown);
+    if (envOuter) envOuter.remove();
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => window.scrollTo(0, 0));
+    window.dispatchEvent(new Event("resize"));
+  }
+
+  function openIntro() {
+    if (!envOuter || introOpened) return;
+    introOpened = true;
+    envOuter.classList.add("seal-pop");
+    playIntroChime();
+    burstIntroSeal();
+    afterIntro(480, () => envOuter.classList.add("seal-gone"));
+    afterIntro(520, () => envOuter.classList.add("flap-open"));
+    afterIntro(1250, () => envOuter.classList.add("card-out"));
+    afterIntro(6650, finishIntro);
+    afterIntro(7750, teardownIntro);
+  }
+
+  function skipIntro() {
+    if (!envOuter) return;
+    if (!introOpened) {
+      openIntro();
+      return;
+    }
+    introTimers.forEach(clearTimeout);
+    envOuter.classList.add("seal-pop", "seal-gone", "flap-open", "card-out");
+    finishIntro();
+    afterIntro(700, teardownIntro);
+  }
+
+  function onIntroDocumentKeydown(event) {
+    if (event.key === "Escape" && envOuter && envOuter.isConnected) skipIntro();
+  }
+
   if (envOuter) {
-    envOuter.addEventListener("click", openEnvelope);
-    envOuter.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openEnvelope();
+    const revealIntro = () => envOuter.classList.add("ready");
+    requestAnimationFrame(() => requestAnimationFrame(revealIntro));
+    setTimeout(revealIntro, 160);
+    envOuter.addEventListener("click", () => (introOpened ? skipIntro() : openIntro()));
+    envOuter.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        introOpened ? skipIntro() : openIntro();
       }
     });
+    document.addEventListener("keydown", onIntroDocumentKeydown);
   }
 
   /* ── Hero sparks + petals ── */
@@ -513,6 +545,7 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const app = document.getElementById("app");
 
   /* ── A + E share ONE rAF/scroll pump (two listeners would each force layout) */
 
@@ -547,48 +580,60 @@
   };
 
   /* ── E · PAGE CHROME ─────────────────────────────────────────────────────
-     A gold hair-line of progress plus nine section dots — both injected here
-     (no markup to pollute) and both parked BELOW the gate's 2147483000, so the
-     envelope always wins; they only fade in once the seal has been broken.  */
-  const SECTIONS = [
-    ["#hero", "Top"],
-    [".invitation-details", "Invitation"],
-    [".events-section", "Celebrations"],
-    [".date-reveal-section", "The date"],
-    [".venue-section", "Venue"],
-    [".story-section", "Our story"],
-    [".couple-msg-section", "Message"],
-    [".photo-carousel-section", "Photos"],
-    [".closing-section", "Countdown"],
-  ];
-
+     A gold progress hairline and Lantern Dreams' scroll-drawn thread.       */
   const bar = document.createElement("div");
   bar.className = "rg-progress";
   bar.innerHTML = "<i></i>";
   const barFill = bar.firstElementChild;
 
-  const nav = document.createElement("nav");
-  nav.className = "rg-nav";
-  nav.setAttribute("aria-label", "Jump to a section");
+  const threadPath = "M 40 6 C 8 110, 72 210, 40 310 C 8 410, 72 510, 40 610 C 8 710, 72 810, 40 994";
+  const thread = document.createElement("div");
+  thread.className = "rg-thread";
+  thread.setAttribute("aria-hidden", "true");
+  thread.innerHTML =
+    '<svg viewBox="0 0 80 1000" preserveAspectRatio="none">' +
+    '<defs><linearGradient id="rg-thread-gradient" x1="0" y1="0" x2="0" y2="1">' +
+    '<stop offset="0%" stop-color="rgba(241,212,147,.5)"/>' +
+    '<stop offset="42%" stop-color="#ffe9a8"/>' +
+    '<stop offset="100%" stop-color="rgba(241,212,147,.5)"/>' +
+    '</linearGradient></defs>' +
+    `<path d="${threadPath}" class="rg-thread-track"/>` +
+    `<path d="${threadPath}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" class="rg-thread-drawn"/>` +
+    "</svg><span class=\"rg-thread-bead\"></span>";
+  const threadSvg = thread.querySelector("svg");
+  const threadLine = thread.querySelector(".rg-thread-drawn");
+  const threadBead = thread.querySelector(".rg-thread-bead");
+  const threadLength = threadLine.getTotalLength();
+  let threadTarget = 0;
+  let threadProgress = 0;
+  let threadFrame = 0;
 
-  let items = [];
-  const buildNav = () => {
-    nav.textContent = "";
-    items = [];
-    for (const [sel, label] of SECTIONS) {
-      const el = $(sel);
-      if (!el) continue;
-      const b = document.createElement("button");
-      b.type = "button";
-      b.title = label;
-      b.setAttribute("aria-label", "Go to " + label);
-      b.addEventListener("click", () =>
-        el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" })
-      );
-      nav.appendChild(b);
-      items.push({ el, b });
+  function renderThread() {
+    threadFrame = 0;
+    threadProgress += (threadTarget - threadProgress) * 0.14;
+    if (Math.abs(threadTarget - threadProgress) < 0.0005) threadProgress = threadTarget;
+    threadLine.style.strokeDashoffset = String(1 - threadProgress);
+    const point = threadLine.getPointAtLength(threadProgress * threadLength);
+    const bounds = threadSvg.getBoundingClientRect();
+    threadBead.style.transform =
+      `translate3d(${(point.x / 80 * bounds.width).toFixed(1)}px, ` +
+      `${(point.y / 1000 * bounds.height).toFixed(1)}px, 0) translate(-50%, -50%)`;
+    threadBead.style.opacity = "1";
+    if (!REDUCED && Math.abs(threadTarget - threadProgress) >= 0.0005) {
+      threadFrame = requestAnimationFrame(renderThread);
     }
-  };
+  }
+
+  function updateThread() {
+    const maxScroll = document.documentElement.scrollHeight - innerHeight;
+    threadTarget = maxScroll > 0 ? clamp(scrollY / maxScroll, 0, 1) : 1;
+    if (REDUCED || document.visibilityState === "hidden") {
+      threadProgress = threadTarget;
+      renderThread();
+    } else if (!threadFrame) {
+      threadFrame = requestAnimationFrame(renderThread);
+    }
+  }
 
   const retireDuplicateMusic = () => {
     for (const duplicate of $$("audio", app)) {
@@ -612,27 +657,20 @@
     directions.textContent = "Get directions";
     content.appendChild(directions);
   };
-  buildNav();
-  document.body.append(bar, nav);
+  document.body.append(bar, thread);
 
   const chrome = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
     const p = max > 0 ? clamp(scrollY / max, 0, 1) : 0;
     barFill.style.transform = `scaleX(${p.toFixed(4)})`;
 
-    const mid = scrollY + innerHeight * 0.42;
-    let active = -1;
-    items.forEach((it, i) => {
-      if (it.el.getBoundingClientRect().top + scrollY <= mid) active = i;
-    });
-    items.forEach((it, i) => it.b.classList.toggle("on", i === active));
-
     const gate = $("#env-outer");
     const open =
       window.__introDone === true ||
       (gate && gate.classList.contains("hidden"));
     bar.classList.toggle("on", !!open);
-    nav.classList.toggle("on", !!open && items.length > 1);
+    thread.classList.toggle("on", !!open);
+    updateThread();
   };
 
   let raf = 0;
@@ -664,11 +702,18 @@
   // chrome appears the moment the letter is opened rather than on first scroll
   const gate = $("#env-outer");
   if (gate) {
-    new MutationObserver(queue).observe(gate, {
+    new MutationObserver(() => {
+      if (window.__introDone === true) chrome();
+      else queue();
+    }).observe(gate, {
       attributes: true,
       attributeFilter: ["class"],
     });
   }
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") chrome();
+    else queue();
+  });
   queue();
 
   /* ── MOUNT GATE ────────────────────────────────────────────────────────
@@ -684,9 +729,49 @@
       return;
     }
     stars = $$(".rl-sec .rl-stars");
-    buildNav();
     retireDuplicateMusic();
     addVenueDirections();
+
+    const invitationCard = $(".invitation-details > .relative.flex.flex-col.items-center");
+    const invitationCopy = $$(".invitation-details .invitation-step p");
+    if (invitationCard && invitationCopy.length && !REDUCED) {
+      let delay = 0;
+      invitationCopy.forEach((paragraph) => {
+        const label = paragraph.textContent.trim();
+        if (!label) return;
+        paragraph.setAttribute("aria-label", label);
+
+        const walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT);
+        const textNodes = [];
+        while (walker.nextNode()) textNodes.push(walker.currentNode);
+        textNodes.forEach((textNode) => {
+          const fragment = document.createDocumentFragment();
+          Array.from(textNode.nodeValue || "").forEach((character) => {
+            const letter = document.createElement("span");
+            letter.className = "royal-type-char";
+            letter.setAttribute("aria-hidden", "true");
+            letter.textContent = character;
+            letter.style.setProperty("--type-delay", `${delay}ms`);
+            fragment.appendChild(letter);
+            if (!/\s/.test(character)) delay += 24;
+          });
+          textNode.replaceWith(fragment);
+        });
+        delay += 180;
+      });
+
+      const startTyping = () => invitationCard.classList.add("royal-type-on");
+      if (typeof IntersectionObserver === "undefined") {
+        startTyping();
+      } else {
+        const typingObserver = new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) return;
+          typingObserver.disconnect();
+          startTyping();
+        }, { threshold: 0.22 });
+        typingObserver.observe(invitationCard);
+      }
+    }
 
     /* ── B · ARRIVAL BEATS ───────────────────────────────────────────────
        The event cards' gold sheen otherwise only ever runs off-screen.      */
@@ -731,6 +816,20 @@
       storyCards.forEach((card) => cardArrival.observe(card));
     }
 
+    const letterPaper = $(".couple-msg-section .letter-paper");
+    if (letterPaper) {
+      if (REDUCED || typeof IntersectionObserver === "undefined") {
+        letterPaper.classList.add("royal-letter-in");
+      } else {
+        const letterArrival = new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) return;
+          letterArrival.disconnect();
+          letterPaper.classList.add("royal-letter-in");
+        }, { threshold: 0.22 });
+        letterArrival.observe(letterPaper);
+      }
+    }
+
     /* ── C · COUNTDOWN TICK ──────────────────────────────────────────────
        demo-8 gives `.countdown-number` a `num-flip` that plays once on mount and
        then never again (React updates the text in place, it does not remount the
@@ -761,7 +860,7 @@
       }).observe(grid, { subtree: true, childList: true, characterData: true });
     }
 
-    queue(); // pick up the nav dots and star layers now that they exist
+    queue(); // pick up the star layers now that React has mounted
   };
   wire();
 })();

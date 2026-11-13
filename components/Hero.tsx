@@ -34,7 +34,7 @@ export default function Hero() {
             style={{ borderColor: "var(--blush-mid)", background: "rgba(255,255,255,0.7)", color: "var(--primary)" }}
           >
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--primary)" }} />
-            Trusted by 1,234+ Indian couples
+            Trusted by 232+ Indian couples
           </p>
 
           <h1

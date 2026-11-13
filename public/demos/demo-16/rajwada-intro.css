@@ -1,0 +1,750 @@
+/* ═══ PRE-INVITATION — blush envelope · tap to open ═══
+   Soft blush + cream + gold + burgundy. No photos, no image backgrounds.
+   Entrance contract with the rest of the page:
+   #env-outer node, window.__introDone handoff, body scroll lock. */
+      .rj-entrance {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483000;
+        cursor: pointer;
+        overflow: hidden;
+        --rj-seal-red: #c73550;
+        --rj-seal-red-light: #e45d70;
+        --rj-seal-red-deep: #861832;
+        background: linear-gradient(180deg, #F7C7C7 0%, #F3B4B6 48%, #F8CCCA 100%);
+        transform: translateZ(0);
+        -webkit-tap-highlight-color: transparent;
+        transition: opacity 1s ease;
+      }
+      .rj-entrance.fadeout {
+        opacity: 0;
+        visibility: hidden;
+        cursor: default;
+      }
+      .rj-entrance:focus-visible { outline: 3px solid rgba(201,154,85,0.9); outline-offset: -6px; }
+
+      /* warm cream glow behind the envelope + softly darker corners */
+      .rj-pre-bg { position: absolute; inset: 0; pointer-events: none; }
+      .rj-pre-bg::before {
+        content: "";
+        position: absolute;
+        left: 50%; top: 62%;
+        width: min(660px, 112vw);
+        aspect-ratio: 1;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, rgba(255,241,229,0.55), rgba(255,241,229,0) 65%);
+      }
+      .rj-pre-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(120% 100% at 50% 45%, rgba(0,0,0,0) 55%, rgba(146,74,70,0.20) 100%);
+      }
+
+      /* classic eyebrow above the names */
+      .rj-pre-kicker {
+        position: absolute;
+        left: 0; right: 0; top: 3%;
+        z-index: 3;
+        margin: 0;
+        text-align: center;
+        font-family: 'Manrope', sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--wine);
+        text-shadow: 0 1px 8px rgba(255,241,229,0.6);
+        padding-left: 0.4em;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 1s ease 0.15s, transform 1s ease 0.15s;
+        pointer-events: none;
+      }
+      .rj-entrance.ready .rj-pre-kicker { opacity: 1; transform: none; }
+      .rj-entrance.flap-open .rj-pre-kicker,
+      .rj-entrance.card-out .rj-pre-kicker { opacity: 0; transition: opacity 0.6s ease; transition-delay: 0s; }
+
+      /* couple names — the only headline on this screen */
+      .rj-pre-names {
+        position: absolute;
+        left: 0; right: 0; top: 6.5%;
+        z-index: 3;
+        margin: 0;
+        text-align: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+        font-size: clamp(39px, 9.1vw, 60px);
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        white-space: nowrap;
+        color: var(--ink-soft);
+        text-shadow: 0 1px 0 rgba(255,255,255,0.4), 0 0 22px rgba(255,241,229,0.65), 0 3px 18px rgba(122,30,53,0.28);
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 1s ease 0.3s, transform 1.1s cubic-bezier(0.2, 0.7, 0.25, 1) 0.3s;
+        pointer-events: none;
+      }
+      .rj-pre-names .rj-amp {
+        font-family: 'Dancing Script', cursive;
+        font-weight: 700;
+        color: #C8944F;
+        font-size: 1.2em;
+        padding: 0 0.1em;
+      }
+      .rj-entrance.ready .rj-pre-names { opacity: 1; transform: none; }
+
+      /* thin gold circle holding the composition */
+      .rj-pre-ring {
+        position: absolute;
+        left: 50%; top: 62%;
+        width: min(560px, 94vw);
+        aspect-ratio: 1;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(201,154,85,0.15);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 1.4s ease 0.5s;
+        animation: rjPreRing 9s ease-in-out infinite;
+      }
+      .rj-entrance.ready .rj-pre-ring { opacity: 1; }
+      @keyframes rjPreRing {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50%      { transform: translate(-50%, -50%) scale(1.012); }
+      }
+
+      /* ── the envelope ── */
+      .rj-pre-stage {
+        position: absolute;
+        left: 50%; top: 62%;
+        width: min(430px, 86vw);
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        perspective: 1100px;
+        pointer-events: none;
+      }
+      .rj-pre-env {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1.42;
+        transform-style: preserve-3d;
+        opacity: 0;
+        transform: translateY(26px) scale(0.96);
+        transition: opacity 1s ease 0.35s, transform 1.2s cubic-bezier(0.2, 0.7, 0.25, 1) 0.35s;
+      }
+      .rj-entrance.ready .rj-pre-env {
+        opacity: 1;
+        transform: none;
+        animation: rjPreFloat 7s ease-in-out 1.7s infinite;
+      }
+      @keyframes rjPreFloat {
+        0%, 100% { transform: translateY(0) rotate(-0.4deg) rotateX(3deg); }
+        50%      { transform: translateY(-9px) rotate(0.4deg) rotateX(5deg); }
+      }
+      .rj-pre-back {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #F1E2C8, #E4CDAE);
+        border: 1px solid #C99A55;
+        box-shadow: 0 26px 54px -18px rgba(146,106,70,0.45), 0 8px 20px rgba(146,106,70,0.25);
+      }
+      /* soft realistic shadow pooled underneath the envelope */
+      .rj-pre-stage::after {
+        content: "";
+        position: absolute;
+        left: 6%; right: 6%; bottom: -38px;
+        height: 44px;
+        z-index: 0;
+        background: radial-gradient(50% 50% at 50% 50%, rgba(146,90,70,0.38), transparent 70%);
+        filter: blur(7px);
+        pointer-events: none;
+      }
+      .rj-pre-env { position: relative; z-index: 1; }
+      /* pocket face: classic side-folds meeting at the centre, with a gold rim
+         peeking out from a fractionally larger gold twin behind it */
+      .rj-pre-facegold, .rj-pre-face {
+        position: absolute;
+        inset: 0;
+        clip-path: polygon(0 0, 50% 36%, 100% 0, 100% 100%, 0 100%);
+      }
+      .rj-pre-facegold {
+        z-index: 3;
+        inset: -2px;
+        background: linear-gradient(180deg, #C99A55, #b08a48);
+        border-radius: 14px;
+      }
+      /* paper grain shared by every paper surface (faint warm fibre) */
+      .rj-pre-back::after, .rj-pre-face::before, .rj-pre-flap::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.38 0 0 0 0 0.30 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+        opacity: 0.7;
+      }
+      .rj-pre-face::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(58% 30% at 50% 34%, rgba(120,80,50,0.28), transparent 70%);
+      }
+      .rj-pre-face {
+        z-index: 4;
+        background:
+          linear-gradient(100deg, transparent 42%, rgba(255,252,244,0.5) 50%, transparent 58%),
+          linear-gradient(90deg, rgba(146,106,70,0.14), transparent 12%, transparent 88%, rgba(146,106,70,0.14)),
+          linear-gradient(180deg, #FFF7E8 0%, #FBEEDC 60%, #F1DFC2 100%);
+        background-size: 280% 100%, auto, auto;
+        filter: drop-shadow(0 14px 22px rgba(146,106,70,0.30));
+        animation: rjFaceSheen 7s ease-in-out 2s infinite;
+      }
+      /* soft light crossing the paper every few seconds, then rest */
+      @keyframes rjFaceSheen {
+        0%, 54%   { background-position: 120% 0, 0 0, 0 0; }
+        86%, 100% { background-position: -120% 0, 0 0, 0 0; }
+      }
+      .rj-pre-bot {
+        position: absolute;
+        bottom: 12px;
+        width: 84px;
+        height: auto;
+        overflow: visible;
+      }
+      .rj-pre-bot-l { left: 14px; }
+      .rj-pre-bot-r { right: 14px; transform: scaleX(-1); }
+      /* flap: same gold-rim trick, hinged at the top edge */
+      .rj-pre-flapwrap {
+        position: absolute;
+        left: 0; right: 0; top: 0;
+        height: 44%;
+        z-index: 5;
+        transform-origin: 50% 0;
+        transform: rotateX(0deg);
+        transition: transform 1s cubic-bezier(0.5, 0.05, 0.3, 1), z-index 0s linear 0.45s;
+      }
+      .rj-pre-flapgold, .rj-pre-flap {
+        position: absolute;
+        inset: 0;
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+      }
+      .rj-pre-flapgold { inset: -2px; background: linear-gradient(180deg, #C99A55, #b08a48); }
+      .rj-pre-flap {
+        background:
+          linear-gradient(180deg, transparent 80%, rgba(255,255,255,0.55) 100%),
+          linear-gradient(180deg, #FFF7E8 0%, #F8ECD4 70%, #EED9B8 100%);
+        filter: drop-shadow(0 8px 14px rgba(146,106,70,0.28));
+      }
+      .rj-entrance.flap-open .rj-pre-flapwrap { transform: rotateX(180deg); z-index: 1; }
+
+      /* heart-shaped ruby wax seal — one SVG pour, so the gradient and
+         the melted edge stay continuous (three-piece CSS hearts seam) */
+      .rj-pre-seal {
+        position: absolute;
+        left: 50%; top: 40%;
+        width: clamp(70px, 17vw, 92px);
+        aspect-ratio: 1;
+        transform: translate(-50%, -50%);
+        z-index: 6;
+        cursor: pointer;
+        opacity: 0;
+        filter: drop-shadow(0 8px 18px rgba(91,16,36,0.42)) drop-shadow(0 0 22px rgba(199,53,80,0.28));
+        animation: rjSealIn 0.9s ease 0.4s both, rjSealIdle 4s ease-in-out 1.5s infinite;
+      }
+      .rj-pre-seal svg { width: 100%; height: 100%; display: block; overflow: visible; transition: transform 0.35s ease, filter 0.35s ease; }
+      @keyframes rjSealIn {
+        0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+        100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      }
+      /* one gentle pulse every 4 seconds, then rest */
+      @keyframes rjSealIdle {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        12%      { transform: translate(-50%, -50%) scale(1.04); }
+        24%      { transform: translate(-50%, -50%) scale(1); }
+      }
+      .rj-entrance.ready:not(.seal-pop) .rj-pre-seal:hover svg {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 14px rgba(232,199,122,0.65));
+      }
+      /* single soft glow that arrives once, then stays put */
+      .rj-pre-sealglow {
+        position: absolute;
+        left: 50%; top: 40%;
+        width: clamp(110px, 26vw, 150px);
+        aspect-ratio: 1;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+        pointer-events: none;
+        background: radial-gradient(circle, rgba(232,199,122,0.5), rgba(199,53,80,0.22) 55%, transparent 70%);
+        opacity: 0.45;
+      }
+      .rj-entrance.ready .rj-pre-sealglow { animation: rjGlowOnce 2.2s ease 0.6s both; }
+      @keyframes rjGlowOnce {
+        0%   { opacity: 0; }
+        35%  { opacity: 0.8; }
+        100% { opacity: 0.45; }
+      }
+      .rj-entrance.seal-pop .rj-pre-seal {
+        animation: none;
+        transform: translate(-50%, -50%) scale(1.35);
+        opacity: 0;
+        transition: transform 0.45s ease-in, opacity 0.45s ease;
+      }
+      .rj-entrance.seal-gone .rj-pre-seal { display: none; }
+      .rj-entrance.seal-gone .rj-pre-sealglow { display: none; }
+
+      /* a few tiny gold particles thrown off when the seal pops (JS-driven
+         flight so the burst plays identically everywhere) */
+      .rj-pre-burst {
+        position: absolute;
+        z-index: 8;
+        width: 5px; height: 5px;
+        margin: -2.5px 0 0 -2.5px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #FFF3D0, rgba(232,199,122,0.85) 55%, transparent 78%);
+        box-shadow: 0 0 8px 2px rgba(232,199,122,0.5);
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      /* postage stamp — a real little paper card stuck to the envelope */
+      .rj-pre-stamp {
+        position: absolute;
+        top: 10px; right: 12px;
+        width: clamp(48px, 13vw, 64px);
+        aspect-ratio: 5 / 6;
+        z-index: 7;
+        transform: rotate(4deg);
+        background:
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.38 0 0 0 0 0.30 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),
+          linear-gradient(180deg, #FFFDF6, #F6EAD0);
+        box-shadow: 0 4px 10px rgba(146,106,70,0.4),
+                    inset 0 0 0 3px #FFFDF6, inset 0 0 0 4px rgba(201,154,85,0.9);
+        outline: 1px dashed rgba(201,154,85,0.7);
+        outline-offset: 2px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1px;
+        pointer-events: none;
+      }
+      .rj-pre-stamp i {
+        font-style: normal;
+        font-size: clamp(15px, 4vw, 19px);
+        line-height: 1;
+        color: var(--rj-seal-red);
+      }
+      .rj-pre-stamp b {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 600;
+        font-size: 8px;
+        letter-spacing: 0.22em;
+        padding-left: 0.22em;
+        color: #9a7a3a;
+      }
+
+      /* the invitation card sliding out of the pocket */
+      .rj-pre-card {
+        position: absolute;
+        left: 6%; right: 6%; top: 6%; bottom: 8%;
+        z-index: 2;
+        background:
+          repeating-linear-gradient(0deg, rgba(160,120,80,0.03) 0 1px, transparent 1px 3px),
+          linear-gradient(180deg, #FFFDF8, #FFF6E8);
+        border: 1px solid rgba(201,154,85,0.7);
+        border-radius: 8px;
+        box-shadow: 0 10px 26px rgba(146,106,70,0.25),
+                    inset 0 0 0 4px #FFFDF8, inset 0 0 0 5px rgba(201,154,85,0.55);
+        transform: translateY(14%) scale(0.97);
+        transition: transform 1.4s cubic-bezier(0.2, 0.75, 0.25, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 18px 14px;
+        text-align: center;
+      }
+      .rj-entrance.card-out .rj-pre-card { transform: translateY(-112%) scale(1); }
+      .rj-pre-eyebrow {
+        font-family: 'Manrope', sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: #9a7a3a;
+        margin: 0;
+        padding-left: 0.34em;
+      }
+      .rj-pre-cardnames {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+        font-size: clamp(34px, 9.1vw, 48px);
+        line-height: 1.1;
+        color: var(--ink-soft);
+        margin: 0;
+        white-space: nowrap;
+      }
+      .rj-pre-cardnames span {
+        font-family: 'Dancing Script', cursive;
+        font-weight: 700;
+        color: #C8944F;
+        font-size: 1.15em;
+      }
+      .rj-pre-div {
+        width: 52%;
+        border-top: 1px solid rgba(201,154,85,0.6);
+        position: relative;
+      }
+      .rj-pre-div::after {
+        content: "♥";
+        position: absolute;
+        left: 50%; top: -9px;
+        transform: translateX(-50%);
+        color: var(--rj-seal-red);
+        font-size: 11px;
+        background: #FFFDF8;
+        padding: 0 8px;
+      }
+      .rj-pre-line {
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-size: 15px;
+        line-height: 1.4;
+        color: #6b4a3a;
+        margin: 0;
+        padding: 0 8px;
+      }
+      .rj-pre-sign { margin: 0; }
+      .rj-pre-sign em {
+        display: block;
+        font-family: 'Dancing Script', cursive;
+        font-style: normal;
+        font-size: 16px;
+        color: var(--wine);
+      }
+      .rj-pre-sign span {
+        font-family: 'Dancing Script', cursive;
+        font-size: 23px;
+        font-weight: 600;
+        color: var(--wine);
+        line-height: 1.15;
+      }
+      .rj-pre-miniseal {
+        width: 26px; height: 26px;
+        display: flex;
+        align-items: center; justify-content: center;
+        font-size: 11px;
+        color: #F2D18A;
+        background: radial-gradient(circle at 35% 30%, var(--rj-seal-red-light), var(--rj-seal-red) 55%, var(--rj-seal-red-deep) 100%);
+        border-radius: 47% 53% 51% 49% / 48% 46% 54% 52%;
+        box-shadow: 0 3px 8px rgba(91,16,36,0.38);
+      }
+      /* card contents rise in sequence once the card has slid out */
+      .rj-entrance.card-out .rj-pre-eyebrow,
+      .rj-entrance.card-out .rj-pre-cardnames,
+      .rj-entrance.card-out .rj-pre-line,
+      .rj-entrance.card-out .rj-pre-sign,
+      .rj-entrance.card-out .rj-pre-miniseal {
+        animation: rjPreCardIn 0.7s cubic-bezier(0.18, 0.82, 0.28, 1) both;
+      }
+      .rj-entrance.card-out .rj-pre-eyebrow  { animation-delay: 0.35s; }
+      .rj-entrance.card-out .rj-pre-cardnames { animation-delay: 0.5s; }
+      .rj-entrance.card-out .rj-pre-div      { animation: rjPreRule 0.7s cubic-bezier(0.3, 0.7, 0.2, 1) 0.95s both; }
+      .rj-entrance.card-out .rj-pre-line     { animation-delay: 1.05s; }
+      .rj-entrance.card-out .rj-pre-sign     { animation-delay: 1.2s; }
+      .rj-entrance.card-out .rj-pre-miniseal { animation-delay: 1.35s; }
+      @keyframes rjPreCardIn {
+        0%   { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+        100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+      }
+      @keyframes rjPreRule {
+        0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+        100% { opacity: 1; clip-path: inset(0 0 0 0); }
+      }
+
+      /* petals drifting across like a soft breeze — never straight down */
+      .rj-pre-petals {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .rj-pre-petal {
+        position: absolute;
+        top: var(--y, 30%);
+        left: 0;
+        width: var(--s, 14px);
+        height: var(--s, 14px);
+        background: var(--c, #F3B1B5);
+        border-radius: 64% 6% 64% 6%;
+        box-shadow: 0 2px 8px rgba(217,124,137,0.25);
+        opacity: 0;
+        animation: rjPreDriftR var(--d, 14s) linear var(--dl, 0s) infinite both;
+      }
+      @keyframes rjPreDriftR {
+        0%   { transform: translate(-8vw, 0) rotate(var(--r, 0deg)); opacity: 0; }
+        12%  { opacity: 0.85; }
+        30%  { transform: translate(20vw, -16px) rotate(calc(var(--r, 0deg) + 90deg)); }
+        55%  { transform: translate(55vw, 12px) rotate(calc(var(--r, 0deg) + 200deg)); }
+        86%  { opacity: 0.85; }
+        100% { transform: translate(108vw, 0) rotate(calc(var(--r, 0deg) + 340deg)); opacity: 0; }
+      }
+      @keyframes rjPreDriftL {
+        0%   { transform: translate(108vw, 0) rotate(var(--r, 0deg)); opacity: 0; }
+        12%  { opacity: 0.85; }
+        30%  { transform: translate(80vw, 14px) rotate(calc(var(--r, 0deg) - 90deg)); }
+        55%  { transform: translate(45vw, -12px) rotate(calc(var(--r, 0deg) - 200deg)); }
+        86%  { opacity: 0.85; }
+        100% { transform: translate(-8vw, 0) rotate(calc(var(--r, 0deg) - 340deg)); opacity: 0; }
+      }
+
+      /* a few tiny hearts + gold sparkles, kept deliberately sparse */
+      .rj-pre-hearts, .rj-pre-sparks {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .rj-pre-hearts { z-index: 1; overflow: hidden; }
+      .rj-pre-sparks { z-index: 1; }
+      .rj-pre-h {
+        position: absolute;
+        bottom: -24px;
+        line-height: 1;
+        opacity: 0;
+        animation: rjPreHeartUp 12s linear infinite;
+      }
+      .rj-pre-h::before { content: "♥"; }
+      @keyframes rjPreHeartUp {
+        0%   { transform: translateY(0) translateX(0) rotate(-8deg); opacity: 0; }
+        12%  { opacity: 0.7; }
+        50%  { transform: translateY(-48vh) translateX(10px) rotate(8deg); }
+        100% { transform: translateY(-94vh) translateX(-8px) rotate(-6deg); opacity: 0; }
+      }
+      .rj-pre-sp {
+        position: absolute;
+        width: 4px; height: 4px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #fff8e2, rgba(201,154,85,0.9) 60%, transparent 78%);
+        animation: rjPreTwinkle 3.2s ease-in-out infinite;
+      }
+      @keyframes rjPreTwinkle {
+        0%, 100% { opacity: 0.15; transform: scale(0.7); }
+        50%      { opacity: 1;    transform: scale(1.25); }
+      }
+
+      /* bottom call to action */
+      .rj-pre-tap {
+        position: absolute;
+        left: 0; right: 0; bottom: 5.5%;
+        z-index: 3;
+        margin: 0;
+        text-align: center;
+        font-family: 'Manrope', sans-serif;
+        font-size: 11px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #A66F70;
+        padding-left: 3px;
+        pointer-events: none;
+        animation: rjPreTap 2.6s ease-in-out 1.2s infinite;
+      }
+      @keyframes rjPreTap {
+        0%, 100% { opacity: 0.55; }
+        50%      { opacity: 1; }
+      }
+      .rj-entrance.flap-open .rj-pre-tap,
+      .rj-entrance.card-out .rj-pre-tap { animation: none; opacity: 0; transition: opacity 0.5s ease; }
+      .rj-entrance.flap-open .rj-pre-names,
+      .rj-entrance.card-out .rj-pre-names { opacity: 0; transition: opacity 0.6s ease; transition-delay: 0s; }
+
+      /* ── premium dressing: arch frame · damask · crest · divider · motes ──
+         All of it static or slow; the envelope stays the focus. */
+
+      /* Rajwada arch — thin double gold Roman arch in pure CSS, so it can
+         never crop on any aspect ratio the way an SVG slice would */
+      .rj-pre-arch {
+        position: absolute;
+        inset: 18px;
+        z-index: 1;
+        pointer-events: none;
+        border: 1px solid rgba(201,154,85,0.42);
+        border-radius: 50% 50% 6px 6px / 26% 26% 6px 6px;
+        opacity: 0;
+        transition: opacity 1.6s ease 0.8s;
+      }
+      .rj-pre-arch i {
+        position: absolute;
+        inset: 7px;
+        display: block;
+        border: 1px solid rgba(201,154,85,0.25);
+        border-radius: 50% 50% 4px 4px / 26% 26% 4px 4px;
+      }
+      .rj-pre-arch::before, .rj-pre-arch::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        width: 7px; height: 7px;
+        transform: rotate(45deg);
+        background: #F6D9C8;
+        border: 1px solid rgba(201,154,85,0.7);
+      }
+      .rj-pre-arch::before { left: -4px; }
+      .rj-pre-arch::after { right: -4px; }
+      .rj-entrance.ready .rj-pre-arch { opacity: 1; }
+
+      /* faint damask lattice so the blush never reads flat */
+      .rj-pre-damask {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.5;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='132'%3E%3Cg fill='none' stroke='rgba(138,85,79,0.10)' stroke-width='1'%3E%3Cpath d='M66 8 L124 66 L66 124 L8 66 Z'/%3E%3Cpath d='M66 30 L102 66 L66 102 L30 66 Z' opacity='.6'/%3E%3C/g%3E%3Cg fill='rgba(138,85,79,0.10)'%3E%3Ccircle cx='66' cy='66' r='2.5'/%3E%3Ccircle cx='0' cy='0' r='2.5'/%3E%3Ccircle cx='132' cy='0' r='2.5'/%3E%3Ccircle cx='0' cy='132' r='2.5'/%3E%3Ccircle cx='132' cy='132' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+        background-size: 132px 132px;
+      }
+
+      /* interlocked-initials crest between the names and the envelope */
+      .rj-pre-crest {
+        position: absolute;
+        left: 50%; top: 23%;
+        width: 58px; height: 58px;
+        transform: translateX(-50%) translateY(10px);
+        z-index: 3;
+        pointer-events: none;
+        border: 1px solid rgba(201,154,85,0.65);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle, rgba(255,253,248,0.5), rgba(255,253,248,0.12) 70%);
+        box-shadow: 0 4px 14px rgba(146,106,70,0.25), inset 0 0 0 4px rgba(255,253,248,0.35), inset 0 0 0 5px rgba(201,154,85,0.4);
+        opacity: 0;
+        transition: opacity 1s ease 0.7s, transform 1s ease 0.7s;
+      }
+      .rj-pre-crest::before {
+        content: "";
+        position: absolute;
+        inset: 4px;
+        border-radius: 50%;
+        border: 1px solid rgba(201,154,85,0.35);
+      }
+      .rj-crest-t {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        font-size: 19px;
+        letter-spacing: 0.08em;
+        color: var(--wine);
+      }
+      .rj-entrance.ready .rj-pre-crest { opacity: 1; transform: translateX(-50%) translateY(0); }
+      .rj-entrance.flap-open .rj-pre-crest,
+      .rj-entrance.card-out .rj-pre-crest { opacity: 0; transition: opacity 0.5s ease; }
+
+      /* hairline divider with a diamond, floating above the tap cue */
+      .rj-pre-divline {
+        position: absolute;
+        left: 50%; bottom: 10.5%;
+        transform: translateX(-50%);
+        width: 130px; height: 1px;
+        z-index: 3;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent, rgba(201,154,85,0.7) 30%, rgba(201,154,85,0.7) 70%, transparent);
+        opacity: 0;
+        transition: opacity 1s ease 1.1s;
+      }
+      .rj-pre-divline::before {
+        content: "";
+        position: absolute;
+        left: 50%; top: -3.5px;
+        width: 7px; height: 7px;
+        transform: translateX(-50%) rotate(45deg);
+        background: #F6D9C8;
+        border: 1px solid rgba(201,154,85,0.8);
+      }
+      .rj-entrance.ready .rj-pre-divline { opacity: 1; }
+      .rj-entrance.flap-open .rj-pre-divline,
+      .rj-entrance.card-out .rj-pre-divline { opacity: 0; transition: opacity 0.5s ease; }
+
+      /* petals resting against the envelope base — static, they ride along
+         with the envelope's float so they stay grounded */
+      .rj-pre-rest {
+        position: absolute;
+        left: 0; right: 0; bottom: -22px;
+        height: 40px;
+        z-index: 5;
+        pointer-events: none;
+      }
+      .rj-pre-rest i {
+        position: absolute;
+        bottom: 0;
+        left: var(--x);
+        width: var(--s); height: var(--s);
+        background: var(--c);
+        border-radius: 64% 6% 64% 6%;
+        transform: rotate(var(--r, 0deg));
+        box-shadow: 0 3px 7px rgba(146,106,70,0.3);
+        opacity: 0;
+        transition: opacity 1.2s ease var(--d, 0s);
+      }
+      .rj-entrance.ready .rj-pre-rest i { opacity: 0.92; }
+
+      /* slow gold dust breathing through the air */
+      .rj-pre-motes { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+      .rj-pre-motes i {
+        position: absolute;
+        left: var(--x, 50%); top: var(--y, 50%);
+        width: 3px; height: 3px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #fff6dd, rgba(201,154,85,0.7) 60%, transparent 78%);
+        opacity: 0;
+        animation: rjPreMote var(--d, 16s) ease-in-out var(--dl, 0s) infinite;
+      }
+      @keyframes rjPreMote {
+        0%   { transform: translate(0, 0); opacity: 0; }
+        20%  { opacity: 0.55; }
+        50%  { transform: translate(14px, -9vh); }
+        80%  { opacity: 0.5; }
+        100% { transform: translate(-10px, -18vh); opacity: 0; }
+      }
+
+      @media (max-width: 480px) {
+        .rj-pre-names { top: 10%; font-size: clamp(44px, 11.5vw, 54px); }
+        .rj-pre-kicker { top: 4.6%; font-size: 10px; }
+        .rj-pre-ring { top: 64%; width: 93vw; }
+        .rj-pre-stage { top: 64%; width: min(430px, 90vw); }
+        .rj-pre-seal { width: clamp(76px, 20vw, 92px); }
+        .rj-pre-bot { width: 66px; bottom: 10px; }
+        .rj-pre-bot-l { left: 10px; }
+        .rj-pre-bot-r { right: 10px; }
+        .rj-pre-card { padding: 14px 10px; }
+        .rj-pre-eyebrow { font-size: 10.5px; letter-spacing: .3em; }
+        .rj-pre-cardnames { font-size: clamp(31px, 9.3vw, 39px); }
+        .rj-pre-line { font-size: 14.5px; }
+        .rj-pre-sign em { font-size: 17px; }
+        .rj-pre-sign span { font-size: 24px; }
+        .rj-pre-tap { bottom: 6.5%; font-size: 10px; }
+        .rj-pre-arch { inset: 12px; }
+        .rj-pre-crest { width: 54px; height: 54px; top: 23%; }
+        .rj-crest-t { font-size: 18px; }
+        .rj-pre-divline { bottom: 11.5%; width: 110px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .rj-pre-petals, .rj-pre-hearts, .rj-pre-sparks, .rj-pre-motes { display: none !important; }
+        .rj-pre-ring, .rj-pre-seal, .rj-pre-tap { animation: none !important; }
+        .rj-pre-sealglow { animation: none !important; }
+        .rj-pre-face { animation: none !important; }
+        .rj-entrance.ready .rj-pre-env { animation: none !important; }
+        .rj-pre-flapwrap, .rj-pre-card { transition-duration: 0.01s !important; }
+        .rj-pre-names, .rj-pre-env, .rj-pre-ring, .rj-pre-crest, .rj-pre-divline, .rj-pre-rest i, .rj-pre-kicker { transition-duration: 0.01s !important; }
+        .rj-entrance.card-out .rj-pre-eyebrow,
+        .rj-entrance.card-out .rj-pre-cardnames,
+        .rj-entrance.card-out .rj-pre-line,
+        .rj-entrance.card-out .rj-pre-sign,
+        .rj-entrance.card-out .rj-pre-miniseal,
+        .rj-entrance.card-out .rj-pre-div { animation: none !important; opacity: 1 !important; clip-path: none !important; }
+      }
+
+#audio-btn { z-index: 2147482999 !important; }

@@ -9,6 +9,8 @@ import {
   PROPOSAL_DEMOS,
 } from "@/lib/demos";
 
+const HOMEPAGE_WEDDING_DEMOS = WEDDING_DEMOS.filter((demo) => demo.id !== "demo-15-mountain");
+
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2 className="font-light"
     style={{ fontFamily: "var(--font-cormorant)", color: "var(--text-primary)", fontSize: "clamp(1.8rem,4vw,2.4rem)", lineHeight: 1.1 }}>
@@ -31,7 +33,7 @@ function CoupleCount() {
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reducedMotion) {
-        setCount(1239);
+        setCount(232);
         return;
       }
 
@@ -40,7 +42,7 @@ function CoupleCount() {
       const animate = (now: number) => {
         const progress = Math.min((now - start) / duration, 1);
         const easedProgress = 1 - Math.pow(1 - progress, 4);
-        setCount(Math.floor(easedProgress * 1239));
+        setCount(Math.floor(easedProgress * 232));
         if (progress < 1) frame = requestAnimationFrame(animate);
       };
       frame = requestAnimationFrame(animate);
@@ -55,7 +57,7 @@ function CoupleCount() {
 
   return (
     <span ref={countRef} className="text-3xl font-bold leading-none tracking-tight tabular-nums sm:text-4xl"
-      style={{ color: "inherit" }} aria-label="Over 1,239 couples made their day personal">
+      style={{ color: "inherit" }} aria-label="Over 232 couples made their day personal">
       {count.toLocaleString("en-IN")}+
     </span>
   );
@@ -100,24 +102,13 @@ export default function WeddingCollection() {
                 style={{ color: "var(--text-primary)" }}>
                 A beautiful wedding invitation website for your Indian wedding.
               </h1>
-              <p className="mt-2 max-w-2xl text-[13px] leading-5 sm:text-sm sm:leading-6" style={{ color: "var(--text-secondary)" }}>
-                Every celebration, every little detail—beautifully gathered in one personal link for everyone you love.
-              </p>
               <div className="mt-4 flex flex-wrap items-center gap-3">
-                <p className="inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[11px] font-semibold leading-snug sm:text-xs"
-                  style={{ borderColor: "rgba(198,144,58,.32)", background: "linear-gradient(110deg,#fffaf1,#fff5e7)", color: "#79531e" }}>
-                  <svg className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                    <rect x="2.5" y="6" width="15" height="11" rx="1.5" />
-                    <path d="M7 6V4.5A1.5 1.5 0 0 1 8.5 3h3A1.5 1.5 0 0 1 13 4.5V6M2.5 10h15M8 10v1.5h4V10" />
-                  </svg>
-                  Best for corporate wedding invites
-                </p>
                 <div className="inline-flex max-w-full items-center gap-3 rounded-xl border bg-white/90 px-3.5 py-2.5 transition-colors sm:px-4"
                   style={{ borderColor: "rgba(194,24,91,.16)", boxShadow: "0 5px 16px rgba(112,19,57,.055)" }}>
                   <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm text-white shadow-sm" style={{ background: "var(--gradient-rose)" }} aria-hidden="true">↗</span>
                   <span className="min-w-0">
                     <span className="block text-[11px] font-medium" style={{ color: "var(--text-muted)" }}>A personal link, ready to share</span>
-                    <span className="mt-0.5 block break-all text-sm font-semibold sm:text-base" style={{ color: "var(--primary-deep)" }}>aarav-weds-kanika.com</span>
+                    <span className="mt-0.5 block break-all font-[var(--font-sans)] text-base font-bold leading-snug sm:text-lg" style={{ color: "var(--primary-deep)" }}>aarav-weds-kanika.com</span>
                   </span>
                 </div>
               </div>
@@ -150,7 +141,7 @@ export default function WeddingCollection() {
         `}</style>
 
         {/* ── Wedding Collection ── */}
-        {WEDDING_DEMOS.length > 0 && (
+        {HOMEPAGE_WEDDING_DEMOS.length > 0 && (
           <div className="mb-20">
             <div className="reveal mb-10 flex items-end justify-between border-b pb-5"
               style={{ borderColor: "var(--border)" }}>
@@ -169,11 +160,11 @@ export default function WeddingCollection() {
               </div>
               <span className="hidden sm:block text-xs font-semibold px-3 py-1.5 rounded-full"
                 style={{ color: "var(--primary)", background: "var(--primary-soft)", border: "1px solid var(--blush-mid)" }}>
-                {WEDDING_DEMOS.length} design{WEDDING_DEMOS.length === 1 ? "" : "s"}
+                {HOMEPAGE_WEDDING_DEMOS.length} design{HOMEPAGE_WEDDING_DEMOS.length === 1 ? "" : "s"}
               </span>
             </div>
             <div className={grid}>
-              {WEDDING_DEMOS.map((card, i) => (
+              {HOMEPAGE_WEDDING_DEMOS.map((card, i) => (
                 <div key={card.id} className="reveal" style={{ transitionDelay: `${(i % 3) * 0.08}s` }}>
                   <DemoCard card={card} />
                 </div>

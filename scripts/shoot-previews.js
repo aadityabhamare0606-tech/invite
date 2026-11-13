@@ -33,9 +33,9 @@ const H = 1125; // 4:5
 const TARGETS = [
   { src: '/demos/demo-1/index.html', out: 'demo-1', click: '.gate-open-btn', afterOpen: true },
   { src: '/demos/demo-16/index.html', out: 'demo-16', click: '#env-outer', afterOpen: true },
-  { src: '/demos/wedding-invite-7/index.html', out: 'wedding-invite-7-501', click: '[aria-label="Open Vivaan and Anaya\'s wedding invitation"]', afterOpen: true },
+  { src: '/demos/moonlit-palace/index.html', out: 'wedding-invite-7-501', click: '[aria-label="Open Vivaan and Anaya\'s wedding invitation"]', afterOpen: true },
   { src: '/demos/trial/index.html', out: 'trial', click: '[aria-label="Open your wedding invitation"]', afterOpen: true },
-  { src: '/demos/demo-3/index.html', out: 'demo-3', click: '.rj-pre-tap', afterOpen: true },
+  { src: '/demos/rajwada-royale/index.html', out: 'demo-3', click: '.rj-pre-tap', afterOpen: true },
   { src: '/demos/demo-15-mountain/index.html', out: 'demo-15-mountain-502', click: '#igEnter', scroll: 700, afterOpen: true },
   { src: '/demos/save-the-date-1/index.html', out: 'save-the-date-1', click: '#preloader', afterOpen: true },
   { src: '/demos/save-the-date-mountain/index.html', out: 'save-the-date-mountain', click: '#preloader', scroll: 700, afterOpen: true },

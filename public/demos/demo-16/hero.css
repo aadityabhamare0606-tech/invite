@@ -748,7 +748,6 @@ a { text-decoration: none; }
 .hero.played .heart-flash  { animation: heart-flash-pop .9s 1.45s ease-out both; }
 .hero.played .heart-core   { animation: heart-pop 1.15s 1.45s cubic-bezier(.34,1.56,.64,1) both, heart-glow 2.4s 2.5s ease-in-out infinite; }
 .hero.played .hero-heart-float { animation: heart-float-up 7.5s 5s cubic-bezier(.22,1,.36,1) both; }
-.hero.played .hero-est     { animation: fade-up .9s 1.8s ease both; }
 .hero.played .hero-rule  { animation: draw-line-center 1s 5.7s ease both, fade-in .4s 5.7s ease both; }
 .hero.played .hero-tagline { animation: fade-up .9s 6.2s ease both; }
 .hero.played .hero-scroll  { animation: fade-up .8s 7s ease both; }
@@ -777,7 +776,6 @@ a { text-decoration: none; }
   fill:#e84552;
   filter: drop-shadow(0 0 18px rgba(232,69,82,.9)) drop-shadow(0 0 56px rgba(232,69,82,.5));
 }
-.hero-est { font-size:10px; text-transform:uppercase; letter-spacing:.4em; color:rgba(240,223,168,.45); }
 .hero-rule { margin-top:16px; width:112px; height:1px; background:linear-gradient(90deg,transparent,rgba(184,145,58,.9),transparent); transform:scaleX(0); }
 @media (min-width:768px) {
 .hero-rule { width:160px; }
@@ -1065,7 +1063,6 @@ a { text-decoration: none; }
    BRIGHTER TEXT — same fonts, sizes & styles, easier to read
    ════════════════════════════════════════════════════════════ */
 .env-cordially { font-size:10px; color:rgba(240,223,168,.9); }
-.hero-est { font-size:12px; color:rgba(240,223,168,.8); }
 .hero-scroll-label { font-size:10px; color:rgba(240,223,168,.65); }
 .sec-kicker { color:rgba(122,30,53,.85); }
 .wish-hint { font-size:10px; color:rgba(212,168,110,.75); }
@@ -1406,11 +1403,6 @@ a { text-decoration: none; }
     60%{opacity:1;transform:translateY(-6px) scale(1.005);}
     100%{opacity:1;transform:translateY(0) scale(1);}
   }
-#app .story-section.is-visible .star-card.in{animation:nm-star-in .9s cubic-bezier(.22,1,.36,1) both;}
-@keyframes nm-star-in{
-    0%{opacity:0;transform:translateY(40px) scale(.96);}
-    100%{opacity:1;transform:translateY(0) scale(1);}
-  }
 #app .dr-glow{animation:nm-glow-drift 9s ease-in-out infinite alternate;}
 @keyframes nm-glow-drift{
     from{transform:translate3d(-4%, -2%, 0) scale(1);}
@@ -1420,12 +1412,4 @@ a { text-decoration: none; }
 #app .story-node-pulse{animation-duration:2s !important;}
 #app .date-reveal-section.is-visible .dr-date-kicker{animation:nm-track-in 1.2s ease both;}
 @keyframes nm-track-in{from{opacity:0;letter-spacing:.7em;}to{opacity:1;}}
-}
-/* ── Reduced motion: static luxury, no movement ── */
-@media (prefers-reduced-motion: reduce){
-#app .invite-shimmer,
-  #app .dr-date-on .dr-date-inner,
-  #app .dr-date-on .dr-date-inner::after,
-  #app .events-section.is-visible .events-card,
-  #app .story-section.is-visible .star-card.in{animation:none !important;}
 }

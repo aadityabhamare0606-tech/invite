@@ -19,6 +19,26 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1600],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/demos/lantern-dreams/:path*",
+        destination: "/demos/demo-1/:path*",
+      },
+      {
+        source: "/demos/demo-1",
+        destination: "/demos/demo-1/index.html",
+      },
+      {
+        source: "/demos/rajwada-royale/:path*",
+        destination: "/demos/demo-3/:path*",
+      },
+      {
+        source: "/demos/moonlit-palace/:path*",
+        destination: "/demos/wedding-invite-7/:path*",
+      },
+    ];
+  },
   async headers() {
     const oneDay = "public, max-age=86400, stale-while-revalidate=604800";
     /* Demo documents are edited in place under a stable filename, so a browser

@@ -251,34 +251,80 @@ section{position:relative;padding:96px 22px}
 .reveal.in{opacity:1;transform:none}
 .sky-band{position:relative;background:linear-gradient(180deg,var(--night) 0%,#1c142e 50%,var(--night) 100%)}
 
-/* ═══════════ SCRATCH — REVEAL THE DATE ═══════════ */
-.scratch-sec{background:linear-gradient(180deg,#15102b 0%,#2a1238 55%,#5a2b32 100%)}
-.seal-row{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin:46px 0 0}
-.seal{position:relative;width:min(78vw,190px);aspect-ratio:1;border-radius:50%;cursor:pointer;overflow:hidden;touch-action:manipulation;
-  transition:transform .45s var(--ease-pop),box-shadow .45s ease;
-  box-shadow:0 0 0 1px rgba(230,201,124,.3),0 0 36px rgba(230,201,124,.22),0 18px 44px rgba(0,0,0,.4)}
-.seal:hover{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(230,201,124,.5),0 0 48px rgba(230,201,124,.35),0 24px 54px rgba(0,0,0,.45)}
-.seal:focus-visible{outline:2px solid var(--gold-hi);outline-offset:5px}
-.seal .backdrop{position:absolute;inset:0;display:grid;place-items:center;background:
-  radial-gradient(120% 120% at 50% 0%,#7A1021 0%,#5c0b19 60%,#3a0510 100%);
-  border:1px solid rgba(230,201,124,.4);border-radius:50%}
-.seal .backdrop b{font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,5.2vw,2.4rem);color:var(--gold-hi);letter-spacing:.03em;
-  text-shadow:0 0 26px rgba(230,201,124,.45);opacity:0;transform:scale(.6);
-  transition:opacity .4s ease,transform .5s var(--ease-pop),color .4s ease,text-shadow .4s ease}
-.seal.lit .backdrop b{opacity:1;transform:scale(1);color:#f7e6b5;text-shadow:0 0 30px rgba(230,201,124,.95),0 0 70px rgba(230,201,124,.5)}
-.seal small{position:absolute;bottom:15px;left:0;right:0;z-index:6;pointer-events:none;text-align:center;font-size:8.5px;letter-spacing:.4em;text-transform:uppercase;color:rgba(246,237,218,.65);text-shadow:0 1px 10px rgba(18,8,30,.7)}
-.seal .veil{position:absolute;inset:0;border-radius:50%;z-index:3;cursor:pointer;display:grid;place-items:center;
-  background:radial-gradient(circle at 34% 28%,#fdf4d6 0%,#ecd38a 40%,#c4933c 64%,#7d5f17 88%,#5c4510 100%);
-  box-shadow:inset 0 -12px 26px rgba(56,38,4,.6),inset 0 8px 16px rgba(255,251,229,.55);
-  transition:opacity .5s ease,transform .65s var(--ease-out),filter .5s ease}
-.seal:active .veil{transform:scale(.94)}
-.seal.lit .veil{opacity:0;transform:scale(1.55);filter:blur(8px);pointer-events:none}
-.seal .glint{position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:4;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.28) 50%,transparent 58%);background-size:250% 250%;animation:glint 3.8s ease-in-out infinite}
-@keyframes glint{0%,55%{background-position:120% 0}90%,100%{background-position:-40% 0}}
-.scratch-hint{margin-top:24px;text-align:center;font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);opacity:0;transition:color .5s ease,opacity .6s ease}
-#scratchHint.celebrated{color:var(--gold-hi);text-shadow:0 0 18px rgba(230,201,124,.65);opacity:1}
-.seal.found{animation:sealFound 1.15s var(--ease-pop)}
-@keyframes sealFound{0%{transform:scale(1)}35%{transform:scale(1.045)}70%{transform:scale(.985)}100%{transform:scale(1)}}
+/* ═══════════ DATE REVEAL — CINEMATIC SCROLL ENTRANCE ═══════════ */
+.reveal-sec{background:linear-gradient(180deg,#0d0a1d 0%,#1a0d2e 30%,#2a1238 60%,#5a2b32 100%);overflow:hidden;padding:96px 22px}
+/* Stage wrapper */
+.reveal-stage{max-width:480px;margin:52px auto 0;display:flex;flex-direction:column;align-items:center;gap:0;text-align:center;position:relative}
+/* Top ornament bar */
+.reveal-topbar{display:flex;align-items:center;gap:14px;width:100%;justify-content:center;margin-bottom:28px;
+  opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.reveal-stage.in .reveal-topbar{opacity:1;transform:none;transition-delay:.05s}
+.reveal-topbar-line{flex:1;height:1px;background:linear-gradient(to var(--d,right),transparent,rgba(230,201,124,.5))}
+.reveal-topbar-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(230,201,124,.6)}
+/* Eyebrow */
+.reveal-eyebrow{font-family:var(--sans);font-size:9px;letter-spacing:.55em;text-transform:uppercase;
+  color:rgba(230,201,124,.6);margin-bottom:20px;
+  opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+.reveal-stage.in .reveal-eyebrow{opacity:1;transform:none;transition-delay:.12s}
+/* Names */
+.reveal-names{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,6vw,3rem);
+  line-height:1.08;color:var(--cream);letter-spacing:.03em;
+  opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+.reveal-stage.in .reveal-names{opacity:1;transform:none;transition-delay:.22s}
+.reveal-names em{font-style:italic;color:var(--gold)}
+/* Divider */
+.reveal-div{width:48px;height:1px;background:linear-gradient(90deg,transparent,rgba(230,201,124,.55),transparent);
+  margin:20px auto;
+  opacity:0;transition:opacity .6s ease,width .8s ease}
+.reveal-stage.in .reveal-div{opacity:1;width:120px;transition-delay:.4s}
+/* The big date number */
+.reveal-day{font-family:var(--serif);font-weight:600;font-size:clamp(5rem,18vw,9rem);
+  line-height:.9;color:var(--cream);letter-spacing:-.01em;
+  text-shadow:0 0 60px rgba(230,201,124,.22),0 0 120px rgba(230,201,124,.1);
+  opacity:0;transform:translateY(32px) scale(.92);
+  transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.22,1,.36,1)}
+.reveal-stage.in .reveal-day{opacity:1;transform:none;transition-delay:.52s}
+/* Month + Year on same row */
+.reveal-monthyear{display:flex;align-items:baseline;justify-content:center;gap:12px;margin-top:6px;
+  opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+.reveal-stage.in .reveal-monthyear{opacity:1;transform:none;transition-delay:.72s}
+.reveal-month{font-family:var(--sans);font-size:clamp(.65rem,2vw,.85rem);letter-spacing:.42em;text-transform:uppercase;color:var(--gold-hi);font-weight:600}
+.reveal-year{font-family:var(--serif);font-size:clamp(1.4rem,4vw,2rem);color:var(--gold-hi);line-height:1;font-weight:500}
+/* Location */
+.reveal-location{margin-top:22px;font-family:var(--sans);font-size:9.5px;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(246,237,218,.5);
+  opacity:0;transform:translateY(12px);transition:opacity .8s ease,transform .8s ease}
+.reveal-stage.in .reveal-location{opacity:1;transform:none;transition-delay:.92s}
+.reveal-location em{font-style:normal;color:rgba(230,201,124,.7);letter-spacing:.22em}
+/* Bottom ornament */
+.reveal-bottombar{display:flex;align-items:center;gap:14px;width:100%;justify-content:center;margin-top:30px;
+  opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
+.reveal-stage.in .reveal-bottombar{opacity:1;transform:none;transition-delay:1.06s}
+/* Gold ambient glow behind the date number */
+.reveal-glow{position:absolute;left:50%;top:45%;width:280px;height:280px;
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(circle,rgba(230,201,124,.1) 0%,rgba(122,16,33,.06) 45%,transparent 72%);
+  opacity:0;transition:opacity 1.4s ease}
+.reveal-stage.in .reveal-glow{opacity:1;transition-delay:.5s}
+/* Floating gold sparks — pure CSS keyframes, no JS needed */
+.reveal-spark{position:absolute;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,rgba(247,230,181,.9) 0%,transparent 65%);
+  opacity:0;animation:sparkFloat var(--dur,4s) ease-in-out var(--dl,0s) infinite}
+@keyframes sparkFloat{
+  0%{opacity:0;transform:translate(0,0) scale(.4)}
+  20%{opacity:.8}
+  80%{opacity:.4}
+  100%{opacity:0;transform:translate(var(--tx,12px),var(--ty,-60px)) scale(.8)}
+}
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .reveal-topbar,.reveal-eyebrow,.reveal-names,.reveal-div,
+  .reveal-day,.reveal-monthyear,.reveal-location,.reveal-bottombar{
+    opacity:1!important;transform:none!important;transition:none!important}
+  .reveal-stage.in .reveal-div{width:120px}
+  .reveal-glow{opacity:1!important;transition:none!important}
+  .reveal-spark{animation:none!important;opacity:.4!important}
+}
 
 /* ═══════════ COUNTDOWN ═══════════ */
 .cd-sec{background:radial-gradient(80% 90% at 50% 100%,#3d1a24 0%,#1a1126 55%,#15102b 100%)}
@@ -510,32 +556,54 @@ section{position:relative;padding:96px 22px}
   </svg>
 </header>
 
-<!-- ═══════ REVEAL THE DATE — THREE LITTLE MOONS ═══════ -->
-<section class="scratch-sec" id="reveal">
+<!-- ═══════ DATE REVEAL — CINEMATIC ENTRANCE ═══════ -->
+<section class="reveal-sec" id="reveal">
   <div class="section-inner">
-    <p class="kicker reveal">A secret written in starlight</p>
-    <h2 class="h2 reveal">The date is hidden<br/>in <em>three little moons</em></h2>
-    <div class="seal-row">
-      <div class="seal reveal" data-date="21" data-secret="twenty-one" role="button" tabindex="0" aria-label="Reveal the date, twenty-one">
-        <div class="backdrop"><b>21</b></div>
-        <small>a wish for today</small>
-        <div class="veil"></div>
-        <div class="glint"></div>
+    <p class="kicker reveal">A moonlit night in Udaipur</p>
+    <h2 class="h2 reveal">The date is <em>written</em> in starlight</h2>
+    <div class="reveal-stage" id="revealStage" aria-label="Save the Date — 21 November 2027, Udaipur">
+      <!-- ambient glow -->
+      <div class="reveal-glow" aria-hidden="true"></div>
+      <!-- floating gold sparks — CSS-only, no JS -->
+      <i class="reveal-spark" aria-hidden="true" style="left:12%;top:28%;width:4px;height:4px;--dur:5.2s;--dl:.2s;--tx:-8px;--ty:-55px"></i>
+      <i class="reveal-spark" aria-hidden="true" style="left:82%;top:34%;width:3px;height:3px;--dur:4.6s;--dl:1.1s;--tx:10px;--ty:-48px"></i>
+      <i class="reveal-spark" aria-hidden="true" style="left:22%;top:62%;width:5px;height:5px;--dur:6.1s;--dl:.5s;--tx:-14px;--ty:-68px"></i>
+      <i class="reveal-spark" aria-hidden="true" style="left:74%;top:55%;width:3px;height:3px;--dur:4.9s;--dl:1.8s;--tx:8px;--ty:-42px"></i>
+      <i class="reveal-spark" aria-hidden="true" style="left:48%;top:18%;width:4px;height:4px;--dur:5.8s;--dl:.8s;--tx:6px;--ty:-60px"></i>
+      <i class="reveal-spark" aria-hidden="true" style="left:8%;top:72%;width:3px;height:3px;--dur:4.3s;--dl:2.2s;--tx:-10px;--ty:-50px"></i>
+      <i class="reveal-spark" aria-hidden="true" style="left:91%;top:46%;width:5px;height:5px;--dur:5.5s;--dl:.3s;--tx:12px;--ty:-56px"></i>
+      <!-- top ornament bar -->
+      <div class="reveal-topbar" aria-hidden="true">
+        <span class="reveal-topbar-line" style="--d:right"></span>
+        <span class="reveal-topbar-dot"></span>
+        <span class="reveal-topbar-dot" style="width:3px;height:3px;opacity:.5"></span>
+        <span class="reveal-topbar-dot"></span>
+        <span class="reveal-topbar-line" style="--d:left"></span>
       </div>
-      <div class="seal reveal" data-date="11" data-secret="november" style="transition-delay:.12s" role="button" tabindex="0" aria-label="Reveal the date, eleven">
-        <div class="backdrop"><b>11</b></div>
-        <small>a wish for tomorrow</small>
-        <div class="veil"></div>
-        <div class="glint"></div>
+      <!-- eyebrow -->
+      <p class="reveal-eyebrow">You are warmly invited</p>
+      <!-- couple names -->
+      <p class="reveal-names">Vivaan <em>&amp;</em> Anaya</p>
+      <!-- expanding divider -->
+      <div class="reveal-div" aria-hidden="true"></div>
+      <!-- the big date number -->
+      <p class="reveal-day" aria-hidden="true">21</p>
+      <!-- month + year -->
+      <div class="reveal-monthyear">
+        <span class="reveal-month">November</span>
+        <span class="reveal-year">2027</span>
       </div>
-      <div class="seal reveal" data-date="2027" data-secret="the year" style="transition-delay:.24s" role="button" tabindex="0" aria-label="Reveal the date, twenty twenty-seven">
-        <div class="backdrop"><b>2027</b></div>
-        <small>a wish for always</small>
-        <div class="veil"></div>
-        <div class="glint"></div>
+      <!-- location -->
+      <p class="reveal-location">Udaipur, <em>Rajasthan</em></p>
+      <!-- bottom ornament bar -->
+      <div class="reveal-bottombar" aria-hidden="true">
+        <span class="reveal-topbar-line" style="--d:right"></span>
+        <span class="reveal-topbar-dot"></span>
+        <span class="reveal-topbar-dot" style="width:3px;height:3px;opacity:.5"></span>
+        <span class="reveal-topbar-dot"></span>
+        <span class="reveal-topbar-line" style="--d:left"></span>
       </div>
     </div>
-    <p class="scratch-hint" id="scratchHint">21 · 11 · 2027 — the date is revealed ✦</p>
   </div>
 </section>
 
@@ -852,54 +920,38 @@ setTimeout(momentShootStar,3000);
 setTimeout(momentShootStar,6000);
 setTimeout(function(){spawnMeteor();spawnMeteor()},5000);
 
-/* ═══════ three little moons — tap to reveal the date ═══════ */
-function initMoonReveal(){
-  $$(".seal").forEach(function(seal){
-    seal.dataset.cleared="0";
-    seal.addEventListener("click",function(){if(seal.dataset.cleared!=="1")revealSeal(seal)});
-    seal.addEventListener("keydown",function(e){
-      if((e.key==="Enter"||e.key===" ")&&seal.dataset.cleared!=="1"){e.preventDefault();revealSeal(seal)}
-    });
-  });
-}
-var clearedSeals=0,dateCelebrated=false;
-function dateFullyRevealed(){
-  if(dateCelebrated)return; dateCelebrated=true;
-  var hint=$("#scratchHint");
-  if(hint){hint.textContent="21 · 11 · 2027 — the date is revealed ✦"; hint.style.opacity="1"; hint.classList.add("celebrated");}
-  $$(".seal").forEach(function(s){s.classList.add("found")});
-  if(reduce)return;
-  var x=innerWidth/2,y=innerHeight/2,row=$(".seal-row");
-  if(row){var rr=row.getBoundingClientRect();x=rr.left+rr.width/2;y=rr.top+rr.height/3;}
-  setTimeout(function(){confettiBurst();heartRain(18);goldPop(x,y,10);},80);
-  for(var i=0;i<3;i++)setTimeout(launchFirework,i*300);
-}
-function revealSeal(seal){
-  if(seal.dataset.cleared==="1")return;
-  seal.dataset.cleared="1";
-  seal.classList.add("lit");
-  burst(seal);
-  clearedSeals++;
-  if(clearedSeals>=3) dateFullyRevealed();
-}
-function burst(seal){
-  var r=seal.getBoundingClientRect();
-  var parts=14;
-  for(var i=0;i<parts;i++){
-    var p=document.createElement("i");
-    p.style.cssText="position:absolute;left:50%;top:50%;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:6;"+
-      "background:"+(i%3===0?"#f7e6b5":"#c8ce8e")+";box-shadow:0 0 12px rgba(247,230,181,.9);"+
-      "transform:translate(-50%,-50%);transition:transform .9s var(--ease-pop),opacity .9s;";
-    seal.appendChild(p);
-    var a2=i*Math.PI*2/parts,dist=70+Math.random()*60;
-    requestAnimationFrame(function(){
-      p.style.transform="translate(-50%,-50%) translate("+Math.cos(a2)*dist+"px,"+Math.sin(a2)*dist+"px) scale(0);";
-      p.style.opacity="0";
-    });
-    setTimeout(function(){p.remove()},950);
+/* ═══════ cinematic date reveal — auto-play on scroll ═══════ */
+(function(){
+  var stage=$("#revealStage");
+  if(!stage)return;
+  var triggered=false;
+
+  function reveal(){
+    if(triggered)return; triggered=true;
+    stage.classList.add("in");
+
+    /* Celebrate after all elements have animated in (~1.3s) */
+    if(!reduce){
+      setTimeout(function(){
+        var r=stage.getBoundingClientRect();
+        var cx=r.left+r.width/2;
+        var cy=r.top+r.height*0.45;
+        goldPop(cx,cy,16);
+        heartRain(8);
+        setTimeout(launchFirework,250);
+        setTimeout(launchFirework,520);
+      },1300);
+    }
   }
-}
-initMoonReveal();
+
+  /* Trigger when 25% of the stage scrolls into view */
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ reveal(); io.disconnect(); }
+    });
+  },{threshold:0.25});
+  io.observe(stage);
+})();
 
 /* ═══════ countdown ═══════ */
 function tick(){
