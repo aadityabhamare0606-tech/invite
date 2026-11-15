@@ -459,6 +459,9 @@ const byId = new Map(
   ALL_FILTERABLE_DEMOS.map((d) => [d.id, d]),
 );
 
+const CITY_FEATURED_DEMO_IDS = ["demo-1", "demo-16", "wedding-invite-7"] as const;
+const CITY_FEATURED_DEMO_ID_SET: ReadonlySet<string> = new Set(CITY_FEATURED_DEMO_IDS);
+
 function pick(...ids: string[]): DemoCardData[] {
   return ids.map((id) => {
     const card = byId.get(id);
@@ -505,7 +508,10 @@ export function demosForSlug(slug: string): DemoCardData[] {
     return pick("demo-15-mountain", "demo-16", "demo-trial");
   }
   if (s.includes("pune") || s.includes("mumbai") || s.includes("delhi") || s.includes("bangalore")) {
-    return pick("demo-1", "demo-16", "wedding-invite-7");
+    return [
+      ...pick(...CITY_FEATURED_DEMO_IDS),
+      ...WEDDING_DEMOS.filter((demo) => !CITY_FEATURED_DEMO_ID_SET.has(demo.id)),
+    ];
   }
   return pick("demo-1", "wedding-invite-7", "demo-16");
 }

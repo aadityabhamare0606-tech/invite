@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
 
+const CITY_LINKS = [
+  ["Mumbai", "/wedding-invitation-website-mumbai"],
+  ["Pune", "/wedding-invitation-website-pune"],
+  ["Delhi", "/wedding-invitation-website-delhi"],
+  ["Bangalore", "/wedding-invitation-website-bangalore"],
+] as const;
+
 export default function Footer() {
   return (
     <footer id="footer" className="py-16"
@@ -50,6 +57,18 @@ export default function Footer() {
                     <span style={{ color: "var(--blush-deep)", fontSize: 8 }}>♥</span>
                     {label}
                   </a>
+                </li>
+              ))}
+            </ul>
+            <h3 className="mb-5 mt-8 text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: "var(--primary)" }}>
+              Wedding Websites by City
+            </h3>
+            <ul className="space-y-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+              {CITY_LINKS.map(([city, href]) => (
+                <li key={href}>
+                  <Link href={href} className="hover:text-[var(--primary)] transition-colors">
+                    Wedding invitation website {city}
+                  </Link>
                 </li>
               ))}
             </ul>

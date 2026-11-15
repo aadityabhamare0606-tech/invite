@@ -716,28 +716,28 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-mumbai",
     title: "Wedding Invitation Website Mumbai",
     description:
-      "Wedding invitation websites for Mumbai couples — personalised, animated and shareable in one link for ₹1,299. No traffic, no couriers.",
+      "Create a wedding invitation website in Mumbai with your event schedule and venue details in one shareable link. Personalised for ₹1,299.",
     eyebrow: "Mumbai weddings",
     price: "₹1,299",
     intro:
-      "From Bandra to Borivali, one link brings your whole guest list together without the traffic.",
+      "Bring your ceremony schedule and venue details together in one mobile-friendly invitation link for guests in Mumbai and beyond.",
     points: [
-      "Venue maps and parking notes for city banquet halls and hotels",
-      "English, Hindi and Marathi text for a city family",
-      "Perfect when guests are spread across the city and beyond",
+      "Keep ceremony dates, times and venue details together on one page",
+      "Share one link with guests across Mumbai or travelling from outside the city",
+      "Personalise the invitation in English, Hindi or Marathi",
     ],
     faqs: [
       {
-        q: "Do you work with Mumbai couples remotely?",
-        a: "Yes. Everything is handled over a call and messages, so you never have to travel for a meeting.",
+        q: "Can guests open the invitation without an app?",
+        a: "Yes. Guests open the shared invitation website in a browser; there is no separate app to install.",
       },
       {
-        q: "Can you include Marathi and Hindi?",
-        a: "Yes. Mumbai families often use all three languages, and we can mix them on one invitation.",
+        q: "Can the invitation include Marathi or Hindi text?",
+        a: "Yes. English, Hindi and Marathi are listed language options; share your preferred text during personalisation.",
       },
       {
-        q: "How fast can it be ready?",
-        a: "Rush delivery in 24 hours is available for most designs.",
+        q: "How soon can I receive a preview?",
+        a: "Most designs take 2–3 working days. Rush timing may be available by request.",
       },
     ],
     related: [
@@ -756,20 +756,20 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-pune",
     title: "Wedding Invitation Website Pune",
     description:
-      "Wedding invitation websites for Pune couples — traditional Marathi warmth with modern animation, personalised for ₹1,299.",
+      "Create a wedding invitation website in Pune with Marathi, Hindi or English text, ceremony details and one shareable link. Personalised for ₹1,299.",
     eyebrow: "Pune weddings",
     price: "₹1,299",
     intro:
-      "Pune weddings blend tradition and ease — your invitation can do the same.",
+      "Bring your lagna patrika details, muhurat and wedding-function schedule together in one shareable site for family in Pune and Maharashtra.",
     points: [
-      "Marathi and English text with traditional Maharashtrian motifs",
-      "Venue and muhurat details for every function",
-      "Ideal for families spread across Pune and Maharashtra",
+      "Include muhurat timings, family names and ceremony details",
+      "List a separate date, time and venue for each function",
+      "Share one mobile-friendly invitation link with guests near and far",
     ],
     faqs: [
       {
         q: "Can it include Marathi lagna patrika details?",
-        a: "Yes. Muhurat timings, counters and family names can be set exactly as on a printed patrika.",
+        a: "You can include muhurat timings, family names and ceremony details. Tell us the wording and format you need during personalisation.",
       },
       {
         q: "Do you cover Kelvan and Halad functions?",
@@ -777,7 +777,7 @@ export const intentPages: IntentPage[] = [
       },
       {
         q: "Is an in-person meeting needed?",
-        a: "No. Everything is handled over a call and you receive a live link to review.",
+        a: "No. Discuss your details by call and review a live preview before you decide.",
       },
     ],
     related: [
@@ -796,28 +796,28 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-delhi",
     title: "Wedding Invitation Website Delhi",
     description:
-      "Wedding invitation websites for Delhi and NCR couples — animated, multi-event and shareable in one link for ₹1,299.",
+      "Create a wedding invitation website for Delhi and NCR with event schedules and venue details in one shareable link. Personalised for ₹1,299.",
     eyebrow: "Delhi & NCR weddings",
     price: "₹1,299",
     intro:
-      "For big Delhi weddings, one link replaces a hundred phone calls and lost cards.",
+      "Keep the schedule and venue details for every celebration together in one mobile-friendly wedding invitation website for Delhi and NCR.",
     points: [
-      "Venue maps for farmhouses, banquet halls and five-star hotels",
-      "Hindi and English text so every generation can read it",
-      "Separate cards for Mehendi, Sangeet, Wedding and Reception",
+      "List separate details for Mehendi, Sangeet, Wedding and Reception",
+      "Add the date, time and venue for each function",
+      "Share one link with guests nearby or travelling from outside Delhi and NCR",
     ],
     faqs: [
       {
-        q: "Can it handle a big guest list?",
-        a: "Yes. A single link reaches every guest and all RSVPs arrive in one place.",
+        q: "Can each function have its own venue and timing?",
+        a: "Yes. Add separate dates, times and venue details for each function on the same invitation website.",
       },
       {
-        q: "Can it be in Hindi?",
-        a: "Yes. We can set the invitation in Hindi, English or both.",
+        q: "Can guests open it without installing an app?",
+        a: "Yes. The invitation opens as a website in a browser, so guests do not need a separate app.",
       },
       {
-        q: "Can each event have its own venue?",
-        a: "Yes. Mehendi, Sangeet, Wedding and Reception can each carry a separate venue and map.",
+        q: "Can the invitation include Hindi text?",
+        a: "Yes. English, Hindi and Marathi are listed language options; share your preferred text during personalisation.",
       },
     ],
     related: [
@@ -836,28 +836,28 @@ export const intentPages: IntentPage[] = [
     slug: "wedding-invitation-website-bangalore",
     title: "Wedding Invitation Website Bangalore",
     description:
-      "Wedding invitation websites for Bangalore couples — multi-language, animated and shareable in one link for ₹1,299.",
+      "Create a wedding invitation website in Bangalore with event schedules and venue details in one mobile-friendly link. Personalised for ₹1,299.",
     eyebrow: "Bangalore weddings",
     price: "₹1,299",
     intro:
-      "For couples who grew up across India and now call Bangalore home — one link reaches everyone.",
+      "Share one mobile-friendly invitation link with guests in Bengaluru and those travelling from outside the city.",
     points: [
-      "Multi-language text for families from across the country",
-      "Venue maps and timings for Bangalore halls and resorts",
-      "Perfect for weddings with outstation friends and colleagues",
+      "Keep ceremony dates, times and venue details together",
+      "Share the same invitation link with local and out-of-town guests",
+      "Choose from English, Hindi or Marathi text options",
     ],
     faqs: [
       {
-        q: "Can the page include Kannada and English?",
-        a: "Yes. We can set the invitation in Kannada, English, Hindi, Tamil or Telugu — or a mix.",
+        q: "Which languages can I choose?",
+        a: "English, Hindi and Marathi are currently listed as supported. Contact us to confirm support if you need another language.",
       },
       {
-        q: "Can we separate friend RSVPs from family?",
-        a: "Yes. RSVP can include categories so you can plan seating and meals accurately.",
+        q: "Can I list several wedding functions?",
+        a: "Yes. Add each function's date, time and venue details to the same invitation website.",
       },
       {
         q: "How is it delivered?",
-        a: "You receive a live link to review before the wedding and can request changes any time.",
+        a: "You receive a shareable website link to review before sending it to your guests.",
       },
     ],
     related: [
@@ -869,7 +869,7 @@ export const intentPages: IntentPage[] = [
       "Bangalore wedding invitation website",
       "wedding website Bangalore",
       "online wedding invitation Bangalore",
-      "wedding invitation Kannada English",
+      "digital wedding invitation Bangalore",
     ],
   },
 ];
