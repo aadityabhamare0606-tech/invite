@@ -39,6 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${SITE_URL}/memories/family-moments`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+      images: [`${SITE_URL}/demos/family-moments/images/newborn.webp`],
+    },
+    {
       url: `${SITE_URL}/memories/wedding-memories`,
       changeFrequency: "monthly",
       priority: 0.7,

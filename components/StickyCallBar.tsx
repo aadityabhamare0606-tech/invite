@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
 
 /**
@@ -12,6 +13,7 @@ import { PHONE_TEL, PHONE_DISPLAY } from "@/lib/contact";
  */
 export default function StickyCallBar() {
   const [show, setShow] = useState(false);
+  const isFamilyMomentsPage = usePathname() === "/memories/family-moments";
 
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 520);
@@ -36,8 +38,12 @@ export default function StickyCallBar() {
         }}
       >
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[12px] font-semibold text-white">Wedding invites · ₹1,299</p>
-          <p className="truncate text-[10px] text-white/60">Personalised for your day</p>
+          <p className="truncate text-[12px] font-semibold text-white">
+            {isFamilyMomentsPage ? "Family Moments · sample" : "Wedding invites · ₹1,299"}
+          </p>
+          <p className="truncate text-[10px] text-white/60">
+            {isFamilyMomentsPage ? "Talk through a family page idea" : "Personalised for your day"}
+          </p>
         </div>
         <a
           href={PHONE_TEL}

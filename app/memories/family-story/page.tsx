@@ -39,6 +39,9 @@ export default function FamilyStoryPage() {
             <Link href="/memories/wedding-memories" className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-[13px] font-medium transition-colors hover:bg-[var(--primary-soft)]" style={{ borderColor: "var(--border)", color: "var(--text-mid)" }}>
               See Wedding Memories →
             </Link>
+            <Link href="/memories/family-moments" className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-[13px] font-medium transition-colors hover:bg-[var(--primary-soft)]" style={{ borderColor: "var(--border)", color: "var(--text-mid)" }}>
+              Explore Family Moments →
+            </Link>
           </div>
         </div>
       </section>

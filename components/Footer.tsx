@@ -91,6 +91,7 @@ export default function Footer() {
                 ["🌸", "Mehendi & Sangeet", "/mehendi-haldi-sangeet-invitation"],
                 ["🏝️", "Destination Weddings", "/destination-wedding-invitation-website"],
                 ["💌", "Proposal Pages", "/proposals"],
+                ["🌱", "Family Moments", "/memories/family-moments"],
                 ["🪔", "Hindi Invitations", "/hindi-wedding-invitation-website"],
                 ["🌾", "Marathi Invitations", "/marathi-wedding-invitation-website"],
                 ["🗂️", "Memories & Archives", "/memories"],

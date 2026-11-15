@@ -7,6 +7,7 @@ import { PHONE_TEL } from "@/lib/contact";
 const NAV_LINKS = [
   { label: "Wedding Invite", href: "/", page: false, new: false },
   { label: "Wedding Moments", href: "/memories", page: true, new: false },
+  { label: "Family Moments", href: "/memories/family-moments", page: true, new: true },
   { label: "Proposals", href: "/proposals", page: true, new: true },
   { label: "Save the Date", href: "/save-the-date", page: true, new: true },
 ] as const;
@@ -75,11 +76,9 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop nav — the four items need ~936px in total, so the nav only
-            appears from lg (1024px) and tightens its padding until xl. The
-            old `md:` breakpoint let the links wrap onto three lines inside a
-            64px header between 768px and ~950px. */}
-        <nav className="hidden lg:flex items-center gap-1">
+        {/* The five links need a wider desktop header; the mobile menu stays
+            available through tablet widths so the links never wrap. */}
+        <nav className="hidden xl:flex items-center gap-1">
           {NAV_LINKS.map((n) => (
             n.page
               ? <Link key={n.label} href={n.href}
@@ -127,7 +126,7 @@ export default function Navbar() {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden xl:flex items-center gap-3">
           <a href={PHONE_TEL}
             className="btn-primary inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-[13px] font-semibold text-white"
             style={{ boxShadow: "0 4px 16px rgba(194,24,91,0.28)" }}>
@@ -140,7 +139,7 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="lg:hidden flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 hover:bg-[var(--primary-soft)]"
+          className="xl:hidden flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 hover:bg-[var(--primary-soft)]"
           style={{ borderColor: "var(--border)", color: "var(--primary)" }}
           onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">
           <span className="flex flex-col gap-[5px] items-center justify-center w-4">
@@ -155,7 +154,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      <div className="lg:hidden overflow-hidden transition-all duration-250"
+      <div className="xl:hidden overflow-hidden transition-all duration-250"
         style={{ maxHeight: open ? "520px" : "0", opacity: open ? 1 : 0 }}>
         <div className="px-5 pb-5 pt-2 space-y-1"
           style={{ background: "rgba(255,255,255,0.98)", borderTop: "1px solid var(--border)" }}>
