@@ -154,18 +154,19 @@ export default function DemoCard({ card }: DemoCardProps) {
 
         <div className="flex-1" />
 
-        {/* Price */}
-        <div className="mb-3 mt-3 flex items-baseline gap-1">
-          <span
-            className="font-semibold"
-            style={{ fontFamily: "var(--font-cormorant)", color: "var(--primary)", fontSize: 26, lineHeight: 1 }}
-          >
-            {card.price}
-          </span>
-          <span className="text-xs" style={{ color: "var(--text-muted)" }}>
-            {card.priceUnit ?? "/ site"}
-          </span>
-        </div>
+        {!card.hidePrice && (
+          <div className="mb-3 mt-3 flex items-baseline gap-1">
+            <span
+              className="font-semibold"
+              style={{ fontFamily: "var(--font-cormorant)", color: "var(--primary)", fontSize: 26, lineHeight: 1 }}
+            >
+              {card.price}
+            </span>
+            <span className="text-xs" style={{ color: "var(--text-muted)" }}>
+              {card.priceUnit ?? "/ site"}
+            </span>
+          </div>
+        )}
 
         {/* Primary CTA */}
         <a

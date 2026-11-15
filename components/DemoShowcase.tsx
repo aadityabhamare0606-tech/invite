@@ -6,8 +6,8 @@ import type { DemoCardData } from "@/lib/demos";
 
 interface Props {
   cards: DemoCardData[];
-  /** Grid width. 3 for a full row, 2 for a pair. */
-  columns?: 2 | 3;
+  /** Grid width. */
+  columns?: 1 | 2 | 3;
 }
 
 /**
@@ -43,7 +43,7 @@ export default function DemoShowcase({ cards, columns = 3 }: Props) {
     <>
       <div
         ref={ref}
-        className={`grid gap-6 ${columns === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3"}`}
+        className={`grid gap-6 ${columns === 1 ? "grid-cols-1" : columns === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3"}`}
       >
         {cards.map((card, i) => (
           <div key={card.id} className="reveal" style={{ transitionDelay: `${(i % 3) * 0.08}s` }}>

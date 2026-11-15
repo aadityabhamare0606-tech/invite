@@ -34,6 +34,7 @@ export type DemoCardData = {
   previewImg?: string;
   previewBg?: string;
   previewAccent?: string;
+  hidePrice?: boolean;
   category: DemoCategory;
   tags: string[];
 };
@@ -335,9 +336,28 @@ export const PROPOSAL_EXTRA_DEMOS: DemoCardData[] = [
 
 export const MEMORY_DEMOS: {
   familyStory: DemoCardData[];
+  familyMoments: DemoCardData[];
   weddingMemories: DemoCardData[];
   timeCapsule: DemoCardData[];
 } = {
+  familyMoments: [
+    {
+      id: "memories-family-moments",
+      badge: "Sample Story",
+      badgeStyle: "new",
+      type: "Family Moments",
+      title: "Mira's First Year",
+      description:
+        "Pregnancy, newborn days, family voices and birthday memories in one photo-led sample story.",
+      price: "",
+      hidePrice: true,
+      demoSrc: "/demos/family-moments/index.html",
+      previewImg: "/demos/family-moments/images/family-outdoors.webp",
+      previewBg: "linear-gradient(145deg, #f8f4ec 0%, #dfc7ad 55%, #a95139 100%)",
+      tags: ["Photo Story", "Family Milestones"],
+      category: "Memories",
+    },
+  ],
   familyStory: [
     {
       id: "memories-family-story",
