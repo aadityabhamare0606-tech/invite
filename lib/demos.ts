@@ -203,7 +203,7 @@ export const WEDDING_DEMOS: DemoCardData[] = [
       "A Ganesha blessing, a cinematic invitation opening, a scratch-to-reveal date and six wedding celebrations.",
     price: "₹1,299",
     demoSrc: "/demos/divine-wedding/index.html",
-    previewImg: "https://myinvitations.io/wp-content/uploads/2026/10/Dreamy_Ganesha.jpg",
+    previewImg: "/demos/divine-wedding/assets/Dreamy_Ganesha.jpg",
     previewBg: "linear-gradient(145deg, #7a2a35 0%, #c9a55d 52%, #fbe9e0 100%)",
     previewAccent: "#c9a55d",
     tags: [

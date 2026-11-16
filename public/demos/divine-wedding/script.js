@@ -1,6 +1,6 @@
 "use strict";
 
-const ART = "https://myinvitations.io/wp-content/uploads/2026/10/";
+const ART = "assets/";
 const gallery = [
   {
     src: "images/prewedding-bengali-couple-portrait.jpg",
