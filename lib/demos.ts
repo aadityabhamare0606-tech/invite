@@ -193,6 +193,28 @@ export const WEDDING_DEMOS: DemoCardData[] = [
     ],
     category: "Wedding",
   },
+  {
+    id: "divine-wedding",
+    badge: "Divine Wedding",
+    badgeStyle: "premium",
+    type: "Premium",
+    title: "Divine Wedding",
+    description:
+      "A Ganesha blessing, a cinematic invitation opening, a scratch-to-reveal date and six wedding celebrations.",
+    price: "₹1,299",
+    demoSrc: "/demos/divine-wedding/index.html",
+    previewImg: "https://myinvitations.io/wp-content/uploads/2026/10/Dreamy_Ganesha.jpg",
+    previewBg: "linear-gradient(145deg, #7a2a35 0%, #c9a55d 52%, #fbe9e0 100%)",
+    previewAccent: "#c9a55d",
+    tags: [
+      "Best for Sharing",
+      "Multi-event",
+      "Premium Design",
+      "Live Countdown",
+      "Interactive",
+    ],
+    category: "Wedding",
+  },
 ];
 
 export const SAVE_THE_DATE_DEMOS: DemoCardData[] = [

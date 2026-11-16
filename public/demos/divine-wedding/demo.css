@@ -1,0 +1,24 @@
+.cover-open { z-index: 3; }
+.cover-skip[hidden] { display: none; }
+.hero-sparkles { pointer-events: none; }
+.hero-sparkles span { pointer-events: none; }
+.scroll-down span { font-size: 30px; line-height: 1; animation: bob 2s ease-in-out infinite; }
+.attendance button.selected { background: var(--wine); color: #fff; border-color: var(--wine); }
+.sample-note { margin-top: 12px; color: var(--ink); font-size: 12px; line-height: 1.5; }
+.photo-dialog { width: min(720px, calc(100vw - 32px)); max-height: 92svh; border: 1px solid #e7c9a9; padding: 18px; color: var(--rose); }
+.photo-dialog::backdrop { background: rgba(26, 14, 14, .78); }
+.photo-dialog img { display: block; }
+.dialog-close { display: block; margin: 0 0 8px auto; border: 1px solid #e7c9a9; border-radius: 50%; width: 36px; height: 36px; background: #fffdf8; color: var(--rose); font-size: 24px; line-height: 1; }
+.gallery-controls button { min-width: 40px; min-height: 40px; font-size: 24px; line-height: 1; }
+.gallery-controls span { min-width: 48px; text-align: center; }
+.rsvp-card form { display: flex; flex-direction: column; }
+.rsvp-card form > p { line-height: 1.6; }
+.rsvp-card [hidden] { display: none !important; }
+.stepper { align-items: center; }
+.stepper input { flex: 1; min-width: 0; }
+.stepper button { min-height: 46px; }
+.submit-rsvp { align-self: flex-start; }
+@media (max-width: 800px) {
+  .photo-dialog { padding: 12px; }
+  .rsvp-grid { padding: 0; }
+}

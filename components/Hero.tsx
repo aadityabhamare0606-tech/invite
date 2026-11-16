@@ -34,7 +34,7 @@ export default function Hero() {
             style={{ borderColor: "var(--blush-mid)", background: "rgba(255,255,255,0.7)", color: "var(--primary)" }}
           >
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--primary)" }} />
-            Trusted by 232+ Indian couples
+            Trusted by 234+ Indian couples
           </p>
 
           <h1
@@ -48,9 +48,8 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-8 sm:text-lg" style={{ color: "var(--text-secondary)" }}>
-            Your whole wedding on one link. Every function, venue, photo and RSVP —
-            ready to share on WhatsApp. All six designs are{" "}
-            <strong style={{ color: "var(--text-primary)" }}>₹1,299</strong>, including personalisation with no extra personalisation fee.
+            Explore five wedding invitation websites and two Save the Date designs,
+            each personalised for your celebration.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

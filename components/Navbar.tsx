@@ -5,11 +5,10 @@ import { PHONE_TEL } from "@/lib/contact";
 
 /* Stable outside — no re-allocation on every render */
 const NAV_LINKS = [
-  { label: "Wedding Invite", href: "/", page: false, new: false },
-  { label: "Wedding Moments", href: "/memories", page: true, new: false },
-  { label: "Family Moments", href: "/memories/family-moments", page: true, new: true },
-  { label: "Proposals", href: "/proposals", page: true, new: true },
-  { label: "Save the Date", href: "/save-the-date", page: true, new: true },
+  { label: "Wedding Invite", href: "/", page: false },
+  { label: "Wedding Moments", href: "/memories", page: true },
+  { label: "Family Moments", href: "/memories/family-moments", page: true },
+  { label: "Proposals", href: "/proposals", page: true },
 ] as const;
 
 /*
@@ -76,7 +75,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* The five links need a wider desktop header; the mobile menu stays
+        {/* The links need a wider desktop header; the mobile menu stays
             available through tablet widths so the links never wrap. */}
         <nav className="hidden xl:flex items-center gap-1">
           {NAV_LINKS.map((n) => (
@@ -85,10 +84,6 @@ export default function Navbar() {
                   className="relative shrink-0 whitespace-nowrap px-3 xl:px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)] inline-flex items-center gap-1.5"
                   style={{ color: "var(--text-mid)" }}>
                   {n.label}
-                  {n.new && <span className="inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em]"
-                    style={{ background: "var(--primary)", color: "#fff", lineHeight: 1 }}>
-                    New
-                  </span>}
                 </Link>
               : <a key={n.label} href={n.href}
                   className="shrink-0 whitespace-nowrap px-3 xl:px-4 py-2 rounded-full text-[13px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"
@@ -165,10 +160,6 @@ export default function Navbar() {
                   style={{ color: "var(--text-mid)" }}>
                   <span style={{ color: "var(--primary)", fontSize: 10 }}>♥</span>
                   {n.label}
-                  {n.new && <span className="ml-auto inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em]"
-                    style={{ background: "var(--primary)", color: "#fff" }}>
-                    New
-                  </span>}
                 </Link>
               : <a key={n.href} href={n.href} onClick={() => setOpen(false)}
                   className="flex items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[var(--primary-soft)] hover:text-[var(--primary)]"

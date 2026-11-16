@@ -4,8 +4,6 @@ import { memo } from "react";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import WeddingCollection from "@/components/WeddingCollection";
-import CorporateWeddingInvite from "@/components/CorporateWeddingInvite";
-import CtaBanner from "@/components/CtaBanner";
 import { SITE_URL } from "@/lib/seo";
 
 const structuredData = [
@@ -117,17 +115,10 @@ const structuredData = [
 
 /* Lazy-load below-the-fold sections for a lighter first paint. They still
    server-render, so the copy and links remain crawlable. */
-const FeelSection = dynamic(() => import("@/components/FeelSection"));
-const WeddingVideoSection = dynamic(() => import("@/components/WeddingVideoSection"));
-const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
 const FAQ = dynamic(() => import("@/components/FAQ"));
 const Footer = dynamic(() => import("@/components/Footer"));
 const TrustNumbers = dynamic(() => import("@/components/TrustNumbers"));
 
-/* Stable wrapped components so filter state doesn't re-render them */
-const StableFeelSection = memo(FeelSection);
-const StableVideoSection = memo(WeddingVideoSection);
-const StableHowItWorks = memo(HowItWorks);
 const StableFAQ = memo(FAQ);
 const StableFooter = memo(Footer);
 const StableTrust = memo(TrustNumbers);
@@ -144,33 +135,11 @@ export default function Home() {
       ))}
       <Navbar />
 
-      {/* 1 — Website invite designs + Save the Date + Proposals, with
-          use-case filters and an in-page live preview of each design. */}
+      {/* Wedding invitations, Save the Date, and proposal designs. */}
       <WeddingCollection />
-      <CorporateWeddingInvite />
-
-      {/* 3 — Feel the experience (mini invite preview + feature cards) */}
-      <StableFeelSection />
-
-      {/* 4 — Video demo */}
-      <StableVideoSection />
-
-      {/* 5 — The stat cards (99% happy couples etc.) */}
       <StableTrust />
 
-      {/* 7 — How It Works, FAQ */}
-      <StableHowItWorks />
       <StableFAQ />
-
-      {/* 8 — Closing call to action */}
-      <CtaBanner
-        eyebrow="Your wedding deserves this"
-        title="One beautiful link for your whole wedding"
-        subtitle="We’ll personalise the experience for your day. Tell us what matters to you, and we’ll shape the details together—with no extra personalisation fee."
-        buttonLabel="Call to personalise"
-        secondaryHref="/save-the-date"
-        secondaryLabel="See save the date"
-      />
 
       <StableFooter />
     </main>

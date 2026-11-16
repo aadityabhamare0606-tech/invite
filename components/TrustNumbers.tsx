@@ -36,7 +36,7 @@ function Counter({ to, duration = 1600, suffix = "" }: { to: number; duration?: 
 
 const STATS = [
   {
-    value: 1239,
+    value: 234,
     suffix: "+",
     label: "Couples",
     sub: "Making their day personal",
@@ -118,7 +118,7 @@ export default function TrustNumbers() {
           </p>
           <h2 className="font-light leading-[1.06]"
             style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(2rem,5vw,3.2rem)", color: "var(--text-primary)" }}>
-            Thousands of weddings —{" "}
+            234+ couples —{" "}
             <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>one trusted team</em>
           </h2>
           <div className="flex items-center justify-center gap-3 mt-5">
@@ -144,7 +144,11 @@ export default function TrustNumbers() {
               {/* Number */}
               <div className="mb-1 font-semibold leading-none"
                 style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(2.6rem,5vw,3.6rem)", color: "var(--primary)" }}>
-                <Counter to={s.value} suffix={s.suffix} duration={1800 + i * 100} />
+                {s.label === "Couples" ? (
+                  <span>{s.value.toLocaleString("en-IN")}{s.suffix}</span>
+                ) : (
+                  <Counter to={s.value} suffix={s.suffix} duration={1800 + i * 100} />
+                )}
               </div>
 
               {/* Label */}

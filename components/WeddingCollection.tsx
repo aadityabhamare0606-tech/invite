@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { PHONE_TEL } from "@/lib/contact";
 import DemoCard from "./DemoCard";
 import {
   WEDDING_DEMOS,
@@ -10,6 +9,15 @@ import {
 } from "@/lib/demos";
 
 const HOMEPAGE_WEDDING_DEMOS = WEDDING_DEMOS.filter((demo) => demo.id !== "demo-15-mountain");
+const DIVINE_WEDDING_DEMO = HOMEPAGE_WEDDING_DEMOS.find((demo) => demo.id === "divine-wedding");
+const OTHER_HOMEPAGE_WEDDING_DEMOS = HOMEPAGE_WEDDING_DEMOS.filter((demo) => demo.id !== "divine-wedding");
+const HOMEPAGE_INVITATION_DEMOS = [
+  ...OTHER_HOMEPAGE_WEDDING_DEMOS.slice(0, 1),
+  ...(DIVINE_WEDDING_DEMO ? [DIVINE_WEDDING_DEMO] : []),
+  ...OTHER_HOMEPAGE_WEDDING_DEMOS.slice(1),
+  ...SAVE_THE_DATE_DEMOS,
+];
+const COUPLE_COUNT = 234;
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
   <h2 className="font-light"
@@ -19,46 +27,10 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
 );
 
 function CoupleCount() {
-  const [count, setCount] = useState(0);
-  const countRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const element = countRef.current;
-    if (!element) return;
-
-    let frame = 0;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reducedMotion) {
-        setCount(232);
-        return;
-      }
-
-      const start = performance.now();
-      const duration = 4500;
-      const animate = (now: number) => {
-        const progress = Math.min((now - start) / duration, 1);
-        const easedProgress = 1 - Math.pow(1 - progress, 4);
-        setCount(Math.floor(easedProgress * 232));
-        if (progress < 1) frame = requestAnimationFrame(animate);
-      };
-      frame = requestAnimationFrame(animate);
-    }, { threshold: 0.65 });
-
-    observer.observe(element);
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(frame);
-    };
-  }, []);
-
   return (
-    <span ref={countRef} className="text-3xl font-bold leading-none tracking-tight tabular-nums sm:text-4xl"
-      style={{ color: "inherit" }} aria-label="Over 232 couples made their day personal">
-      {count.toLocaleString("en-IN")}+
+    <span className="text-3xl font-bold leading-none tracking-tight tabular-nums sm:text-4xl"
+      style={{ color: "inherit" }} aria-label={`Over ${COUPLE_COUNT} couples made their day personal`}>
+      {COUPLE_COUNT.toLocaleString("en-IN")}+
     </span>
   );
 }
@@ -141,7 +113,7 @@ export default function WeddingCollection() {
         `}</style>
 
         {/* ── Wedding Collection ── */}
-        {HOMEPAGE_WEDDING_DEMOS.length > 0 && (
+        {HOMEPAGE_INVITATION_DEMOS.length > 0 && (
           <div className="mb-20">
             <div className="reveal mb-10 flex items-end justify-between border-b pb-5"
               style={{ borderColor: "var(--border)" }}>
@@ -160,97 +132,18 @@ export default function WeddingCollection() {
               </div>
               <span className="hidden sm:block text-xs font-semibold px-3 py-1.5 rounded-full"
                 style={{ color: "var(--primary)", background: "var(--primary-soft)", border: "1px solid var(--blush-mid)" }}>
-                {HOMEPAGE_WEDDING_DEMOS.length} design{HOMEPAGE_WEDDING_DEMOS.length === 1 ? "" : "s"}
+                {HOMEPAGE_INVITATION_DEMOS.length} designs
               </span>
             </div>
+            <p className="reveal mb-6 -mt-5 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+              Six wedding invitation websites, plus two Save the Date designs to share your plans early.
+            </p>
             <div className={grid}>
-              {HOMEPAGE_WEDDING_DEMOS.map((card, i) => (
+              {HOMEPAGE_INVITATION_DEMOS.map((card, i) => (
                 <div key={card.id} className="reveal" style={{ transitionDelay: `${(i % 3) * 0.08}s` }}>
                   <DemoCard card={card} />
                 </div>
               ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── Save the Date ── */}
-        {SAVE_THE_DATE_DEMOS.length > 0 && (
-          <div id="save-the-date" className="mb-20">
-            <div className="reveal mb-10">
-              <div className="flex items-end justify-between border-b pb-5" style={{ borderColor: "var(--border)" }}>
-                <div>
-                  <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: "var(--primary)" }}>
-                    Months before the big day
-                  </p>
-                  <SectionHeading>
-                    Save the{" "}
-                    <em className="not-italic font-semibold" style={{ color: "var(--primary)", fontStyle: "italic" }}>
-                      Date
-                    </em>
-                  </SectionHeading>
-                </div>
-                <Link href="/save-the-date"
-                  className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full transition-all duration-200 hover:bg-[var(--primary)] hover:text-white"
-                  style={{ color: "var(--primary)", background: "var(--primary-soft)", border: "1px solid var(--blush-mid)" }}>
-                  View all
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2.2} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8h10M9 4l4 4-4 4" />
-                  </svg>
-                </Link>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed max-w-xl" style={{ color: "var(--text-secondary)" }}>
-                Announce it months early. Two designs guests will screenshot.
-              </p>
-            </div>
-
-            <div className="reveal mb-8 flex flex-col gap-5 rounded-2xl border px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7"
-              style={{ borderColor: "rgba(194,24,91,.16)", background: "linear-gradient(112deg,#fff8f5 0%,#fffafd 58%,#fff4f6 100%)", boxShadow: "0 8px 24px rgba(112,19,57,.05)" }}>
-              <div className="max-w-3xl">
-                <p className="mb-1 text-[10px] font-semibold uppercase tracking-[.18em]" style={{ color: "var(--primary)" }}>
-                  Your first wedding announcement
-                </p>
-                <h3 className="font-[var(--font-cormorant)] text-2xl font-medium leading-tight tracking-tight sm:text-[1.7rem]"
-                  style={{ color: "var(--text-primary)" }}>
-                  Give your date a moment of its own.
-                </h3>
-                <p className="mt-1.5 text-xs leading-relaxed sm:text-sm" style={{ color: "var(--text-secondary)" }}>
-                  Share a beautiful first glimpse of your celebration, personalised with your names and date at no extra fee.
-                </p>
-              </div>
-              <a href={PHONE_TEL}
-                className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full px-5 py-2.5 text-xs font-semibold text-white transition-transform hover:scale-[1.03] sm:self-center"
-                style={{ background: "linear-gradient(135deg,#880E4F,#C2185B)", boxShadow: "0 4px 14px rgba(194,24,91,.2)" }}>
-                Make it yours
-                <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8h10M9 4l4 4-4 4" />
-                </svg>
-              </a>
-            </div>
-
-            <div className={grid}>
-              {SAVE_THE_DATE_DEMOS.map((card, i) => (
-                <div key={card.id} className="reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                  <DemoCard card={card} />
-                </div>
-              ))}
-            </div>
-
-            <div className="reveal mt-8 rounded-2xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border"
-              style={{ background: "linear-gradient(120deg, #fff5e8 0%, #fff8f2 100%)", borderColor: "var(--blush-mid)" }}>
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.28em] mb-1" style={{ color: "var(--primary)" }}>₹599</p>
-                <p className="text-sm font-medium" style={{ color: "var(--text-mid)" }}>
-                  Your names, your date, your story — one link, personalised at no extra fee.
-                </p>
-              </div>
-              <a href={PHONE_TEL}
-                className="shrink-0 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-[13px] font-semibold text-white transition-all hover:scale-[1.03]"
-                style={{ background: "linear-gradient(135deg,#880E4F,#C2185B)", boxShadow: "0 4px 16px rgba(194,24,91,0.28)" }}>
-                <svg className="h-3.5 w-3.5 fill-white" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/>
-                </svg>
-                Call for Save the Date
-              </a>
             </div>
           </div>
         )}
@@ -293,52 +186,8 @@ export default function WeddingCollection() {
               ))}
             </div>
 
-            <div className="reveal mt-8 rounded-2xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border"
-              style={{ background: "linear-gradient(120deg, #fff0f4 0%, #fff5f9 100%)", borderColor: "var(--blush-mid)" }}>
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.28em] mb-1" style={{ color: "var(--primary)" }}>₹499</p>
-                <p className="text-sm font-medium" style={{ color: "var(--text-mid)" }}>
-                  Personalised to your names and your story, with no extra personalisation fee.
-                </p>
-              </div>
-              <a href={PHONE_TEL}
-                className="shrink-0 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-[13px] font-semibold text-white transition-all hover:scale-[1.03]"
-                style={{ background: "linear-gradient(135deg,#880E4F,#C2185B)", boxShadow: "0 4px 16px rgba(194,24,91,0.28)" }}>
-                <svg className="h-3.5 w-3.5 fill-white" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/>
-                </svg>
-                Call for a Proposal Page
-              </a>
-            </div>
           </div>
         )}
-
-        {/* ── Custom CTA ── */}
-        <div className="reveal mt-4 rounded-3xl px-8 py-14 text-center overflow-hidden relative"
-          style={{ background: "linear-gradient(135deg, #880E4F 0%, #C2185B 50%, #D81B60 100%)" }}>
-          <div className="pointer-events-none absolute inset-0 opacity-[0.07]"
-            style={{ backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 1px, transparent 1px, transparent 18px)" }} />
-          <div className="absolute top-4 left-8 text-white/10 text-5xl select-none">♥</div>
-          <div className="absolute bottom-4 right-8 text-white/10 text-5xl select-none">♥</div>
-          <div className="relative">
-            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-white/60">Have something in mind?</p>
-            <h3 className="mb-3 font-light text-white"
-              style={{ fontFamily: "var(--font-cormorant)", fontSize: "clamp(1.6rem,4vw,2.4rem)", lineHeight: 1.15 }}>
-              Looking for something <em style={{ fontStyle: "italic" }}>specific?</em>
-            </h3>
-            <p className="mb-7 text-sm text-white/75 max-w-sm mx-auto leading-relaxed">
-              Tell us your vision — we&apos;ll design the invite for it.
-            </p>
-            <a href={PHONE_TEL}
-              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-3.5 text-sm font-semibold transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
-              style={{ color: "var(--primary)", boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" style={{ color: "var(--primary)" }} aria-hidden="true">
-                <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/>
-              </svg>
-              Call us now
-            </a>
-          </div>
-        </div>
 
       </div>
 
