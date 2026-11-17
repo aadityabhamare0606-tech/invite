@@ -24,6 +24,7 @@ export type DemoCategory = "Wedding" | "Save the Date" | "Proposal" | "Memories"
 export type DemoCardData = {
   id: string;
   badge: string;
+  badges?: string[];
   badgeStyle: DemoBadgeStyle;
   type: string;
   title: string;
@@ -92,12 +93,12 @@ export const WEDDING_DEMOS: DemoCardData[] = [
   },
   {
     id: "demo-3",
-    badge: "Royal",
-    badgeStyle: "ookind",
+    badge: "Best for Corporate Weddings",
+    badgeStyle: "premium",
     type: "Illustrated",
     title: "Rajwada Royale",
     description: "Royal purple and gold — Marathi heritage, 3D flip cards.",
-    price: "₹1,299",
+    price: "₹1,199",
     demoSrc: "/demos/rajwada-royale/index.html",
     previewImg: "/assets/demos/demo-3.webp?v=opened-20261026",
     previewBg: "linear-gradient(145deg, #0F0720 0%, #1e0a4e 50%, #2D1B69 100%)",
@@ -113,12 +114,12 @@ export const WEDDING_DEMOS: DemoCardData[] = [
   },
   {
     id: "wedding-invite-7",
-    badge: "Celestial Story",
-    badgeStyle: "ookind",
+    badge: "Premium Design",
+    badgeStyle: "premium",
     type: "Premium",
     title: "Moonlit Palace",
     description: "Ganesh-seal opening, a moonlit scroll journey, five celebrations.",
-    price: "₹1,299",
+    price: "₹1,199",
     demoSrc: "/demos/moonlit-palace/index.html",
     previewImg: "/assets/demos/wedding-invite-7-501.webp?v=opened-20261026",
     previewBg: "linear-gradient(145deg, #0c091b 0%, #2b1b3a 52%, #355f58 100%)",
@@ -139,7 +140,7 @@ export const WEDDING_DEMOS: DemoCardData[] = [
     type: "Classic",
     title: "Lantern Dreams",
     description: "Floating lanterns, animated name reveal, live countdown.",
-    price: "₹1,299",
+    price: "₹1,199",
     demoSrc: "/demos/lantern-dreams/index.html",
     previewImg: "/assets/demos/demo-1.webp?v=opened-20261026",
     previewBg: "linear-gradient(145deg, #072e32 0%, #0a4e52 50%, #0e6e72 100%)",
@@ -157,14 +158,12 @@ export const WEDDING_DEMOS: DemoCardData[] = [
     type: "Illustrated",
     title: "Rajwada Royale: Emerald Edition",
     description: "An illustrated Marathi wedding invitation with a wax-seal opening and a cinematic emerald-and-gold celebration.",
-    price: "₹1,299",
+    price: "₹1,199",
     demoSrc: "/demos/demo-16/index.html",
     previewImg: "/assets/demos/demo-16.webp?v=opened-20261026",
     previewBg: "linear-gradient(145deg, #0F0720 0%, #1e0a4e 50%, #2D1B69 100%)",
     previewAccent: "#1e0a4e",
     tags: [
-      "Family-Friendly",
-      "Most Personalised",
       "Multi-event",
       "Illustrated",
       "Premium Design",
@@ -195,7 +194,8 @@ export const WEDDING_DEMOS: DemoCardData[] = [
   },
   {
     id: "divine-wedding",
-    badge: "Divine Wedding",
+    badge: "Best for Mobile Sharing",
+    badges: ["Best for Mobile Sharing", "Best for Corporate Weddings"],
     badgeStyle: "premium",
     type: "Premium",
     title: "Divine Wedding",
@@ -207,7 +207,7 @@ export const WEDDING_DEMOS: DemoCardData[] = [
     previewBg: "linear-gradient(145deg, #7a2a35 0%, #c9a55d 52%, #fbe9e0 100%)",
     previewAccent: "#c9a55d",
     tags: [
-      "Best for Sharing",
+      "Best for Mobile Sharing",
       "Multi-event",
       "Premium Design",
       "Live Countdown",

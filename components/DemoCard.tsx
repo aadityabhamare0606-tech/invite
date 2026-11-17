@@ -15,31 +15,6 @@ const badgeMap: Record<string, { bg: string; text: string }> = {
   latest:     { bg: "#880E4F", text: "#fce4ec" },
 };
 
-const PILL_HIDDEN = new Set(["Multi-event"]);
-
-const tagStyle: Record<string, { bg: string; color: string }> = {
-  "Best for Mobile":     { bg: "#EEF4FF", color: "#1D4ED8" },
-  "Best for Mobile Sharing": { bg: "#EEF4FF", color: "#1D4ED8" },
-  "Best for Sharing":    { bg: "#EEF4FF", color: "#1D4ED8" },
-  "Corporate Gifting":   { bg: "#FFFBEB", color: "#92400E" },
-  "Most Used for Corporate Weddings": { bg: "#FFFBEB", color: "#92400E" },
-  "Premium for Corporate Weddings": { bg: "#FFFBEB", color: "#92400E" },
-  "More Personalised": { bg: "#FFF1F2", color: "#9F1239" },
-  "Most Personalised": { bg: "#FFF1F2", color: "#9F1239" },
-  "Family-Friendly": { bg: "#F0FDF4", color: "#166534" },
-  "More Personalised & Family-Friendly": { bg: "#FFF1F2", color: "#9F1239" },
-  "More Personalised Wedding Invite": { bg: "#FFF1F2", color: "#9F1239" },
-  "Desktop Optimised":   { bg: "#FDF4FF", color: "#6B21A8" },
-  "Illustrated":         { bg: "#FFFBEB", color: "#92400E" },
-  "Premium Design":      { bg: "#FFF1F2", color: "#9F1239" },
-  "Live Countdown":      { bg: "#F5F3FF", color: "#5B21B6" },
-  "Scroll Experience":   { bg: "#F5F3FF", color: "#5B21B6" },
-  "Destination Wedding": { bg: "#F0FDF4", color: "#166534" },
-  "Interactive":         { bg: "#FFF1F2", color: "#9F1239" },
-  "Animated":            { bg: "#FFF1F2", color: "#9F1239" },
-  "Unique Experience":   { bg: "#F0FDF4", color: "#166534" },
-};
-
 function PreviewPlaceholder({ card }: { card: DemoCardData }) {
   return (
     <div className="h-full w-full" style={{ background: card.previewBg ?? "#120c20" }} />
@@ -51,8 +26,8 @@ interface DemoCardProps {
 }
 
 export default function DemoCard({ card }: DemoCardProps) {
-  const bc   = badgeMap[card.badgeStyle] ?? badgeMap.bestseller;
-  const pills = (card.tags ?? []).filter((tag) => !PILL_HIDDEN.has(tag)).slice(0, 2);
+  const badgeColors = badgeMap[card.badgeStyle] ?? badgeMap.bestseller;
+  const badges = card.badges ?? [card.badge];
   const demoUrl = card.demoSrc;
 
   /* Flat preview — shows the screenshot / previewImg directly, exactly as
@@ -105,12 +80,17 @@ export default function DemoCard({ card }: DemoCardProps) {
       <div className="card-shimmer-border" />
 
       {/* Badge */}
-      <span
-        className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.1em]"
-        style={{ background: bc.bg, color: bc.text, boxShadow: "0 2px 8px rgba(0,0,0,0.25)" }}
-      >
-        {card.badge}
-      </span>
+      <div className="absolute left-3 right-3 top-3 flex flex-wrap items-start gap-1.5">
+        {badges.map((badge) => (
+          <span
+            key={badge}
+            className="rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.1em]"
+            style={{ background: badgeColors.bg, color: badgeColors.text, boxShadow: "0 2px 8px rgba(0,0,0,0.25)" }}
+          >
+            {badge}
+          </span>
+        ))}
+      </div>
     </>
   );
 
@@ -138,19 +118,6 @@ export default function DemoCard({ card }: DemoCardProps) {
         >
           {card.title}
         </h3>
-
-        {pills.length > 0 && (
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {pills.map((tag) => {
-              const ts = tagStyle[tag] ?? { bg: "#FFF1F2", color: "#9F1239" };
-              return (
-                <span key={tag} className="tag-pill" style={{ background: ts.bg, color: ts.color }}>
-                  {tag === "Corporate Gifting" ? "Best for Corporate Weddings" : tag}
-                </span>
-              );
-            })}
-          </div>
-        )}
 
         <div className="flex-1" />
 
